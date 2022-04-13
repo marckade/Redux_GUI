@@ -83,6 +83,7 @@ document.getElementById('problemInfo').addEventListener('click', () => {
 // Problem Instance Field
 var myCollapse = document.getElementById("collapseArea");
 myCollapse.addEventListener("show.bs.collapse", function(){
+  console.log("Testing mate")
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
@@ -314,6 +315,26 @@ document.getElementById('reduceButton').addEventListener('click', () => {
 });
 
 // ------ Visualize Dropdown ------ //
+
+document.getElementById('collapseArea3').addEventListener('show.bs.collapse', () => {
+
+  var problemSelection = document.getElementById('problemsAutocomplete').value
+
+  // Check if the problem has a prepended type
+  if (problemSelection.includes('_')) {
+    problemSelection = problemSelection.split('_')[1]
+  }
+
+  var scriptTag = document.getElementById('visualization');
+
+  if(problemSelection === "GRAPHCOLORING"){
+    scriptTag.src = "scripts/vertexColoring.js";
+  }
+
+
+
+
+})
 
 
 
