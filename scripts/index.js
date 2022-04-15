@@ -330,6 +330,10 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
   if(problemSelection === "GRAPHCOLORING"){
     scriptTag.src = "scripts/vertexColoring.js";
   }
+  else if(problemSelection ==="ARCSET"){
+    //console.log(problemSelection);
+    scriptTag.src = "scripts/Arcset.js";
+  }
 
 
 
