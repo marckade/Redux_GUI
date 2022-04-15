@@ -334,6 +334,11 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
     //console.log(problemSelection);
     scriptTag.src = "scripts/Arcset.js";
   }
+  else if(problemSelection ==="DM3"){
+    //console.log(problemSelection);
+    scriptTag.src = "scripts/DM3Generic.js";
+    console.log(4);
+  }
 
 
 
