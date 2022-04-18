@@ -19,14 +19,7 @@ function findIndexOf(array, doubleArray){
     }
 }
 
-var scriptTag = document.getElementById('visualization');
-console.log(0);
-scriptTag.rel = 'stylesheet'; 
-console.log(1);
-scriptTag.type = 'text/css';
-console.log(2);
-scriptTag.href = "styles/DM3.css";
-console.log(3);
+
 
 fetch('http://localhost:27000/DM3Generic')
 .then(res => res.json())
