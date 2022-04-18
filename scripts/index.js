@@ -339,7 +339,11 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
     scriptTag.src = "scripts/DM3Generic.js";
     console.log(4);
   }
-
+  else if(problemSelection ==="VERTEXCOVER"){
+    //console.log(problemSelection);
+    scriptTag.src = "scripts/VertexCover.js";
+    // console.log(4);
+  }
 
 
 
