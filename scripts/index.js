@@ -332,7 +332,13 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
   }
   else if(problemSelection ==="ARCSET"){
     //console.log(problemSelection);
+    //scriptTag.src = "scripts/Arcset.js";
     scriptTag.src = "scripts/Arcset.js";
+  }
+  else if(problemSelection ==="VERTEXCOVER"){
+    //console.log(problemSelection);
+    //scriptTag.src = "scripts/Arcset.js";
+    scriptTag.src = "scripts/VertexCover.js";
   }
 
 
