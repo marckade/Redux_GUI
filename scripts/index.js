@@ -21,7 +21,7 @@ var problems = [
 ];
 
 // Open a new connection, using the GET request on the URL endpoint
-request.open('GET', 'http://localhost:27000/navigation/NPC_Problems', true)
+request.open('GET', 'http://redux.aws.cose.isu.edu:27000/navigation/NPC_Problems', true)
 
 request.onload = function () {
   // Begin accessing JSON data here
@@ -47,7 +47,7 @@ document.getElementById('problemInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -92,7 +92,7 @@ myCollapse.addEventListener("show.bs.collapse", function(){
       problemSelection = problemSelection.split('_')[1]
     }
 
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -134,7 +134,7 @@ document.getElementById('reduceToAutocomplete').addEventListener('click', () => 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
     console.log(problemSelection)
-    var route = 'http://localhost:27000/Navigation/Problem_Reductions?chosenProblem=' + problemSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Reductions?chosenProblem=' + problemSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
     request.onload = function () {
@@ -173,7 +173,7 @@ document.getElementById('reductionsAutocomplete').addEventListener('click', () =
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
     var problemToSelection = document.getElementById('reduceToAutocomplete').value
 
-    var route = 'http://localhost:27000/Navigation/PossibleReductions?reducingFrom=' + problemFromSelection +
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/PossibleReductions?reducingFrom=' + problemFromSelection +
                 '&reducingTo=' + problemToSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -208,7 +208,7 @@ document.getElementById('reductionToInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -251,7 +251,7 @@ document.getElementById('reductionInfo').addEventListener('click', () => {
     if (reductionSelection.includes('_')) {
       reductionSelection = reductionSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + reductionSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -293,7 +293,7 @@ document.getElementById('reduceButton').addEventListener('click', () => {
     if (reductionSelection.includes('_')) {
       reductionSelection = reductionSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + reductionSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -334,7 +334,7 @@ document.getElementById('solversAutocomplete').addEventListener('click', () => {
   try {
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
 
-    var route = 'http://localhost:27000/Navigation/Problem_Solvers?chosenProblem=' + problemFromSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Solvers?chosenProblem=' + problemFromSelection
 
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -370,7 +370,7 @@ document.getElementById('solverInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
