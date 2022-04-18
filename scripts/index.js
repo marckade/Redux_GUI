@@ -335,13 +335,17 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
     //scriptTag.src = "scripts/Arcset.js";
     scriptTag.src = "scripts/Arcset.js";
   }
+
+  else if(problemSelection ==="DM3"){
+    //console.log(problemSelection);
+    scriptTag.src = "scripts/DM3Generic.js";
+    console.log(4);
+  }
   else if(problemSelection ==="VERTEXCOVER"){
     //console.log(problemSelection);
-    //scriptTag.src = "scripts/Arcset.js";
     scriptTag.src = "scripts/VertexCover.js";
+    // console.log(4);
   }
-
-
 
 
 })
