@@ -124,6 +124,7 @@ class Autocomplete {
         let dataValue = e.target.getAttribute('data-value');
 
         this.field.value = dataLabel;
+        this.field.dispatchEvent(new Event('change'));
 
         if (this.options.onSelectItem) {
           this.options.onSelectItem({
