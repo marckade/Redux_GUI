@@ -81,8 +81,18 @@ document.getElementById('problemInfo').addEventListener('click', () => {
 });
 
 // Problem Instance Field
-var myCollapse = document.getElementById("collapseArea");
-myCollapse.addEventListener("show.bs.collapse", function(){
+// var myCollapse = document.getElementById("collapseArea");
+// myCollapse.addEventListener("show.bs.collapse", function(){
+var problemInstanceField = document.getElementById('problemsAutocomplete');
+problemInstanceField.addEventListener("change", function(){
+
+  var collapseAreaProblem = document.getElementById('collapseArea');
+  var bsCollapse = new bootstrap.Collapse(collapseAreaProblem, {
+    toggle: false
+  });
+  bsCollapse.show();
+
+  document.getElementById('reduceRow').hidden = false;
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
@@ -128,8 +138,19 @@ var reduceTo = [
   // Populated upon onLoad via Web API
 ];
 
+document.getElementById('reduceToAutocomplete').addEventListener('change', () => {
+  var collapseAreaReduce = document.getElementById('collapseArea2');
+  var bsCollapse = new bootstrap.Collapse(collapseAreaReduce, {
+    toggle: false
+  });
+  bsCollapse.show();
+
+  document.getElementById('visualizeRow').hidden = false
+  document.getElementById('solveRow').hidden = false
+  document.getElementById('verifyRow').hidden = false
+});
+
 document.getElementById('reduceToAutocomplete').addEventListener('click', () => {
-  console.log('Info button clicked')
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
@@ -167,7 +188,6 @@ var reductions = [
 ];
 
 document.getElementById('reductionsAutocomplete').addEventListener('click', () => {
-  console.log('Info button clicked')
 
   try {
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
@@ -329,6 +349,14 @@ var solvers = [
   // Populated upon onLoad via Web API
 ];
 
+document.getElementById('solversAutocomplete').addEventListener('change', () => {
+  var collapseAreaSolvers = document.getElementById('collapseArea4');
+  var bsCollapse = new bootstrap.Collapse(collapseAreaSolvers, {
+    toggle: false
+  });
+  bsCollapse.show();
+});
+
 //Get Solver
 document.getElementById('solversAutocomplete').addEventListener('click', () => {
   try {
@@ -403,7 +431,16 @@ document.getElementById('solverInfo').addEventListener('click', () => {
   
 });
 
-// Autocomplete fields
+
+// ------ Verifier ------ //
+
+document.getElementById('verifiersAutocomplete').addEventListener('change', () => {
+  var collapseAreaVerifiers = document.getElementById('collapseArea5');
+  var bsCollapse = new bootstrap.Collapse(collapseAreaVerifiers, {
+    toggle: false
+  });
+  bsCollapse.show();
+});
 
 
 const problemsAC = new Autocomplete(document.getElementById('problemsAutocomplete'),{

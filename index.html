@@ -16,7 +16,7 @@
     <div class="container my-5">
 
       <!-- Problem Row -->
-      <div class="row align-items-start">
+      <div class="row align-items-start" id="problemRow">
         <div class="card mb-2 shadow-sm">
           <div class="card-body row">
             <!-- Label -->
@@ -29,7 +29,7 @@
                 <input type="text" id="problemsAutocomplete" class="form-control" placeholder="Select problem">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                  <a id="problemInfo" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Problem popover" data-bs-content="Problem not selected or problem not available.">
+                  <a id="problemInfo" tabindex="0" role="button" data-bs-toggle="popover" title="Problem popover" data-bs-content="Problem not selected or problem not available.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle m-1" viewBox="0 0 16 16">
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                       <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -52,7 +52,7 @@
                   <h7 class="text-muted mt-2">Instance:</h7>
                 </div>
                 <div class="col-8">
-                  <textarea id="problemInstanceText" class="form-control text-muted">(x V x V y) /\ (x V x V y) /\ (x V x V y)</textarea>
+                  <textarea id="problemInstanceText" class="form-control text-muted"></textarea>
                 </div>
                 <div class="col">
                   <svg role="button" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
@@ -69,7 +69,7 @@
 
 
       <!-- Reduce to Row -->
-      <div class="row align-items-start">
+      <div class="row align-items-start" id="reduceRow" hidden>
         <div class="card mb-2 shadow-sm">
           <div class="card-body row">
             <!-- Label -->
@@ -87,7 +87,7 @@
                       <!-- <svg role="button" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                       </svg> -->
-                      <a id="reductionToInfo" tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Reduce to problem popover" data-bs-content="Problem not selected or problem not available">
+                      <a id="reductionToInfo" tabindex="0" role="button" data-bs-toggle="popover" title="Reduce to problem popover" data-bs-content="Problem not selected or problem not available">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle m-1" viewBox="0 0 16 16">
                           <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                           <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -102,7 +102,7 @@
                     <input type="text" id="reductionsAutocomplete" class="form-control" placeholder="Select reduction">
                     <div class="input-group-append">
                       <span class="input-group-text">
-                        <a id="reductionInfo"tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Reductions popover" data-bs-content="Reduction not selected or problem not available">
+                        <a id="reductionInfo"tabindex="0" role="button" data-bs-toggle="popover" title="Reductions popover" data-bs-content="Reduction not selected or problem not available">
                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle m-1" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                             <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -130,7 +130,7 @@
                   <button type="button" class="btn btn-secondary" id="reduceButton">Reduce</button>
                 </div>
                 <div class="col-7 col-sm-6 col-md-7">
-                  <div id="reduceInstanceText" class="text-muted">(x V x V y) /\ (x V x V y) /\ (x V x V y) (x V x V y) /\ (x V x V y) /\ (x V x V y) (x V x V y) /\ (x V x V y) /\ (x V x V y) (x V x V y) /\ (x V x V y) /\ (x V x V y)</div>
+                  <div id="reduceInstanceText" class="text-muted"></div>
                 </div>
                 <div class="col-1">
                   <svg id="reduceButton" role="button" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
@@ -147,7 +147,7 @@
 
 
       <!-- Visualize Row -->
-      <div class="row align-items-start">
+      <div class="row align-items-start" id="visualizeRow" hidden>
         <div class="card mb-2 shadow-sm">
           <div class="card-body row">
             <!-- Label -->
@@ -160,7 +160,7 @@
                 <div class="col-12 col-lg-4">
                   <div class="col form-check form-switch">
                     <label class="form-check-label" for="switchHighlightSolution">Highlight solution</label>
-                    <input class="form-check-input" type="checkbox" role="switch" id="switchHighlightSolution" checked>
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchHighlightSolution">
                   </div>
                 </div>
 
@@ -191,7 +191,7 @@
                 <div class="col-2 col-sm-3 col-md-2">
                 </div>
                 <div class="col">
-                  <div id="reduceInstanceText" class="text-muted">(x V x V y) /\ (x V x V y) /\ (x V x V y) (x V x V y) /\ (x V x V y) /\ (x V x V y) (x V x V y) /\ (x V x V y) /\ (x V x V y) (x V x V y) /\ (x V x V y) /\ (x V x V y)</div>
+                  <div id="reduceInstanceText" class="text-muted"></div>
                 </div>
                 <div class="col-1">
                 </div>
@@ -204,7 +204,7 @@
 
 
       <!-- Solve Row -->
-      <div class="row align-items-start">
+      <div class="row align-items-start" id="solveRow" hidden>
         <div class="card mb-2 shadow-sm">
           <div class="card-body row">
             <!-- Label -->
@@ -217,7 +217,7 @@
                 <input type="text" id="solversAutocomplete" class="form-control" placeholder="Select solver">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                  <a id="solverInfo"tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Solver popover" data-bs-content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dolor nisi, lacinia hendrerit sodales eu, tincidunt ac odio.">
+                  <a id="solverInfo"tabindex="0" role="button" data-bs-toggle="popover" title="Solver popover" data-bs-content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dolor nisi, lacinia hendrerit sodales eu, tincidunt ac odio.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle m-1" viewBox="0 0 16 16">
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                       <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -243,7 +243,7 @@
                   <button type="button" class="btn btn-secondary" id="solveButton">Solve</button>
                 </div>
                 <div class="col-7 col-sm-6 col-md-7">
-                  <div id="solutionText" class="text-muted">(x V x V y) /\ (x V x V y) /\ (x V x V y)</div>
+                  <div id="solutionText" class="text-muted"></div>
                 </div>
                 <div class="col-1">
                   <svg role="button" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
@@ -260,7 +260,7 @@
 
 
       <!-- Verify Row -->
-      <div class="row align-items-start">
+      <div class="row align-items-start" id="verifyRow" hidden>
         <div class="card mb-2 shadow-sm">
           <div class="card-body row">
             <!-- Label -->
@@ -273,7 +273,7 @@
                 <input type="text" id="verifiersAutocomplete" class="form-control" placeholder="Select verifier">
                 <div class="input-group-append">
                   <span class="input-group-text">
-                  <a tabindex="0" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Verifier popover" data-bs-content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dolor nisi, lacinia hendrerit sodales eu, tincidunt ac odio.">
+                  <a tabindex="0" role="button" data-bs-toggle="popover" title="Verifier popover" data-bs-content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dolor nisi, lacinia hendrerit sodales eu, tincidunt ac odio.">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-info-circle m-1" viewBox="0 0 16 16">
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                       <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
@@ -299,7 +299,7 @@
                   <button type="button" class="btn btn-secondary" id="verifyButton">Verify</button>
                 </div>
                 <div class="col-7 col-sm-6 col-md-7">
-                  <div id="verifyText" class="text-muted">(x V x V y) /\ (x V x V y) /\ (x V x V y)</div>
+                  <div id="verifyText" class="text-muted"></div>
                 </div>
                 <div class="col-1">
                   <svg role="button" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-down" viewBox="0 0 16 16">
