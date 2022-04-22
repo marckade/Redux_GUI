@@ -407,22 +407,22 @@ document.getElementById('solverInfo').addEventListener('click', () => {
 
 
 const problemsAC = new Autocomplete(document.getElementById('problemsAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
   data: problems
 });
 
 const reduceToAC = new Autocomplete(document.getElementById('reduceToAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
   data: reduceTo
 });
 
 const reductionsAC = new Autocomplete(document.getElementById('reductionsAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
   data: reductions
 });
 
 const solversAC = new Autocomplete(document.getElementById('solversAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
   data: solvers
 });
 
@@ -431,7 +431,7 @@ var verifiers = [
   {label: "Default 3SAT verifier (Bodily's Verifier)", value: "Default 3SAT verifier (Bodily's Verifier)"},
 ];
 const verifiersAC = new Autocomplete(document.getElementById('verifiersAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
   data: verifiers
 });
 
