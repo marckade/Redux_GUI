@@ -326,6 +326,7 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
   }
 
   var scriptTag = document.getElementById('visualization');
+  
 
   if(problemSelection === "GRAPHCOLORING"){
     scriptTag.src = "scripts/vertexColoring.js";
@@ -339,6 +340,7 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
   else if(problemSelection ==="DM3"){
     //console.log(problemSelection);
     scriptTag.src = "scripts/DM3Generic.js";
+    console.log("1");
   }
   else if(problemSelection ==="VERTEXCOVER"){
     //console.log(problemSelection);
@@ -349,7 +351,11 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
 
 })
 
-
+// document.getElementById('collapseArea3').addEventListener('hide.bs.collapse', () => {
+//   console.log("og");
+//   var scriptTag = document.getElementById('visualization');
+//   scriptTag.src = "";
+// })
 
 
 

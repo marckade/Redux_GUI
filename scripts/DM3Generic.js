@@ -20,21 +20,25 @@ function findIndexOf(array, doubleArray){
 }
 
 
+function visualize(){
+    fetch('http://localhost:27000/DM3Generic/instance?problemInstance='+document.getElementById('problemInstanceText').value)
+    .then(res => res.json())
+    .then(data => {
+        console.log(data.M)
+        console.log(data.X)
+        console.log(data.Y)
+        console.log(data.Z)
+        DM3 = data 
 
-fetch('http://localhost:27000/DM3Generic')
-.then(res => res.json())
-.then(data => {
-    console.log(data.M)
-    console.log(data.X)
-    console.log(data.Y)
-    console.log(data.Z)
-    DM3 = data 
+        getDM3(DM3)
+    })
+}
+visualize();
 
-    getDM3(DM3)
+document.getElementById('collapseArea3').addEventListener('show.bs.collapse', () => {
+    document.getElementById('reduceInstanceSvg').innerHTML="";
+    visualize();
 })
-
-
-
 
 
 
@@ -56,6 +60,7 @@ function getDM3(DM3) {
     var spacingy = 150;
     var paddingx = 200;
     var paddingy = 100;
+    
     svg = new d3.select("#reduceInstanceSvg").append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -63,6 +68,7 @@ function getDM3(DM3) {
 
     //create X-Y-Z nodes
     for (i = 0; i < XGroup.length; i++) {
+        console.log(XGroup.length)
         XNodes[i] = (new node3DM("X", XGroup[i], svg, paddingx+spacingx*0, paddingy+spacingy*i));
         // YNodes[i] = (new node3DM("Y", YGroup[i], svg, paddingx+spacingx*1, paddingy+spacingy*i));
         // ZNodes[i] = (new node3DM("Z", ZGroup[i], svg, paddingx+spacingx*2, paddingy+spacingy*i));
