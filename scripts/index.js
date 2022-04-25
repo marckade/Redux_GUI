@@ -83,8 +83,6 @@ document.getElementById('problemInfo').addEventListener('click', () => {
 
 // Problem Instance Field
 
-// var myCollapse = document.getElementById("collapseArea");
-// myCollapse.addEventListener("show.bs.collapse", function(){
 var problemInstanceField = document.getElementById('problemsAutocomplete');
 problemInstanceField.addEventListener("change", function(){
 
@@ -98,6 +96,7 @@ problemInstanceField.addEventListener("change", function(){
   document.getElementById('visualizeRow').hidden = false
   document.getElementById('solveRow').hidden = false
   document.getElementById('verifyRow').hidden = false
+
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
@@ -339,7 +338,46 @@ document.getElementById('reduceButton').addEventListener('click', () => {
 
 // ------ Visualize Dropdown ------ //
 
+document.getElementById('collapseArea3').addEventListener('show.bs.collapse', () => {
 
+  var problemSelection = document.getElementById('problemsAutocomplete').value
+
+  // Check if the problem has a prepended type
+  if (problemSelection.includes('_')) {
+    problemSelection = problemSelection.split('_')[1]
+  }
+
+  var scriptTag = document.getElementById('visualization');
+  
+
+  if(problemSelection === "GRAPHCOLORING"){
+    scriptTag.src = "scripts/vertexColoring.js";
+  }
+  else if(problemSelection ==="ARCSET"){
+    //console.log(problemSelection);
+    //scriptTag.src = "scripts/Arcset.js";
+    scriptTag.src = "scripts/Arcset.js";
+  }
+
+  else if(problemSelection ==="DM3"){
+    //console.log(problemSelection);
+    scriptTag.src = "scripts/DM3Generic.js";
+    console.log("1");
+  }
+  else if(problemSelection ==="VERTEXCOVER"){
+    //console.log(problemSelection);
+    scriptTag.src = "scripts/VertexCover.js";
+    // console.log(4);
+  }
+
+
+})
+
+// document.getElementById('collapseArea3').addEventListener('hide.bs.collapse', () => {
+//   console.log("og");
+//   var scriptTag = document.getElementById('visualization');
+//   scriptTag.src = "";
+// })
 
 
 
