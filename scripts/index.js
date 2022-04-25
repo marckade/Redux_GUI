@@ -21,7 +21,7 @@ var problems = [
 ];
 
 // Open a new connection, using the GET request on the URL endpoint
-request.open('GET', 'http://localhost:27000/navigation/NPC_Problems', true)
+request.open('GET', 'http://redux.aws.cose.isu.edu:27000/navigation/NPC_Problems', true)
 
 request.onload = function () {
   // Begin accessing JSON data here
@@ -36,6 +36,7 @@ request.onload = function () {
 // Send request
 request.send()
 
+
 // Problem Info button
 document.getElementById('problemInfo').addEventListener('click', () => {
   console.log('Info button clicked')
@@ -47,7 +48,7 @@ document.getElementById('problemInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -81,9 +82,21 @@ document.getElementById('problemInfo').addEventListener('click', () => {
 });
 
 // Problem Instance Field
-var myCollapse = document.getElementById("collapseArea");
-myCollapse.addEventListener("show.bs.collapse", function(){
-  console.log("Testing mate")
+
+var problemInstanceField = document.getElementById('problemsAutocomplete');
+problemInstanceField.addEventListener("change", function(){
+
+  var collapseAreaProblem = document.getElementById('collapseArea');
+  var bsCollapse = new bootstrap.Collapse(collapseAreaProblem, {
+    toggle: false
+  });
+  bsCollapse.show();
+
+  document.getElementById('reduceRow').hidden = false;
+  document.getElementById('visualizeRow').hidden = false
+  document.getElementById('solveRow').hidden = false
+  document.getElementById('verifyRow').hidden = false
+
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
@@ -93,7 +106,7 @@ myCollapse.addEventListener("show.bs.collapse", function(){
       problemSelection = problemSelection.split('_')[1]
     }
 
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -129,13 +142,22 @@ var reduceTo = [
   // Populated upon onLoad via Web API
 ];
 
+
+document.getElementById('reduceToAutocomplete').addEventListener('change', () => {
+  var collapseAreaReduce = document.getElementById('collapseArea2');
+  var bsCollapse = new bootstrap.Collapse(collapseAreaReduce, {
+    toggle: false
+  });
+  bsCollapse.show();
+});
+
 document.getElementById('reduceToAutocomplete').addEventListener('click', () => {
-  console.log('Info button clicked')
+  console.log("Click Reduce To")
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
     console.log(problemSelection)
-    var route = 'http://localhost:27000/Navigation/Problem_Reductions?chosenProblem=' + problemSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Reductions?chosenProblem=' + problemSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
     request.onload = function () {
@@ -174,7 +196,7 @@ document.getElementById('reductionsAutocomplete').addEventListener('click', () =
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
     var problemToSelection = document.getElementById('reduceToAutocomplete').value
 
-    var route = 'http://localhost:27000/Navigation/PossibleReductions?reducingFrom=' + problemFromSelection +
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/PossibleReductions?reducingFrom=' + problemFromSelection +
                 '&reducingTo=' + problemToSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -209,7 +231,7 @@ document.getElementById('reductionToInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -252,7 +274,7 @@ document.getElementById('reductionInfo').addEventListener('click', () => {
     if (reductionSelection.includes('_')) {
       reductionSelection = reductionSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + reductionSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -294,7 +316,7 @@ document.getElementById('reduceButton').addEventListener('click', () => {
     if (reductionSelection.includes('_')) {
       reductionSelection = reductionSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + reductionSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -374,7 +396,7 @@ document.getElementById('solversAutocomplete').addEventListener('click', () => {
   try {
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
 
-    var route = 'http://localhost:27000/Navigation/Problem_Solvers?chosenProblem=' + problemFromSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Solvers?chosenProblem=' + problemFromSelection
 
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -410,7 +432,7 @@ document.getElementById('solverInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://localhost:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -446,23 +468,37 @@ document.getElementById('solverInfo').addEventListener('click', () => {
 // Autocomplete fields
 
 
+// Autocomplete fields
+
+var problems = [
+  // {label: '3SAT', value: '3SAT'},
+  // {label: '3STAR', value: '3STAR'},
+  // {label: 'CLIQUE', value: 'CLIQUE'},
+  // {label: 'SET PACKING', value: 'SET PACKING'},
+];
 const problemsAC = new Autocomplete(document.getElementById('problemsAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
+  maximumItems: 20,
   data: problems
 });
 
+var reduceTo = [
+  // {label: 'CLIQUE', value: 'CLIQUE'},
+  // {label: 'Clustering', value: 'Clustering'},
+];
 const reduceToAC = new Autocomplete(document.getElementById('reduceToAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
+  maximumItems: 20,
   data: reduceTo
 });
 
 const reductionsAC = new Autocomplete(document.getElementById('reductionsAutocomplete'),{
-  threshold: 1,
   data: reductions
 });
 
 const solversAC = new Autocomplete(document.getElementById('solversAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
+  maximumItems: 20,
   data: solvers
 });
 
@@ -471,7 +507,8 @@ var verifiers = [
   {label: "Default 3SAT verifier (Bodily's Verifier)", value: "Default 3SAT verifier (Bodily's Verifier)"},
 ];
 const verifiersAC = new Autocomplete(document.getElementById('verifiersAutocomplete'),{
-  threshold: 1,
+  threshold: 0,
+  maximumItems: 20,
   data: verifiers
 });
 
