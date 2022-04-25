@@ -21,7 +21,7 @@ function findIndexOf(array, doubleArray){
 
 
 function visualize(){
-    fetch('http://localhost:27000/DM3Generic/instance?problemInstance='+document.getElementById('problemInstanceText').value)
+    fetch('http://redux.aws.cose.isu.edu:27000/DM3Generic/instance?problemInstance='+document.getElementById('problemInstanceText').value)
     .then(res => res.json())
     .then(data => {
         console.log(data.M)
