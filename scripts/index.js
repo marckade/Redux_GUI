@@ -152,11 +152,12 @@ document.getElementById('reduceToAutocomplete').addEventListener('change', () =>
 });
 
 document.getElementById('reduceToAutocomplete').addEventListener('click', () => {
-  console.log("Click Reduce To")
+  reduceTo = [];
+  reduceToAC.setData(reduceTo);
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
-    console.log(problemSelection)
+    console.log(`ReduceTo problem selected: ${problemSelection}`);
     var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Reductions?chosenProblem=' + problemSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -169,7 +170,8 @@ document.getElementById('reduceToAutocomplete').addEventListener('click', () => 
         data.forEach(element => {
           var newLabel = {label: element, value: element}
           reduceTo.push(newLabel)
-  });
+        });
+        reduceToAC.setData(reduceTo);
       }
   }
       // Send request
@@ -179,7 +181,7 @@ document.getElementById('reduceToAutocomplete').addEventListener('click', () => 
     console.error(error);
   }
   
-}, {once : true}); // Might want to remove the once rule. Will talk to paul about this
+}); // Might want to remove the once rule. Will talk to paul about this
 
 
 // Populate the SelectReduction Field
@@ -190,7 +192,8 @@ var reductions = [
 ];
 
 document.getElementById('reductionsAutocomplete').addEventListener('click', () => {
-  console.log('Info button clicked')
+  reductions = [];
+  reductionsAC.setData(reductions);
 
   try {
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
@@ -209,7 +212,8 @@ document.getElementById('reductionsAutocomplete').addEventListener('click', () =
         data.forEach(element => {
           var newLabel = {label: element.split('.')[0], value: element.split('.')[0]}
           reductions.push(newLabel)
-  });
+        });
+        reductionsAC.setData(reductions);
       }
   }
       // Send request
@@ -393,6 +397,8 @@ var solvers = [
 
 //Get Solver
 document.getElementById('solversAutocomplete').addEventListener('click', () => {
+  solvers = [];
+  solversAC.setData(solvers);
   try {
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
 
@@ -410,6 +416,7 @@ document.getElementById('solversAutocomplete').addEventListener('click', () => {
           var newLabel = {label: element.split('.')[0], value: element.split('.')[0]}
           solvers.push(newLabel)
         });
+        solversAC.setData(solvers);
       }
   }
       // Send request
