@@ -315,9 +315,9 @@ document.getElementById('reductionInfo').addEventListener('click', () => {
 document.getElementById('reduceButton').addEventListener('click', () => {
   try {
     var reductionSelection = document.getElementById('reductionsAutocomplete').value
-    var reduceFromInstance = decodeURI(document.getElementById('problemInstanceText').value)
-    console.log(reduceFromInstance)
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(reduceFromInstance)
+    var reduceFromInstance = document.getElementById('problemInstanceText').value
+    
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + reduceFromInstance
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
