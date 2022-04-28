@@ -54,7 +54,8 @@ class Autocomplete {
 
   setData(data) {
     this.options.data = data;
-    this.renderIfNeeded();
+    if (this.createItems() > 0)
+      this.dropdown.show();
   }
 
   renderIfNeeded() {
