@@ -278,7 +278,7 @@ document.getElementById('reductionInfo').addEventListener('click', () => {
     if (reductionSelection.includes('_')) {
       reductionSelection = reductionSelection.split('_')[1]
     }
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/info'
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -315,8 +315,9 @@ document.getElementById('reductionInfo').addEventListener('click', () => {
 document.getElementById('reduceButton').addEventListener('click', () => {
   try {
     var reductionSelection = document.getElementById('reductionsAutocomplete').value
-
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
+    var reduceFromInstance = decodeURI(document.getElementById('problemInstanceText').value)
+    console.log(reduceFromInstance)
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(reduceFromInstance)
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
