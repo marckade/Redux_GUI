@@ -43,7 +43,7 @@ function arcsetReq(){
 	var nodesTestReq = []; //request List
 	var edgesTestReq = []; //request List
 	//ticked();
-	var baseUrl = 'http://localhost:27000/ArcsetJsonPayload';
+	var baseUrl = 'http://redux.aws.cose.isu.edu:27000/ArcsetJsonPayload';
 	var totalUrl = baseUrl + "?listType=nodes";
 	var test =fetch(totalUrl)
 	.then(res => res.json())
@@ -99,8 +99,8 @@ var nodesTestReq = [];
 var edgesTestReq = [];
 async function jsonReq(){
 
-	var workingJson = 'http://localhost:5501/scripts/test.json';
-	var baseUrl = 'http://localhost:27000/ARCSETGENERIC';
+	var workingJson = 'http://redux.aws.cose.isu.edu:5501/scripts/test.json';
+	var baseUrl = 'http://redux.aws.cose.isu.edu:27000/ARCSETGENERIC';
 	var totalUrl = baseUrl;
 	
 	var bigG = {};

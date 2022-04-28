@@ -97,6 +97,7 @@ problemInstanceField.addEventListener("change", function(){
   document.getElementById('solveRow').hidden = false
   document.getElementById('verifyRow').hidden = false
 
+  // updateVisualization()
 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
@@ -351,7 +352,10 @@ document.getElementById('reduceButton').addEventListener('click', () => {
 // ------ Visualize Dropdown ------ //
 
 document.getElementById('collapseArea3').addEventListener('show.bs.collapse', () => {
+  updateVisualization()
+})
 
+function updateVisualization() {
   var problemSelection = document.getElementById('problemsAutocomplete').value
 
   // Check if the problem has a prepended type
@@ -359,31 +363,29 @@ document.getElementById('collapseArea3').addEventListener('show.bs.collapse', ()
     problemSelection = problemSelection.split('_')[1]
   }
 
+  if (problemSelection === "GRAPHCOLORING") {
+    reloadVisualizationScript("scripts/vertexColoring.js");
+  }
+  else if (problemSelection ==="ARCSET") {
+    reloadVisualizationScript("scripts/Arcset.js");
+  }
+  else if (problemSelection ==="DM3") {
+    reloadVisualizationScript("scripts/DM3Generic.js");
+  }
+  else if (problemSelection ==="VERTEXCOVER") {
+    reloadVisualizationScript("scripts/VertexCover.js");
+  }
+}
+
+function reloadVisualizationScript(scriptSource) {
   var scriptTag = document.getElementById('visualization');
-  
-
-  if(problemSelection === "GRAPHCOLORING"){
-    scriptTag.src = "scripts/vertexColoring.js";
-  }
-  else if(problemSelection ==="ARCSET"){
-    //console.log(problemSelection);
-    //scriptTag.src = "scripts/Arcset.js";
-    scriptTag.src = "scripts/Arcset.js";
-  }
-
-  else if(problemSelection ==="DM3"){
-    //console.log(problemSelection);
-    scriptTag.src = "scripts/DM3Generic.js";
-    console.log("1");
-  }
-  else if(problemSelection ==="VERTEXCOVER"){
-    //console.log(problemSelection);
-    scriptTag.src = "scripts/VertexCover.js";
-    // console.log(4);
-  }
-
-
-})
+  var parent = document.getElementsByTagName('body')[0];
+  parent.removeChild(scriptTag);
+  scriptTag = document.createElement("script");
+  scriptTag.setAttribute("id", "visualization"); 
+  scriptTag.src = scriptSource;
+  parent.appendChild(scriptTag);
+}
 
 // document.getElementById('collapseArea3').addEventListener('hide.bs.collapse', () => {
 //   console.log("og");

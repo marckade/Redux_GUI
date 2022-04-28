@@ -164,7 +164,7 @@ class hyperEdge3DM {
         this.color = color;
         this.clicked;
         svg.append("path")
-            .attr("d", ("M " + A.X() + " " + A.Y()) + (" L " + B.X() + " " + B.Y()) + (" L " + C.X() + " " + C.Y()))
+            .attr("d", ("M " + A.X() + " " + A.Y()) + (" L " + B.X() + " " + B.Y()) + ("M " + B.X() + " " + B.Y()) + (" L " + C.X() + " " + C.Y()))
             .attr("stroke", color)
             .attr("stroke-width", 2 * A.Size() + "px")
             .attr("fill", "transparent")

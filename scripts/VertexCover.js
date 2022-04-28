@@ -1,3 +1,4 @@
+console.log(`VertexCover loaded`);
 // Create a request variable and assign a new XMLHttpRequest object to it to allow for Web API calls
 var request = new XMLHttpRequest()
 var graphColoring;
@@ -157,7 +158,7 @@ const CSS_COLOR_NAMES = [
 
 
 // fetch json data
-fetch('http://localhost:27000/VERTEXCOVERGeneric')
+fetch('http://redux.aws.cose.isu.edu:27000/VERTEXCOVERGeneric')
 .then(res => res.json())
 .then(data => {
     console.log(data)
