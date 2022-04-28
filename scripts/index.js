@@ -326,6 +326,8 @@ document.getElementById('reduceButton').addEventListener('click', () => {
 
 
     var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(parsedInstance)
+    //var route = 'http://localhost:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(parsedInstance)
+
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -333,6 +335,7 @@ document.getElementById('reduceButton').addEventListener('click', () => {
       // Get the problem information and populate the problem dropdown
       if (this.response) {
         var data = JSON.parse(this.response)
+        console.log(data)
         document.getElementById('reduceInstanceText').textContent = data.reductionTo.instance
       }
   }
