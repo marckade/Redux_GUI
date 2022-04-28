@@ -316,8 +316,16 @@ document.getElementById('reduceButton').addEventListener('click', () => {
   try {
     var reductionSelection = document.getElementById('reductionsAutocomplete').value
     var reduceFromInstance = decodeURI(document.getElementById('problemInstanceText').value)
+    var parsedInstance = reduceFromInstance
+    parsedInstance = reduceFromInstance.replaceAll('&','%26');
+    //parsedInstance = reduceFromInstance.replaceAll(' ','%20');
+    
     console.log(reduceFromInstance)
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(reduceFromInstance)
+    console.log(parsedInstance)
+
+
+
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(parsedInstance)
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
