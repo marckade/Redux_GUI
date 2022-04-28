@@ -312,10 +312,6 @@ document.getElementById('reduceButton').addEventListener('click', () => {
   try {
     var reductionSelection = document.getElementById('reductionsAutocomplete').value
 
-    // Check if the problem has a prepended type
-    if (reductionSelection.includes('_')) {
-      reductionSelection = reductionSelection.split('_')[1]
-    }
     var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -324,7 +320,7 @@ document.getElementById('reduceButton').addEventListener('click', () => {
       // Get the problem information and populate the problem dropdown
       if (this.response) {
         var data = JSON.parse(this.response)
-        document.getElementById('reduceInstanceText').textContent = data.reductionTo.G
+        document.getElementById('reduceInstanceText').textContent = data.reductionTo.instance
       }
   }
       // Send request
