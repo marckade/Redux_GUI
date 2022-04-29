@@ -479,7 +479,11 @@ document.getElementById('solveButton').addEventListener('click', () => {
   try {
     var solverSelection = document.getElementById('solversAutocomplete').value
 
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + solverSelection + '/solve'
+    var reduceFromInstance = decodeURI(document.getElementById('problemInstanceText').value)
+    var parsedInstance = reduceFromInstance
+    parsedInstance = reduceFromInstance.replaceAll('&','%26');
+
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + solverSelection + '/solve?problemInstance=' + decodeURI(parsedInstance)
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -487,13 +491,9 @@ document.getElementById('solveButton').addEventListener('click', () => {
       // Get the problem information and populate the problem dropdown
       if (this.response) {
         var data = JSON.parse(this.response)
-
-        // Populate problem description
-        $("#solverInfo").popover("dispose").popover({
-          title: "Solver Information",
-          content: solverSelection + ": " + data.solverDefinition
-        });
-        $("#solverInfo").popover("show");}
+        console.log(data)
+        document.getElementById('solutionText').textContent = data
+      ;}
   }
       // Send request
       request.send()
@@ -504,8 +504,116 @@ document.getElementById('solveButton').addEventListener('click', () => {
 
 });
 
+// ------ Verify Dropdown ------ //
+
+var verifiers = [
+  //{label: "Default CLIQUE solver (Greedy Heuristic Solver)", value: "Default CLIQUE solver (Greedy Heuristic Solver)"},
+  // Populated upon onLoad via Web API
+];
+
+//Get Verifiers
+document.getElementById('verifiersAutocomplete').addEventListener('click', () => {
+  verifiers = [];
+  verifiersAC.setData(verifiers);
+  try {
+    var problemFromSelection = document.getElementById('problemsAutocomplete').value
+
+    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Verifiers?chosenProblem=' + problemFromSelection
+
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', route, true)
+    request.onload = function () {
+      // Get the problem information and populate the problem dropdown
+      if (this.response) {
+        // Begin accessing JSON data here and parse it out into the reduceTo array
+        var data = JSON.parse(this.response)
+        console.log(data)
+        data.forEach(element => {
+          var newLabel = {label: element.split('.')[0], value: element.split('.')[0]}
+          verifiers.push(newLabel)
+        });
+        verifiersAC.setData(verifiers);
+      }
+  }
+      // Send request
+      request.send()
+  }
+  catch(error) {
+    console.error(error);
+  }
+
+}, {once : true});
 
 
+// Get Verifier Info
+document.getElementById('verifierInfo').addEventListener('click', () => {
+
+  try {
+    var verifierSelection = document.getElementById('verifiersAutocomplete').value
+
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + verifierSelection + '/info'
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', route, true)
+
+    request.onload = function () {
+      // Get the problem information and populate the problem dropdown
+      if (this.response) {
+        var data = JSON.parse(this.response)
+
+        // Populate problem description
+        $("#verifierInfo").popover("dispose").popover({
+          title: "Solver Information",
+          content: verifierSelection + ": " + data.verifierDefinition
+        });
+        $("#verifierInfo").popover("show");}
+  }
+      // Send request
+      request.send()
+  }
+  catch(error) {
+
+    // Populate it with "Problem not found" NOT BEING CALLED FOR SOME REASON
+    $("#verifierInfo").popover("dispose").popover({
+      title: "Verifier Information",
+      content: "Verifier not selected or problem not available"
+    });
+    $("#verifierInfo").popover("show");
+    console.log("hitting this")
+    console.error(error);
+  }
+  
+});
+
+// Verifier Button Functionality
+document.getElementById('verifyButton').addEventListener('click', () => {
+  try {
+    var verifierSelection = document.getElementById('verifiersAutocomplete').value
+    var certificate = document.getElementById('verifyText').value
+
+    var reduceFromInstance = decodeURI(document.getElementById('problemInstanceText').value)
+    var parsedInstance = reduceFromInstance
+    parsedInstance = reduceFromInstance.replaceAll('&','%26');
+
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + verifierSelection + '/solve?certificate=' + certificate+'&problemInstance=' + decodeURI(parsedInstance)
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', route, true)
+
+    request.onload = function () {
+      // Get the problem information and populate the problem dropdown
+      if (this.response) {
+        var data = JSON.parse(this.response)
+        console.log(data)
+        document.getElementById('verifyResult').textContent = data
+      ;}
+  }
+      // Send request
+      request.send()
+  }
+  catch(error) {
+    console.error(error);
+  }
+
+});
 
 
 
@@ -546,10 +654,6 @@ const solversAC = new Autocomplete(document.getElementById('solversAutocomplete'
   data: solvers
 });
 
-
-var verifiers = [
-  {label: "Default 3SAT verifier (Bodily's Verifier)", value: "Default 3SAT verifier (Bodily's Verifier)"},
-];
 const verifiersAC = new Autocomplete(document.getElementById('verifiersAutocomplete'),{
   threshold: 0,
   maximumItems: 20,
