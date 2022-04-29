@@ -321,8 +321,6 @@ document.getElementById('reduceButton').addEventListener('click', () => {
     parsedInstance = reduceFromInstance.replaceAll('&','%26');
     //parsedInstance = reduceFromInstance.replaceAll(' ','%20');
     
-    console.log(reduceFromInstance)
-    console.log(parsedInstance)
 
 
 
@@ -362,7 +360,6 @@ function updateVisualization() {
   if (problemSelection.includes('_')) {
     problemSelection = problemSelection.split('_')[1]
   }
-
   if (problemSelection === "GRAPHCOLORING") {
     reloadVisualizationScript("scripts/vertexColoring.js");
   }
@@ -440,16 +437,11 @@ document.getElementById('solversAutocomplete').addEventListener('click', () => {
 
 // Get Solver Info
 document.getElementById('solverInfo').addEventListener('click', () => {
-  console.log('Info button clicked')
 
   try {
-    var problemSelection = document.getElementById('problemsAutocomplete').value
+    var solverSelection = document.getElementById('solversAutocomplete').value
 
-    // Check if the problem has a prepended type
-    if (problemSelection.includes('_')) {
-      problemSelection = problemSelection.split('_')[1]
-    }
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + solverSelection + '/info'
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -460,8 +452,8 @@ document.getElementById('solverInfo').addEventListener('click', () => {
 
         // Populate problem description
         $("#solverInfo").popover("dispose").popover({
-          title: "Problem Information",
-          content: problemSelection + ": " + data.formalDefinition
+          title: "Solver Information",
+          content: solverSelection + ": " + data.solverDefinition
         });
         $("#solverInfo").popover("show");}
   }
@@ -472,8 +464,8 @@ document.getElementById('solverInfo').addEventListener('click', () => {
 
     // Populate it with "Problem not found" NOT BEING CALLED FOR SOME REASON
     $("#solverInfo").popover("dispose").popover({
-      title: "Problem Information",
-      content: "Problem not selected or problem not available"
+      title: "Solver Information",
+      content: "Solver not selected or problem not available"
     });
     $("#solverInfo").popover("show");
     console.log("hitting this")
@@ -481,6 +473,41 @@ document.getElementById('solverInfo').addEventListener('click', () => {
   }
   
 });
+
+// Solve Button Functionality
+document.getElementById('solveButton').addEventListener('click', () => {
+  try {
+    var solverSelection = document.getElementById('solversAutocomplete').value
+
+    var route = 'http://redux.aws.cose.isu.edu:27000/' + solverSelection + '/solve'
+    // Open a new connection, using the GET request on the URL endpoint
+    request.open('GET', route, true)
+
+    request.onload = function () {
+      // Get the problem information and populate the problem dropdown
+      if (this.response) {
+        var data = JSON.parse(this.response)
+
+        // Populate problem description
+        $("#solverInfo").popover("dispose").popover({
+          title: "Solver Information",
+          content: solverSelection + ": " + data.solverDefinition
+        });
+        $("#solverInfo").popover("show");}
+  }
+      // Send request
+      request.send()
+  }
+  catch(error) {
+    console.error(error);
+  }
+
+});
+
+
+
+
+
 
 // Autocomplete fields
 
