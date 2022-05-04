@@ -589,6 +589,7 @@ document.getElementById('verifyButton').addEventListener('click', () => {
   try {
     var verifierSelection = document.getElementById('verifiersAutocomplete').value
     var certificate = document.getElementById('verifyText').value
+    certificate = certificate.replaceAll('&','%26');
 
     var reduceFromInstance = decodeURI(document.getElementById('problemInstanceText').value)
     var parsedInstance = reduceFromInstance
