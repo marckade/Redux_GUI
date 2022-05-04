@@ -157,7 +157,7 @@ const CSS_COLOR_NAMES = [
 
 
 // fetch json data
-fetch('http://localhost:27000/GRAPHCOLORINGGeneric')
+fetch('http://redux.aws.cose.isu.edu:27000/GRAPHCOLORINGGeneric/instance?problemInstance='+document.getElementById('problemInstanceText').value)
 .then(res => res.json())
 .then(data => {
     console.log(data)
@@ -266,10 +266,16 @@ function createVisualization(nodes, edges) {
 
 
     //add zoom capabilities
-    var zoom_handler = d3.zoom()
-        .on("zoom", zoom_actions);
+    // var zoom_handler = d3.zoom()
+    //     .on("zoom", zoom_actions);
 
-    zoom_handler(svg);
+    // zoom_handler(svg);
+
+        //Zoom functions
+function zoom_actions(){
+    g.attr("transform", d3.event.transform)
+}
+
 
     
     function tickActions(e) {
@@ -284,10 +290,6 @@ function createVisualization(nodes, edges) {
             .attr("y2", function (d) { return d.target.y; });
     }
 
-    //Zoom functions
-function zoom_actions(){
-    g.attr("transform", d3.event.transform)
-}
 
 
 
