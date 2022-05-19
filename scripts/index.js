@@ -85,7 +85,6 @@ document.getElementById('problemInfo').addEventListener('click', () => {
 
 var problemInstanceField = document.getElementById('problemsAutocomplete');
 problemInstanceField.addEventListener("change", function(){
-
   var collapseAreaProblem = document.getElementById('collapseArea');
   var bsCollapse = new bootstrap.Collapse(collapseAreaProblem, {
     toggle: false
@@ -115,11 +114,22 @@ problemInstanceField.addEventListener("change", function(){
       // Get the problem information and populate the problem dropdown
       if (this.response) {
         var data = JSON.parse(this.response)
-        document.getElementById('problemInstanceText').value = data.defaultInstance
+        const textBoxContents = document.getElementById('problemInstanceText').value = data.defaultInstance
+        //console.log(textBoxInstance)
       }
   }
+
+  // ------ Problem Instance Textbox ------ //
+
+var problemInstanceTextBox = document.getElementById('problemInstanceText')
+problemInstanceTextBox.addEventListener("change", function(){
+  console.log(problemInstanceTextBox.value)
+
+})
+
       // Send request
       request.send()
+      
   }
   catch(error) {
     // Populate it with "Problem not found" NOT BEING CALLED FOR SOME REASON
@@ -132,6 +142,10 @@ problemInstanceField.addEventListener("change", function(){
     console.error(error);
   }
 });
+
+
+
+
 
 
 // ------ Reduce to Dropdown ------ //
@@ -367,7 +381,7 @@ function updateVisualization() {
     reloadVisualizationScript("scripts/vertexColoring.js");
   }
   else if (problemSelection ==="ARCSET") {
-    reloadVisualizationScript("scripts/Arcset.js");
+    reloadVisualizationScript("scripts/ArcsetV2.js");
   }
   else if (problemSelection ==="DM3") {
     reloadVisualizationScript("scripts/DM3Generic.js");
