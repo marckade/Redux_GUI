@@ -1,8 +1,8 @@
 var problemInstanceTextBox = document.getElementById('problemInstanceText')
 var problemInstanceText = problemInstanceTextBox.value;
 problemInstanceTextBox.addEventListener("change", function(){
-problemInstanceText = problemInstanceTextBox.value;
-  console.log(problemInstanceTextBox.value)
+  //console.log(problemInstanceTextBox.value)
+  readJson()
 })
 
 

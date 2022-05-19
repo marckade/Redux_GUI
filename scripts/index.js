@@ -1,5 +1,7 @@
 // Create a request variable and assign a new XMLHttpRequest object to it to allow for Web API calls
 var request = new XMLHttpRequest()
+const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/'; //redux url. Note the trailing slash
+//const reduxBaseUrl = 'http://localhost:27000/'
 
 
 // Solve button
@@ -21,7 +23,7 @@ var problems = [
 ];
 
 // Open a new connection, using the GET request on the URL endpoint
-request.open('GET', 'http://redux.aws.cose.isu.edu:27000/navigation/NPC_Problems', true)
+request.open('GET', reduxBaseUrl+ 'navigation/NPC_Problems', true)
 
 request.onload = function () {
   // Begin accessing JSON data here
@@ -48,7 +50,7 @@ document.getElementById('problemInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
+    var route = reduxBaseUrl + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -106,7 +108,7 @@ problemInstanceField.addEventListener("change", function(){
       problemSelection = problemSelection.split('_')[1]
     }
 
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
+    var route = reduxBaseUrl + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -173,7 +175,7 @@ document.getElementById('reduceToAutocomplete').addEventListener('click', () => 
   try {
     var problemSelection = document.getElementById('problemsAutocomplete').value
     console.log(`ReduceTo problem selected: ${problemSelection}`);
-    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Reductions?chosenProblem=' + problemSelection
+    var route = reduxBaseUrl + 'Navigation/Problem_Reductions?chosenProblem=' + problemSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
     request.onload = function () {
@@ -214,7 +216,7 @@ document.getElementById('reductionsAutocomplete').addEventListener('click', () =
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
     var problemToSelection = document.getElementById('reduceToAutocomplete').value
 
-    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/PossibleReductions?reducingFrom=' + problemFromSelection +
+    var route = reduxBaseUrl + 'Navigation/PossibleReductions?reducingFrom=' + problemFromSelection +
                 '&reducingTo=' + problemToSelection
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -250,7 +252,7 @@ document.getElementById('reductionToInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
+    var route = reduxBaseUrl + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -293,7 +295,7 @@ document.getElementById('reductionInfo').addEventListener('click', () => {
     if (reductionSelection.includes('_')) {
       reductionSelection = reductionSelection.split('_')[1]
     }
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/info'
+    var route = reduxBaseUrl + reductionSelection + '/info'
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 
@@ -340,7 +342,7 @@ document.getElementById('reduceButton').addEventListener('click', () => {
 
 
 
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(parsedInstance)
+    var route = reduxBaseUrl + reductionSelection + '/reduce?problemInstance=' + decodeURI(parsedInstance)
     //var route = 'http://localhost:27000/' + reductionSelection + '/reduce?problemInstance=' + decodeURI(parsedInstance)
 
     // Open a new connection, using the GET request on the URL endpoint
@@ -426,7 +428,7 @@ document.getElementById('solversAutocomplete').addEventListener('click', () => {
   try {
     var problemFromSelection = document.getElementById('problemsAutocomplete').value
 
-    var route = 'http://redux.aws.cose.isu.edu:27000/Navigation/Problem_Solvers?chosenProblem=' + problemFromSelection
+    var route = reduxBaseUrl+'Navigation/Problem_Solvers?chosenProblem=' + problemFromSelection
 
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
@@ -463,7 +465,7 @@ document.getElementById('solverInfo').addEventListener('click', () => {
     if (problemSelection.includes('_')) {
       problemSelection = problemSelection.split('_')[1]
     }
-    var route = 'http://redux.aws.cose.isu.edu:27000/' + problemSelection + "Generic"
+    var route = reduxBaseUrl + problemSelection + "Generic"
     // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
 

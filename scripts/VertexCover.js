@@ -156,9 +156,32 @@ const CSS_COLOR_NAMES = [
     "YellowGreen",
 ];
 
-
+//DOM 
+var problemInstanceTextBox = document.getElementById('problemInstanceText') //GUI textbox
+var problemInstanceText = problemInstanceTextBox.value; //instance text
+//Change listener
+problemInstanceTextBox.addEventListener("change", function(){
+    problemInstanceTextBox.innerHTML = "";
+    //console.log(problemInstanceTextBox.value)
+    //console.log(problemInstanceTextBox.getElementsByClassName('everything').Value)
+   // var el = document.getElementsByClassName('everything');
+    //console.log(el.item(0).childNodes,el.item(0).parentNode,el.item(0).nodeType)
+   // var par = el.item(0).parentElement;
+    //console.log(par)
+    //console.log("CHANGE")
+   // par.removeChild(el.item(0));
+   // el.item(0).remove()
+    readJson()
+  })
+  
+async function readJson(){
 // fetch json data
-fetch('http://redux.aws.cose.isu.edu:27000/VERTEXCOVERGeneric')
+
+var userInstance = problemInstanceText;
+var url  = new URL("http://localhost:27000/VERTEXCOVERGeneric/instance/");
+var params = {problemInstance: userInstance,}
+Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+fetch(url)
 .then(res => res.json())
 .then(data => {
     console.log(data)
@@ -166,7 +189,8 @@ fetch('http://redux.aws.cose.isu.edu:27000/VERTEXCOVERGeneric')
 
     parseProblem(graphColoring)
 })
-
+}
+readJson();
 
 
 
