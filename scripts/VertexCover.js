@@ -161,7 +161,7 @@ var problemInstanceTextBox = document.getElementById('problemInstanceText') //GU
 var problemInstanceText = problemInstanceTextBox.value; //instance text
 //Change listener
 problemInstanceTextBox.addEventListener("change", function(){
-    problemInstanceTextBox.innerHTML = "";
+    console.log(problemInstanceTextBox.childElementCount)
     //console.log(problemInstanceTextBox.value)
     //console.log(problemInstanceTextBox.getElementsByClassName('everything').Value)
    // var el = document.getElementsByClassName('everything');
@@ -171,7 +171,8 @@ problemInstanceTextBox.addEventListener("change", function(){
     //console.log("CHANGE")
    // par.removeChild(el.item(0));
    // el.item(0).remove()
-    readJson()
+   deleteVisualization();
+   readJson()
   })
   
 async function readJson(){
@@ -181,12 +182,11 @@ var userInstance = problemInstanceText;
 var url  = new URL("http://localhost:27000/VERTEXCOVERGeneric/instance/");
 var params = {problemInstance: userInstance,}
 Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-fetch(url)
+await fetch(url)
 .then(res => res.json())
 .then(data => {
     console.log(data)
     graphColoring = data 
-
     parseProblem(graphColoring)
 })
 }
@@ -199,12 +199,12 @@ function parseProblem(jsonData) {
     console.log("parsing problem");
  
     for (var elem of jsonData.nodes) {
-        console.log(elem);
+      //  console.log(elem);
         nodeList.push({ "name": elem});
     }
     for (var elem of jsonData.edges) {
         edgeList.push({ "source": elem.Key, "target": elem.Value });
-        console.log(elem);
+       // console.log(elem);
 
     }
 
@@ -224,9 +224,13 @@ function colorNode(d) {
     return CSS_COLOR_NAMES[parseInt(d.color)]; 
 }
 
-
+function deleteVisualization(){
+    //d3.selectAll("g").remove();
+}
 function createVisualization(nodes, edges) {
-    var svg = d3.select("#reduceInstanceSvg"),
+    var svg = d3.select("#reduceInstanceSvg")
+    ,
+    
         width = +svg.attr("width"),
         height = +svg.attr("height");
 
@@ -338,6 +342,8 @@ function zoom_actions(){
         if (!d3.event.active) simulation.alphaTarget(0);
         d.fx = null;
         d.fy = null;
+       
+
     }
     // Drag functions end
 

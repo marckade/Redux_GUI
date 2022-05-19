@@ -1,7 +1,7 @@
 // Create a request variable and assign a new XMLHttpRequest object to it to allow for Web API calls
 var request = new XMLHttpRequest()
-const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/'; //redux url. Note the trailing slash
-//const reduxBaseUrl = 'http://localhost:27000/'
+//const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/'; //redux url. Note the trailing slash
+const reduxBaseUrl = 'http://localhost:27000/'
 
 
 // Solve button

@@ -2,6 +2,7 @@ var problemInstanceTextBox = document.getElementById('problemInstanceText')
 var problemInstanceText = problemInstanceTextBox.value;
 problemInstanceTextBox.addEventListener("change", function(){
   //console.log(problemInstanceTextBox.value)
+//d3.selectAll("svg").remove();
   readJson()
 })
 
