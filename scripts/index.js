@@ -387,7 +387,7 @@ function updateVisualization() {
     problemSelection = problemSelection.split('_')[1]
   }
   if (problemSelection === "GRAPHCOLORING") {
-    reloadVisualizationScript("scripts/vertexColoring.js");
+    reloadVisualizationScript("scripts/VertexColoringV2.js");
   }
   else if (problemSelection ==="ARCSET") {
     reloadVisualizationScript("scripts/ArcsetV2.js");
