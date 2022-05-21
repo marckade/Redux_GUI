@@ -169,20 +169,26 @@ document.getElementById('reduceToAutocomplete').addEventListener('change', () =>
 });
 
 document.getElementById('reduceToAutocomplete').addEventListener('click', () => {
+  const noReductionFoundErr = "No Reductions Available" //API returns this message on no reductions found. 
   reduceTo = [];
   reduceToAC.setData(reduceTo);
 
   try {
+
+    //gets instance
     var problemSelection = document.getElementById('problemsAutocomplete').value
-    console.log(`ReduceTo problem selected: ${problemSelection}`);
+
+        // Open a new connection, using the GET request on the URL endpoint
     var route = reduxBaseUrl + 'Navigation/Problem_Reductions?chosenProblem=' + problemSelection
-    // Open a new connection, using the GET request on the URL endpoint
     request.open('GET', route, true)
     request.onload = function () {
       // Get the problem information and populate the problem dropdown
-      if (this.response) {
+      
+      var data = JSON.parse(this.response) //Converts the json sent into an object.
+
+        console.log(data.ERROR) //error is undefined if a reduction is found, defined if an error is returned. 
+        if(data.ERROR!=noReductionFoundErr){
         // Begin accessing JSON data here and parse it out into the reduceTo array
-        var data = JSON.parse(this.response)
         console.log(data)
         data.forEach(element => {
           var newLabel = {label: element, value: element}
@@ -190,6 +196,10 @@ document.getElementById('reduceToAutocomplete').addEventListener('click', () => 
         });
         reduceToAC.setData(reduceTo);
       }
+      else{
+        console.log(data)
+      }
+      
   }
       // Send request
       request.send()
@@ -490,7 +500,7 @@ document.getElementById('solverInfo').addEventListener('click', () => {
   
 });
 
-// Solve Button Functionality
+// Solve Button Functionality. 
 document.getElementById('solveButton').addEventListener('click', () => {
   try {
     var solverSelection = document.getElementById('solversAutocomplete').value
