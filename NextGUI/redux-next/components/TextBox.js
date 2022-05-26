@@ -1,48 +1,14 @@
 import React from 'react';
-class TextBox extends React.Component {
 
-    constructor(props) {
-        super(props)
-        this.state = { value: '' };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.textboxName = props.textbox.name;
-        this.submitMsg = props.textbox.submitMsg;
-        console.log(props.textbox.name)
-    }
+//This function exports the skeleton of a Textbox. The structure of the required prop object is very arbitary and subject to change
+function TextBox(props) {
+    return(<form onSubmit={props.submitHandler}>
+        <label>
+            {props.label+': '}
+            <input type = "text" value = {props.inputHandler1.value} onChange = {props.inputHandler1.onChange}/>
+        </label>
+        <input type="submit" value={props.inputHandler2.submitMsg} />
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
-
-
-    handleSubmit(event) {
-
-        getRequest(this.state.value).then(data =>
-            alert('You requested a default instance from: ' + this.state.value + ' you received the instance: ' + data.defaultInstance)
-
-        );
-        event.preventDefault();
-    }
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    {this.textboxName+': '}
-                    <input type = "text" value = {this.state.value} onChange = {this.handleChange}/>
-                </label>
-                <input type="submit" value={this.submitMsg} />
-            </form>
-        )
-    }
-    
-}
-
-
-async function getRequest(endRoute) {
-    const res = await fetch('http://redux.aws.cose.isu.edu:27000/'+endRoute)
-    const data = await res.json();
-    return data;
+    </form>)
 }
 export default TextBox
-
