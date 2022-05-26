@@ -1,0 +1,23 @@
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    background-color: lightcyan;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.TextBox{
+  margin: 100px;
+
+}
+.TextBoxInner{
+  margin: 100px;
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
