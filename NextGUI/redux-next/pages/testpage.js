@@ -8,15 +8,15 @@ function TestPage() {
 
     <div className="container my-5">
 
-      {/*<!-- ((\w)+( ))+-->*/}
+      {/*<!-- Problem Row -->*/}
       <div className="row align-items-start" id="problemRow">
         <div className="card mb-2 shadow-sm">
           <div className="card-body row">
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/* <!-- Label -->*/}
             <div className="col-2 col-sm-3 col-md-2">
               <h6 className="card-title mt-2">Problem</h6>
             </div>
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/* <!-- Middle -->*/}
             <div className="col">
               <div className="input-group">
                 <input type="text" id="problemsAutocomplete" className="form-control" placeholder="Select problem"/>
@@ -33,12 +33,12 @@ function TestPage() {
               </div>
             </div>
 
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Chevron -->*/}
             <div className="col-1"> 
               <div className="accordion-button collapsed" data-bs-toggle="collapse" href="#collapseArea" role="button" aria-expanded="false" aria-controls="collapseArea"></div>
             </div>
 
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Collapse -->*/}
             <div className="collapse" id="collapseArea">
               <div className="row mt-3">
                 <div className="col-2 col-sm-3 col-md-2">
@@ -61,15 +61,15 @@ function TestPage() {
       </div>
 
 
-      {/*<!-- ((\w)+( ))+-->*/}
+      {/*<!-- Reduce to Row -->*/}
       <div className="row align-items-start" id="reduceRow" >
         <div className="card mb-2 shadow-sm">
           <div className="card-body row">
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Label -->*/}
             <div className="col-2 col-sm-3 col-md-2">
               <h6 className="card-title mt-2">Reduce to</h6>
             </div>
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Middle -->*/}
             <div className="col">
               <div className="row gy-2">
                 <div className="col-12 col-lg-6">
@@ -108,12 +108,12 @@ function TestPage() {
               </div>
             </div>
 
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Chevron -->*/}
             <div className="col-1"> 
               <div className="accordion-button collapsed" data-bs-toggle="collapse" href="#collapseArea2" role="button" aria-expanded="false" aria-controls="collapseArea2"></div>
             </div>
 
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Collapse -->*/}
             <div className="collapse" id="collapseArea2">
               <div className="row mt-3">
                 <div className="col-2 col-sm-3 col-md-2">
@@ -173,13 +173,13 @@ function TestPage() {
               </div>
             </div>
 
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Chevron -->*/}
             <div className="col-1">
               
               <div className="accordion-button collapsed" data-bs-toggle="collapse" href="#collapseArea3" role="button" aria-expanded="false" aria-controls="collapseArea3"></div>
             </div>
 
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Collapse -->*/}
             <div className="collapse" id="collapseArea3">
               <div className="row mt-3">
                 <div className="col-2 col-sm-3 col-md-2">
@@ -200,15 +200,15 @@ function TestPage() {
       </div>
 
 
-      {/*<!-- ((\w)+( ))+-->*/}
+      {/*<!-- Solve Row -->*/}
       <div className="row align-items-start" id="solveRow" >
         <div className="card mb-2 shadow-sm">
           <div className="card-body row">
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Label -->*/}
             <div className="col-2 col-sm-3 col-md-2">
               <h6 className="card-title mt-2">Solve</h6>
             </div>
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/* <!-- Middle -->*/}
             <div className="col">
               <div className="input-group">
                 <input type="text" id="solversAutocomplete" className="form-control" placeholder="Select solver"/>
@@ -256,11 +256,11 @@ function TestPage() {
       </div>
 
 
-      {/*<!-- ((\w)+( ))+-->*/}
+      {/*<!-- Verify Row -->*/}
       <div className="row align-items-start" id="verifyRow" >
         <div className="card mb-2 shadow-sm">
           <div className="card-body row">
-            {/*<!-- ((\w)+( ))+-->*/}
+            {/*<!-- Label -->*/}
             <div className="col-2 col-sm-3 col-md-2">
               <h6 className="card-title mt-2">Verify</h6>
             </div>
