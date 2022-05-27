@@ -19,9 +19,23 @@ a {
   text-align: center;
 }
 
+.toggleButton{
+  text-align: right;
+}
+
 * {
   box-sizing: border-box;
 }
+
+/* .accordion{
+  background-color:lightgray;
+} */
+
+/* .paddedDiv{
+  outline-color: black;
+  outline-style:initial;
+  padding: 10px;
+} */
 
 
 /* Remove active colors from default accordion button */
