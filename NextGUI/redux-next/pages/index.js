@@ -16,8 +16,9 @@ const NESTEDFORMCONTROL = { placeHolder: "PlaceholderText" }
 const ACCORDION_FORM_ONE = { placeHolder: "PlaceHolder Text One" }
 const ACCORDION_FORM_TWO = { placeHolder: "PlaceHolder Text Two" }
 const CARD = { cardBodyText: "CARD BODY", cardHeaderText: "Card Header" }
-const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD}
+const TOOLTIP = {tooltipText: "HELLO I AM INFORMATION MAIN"}
 
+const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,TOOLTIP}
 
 function HomePage() {
   return(
@@ -32,7 +33,7 @@ function HomePage() {
         <AccordionNestedTextBox accordion = {ACCORDION}></AccordionNestedTextBox>
       </div>
       <div className="TextBoxInner">
-      <PopoverTooltipHover></PopoverTooltipHover>
+        <PopoverTooltipHover popupText={TOOLTIP.tooltipText}></PopoverTooltipHover>
         </div>
     </div>
   )

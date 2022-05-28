@@ -1,10 +1,12 @@
 import React from 'react'
 import { useContext } from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
+// import FormControl from '../components/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 // import FormControl from '../components/FormControl'
 
 
@@ -18,19 +20,20 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
   const isCurrentEventKey = activeEventKey === eventKey;
 
-  return (
+    return (
+      <>
     <Button
-      className = "toggleButton"
       type="button"
       style={{ backgroundColor: isCurrentEventKey ? 'pink' : 'blue' }}
-      onClick={decoratedOnClick}
+          onClick={decoratedOnClick}
     >
       {children}
-    </Button>
+            </Button>
+            </>
   );
 }
 
-function AccordionNestedTextBox(props) {
+function AccordionTogglesSvg(props) {
   console.log(props)
   return (
     <div>
@@ -38,26 +41,22 @@ function AccordionNestedTextBox(props) {
 <Accordion className = "accordion" defaultActiveKey="1">
       <Card>
           <Card.Header>
-            <Stack direction="horizontal" gap={1}>
+          {props.accordion.CARD.cardHeaderText}   
+            <Stack className = "float-end" direction="horizontal" gap={3} >
+              <FormControlLabel control={<Switch defaultChecked />} label={props.accordion.SWITCHES.switch1} />
+              <FormControlLabel control={<Switch defaultChecked />} label={props.accordion.SWITCHES.switch2} />
+              <FormControlLabel control={<Switch defaultChecked />} label={props.accordion.SWITCHES.switch3} />
               
-                {props.accordion.CARD.cardHeaderText}
-               
-                          
-                <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}></FormControl> {/**FORM CONTROL 1 (header) */}
-                
-                <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
-                 
-           
-                        
-            <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
-        </Stack>
+              <ContextAwareToggle className = "float-end" eventKey="0">▼</ContextAwareToggle>
+
+            </Stack>
+            
         </Card.Header>
 
         <Accordion.Collapse eventKey="0">
             <Card.Body>
             <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
-                <FormControl placeholder = {props.accordion.ACCORDION_FORM_TWO.placeHolder}></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>
@@ -69,4 +68,4 @@ function AccordionNestedTextBox(props) {
       );
 }
 
-export default AccordionNestedTextBox
+export default AccordionTogglesSvg

@@ -1,6 +1,5 @@
 import React from 'react'
 import { useContext } from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
@@ -30,8 +29,8 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 }
 
-function AccordionNestedTextBox(props) {
-  console.log(props)
+function AccordionSingleInputNestedButton(props) {
+  //console.log(props)
   return (
     <div>
 
@@ -39,26 +38,23 @@ function AccordionNestedTextBox(props) {
       <Card>
           <Card.Header>
             <Stack direction="horizontal" gap={1}>
-              
+              <div>
                 {props.accordion.CARD.cardHeaderText}
-               
-                          
-                <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}></FormControl> {/**FORM CONTROL 1 (header) */}
-                
-                <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
-                 
-           
-                        
+              </div>
+                          <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}></FormControl> {/**FORM CONTROL 1  (left)*/}
+                          <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText1}></PopoverTooltipHover>  
+
             <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
         </Stack>
         </Card.Header>
 
         <Accordion.Collapse eventKey="0">
             <Card.Body>
-            <Stack direction="horizontal" gap={1}>
-              {props.accordion.CARD.cardBodyText}
-                <FormControl placeholder = {props.accordion.ACCORDION_FORM_TWO.placeHolder}></FormControl> {/**FORM CONTROL 2 (dropdown) */}
-            </Stack>
+            
+                              {props.accordion.CARD.cardBodyText}
+                            <div className="submitButton">
+                              <Button>{props.accordion.BUTTON.buttonText}</Button>
+                            </div>
           </Card.Body>
         </Accordion.Collapse>
       </Card>
@@ -69,4 +65,4 @@ function AccordionNestedTextBox(props) {
       );
 }
 
-export default AccordionNestedTextBox
+export default AccordionSingleInputNestedButton

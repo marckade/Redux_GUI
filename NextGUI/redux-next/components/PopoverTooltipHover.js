@@ -2,23 +2,34 @@
 
 
 import { OverlayTrigger, Tooltip,Popover,Button} from 'react-bootstrap';
+import { SvgIcon } from '@mui/material';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-
-
-const popover = (
-    <Popover id="popover-basic">
-      <Popover.Header as="h3">Popover right</Popover.Header>
-      <Popover.Body>
-        And here's some <strong>amazing</strong> content. It's very engaging.
-        right?
-      </Popover.Body>
-    </Popover>
-  );
+function popOver(props) {
   
-function PopoverTooltipHover() {
   return(
-  <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-    <Button variant="success">Click me to see</Button>
+  <Popover id="popover-basic" className="tooltip">
+    <Popover.Header as="h3">
+    </Popover.Header>
+    <Popover.Body>
+      {props.popupText}
+    </Popover.Body>
+  </Popover>
+  );
+
+}
+  
+function PopoverTooltipHover(props) {
+ 
+  return(
+    <OverlayTrigger trigger="hover" placement="top" overlay={popOver(props)}>
+      
+      <InfoOutlinedIcon>
+        <Button variant="success">
+        </Button>
+        </InfoOutlinedIcon>
+     
+      
     </OverlayTrigger>
   )
 }
