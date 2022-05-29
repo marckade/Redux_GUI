@@ -160,15 +160,17 @@ const CSS_COLOR_NAMES = [
 //http://localhost:27000/
 // fetch('http://redux.aws.cose.isu.edu:27000/GRAPHCOLORINGGeneric/instance?problemInstance='+document.getElementById('problemInstanceText').value)
 // fetch('http://redux.aws.cose.isu.edu:27000/GRAPHCOLORINGGeneric')
-fetch('http://localhost:27000/GRAPHCOLORINGGeneric')
-.then(res => res.json())
-.then(data => {
-    console.log(data);
-    graphColoring = data;
+// fetch('http://localhost:27000/GRAPHCOLORINGGeneric')
+// .then(res => res.json())
+// .then(data => {
+//     console.log(data);
+//     graphColoring = data;
 
-    parseUndirectedGraph(graphColoring);
-})
+//     parseUndirectedGraph(graphColoring);
+// })
 
+
+createVisualization("");
 
 function parseUndirectedGraph(jsonData) {
     const newInstance = jsonData.instance.replaceAll('{', "").replaceAll('}', "");
@@ -247,6 +249,63 @@ function createUndirectedColoredGraph(){
 
 
 function createVisualization(graph){
-    d3.select("#reduceInstanceDiv").graphviz()
-    .renderDot(graph);
+    d3.select("#instanceDiv").graphviz()
+    .renderDot(test());
+
+  
+    const checkbox =  document.querySelector("#switchShowReduction");
+    console.log(checkbox.checked);
+   
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          console.log("Checkbox is checked..");
+          document.querySelector("#instanceDiv").setAttribute("style","display:inline;");
+          
+          d3.select("#reduceInstanceDiv").graphviz()
+          .renderDot(test());
+
+          document.querySelector("#instanceDiv svg").setAttribute("style","border-right: 1px solid;");
+         
+        } else {
+          console.log("Checkbox is not checked..");
+          document.querySelector("#instanceDiv").style.display = null;
+          document.querySelector("#instanceDiv svg").style.borderRight  = null;
+          d3.select("#reduceInstanceDiv svg").remove();
+        }
+      });
+}
+
+
+
+function test(){
+
+    const graphTest = `graph G {  
+        node [style="filled"];  
+        a--b; 
+        b--c; 
+        c--a; 
+        d--a; 
+        d--e; 
+        e--a; 
+        f--a; 
+        f--g; 
+        a--g; 
+        h--a; 
+        h--i; 
+        a--i; 
+        a[fillcolor = White] 
+        b[fillcolor = White] 
+        c[fillcolor = White] 
+        d[fillcolor = White] 
+        e[fillcolor = White] 
+        f[fillcolor = White] 
+        g[fillcolor = White] 
+        h[fillcolor = White] 
+        i[fillcolor = White] 
+         }`
+
+    
+
+    return graphTest;
+
 }
