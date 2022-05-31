@@ -10,7 +10,8 @@ import AutoComplete from '../components/widgets/SearchBar';
 
 
 
-const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
+//const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
+const baseUrl = 'http://localhost:27000/'
 const searchbarPlaceHolder = "Enter a Problem Name..."
 
 const DEFAULTTEXTBOX = { name: "Get Instance (ie. ARCSETGeneric, VERTEXCOVERGeneric)", submitMsg: "Get Instance" ,reqUrl: baseUrl}
@@ -37,7 +38,7 @@ function HomePage() {
       </div>
       <div className="TextBoxInner">
         {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-        <AutoComplete url = {baseUrl+"navigation/NPC_Problems"}></AutoComplete>
+        <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete>
       </div>
       <div className="TextBoxInner">
         <PopoverTooltipHover popupText={TOOLTIP.tooltipText}></PopoverTooltipHover>
