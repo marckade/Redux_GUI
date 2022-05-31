@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
+import SearchBar from './SearchBar';
 // import FormControl from '../components/FormControl'
 
 
@@ -42,10 +43,13 @@ function AccordionNestedTextBox(props) {
               
                 {props.accordion.CARD.cardHeaderText}
                
-                          
-                <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}></FormControl> {/**FORM CONTROL 1 (header) */}
-                
-                <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
+              <Stack direction = "vertical">        
+                {/* <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}>
+                </FormControl> *FORM CONTROL 1 (header) */}
+                <SearchBar placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBar>
+              </Stack>
+
+              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
                  
            
                         

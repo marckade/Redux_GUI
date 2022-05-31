@@ -11,6 +11,7 @@ a {
 .TextBox{
   text-align: center;
   margin: 100px;
+  background-color: aliceblue;
 
 }
 .TextBoxInner{
@@ -24,6 +25,9 @@ a {
 .submitButton{
   text-align:right;
   
+}
+.centerImage{
+  text-align: center;
 }
 
 
@@ -54,3 +58,20 @@ a {
   height: 50%;
   width: 50%;
 }
+/* .auto-container {
+  display: flex;
+  justify-content: center;
+  width: 200px;
+  position: absolute;
+
+} */
+/* .autoContainer {
+
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: goldenrod;
+  background-color: whitesmoke;
+  right: 10px;
+  top: 52px;
+  width: 520px;
+} */

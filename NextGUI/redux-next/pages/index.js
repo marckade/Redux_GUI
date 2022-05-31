@@ -1,12 +1,17 @@
 //redux.com
-import TextBox from '../components/TextBox'
-import TextBoxInstance from '../components/TextBoxInstance';
+import TextBox from '../components/widgets/TextBox'
+import TextBoxInstance from '../components/widgets/TextBoxInstance';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import AccordionNestedTextBox from '../components/AccordionNestedTextBox';
-import PopoverTooltipHover from '../components/PopoverTooltipHover';
+import AccordionNestedTextBox from '../components/widgets/AccordionNestedTextBox';
+import PopoverTooltipHover from '../components/widgets/PopoverTooltipHover';
+import SearchBar from '../components/widgets/SearchBar';
+import BookData from "./Data.json";
+import AutoComplete from '../components/widgets/SearchBar';
+
 
 
 const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
+const searchbarPlaceHolder = "Enter a Problem Name..."
 
 const DEFAULTTEXTBOX = { name: "Get Instance (ie. ARCSETGeneric, VERTEXCOVERGeneric)", submitMsg: "Get Instance" ,reqUrl: baseUrl}
 const ALTTEXTBOX = { name: "Instance", submitMsg: "Validate",reqUrl: baseUrl}
@@ -21,6 +26,7 @@ const TOOLTIP = {tooltipText: "HELLO I AM INFORMATION MAIN"}
 const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,TOOLTIP}
 
 function HomePage() {
+  
   return(
     <div className="TextBox">
       <div className = "TextBoxInner">
@@ -29,8 +35,9 @@ function HomePage() {
       <div className = "TextBoxInner">
         <TextBoxInstance textbox={ALTTEXTBOX} />
       </div>
-      <div className = "TextBoxInner">
-        <AccordionNestedTextBox accordion = {ACCORDION}></AccordionNestedTextBox>
+      <div className="TextBoxInner">
+        {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
+        <AutoComplete url = {baseUrl+"navigation/NPC_Problems"}></AutoComplete>
       </div>
       <div className="TextBoxInner">
         <PopoverTooltipHover popupText={TOOLTIP.tooltipText}></PopoverTooltipHover>
@@ -38,4 +45,9 @@ function HomePage() {
     </div>
   )
 }
+
+
+
+
+
 export default HomePage;

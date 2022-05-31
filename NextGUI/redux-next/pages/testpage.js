@@ -12,11 +12,17 @@ import VerifyRow from '../components/pageblocks/VerifyRow'
 import VerifyRowReact from '../components/pageblocks/VerifyRowReact'
 import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Image from 'next/image'
+import isulogo from '../components/images/ISULogo.png'
+import SearchBar from '../components/widgets/SearchBar'
 
 function TestPage() {
-    return (
 
-    <div className="container my-5">
+  const imgStyle = { textAlign: "center" }
+
+  return (
+
+    <div className="container my-5 ">
 
      <ProblemRowReact></ProblemRowReact>
 
@@ -27,9 +33,13 @@ function TestPage() {
         <SolveRowReact></SolveRowReact>
 
         <VerifyRowReact></VerifyRowReact>
-    
+        
 
         {/*<!-- /Container-->*/}
+
+       <footer className='centerImage'>
+        <Image src={isulogo} width={400} height={200} style = {imgStyle}></Image>     
+        </footer>
     </div> 
 
                     

@@ -24,7 +24,6 @@ class TextBoxInstance extends React.Component {
         this.setState({ value: event.target.value }); //this makes sure our submit button always uses the most current input in the textbox
     }
 
-
     handleSubmit(event) {
         this.getRequest(this.reqUrl, this.state.value).then(data =>
             alert('Your Input: "' + this.state.value + '"'+' your data returned: ' + data.defaultInstance)
@@ -40,13 +39,11 @@ class TextBoxInstance extends React.Component {
             submitHandler={this.handleSubmit}
             inputHandler1={{ value: this.state.value, onChange: this.handleChange}}
             inputHandler2={{ submitMsg: this.submitMsg }}>
-
             </TextBox>
         )
     }
 
 }
-
 
 export default TextBoxInstance
 
