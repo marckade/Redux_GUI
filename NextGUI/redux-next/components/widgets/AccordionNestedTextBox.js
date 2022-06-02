@@ -6,6 +6,7 @@ import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-b
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
 import SearchBar from './SearchBar';
+import { ProblemContext } from '../contexts/ProblemProvider'
 // import FormControl from '../components/FormControl'
 
 
@@ -31,8 +32,15 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 }
 
+
+
 function AccordionNestedTextBox(props) {
   //console.log(props)
+  const { problem, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setProblemInstance(event.target.value)
+  }
   return (
     <div>
 
@@ -61,7 +69,7 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
             <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
-                <FormControl placeholder = {props.accordion.ACCORDION_FORM_TWO.placeHolder}></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                <FormControl as= "textarea" value={props.accordion.CARD.problemInstance} onChange={handleChange} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>

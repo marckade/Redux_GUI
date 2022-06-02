@@ -8,7 +8,8 @@ class ProblemProvider extends Component {
 
     state = {
         problemName: "NPC_NODECOVER",
-        problemInstance: "{{1,2,3},{1,2},0}"
+        problemInstance: "{{1,2,3},{1,2},0}",
+        problemDescription: "Nodecover is a classic NP_Complete Problem"
     }
     setProblemName = (newName) => {
         //console.log(newName);
@@ -27,18 +28,32 @@ class ProblemProvider extends Component {
         const req = apiFetch('http://localhost:27000/'+problemSuffix+'Generic/') 
             
         req.then(response => response.json())
-        .then(data => this.setProblemInstance(data.defaultInstance)).catch((error) => { console.log("FETCH ERROR" + error) });
+            .then(data => {
+                this.setProblemInstance(data.defaultInstance)
+                return data;
+            })
+            .then(data => this.setProblemDescription(data.formalDefinition + "\n\n" + data.problemDefinition))
+            .catch((error) => { console.log("FETCH ERROR" + error) });
+            
 
     }
     setProblemInstance = (newInstance) => {
         this.setState({problemInstance:newInstance})
+    }
+    setProblemDescription = (newDescription) => {
+        this.setState({problemDescription:newDescription})
     }
 
     
 
     render() {
         return (
-            <ProblemContext.Provider value={{ ...this.state, setProblemInstance: this.setProblemInstance,setProblemName:this.setProblemName,makeApiCall:this.makeApiCall }}>
+            <ProblemContext.Provider value={{
+                ...this.state,
+                setProblemInstance: this.setProblemInstance,
+                setProblemName: this.setProblemName,
+                makeApiCall: this.makeApiCall,
+            }}>
                 {this.props.children}
             </ProblemContext.Provider>
 
