@@ -30,6 +30,7 @@ class ProblemProvider extends Component {
         .then(data => this.setProblemInstance(data.defaultInstance)).catch((error) => { console.log("FETCH ERROR" + error) });
 
     }
+    
     setProblemInstance = (newInstance) => {
         this.setState({problemInstance:newInstance})
     }
