@@ -9,7 +9,7 @@ const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing s
 const fullUrl = reduxBaseUrl + 'navigation/NPC_Problems/'
 const ACCORDION_FORM_ONE = { placeHolder: "Select problem", url: fullUrl }
 const ACCORDION_FORM_TWO = { placeHolder: "default instance" }
-const CARD = { cardBodyText: "Instance", cardHeaderText: "Problem" }
+var CARD = { cardBodyText: "Instance", cardHeaderText: "Problem",problemInstance:"Default problem" }
 const TOOLTIP = { tooltipText: "HELLO I AM PROBLEM INFORMATION" }
 const INPUTURL = { url: fullUrl }
 
@@ -19,11 +19,14 @@ const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, TOOLTIP, INPUT
 class ProblemRowReact extends Component { 
 
     static contextType = ProblemContext;
-    
     render() {
+        
         return (
             <ProblemContext.Consumer>{(context) => {
                 //console.log(context)
+                CARD.problemInstance = context.problemInstance;
+                TOOLTIP.tooltipText = context.problemDescription
+                console.log(CARD.problemInstance)
                 return (
                     <AccordionNestedTextBox accordion={ACCORDION}></AccordionNestedTextBox>
                 )
