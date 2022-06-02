@@ -15,16 +15,24 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Image from 'next/image'
 import isulogo from '../components/images/ISULogo.png'
 import SearchBar from '../components/widgets/SearchBar'
+import ProblemProvider from '../components/contexts/ProblemProvider'
 
-function TestPage() {
+
+
+
+
+
+
+function TestPageContent() {
 
   const imgStyle = { textAlign: "center" }
 
   return (
 
     <div className="container my-5 ">
-
-     <ProblemRowReact></ProblemRowReact>
+      
+      <ProblemProvider>
+        <ProblemRowReact></ProblemRowReact>
 
         <ReduceToRowReact></ReduceToRowReact>
         
@@ -33,7 +41,7 @@ function TestPage() {
         <SolveRowReact></SolveRowReact>
 
         <VerifyRowReact></VerifyRowReact>
-        
+      </ProblemProvider>
 
         {/*<!-- /Container-->*/}
 
@@ -45,4 +53,11 @@ function TestPage() {
                     
     )
 }
-export default TestPage
+
+
+export default function TestPage() {
+  return (
+    <TestPageContent></TestPageContent>
+  )
+}
+

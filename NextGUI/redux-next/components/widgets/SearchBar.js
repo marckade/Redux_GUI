@@ -1,40 +1,40 @@
-import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { areArraysEqual } from '@mui/base';
-
+import { ProblemContext } from '../contexts/ProblemProvider'
+import React,{useContext} from 'react'
 const filter = createFilterOptions();
-var counter = 0;
+var initialized = false;
 
 export default function SearchBar(props) {
-
-  if (counter < 1) {
+  
+  if (!initialized) {
     const req = getRequest(props.url);
     req.then(result => {
       return result.json();
     }).then(data => {
       initializeProblemJson(data)
-      console.log(problemJson)
+      //console.log(problemJson)
     })
       .catch((error) => console.log("GET REQUEST FAILED"));
-    counter++;
+    initialized = true;
   }
-   const [value, setValue] = React.useState(null);
+  //const [value, setValue] = React.useState(null); //state manager.
+  const {problem,setProblemName, setProblemInstance,makeApiCall} = useContext(ProblemContext)
   return (
     <Autocomplete
-      value={value}
+      value={problem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setValue({
-            problemName: newValue,
-          });
+          setProblemName(
+            newValue
+          );
         } else if (newValue && newValue.inputValue) {
           // Create a new value from the user input
-          setValue({
-            problemName: newValue.inputValue,
-          });
+          setProblemName(
+            newValue.inputValue,
+          );
         } else {
-          setValue(newValue);
+          setProblemName(newValue);
         }
       }}
       filterOptions={(options, params) => {
@@ -72,7 +72,6 @@ export default function SearchBar(props) {
       renderOption={(props, option) => <li {...props}>{option.problemName}</li>}
       sx={{ width: 300 }}
       freeSolo
-      onSubmit={console.log("SUBMITTED")}
       renderInput={(params) => (
         <TextField {...params} label={props.placeholder} />
       )}
@@ -85,14 +84,14 @@ var problemJson = [
  
 ];
 
-function initializeProblemJson(arr) {
+function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
   
   arr.map(function (element, index, array) {
     if (!problemJson.includes(element)) {
       problemJson.push({ problemName: element })
     }
   }, 80);
-  console.log(problemJson);
+  //console.log(problemJson);
 }
 async function getRequest(url) {
     const promise = await fetch(url);

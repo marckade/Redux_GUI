@@ -22,7 +22,7 @@ function popOver(props) {
 function PopoverTooltipHover(props) {
  
   return(
-    <OverlayTrigger trigger="hover" placement="top" overlay={popOver(props)}>
+    <OverlayTrigger trigger={["hover","focus"]} placement="top" overlay={popOver(props)}>
       
       <InfoOutlinedIcon>
         <Button variant="success">

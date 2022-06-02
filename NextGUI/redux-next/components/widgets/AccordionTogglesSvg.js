@@ -34,7 +34,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 function AccordionTogglesSvg(props) {
-  console.log(props)
+  //console.log(props)
   return (
     <div>
 
@@ -55,7 +55,7 @@ function AccordionTogglesSvg(props) {
 
         <Accordion.Collapse eventKey="0">
             <Card.Body>
-            <Stack direction="horizontal" gap={1}>
+              <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
             </Stack>
           </Card.Body>
