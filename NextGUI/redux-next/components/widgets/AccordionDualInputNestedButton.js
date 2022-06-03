@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
+import SearchBarChooseReduceProblem from './SearchBarChooseReduceProblem';
 // import FormControl from '../components/FormControl'
 
 
@@ -30,7 +31,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 function AccordionDualInputNestedButton(props) {
-  //console.log(props)
+  //console.log(props.accordion.REDUCETO.reduceTo);
   return (
     <div>
 
@@ -41,7 +42,10 @@ function AccordionDualInputNestedButton(props) {
               <div>
                 {props.accordion.CARD.cardHeaderText}
               </div>
-                          <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}></FormControl> {/**FORM CONTROL 1  (left)*/}
+              <SearchBarChooseReduceProblem
+                placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
+                reduceTo = {props.accordion.REDUCETO.reduceTo}
+                problemName={props.accordion.ACCORDION_FORM_ONE.problemName} /> {/**Search bar left (form control 1) */}
                           <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText1}></PopoverTooltipHover>  
 
                           <FormControl placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder}></FormControl> {/**FORM CONTROL 2 (right)*/}

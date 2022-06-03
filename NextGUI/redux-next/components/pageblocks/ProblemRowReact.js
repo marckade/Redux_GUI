@@ -6,8 +6,8 @@ import { Component } from 'react';
 
 
 const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
-const fullUrl = reduxBaseUrl + 'navigation/NPC_Problems/'
-const ACCORDION_FORM_ONE = { placeHolder: "Select problem", url: fullUrl }
+const fullUrl = reduxBaseUrl + 'navigation/NPC_ProblemsRefactor/' // API call to get problem list with no NPC prefix.
+const ACCORDION_FORM_ONE = { placeHolder: "Select problem" }
 const ACCORDION_FORM_TWO = { placeHolder: "default instance" }
 var CARD = { cardBodyText: "Instance", cardHeaderText: "Problem",problemInstance:"Default problem" }
 const TOOLTIP = { tooltipText: "HELLO I AM PROBLEM INFORMATION" }
@@ -25,8 +25,8 @@ class ProblemRowReact extends Component {
             <ProblemContext.Consumer>{(context) => {
                 //console.log(context)
                 CARD.problemInstance = context.problemInstance;
+
                 TOOLTIP.tooltipText = context.problemDescription
-                console.log(CARD.problemInstance)
                 return (
                     <AccordionNestedTextBox accordion={ACCORDION}></AccordionNestedTextBox>
                 )

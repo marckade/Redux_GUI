@@ -56,7 +56,7 @@ function AccordionTogglesSvg(props) {
         <Accordion.Collapse eventKey="0">
             <Card.Body>
               <Stack direction="horizontal" gap={1}>
-              {props.accordion.CARD.problemInstance}
+                {props.accordion.CARD.problemInstance}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>

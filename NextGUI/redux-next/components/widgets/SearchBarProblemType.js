@@ -5,8 +5,9 @@ import React,{useContext} from 'react'
 const filter = createFilterOptions();
 var initialized = false;
 
-export default function SearchBar(props) {
-  
+export default function SearchBarProblemType(props) {
+
+  //console.log(props.url)
   if (!initialized) {
     const req = getRequest(props.url);
     req.then(result => {
