@@ -4,29 +4,33 @@ import { useContext, useState,createContext, Component } from 'react'
 
 export const ProblemContext = createContext();
 
+const reduxBaseUrl = 'http://localhost:27000/'
+
 class ProblemProvider extends Component {
 
     state = {
-        problemName: "NPC_NODECOVER",
-        problemInstance: "{{1,2,3},{1,2},0}",
+    
+        problemJson: "DEFAULT",
+        problemType: "NPC",
+        problemName: "NODECOVER",
+        problemInstance: "{{1,2,3},{1,2},GENERIC}",
         problemDescription: "Nodecover is a classic NP_Complete Problem",
-        problemJson: "DEFAULT"
+        reduceToOptions: ["PROVIDERDEFAULT1", "PROVIDERDEFAULT2"],
+        reduceTo: ["PROVIDERCHOSEN"]
     }
     setProblemName = (newName) => {
         //console.log(newName);
-        console.log("hit");
         this.setState({problemName:newName})
         //console.log(this.state.problemName)
-        this.makeApiCall(newName.problemName)
+        this.makeApiCallProblemInfo(newName.problemName)
+        this.makeApiCallReduceToOptions(newName.problemName,this.state.problemType)
     
     }
 
-    makeApiCall = (problemName) => {
-        console.log(problemName) //correct currentname .
-        var problemArr = problemName.split('_');
-        var problemSuffix = problemArr[1].toUpperCase();
-        console.log(problemSuffix)
-        const req = apiFetch('http://localhost:27000/'+problemSuffix+'Generic/') 
+    makeApiCallProblemInfo = (problemName) => {
+        //console.log(problemName) //correct currentname .
+     
+        const req = apiFetch(reduxBaseUrl+problemName+'Generic/') 
             
         req.then(response => response.json())
             .then(data => {
@@ -36,10 +40,25 @@ class ProblemProvider extends Component {
             })
             .then(data => this.setProblemDescription(data.formalDefinition + "\n\n" + data.problemDefinition))
             .catch((error) => { console.log("FETCH ERROR" + error) });
-            
-
     }
-    
+
+    makeApiCallReduceToOptions = (problemName, problemType) => {
+        console.log(problemName)
+        const fullUrl = reduxBaseUrl+'Navigation/Problem_ReductionsRefactor/'+'?chosenProblem='+problemName+'&problemType='+problemType
+        const req = apiFetch(fullUrl);
+            
+        req.then(response => response.json())
+            .then(data => {
+                this.setProblemInstance(data.defaultInstance)
+                return data;
+            })
+            .then(data => this.setProblemReduceToOptions(data))
+            .catch((error) => { console.log("FETCH ERROR" + error) });
+    }
+
+
+    //setters
+
     setProblemInstance = (newInstance) => {
         this.setState({problemInstance:newInstance})
     }
@@ -47,8 +66,13 @@ class ProblemProvider extends Component {
         this.setState({problemDescription:newDescription})
     }
 
-    setProblemJson = (newProblem) => {
-        this.setState({problemJson:newProblem})
+    setProblemReduceTo = (newReduceTo) => {
+        this.setState({ reduceTo: newReduceTo })
+        console.log(newReduceTo)
+    }
+
+    setProblemReduceToOptions = (newReduceToOptions) => {
+        this.setState({reduceToOptions: newReduceToOptions})
     }
 
     
@@ -56,9 +80,11 @@ class ProblemProvider extends Component {
     render() {
         return (
             <ProblemContext.Provider value={{
+                //These functions (and above state values) are what consumers or useContext(ProblemInsance)  have access to.
                 ...this.state,
                 setProblemInstance: this.setProblemInstance,
                 setProblemName: this.setProblemName,
+                setProblemReduceTo:this.setProblemReduceTo,
                 makeApiCall: this.makeApiCall,
             }}>
                 {this.props.children}

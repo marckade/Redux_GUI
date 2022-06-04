@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
-import SearchBar from './SearchBar';
+import SearchBarProblemType from './SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
 // import FormControl from '../components/FormControl'
 
@@ -37,9 +37,13 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 function AccordionNestedTextBox(props) {
   //console.log(props)
   const { problem, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
-  const handleChange = (event) => {
-    console.log(event.target.value);
+  const handleChangeInstance = (event) => {
+   // console.log(event.target.value);
     setProblemInstance(event.target.value)
+  }
+  const handleChangeSearchSelection = (event) => {
+   // console.log(event.target.value);
+    setProblemName(event.target.value)
   }
   return (
     <div>
@@ -54,7 +58,7 @@ function AccordionNestedTextBox(props) {
               <Stack direction = "vertical">        
                 {/* <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}>
                 </FormControl> *FORM CONTROL 1 (header) */}
-                <SearchBar placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBar>
+                <SearchBarProblemType onChange={handleChangeSearchSelection} placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
               </Stack>
 
               <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
@@ -69,7 +73,7 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
             <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
-                <FormControl as= "textarea" value={props.accordion.CARD.problemInstance} onChange={handleChange} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                <FormControl as= "textarea" value={props.accordion.CARD.problemInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>

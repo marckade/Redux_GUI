@@ -14,7 +14,7 @@ import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Image from 'next/image'
 import isulogo from '../components/images/ISULogo.png'
-import SearchBar from '../components/widgets/SearchBar'
+import SearchBarProblemType from '../components/widgets/SearchBarProblemType'
 import ProblemProvider from '../components/contexts/ProblemProvider'
 
 
@@ -33,12 +33,12 @@ function TestPageContent() {
       
       <ProblemProvider>
         <ProblemRowReact></ProblemRowReact>
-
+    
         <ReduceToRowReact></ReduceToRowReact>
-        
-        <VisualizeRowReact></VisualizeRowReact>
 
         <SolveRowReact></SolveRowReact>
+
+        <VisualizeRowReact></VisualizeRowReact>
 
         <VerifyRowReact></VerifyRowReact>
       </ProblemProvider>

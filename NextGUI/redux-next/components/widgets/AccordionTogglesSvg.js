@@ -60,7 +60,7 @@ function AccordionTogglesSvg(props) {
               <Stack direction="horizontal" gap={1}>
 
                 <Graphvisualization problem={props.accordion.CARD.problemJson} instance={props.accordion.CARD.problemInstance}>
-                  
+
                 </Graphvisualization>
 
                 {/* {props.accordion.CARD.problemInstance} */}
@@ -70,7 +70,6 @@ function AccordionTogglesSvg(props) {
         </Card>
 
       </Accordion>
-
     </div>
   );
 }
