@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
-import {Stack,Button} from '@mui/material'
+import { Stack, Button } from '@mui/material'
+import SearchBarSelectSolver from './SearchBars/SearchBarSelectSolver'
 
 // import FormControl from '../components/FormControl'
 
@@ -44,7 +45,7 @@ function AccordionSingleInputNestedButton(props) {
               <div>
                 {props.accordion.CARD.cardHeaderText}
               </div>
-              <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}></FormControl> {/**FORM CONTROL 1  (left)*/}
+              <SearchBarSelectSolver placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}/> {/**FORM CONTROL 1 */}
               <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText1}></PopoverTooltipHover>
 
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>

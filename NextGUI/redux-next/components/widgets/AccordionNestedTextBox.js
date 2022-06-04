@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl,Row,Col } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
-import SearchBarProblemType from './SearchBarProblemType';
+import SearchBarProblemType from './SearchBars/SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
 import {Stack,Button} from '@mui/material'
 

@@ -11,7 +11,6 @@ function SolveRowReact() {
     const BUTTON = { buttonText: "Solve" }
     const CARD = { cardBodyText: "Solution:", cardHeaderText: "Solver" }
     const TOOLTIP = {tooltipText1: "HELLO I AM SOLVER TOOLTIP", tooltipText2: "Hello I AM INFORMATION RIGHT"}
-
     const ACCORDION = {ACCORDION_FORM_ONE,CARD,BUTTON,TOOLTIP}
     return (
         <AccordionSingleInputNestedButton accordion={ACCORDION}></AccordionSingleInputNestedButton>

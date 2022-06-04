@@ -14,7 +14,7 @@ import Button from 'react-bootstrap/Button'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Image from 'next/image'
 import isulogo from '../components/images/ISULogo.png'
-import SearchBarProblemType from '../components/widgets/SearchBarProblemType'
+import SearchBarProblemType from '../components/widgets/SearchBars/SearchBarProblemType'
 import ProblemProvider from '../components/contexts/ProblemProvider'
 
 
@@ -38,14 +38,15 @@ function TestPageContent() {
 
         <SolveRowReact></SolveRowReact>
 
+        <VerifyRowReact></VerifyRowReact>
+
         <VisualizeRowReact></VisualizeRowReact>
 
-        <VerifyRowReact></VerifyRowReact>
       </ProblemProvider>
 
         {/*<!-- /Container-->*/}
 
-       <footer className='centerImage'>
+       <footer className='fixed-bottom'>
         <Image src={isulogo} width={400} height={200} style = {imgStyle}></Image>     
         </footer>
     </div> 

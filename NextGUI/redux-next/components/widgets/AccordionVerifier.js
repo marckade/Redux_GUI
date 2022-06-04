@@ -1,19 +1,18 @@
 import React from 'react'
 import { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Accordion, Card, AccordionContext, FormControl, Col, Row, Container } from 'react-bootstrap'
-import {Stack,Button} from '@mui/material'
-
+import { Accordion, Card, AccordionContext, FormControl } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
-import SearchBarChooseReduceProblem from './SearchBars/SearchBarChooseReduceProblem';
-import SearchBarSelectReduction from './SearchBars/SearchBarSelectReduction';
-import { ProblemContext } from '../contexts/ProblemProvider';
+import { Stack, Button } from '@mui/material'
+import SearchBarSelectVerifier from './SearchBars/SearchBarSelectVerifier'
+
 // import FormControl from '../components/FormControl'
 
 
 function ContextAwareToggle({ children, eventKey, callback }) {
   const { activeEventKey } = useContext(AccordionContext);
+
   const decoratedOnClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey),
@@ -23,7 +22,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
   return (
     <Button
-      className = "float-end"
+      className="toggleButton"
       type="button"
       style={{ backgroundColor: isCurrentEventKey ? 'pink' : 'blue' }}
       onClick={decoratedOnClick}
@@ -33,36 +32,24 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 }
 
-function AccordionDualInputNestedButton(props) {
-  //console.log(props.accordion.REDUCETO.reduceTo);
-  const {reduceRequest} = useContext(ProblemContext)
+function AccordionSingleInputNestedButton(props) {
+  //console.log(props)
   return (
     <div>
 
       <Accordion className="accordion" defaultActiveKey="1">
+
         <Card>
           <Card.Header>
-
-
-
-            <Stack direction="horizontal" justifyContent="right" gap={2}>
-              {props.accordion.CARD.cardHeaderText}
-              <SearchBarChooseReduceProblem
-                placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
-              /> {/**Search bar left (form control 1) */}
+            <Stack direction="horizontal" gap={1}>
+              <div>
+                {props.accordion.CARD.cardHeaderText}
+              </div>
+              <SearchBarSelectVerifier placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}/> {/**FORM CONTROL 1 */}
               <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText1}></PopoverTooltipHover>
 
-              <SearchBarSelectReduction
-                placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder} />
-              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText2}></PopoverTooltipHover>
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
-
             </Stack>
-
-
-
-
-
           </Card.Header>
 
           <Accordion.Collapse eventKey="0">
@@ -71,18 +58,19 @@ function AccordionDualInputNestedButton(props) {
               {props.accordion.CARD.cardBodyText}
               <div className="submitButton">
                 <Button
-                  style={{ backgroundColor: 'blue', WebkitTextFillColor: 'white' }}
-                  onClick={reduceRequest}
+                  style={{ backgroundColor: 'lightblue' }}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>
+            
           </Accordion.Collapse>
+
         </Card>
 
       </Accordion>
 
     </div>
-      );
+  );
 }
 
-export default AccordionDualInputNestedButton
+export default AccordionSingleInputNestedButton

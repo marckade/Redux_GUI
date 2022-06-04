@@ -2,7 +2,7 @@
 
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import AccordionSingleInputNestedButton from '../widgets/AccordionSingleInputNestedButton'
+import AccordionVerifier  from '../widgets/AccordionVerifier'
 
 
 function VerifyRowReact() { 
@@ -15,7 +15,7 @@ function VerifyRowReact() {
 
     const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,BUTTON,TOOLTIP}
     return (
-        <AccordionSingleInputNestedButton accordion={ACCORDION}></AccordionSingleInputNestedButton>
+        <AccordionVerifier accordion={ACCORDION}></AccordionVerifier>
         
     )
 
