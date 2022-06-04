@@ -149,7 +149,7 @@ const CSS_COLOR_NAMES = [
 ];
 
 
-class Graphvisualizations {
+class GraphParser {
 
     constructor(problem) {
         this.name = problem.problemName;
@@ -159,17 +159,16 @@ class Graphvisualizations {
     }
 
     graphType(instance) {
-
-
+      // TODO: cHECK if graph is directed or undirected
+      // return DOT format for respective type. 
     }
 
-    parseUndirectedGraph(jsonData) {
-        const newInstance = jsonData.defaultInstance.replaceAll('{', "").replaceAll('}', "");
+    parseOutGraph(jsonData) {
+        const newInstance = jsonData.defaultInstance.replaceAll('{', "").replaceAll('}', "").replaceAll('(', '').replaceAll(')', '');
        
        // [0] is nodes,  [1] is edges,  [2] is k.
         const splitInstance = newInstance.split(":");
     
-        
         // add nodes to NodeList
         const nodes = splitInstance[0].split(",");
         for(var elem of nodes){
@@ -198,6 +197,7 @@ class Graphvisualizations {
             this.edgeList.push({"source": nodeFrom.trim(), "target": nodeTo.trim()});
         }
     }
+
     createUndirectedColoredGraph(name) {
         var graph = `graph ${name} { ` + '\n';
         graph += 'node [style="filled"];  \n';
@@ -213,10 +213,6 @@ class Graphvisualizations {
 
         console.log(graph);
     }
-
-
-    parseDirectedGraph(){}
-
 
     createDirectedGraph(name){
         var graph = `digraph ${name} { ` + '\n';

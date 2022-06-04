@@ -37,32 +37,25 @@ function Page(props) {
   useEffect(() => {
     // getData();
     draw();
+    console.log(viz)
   }, [props]);
-
-
-  // async function getData() {
-  //   console.log(props.name);
-  //   //props.name+Generic/ props.instance
-  //   // fetch(`http://redux.aws.cose.isu.edu:27000/${props.name}Generic/instance?problemInstance=${props.instance}`)
-  //   fetch("http://redux.aws.cose.isu.edu:27000/GRAPHCOLORINGGeneric")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-  // }
 
   
   //problemName
   function draw() {
     console.log("Draw \n")
-    console.log(props.problem)
-    viz = graphTest;
+    viz = graphTest
+    // console.log(props.problem)
+  
+
+    return
 
   }
 
   return (
     <div id="problemVisualization" style={imgStyle}>
-      <Graphviz dot={viz} width={200} height={200} />;
+      {console.log("Viz \n"+viz)}
+      <Graphviz dot={graphTest} width={200} height={200} />;
     </div>
   );
 }

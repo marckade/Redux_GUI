@@ -32,15 +32,17 @@ function TestPageContent() {
     <div className="container my-5 ">
       
       <ProblemProvider>
+        
         <ProblemRowReact></ProblemRowReact>
     
         <ReduceToRowReact></ReduceToRowReact>
 
         <SolveRowReact></SolveRowReact>
 
-        <VisualizeRowReact></VisualizeRowReact>
-
         <VerifyRowReact></VerifyRowReact>
+
+        <VisualizeRowReact></VisualizeRowReact> 
+
       </ProblemProvider>
 
         {/*<!-- /Container-->*/}

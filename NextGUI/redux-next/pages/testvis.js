@@ -1,6 +1,6 @@
 
-import GraphvizPage from "../components/widgets/Graphvisualization";
-import Graphvisualization from "../components/widgets/Graphvisualization";
+import GraphvizPage from "../components/Visualization/Graphvisualization";
+import Graphvisualization from "../components/Visualization/Graphvisualization";
 
 
 export default function Test(props){

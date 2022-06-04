@@ -9,7 +9,7 @@ const reduxBaseUrl = 'http://localhost:27000/'
 class ProblemProvider extends Component {
 
     state = {
-    
+        
         problemJson: "DEFAULT",
         problemType: "NPC",
         problemName: "NODECOVER",
@@ -28,26 +28,33 @@ class ProblemProvider extends Component {
     }
 
     makeApiCallProblemInfo = (problemName) => {
-        //console.log(problemName) //correct currentname .
-     
+
+       // URL for a problem and instance by user input 
+       // reduxBaseUrl+`${problemName}Generic/instance?problemInstance=${problemInstance}`
         const req = apiFetch(reduxBaseUrl+problemName+'Generic/') 
-            
+           // `${problemName}Generic/instance?problemInstance=${problemInstance}`
         req.then(response => response.json())
             .then(data => {
                 this.setProblemInstance(data.defaultInstance)
-                this.setProblemJson(data)
+                this.setProblemJson(data.json())
                 return data;
             })
             .then(data => this.setProblemDescription(data.formalDefinition + "\n\n" + data.problemDefinition))
             .catch((error) => { console.log("FETCH ERROR" + error) });
     }
 
+  
     makeApiCallReduceToOptions = (problemName, problemType) => {
         console.log(problemName)
         const fullUrl = reduxBaseUrl+'Navigation/Problem_ReductionsRefactor/'+'?chosenProblem='+problemName+'&problemType='+problemType
+     
+        // URL to get problems to reduce to.
+        // reduxBaseUrl+`Navigation/Problem_ReductionsRefactor/?chosenProblem=${problemName}&problemType=${problemType}`
         const req = apiFetch(fullUrl);
             
         req.then(response => response.json())
+
+        // why is the problemInstance being set here
             .then(data => {
                 this.setProblemInstance(data.defaultInstance)
                 return data;
@@ -57,11 +64,16 @@ class ProblemProvider extends Component {
     }
 
 
-    //setters
 
+    // Setters
     setProblemInstance = (newInstance) => {
         this.setState({problemInstance:newInstance})
     }
+
+    setProblemJson = (newProblem) => {
+        this.setState({problemJson:newProblem})
+    }
+
     setProblemDescription = (newDescription) => {
         this.setState({problemDescription:newDescription})
     }
@@ -85,6 +97,7 @@ class ProblemProvider extends Component {
                 setProblemInstance: this.setProblemInstance,
                 setProblemName: this.setProblemName,
                 setProblemReduceTo:this.setProblemReduceTo,
+                setProblemJson : this.setProblemJson,
                 makeApiCall: this.makeApiCall,
             }}>
                 {this.props.children}
