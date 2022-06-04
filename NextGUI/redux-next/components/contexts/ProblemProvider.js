@@ -9,7 +9,8 @@ class ProblemProvider extends Component {
     state = {
         problemName: "NPC_NODECOVER",
         problemInstance: "{{1,2,3},{1,2},0}",
-        problemDescription: "Nodecover is a classic NP_Complete Problem"
+        problemDescription: "Nodecover is a classic NP_Complete Problem",
+        problemJson: "DEFAULT"
     }
     setProblemName = (newName) => {
         //console.log(newName);
@@ -30,6 +31,7 @@ class ProblemProvider extends Component {
         req.then(response => response.json())
             .then(data => {
                 this.setProblemInstance(data.defaultInstance)
+                this.setProblemJson(data)
                 return data;
             })
             .then(data => this.setProblemDescription(data.formalDefinition + "\n\n" + data.problemDefinition))
@@ -43,6 +45,10 @@ class ProblemProvider extends Component {
     }
     setProblemDescription = (newDescription) => {
         this.setState({problemDescription:newDescription})
+    }
+
+    setProblemJson = (newProblem) => {
+        this.setState({problemJson:newProblem})
     }
 
     

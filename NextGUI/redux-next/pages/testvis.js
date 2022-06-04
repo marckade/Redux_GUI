@@ -1,5 +1,6 @@
 
-import GraphvizPage from "../components/widgets/graph";
+import GraphvizPage from "../components/widgets/Graphvisualization";
+import Graphvisualization from "../components/widgets/Graphvisualization";
 
 
 export default function Test(props){
@@ -10,6 +11,8 @@ export default function Test(props){
         <div>
          {/* <Dot></Dot> */}
         <GraphvizPage name={"Daniel"} instance={"Test"}> </GraphvizPage>
+        <Graphvisualization></Graphvisualization>
+        
         </div>
     );
 }
