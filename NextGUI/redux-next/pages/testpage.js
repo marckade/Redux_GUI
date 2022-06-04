@@ -32,6 +32,7 @@ function TestPageContent() {
     <div className="container my-5 ">
       
       <ProblemProvider>
+        
         <ProblemRowReact></ProblemRowReact>
     
         <ReduceToRowReact></ReduceToRowReact>
@@ -40,7 +41,7 @@ function TestPageContent() {
 
         <VerifyRowReact></VerifyRowReact>
 
-        <VisualizeRowReact></VisualizeRowReact>
+        <VisualizeRowReact></VisualizeRowReact> 
 
       </ProblemProvider>
 

@@ -6,8 +6,8 @@ import AccordionTogglesSvg from '../widgets/AccordionTogglesSvg'
 import { ProblemContext } from '../contexts/ProblemProvider'
 
 
-const CARD = { cardBodyText:"DEFAULT BODY", problemInstance:'DEFAULT', cardHeaderText: "Visualize",problemText:"DEFAULT" }
-    const SWITCHES = {switch1: "SWITCH 1",switch2: "SWITCH 2",switch3: "SWITCH 3"}
+const CARD = { cardBodyText:"DEFAULT BODY", problemJson: 'DEFAULT' ,  problemInstance:'DEFAULT', cardHeaderText: "Visualize",problemText:"DEFAULT" }
+    const SWITCHES = {switch1: "Highlight solution",switch2: "Highlight gadgets",switch3: "Show reduction"}
     const ACCORDION = {CARD,SWITCHES}
 
 class VisualizeRowReact extends Component {
@@ -17,6 +17,7 @@ class VisualizeRowReact extends Component {
         return (
             <ProblemContext.Consumer>{(context) => {
                 CARD.problemInstance = context.problemInstance;
+                CARD.problemJson =  context.problemJson;
 
                 return (
                     <AccordionTogglesSvg accordion={ACCORDION}></AccordionTogglesSvg>

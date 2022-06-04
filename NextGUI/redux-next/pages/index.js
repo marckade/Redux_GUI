@@ -4,9 +4,9 @@ import TextBoxInstance from '../components/widgets/TextBoxInstance';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AccordionNestedTextBox from '../components/widgets/AccordionNestedTextBox';
 import PopoverTooltipHover from '../components/widgets/PopoverTooltipHover';
-import SearchBar from '../components/widgets/SearchBar';
+// import SearchBar from '../components/widgets/SearchBar';
 import BookData from "./Data.json";
-import AutoComplete from '../components/widgets/SearchBar';
+// import AutoComplete from '../components/widgets/SearchBar';
 
 
 
@@ -38,7 +38,7 @@ function HomePage() {
       </div>
       <div className="TextBoxInner">
         {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-        <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete>
+        {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
       </div>
       <div className="TextBoxInner">
         <PopoverTooltipHover popupText={TOOLTIP.tooltipText}></PopoverTooltipHover>

@@ -2,8 +2,9 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
+const imgStyle = { textAlign: "center" }
 
-const graphTest = `graph G {  
+const graphTest = `graph GRAPHCOLORING {  
     node [style="filled"];  
     a--b; 
     b--c; 
@@ -29,28 +30,32 @@ const graphTest = `graph G {
      }`;
 
 function Page(props) {
-  // const dot = "graph{a--b}";
+  let viz = "";
 
   // const [data, setData] = useState("");
 
   useEffect(() => {
-    getData();
+    // getData();
+    draw();
+    console.log(viz)
   }, [props]);
 
-  async function getData() {
-    console.log(props.name);
-    //props.name+Generic/ props.instance
-    // fetch(`http://redux.aws.cose.isu.edu:27000/${props.name}Generic/instance?problemInstance=${props.instance}`)
-    fetch("http://redux.aws.cose.isu.edu:27000/GRAPHCOLORINGGeneric")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+  
+  //problemName
+  function draw() {
+    console.log("Draw \n")
+    viz = graphTest
+    // console.log(props.problem)
+  
+
+    return
+
   }
 
   return (
-    <div>
-      <Graphviz dot={graphTest} options={[true, 50, 50, true]} />;
+    <div id="problemVisualization" style={imgStyle}>
+      {console.log("Viz \n"+viz)}
+      <Graphviz dot={graphTest} width={200} height={200} />;
     </div>
   );
 }
