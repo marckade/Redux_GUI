@@ -38,7 +38,7 @@ function HomePage() {
       </div>
       <div className="TextBoxInner">
         {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-        <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete>
+        {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
       </div>
       <div className="TextBoxInner">
         <PopoverTooltipHover popupText={TOOLTIP.tooltipText}></PopoverTooltipHover>

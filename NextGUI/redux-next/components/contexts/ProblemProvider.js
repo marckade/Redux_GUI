@@ -105,6 +105,7 @@ class ProblemProvider extends Component {
 
     setProblemJson = (newProblem) => {
         this.setState({problemJson:newProblem})
+        console.log(newProblem)
     }
 
     setProblemDescription = (newDescription) => {

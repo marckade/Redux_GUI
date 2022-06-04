@@ -45,9 +45,9 @@ function AccordionTogglesSvg(props) {
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
             <Stack className="float-end" direction="horizontal" gap={3} >
-              <FormControlLabel control={<Switch disabled />} label={props.accordion.SWITCHES.switch1} />
-              <FormControlLabel control={<Switch defaultChecked />} label={props.accordion.SWITCHES.switch2} />
-              <FormControlLabel control={<Switch defaultChecked />} label={props.accordion.SWITCHES.switch3} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} />
+              <FormControlLabel  control={<Switch />} label={props.accordion.SWITCHES.switch2} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} />
 
               <ContextAwareToggle className="float-end" eventKey="0">▼</ContextAwareToggle>
 
