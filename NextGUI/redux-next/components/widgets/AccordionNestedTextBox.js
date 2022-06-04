@@ -2,11 +2,13 @@ import React from 'react'
 import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Accordion,Card,AccordionContext,Stack,FormControl,Button} from 'react-bootstrap'
+import { Accordion, Card, AccordionContext, FormControl,Row,Col } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
 import SearchBarProblemType from './SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
+import {Stack,Button} from '@mui/material'
+
 // import FormControl from '../components/FormControl'
 
 
@@ -22,7 +24,7 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
   return (
     <Button
-      className = "toggleButton"
+      className = "float-end"
       type="button"
       style={{ backgroundColor: isCurrentEventKey ? 'pink' : 'blue' }}
       onClick={decoratedOnClick}
@@ -51,22 +53,24 @@ function AccordionNestedTextBox(props) {
 <Accordion className = "accordion" defaultActiveKey="1">
       <Card>
           <Card.Header>
-            <Stack direction="horizontal" gap={1}>
-              
-                {props.accordion.CARD.cardHeaderText}
-               
-              <Stack direction = "vertical">        
+           
+            <Stack direction="horizontal" justifyContent="right" gap={2}>
+            {props.accordion.CARD.cardHeaderText}
+
                 {/* <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}>
                 </FormControl> *FORM CONTROL 1 (header) */}
                 <SearchBarProblemType onChange={handleChangeSearchSelection} placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
-              </Stack>
-
+             
               <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
-                 
+              <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
+
+              </Stack>
+              
+             
+                
+
            
-                        
-            <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
-        </Stack>
+            
         </Card.Header>
 
         <Accordion.Collapse eventKey="0">

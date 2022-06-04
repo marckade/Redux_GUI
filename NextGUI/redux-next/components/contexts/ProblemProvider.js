@@ -16,7 +16,10 @@ class ProblemProvider extends Component {
         problemInstance: "{{1,2,3},{1,2},GENERIC}",
         problemDescription: "Nodecover is a classic NP_Complete Problem",
         reduceToOptions: ["PROVIDERDEFAULT1", "PROVIDERDEFAULT2"],
-        reduceTo: ["PROVIDERCHOSEN"]
+        chosenReduceTo: "CHOSEN PROBLEM TO REDUCE TO",
+        reductionTypeOptions: ["PROVIDERREDUCTIONCHOICE1"],
+        chosenReductionType: "PROVIDERCHOSENREDUCTION",
+        reducedInstance: {instance: "PROVIDER_REDUCED_INSTANCE"}
     }
     setProblemName = (newName) => {
         //console.log(newName);
@@ -39,7 +42,7 @@ class ProblemProvider extends Component {
                 this.setProblemJson(data.json())
                 return data;
             })
-            .then(data => this.setProblemDescription(data.formalDefinition + "\n\n" + data.problemDefinition))
+            .then(data => this.setProblemDescription(data.formalDefinition + " " + data.problemDefinition))
             .catch((error) => { console.log("FETCH ERROR" + error) });
     }
 
@@ -56,10 +59,40 @@ class ProblemProvider extends Component {
 
         // why is the problemInstance being set here
             .then(data => {
-                this.setProblemInstance(data.defaultInstance)
+                console.log(data)
                 return data;
             })
             .then(data => this.setProblemReduceToOptions(data))
+            .catch((error) => { console.log("FETCH ERROR" + error) });
+    }
+
+    makeApiCallReductionTypeOptions = (reduceFrom, reduceTo, type) => {
+        console.log(reduceFrom.problemName + " " + reduceTo + " " + type);
+        reduceFrom = reduceFrom.problemName; //is coming in as object
+        
+        const fullUrl = reduxBaseUrl+'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+reduceFrom+'&reducingTo='+reduceTo+'&problemType='+type
+        const req = apiFetch(fullUrl);
+            
+        req.then(response => response.json())
+            .then(data => {
+                console.log(data)
+                return data;
+            })
+            .then(data => this.setProblemReductionTypeOptions(data))
+            .catch((error) => { console.log("FETCH ERROR" + error) });
+    }
+    
+    makeApiCallReductionRequest = () => {
+        console.log(this.state.chosenReductionType)
+        const fullUrl = reduxBaseUrl+this.state.chosenReductionType.problemName+'/reduce?'+'problemInstance='+this.state.problemInstance
+        const req = apiFetch(fullUrl);
+            
+        req.then(response => response.json())
+            .then(data => {
+                console.log(data)
+                return data;
+            })
+            .then(data => this.setProblemReductionTypeOptions(data))
             .catch((error) => { console.log("FETCH ERROR" + error) });
     }
 
@@ -78,14 +111,31 @@ class ProblemProvider extends Component {
         this.setState({problemDescription:newDescription})
     }
 
-    setProblemReduceTo = (newReduceTo) => {
-        this.setState({ reduceTo: newReduceTo })
-        console.log(newReduceTo)
+    setProblemReduceToOptions = (options) => {
+        this.setState({ reduceToOptions: options })
+        console.log(options)
+    }
+    setProblemChosenReduceTo = (newChoice) => {
+        this.setState({ chosenReduceTo: newChoice })
+        console.log("Now generating Reduction choices")
+        console.log(newChoice)
+        this.makeApiCallReductionTypeOptions(this.state.problemName,newChoice.problemName,this.state.problemType);
     }
 
-    setProblemReduceToOptions = (newReduceToOptions) => {
-        this.setState({reduceToOptions: newReduceToOptions})
+    setProblemReductionTypeOptions = (options)=>{
+        this.setState({reductionTypeOptions: options})
     }
+    setProblemReductionType = (newChoice) => {
+        this.setState({ chosenReductionType: newChoice })
+        console.log(newChoice)
+    }
+    
+   
+    
+    
+
+   
+
 
     
 
@@ -99,6 +149,9 @@ class ProblemProvider extends Component {
                 setProblemReduceTo:this.setProblemReduceTo,
                 setProblemJson : this.setProblemJson,
                 makeApiCall: this.makeApiCall,
+                setProblemChosenReduceTo: this.setProblemChosenReduceTo,
+                setProblemReductionType: this.setProblemReductionType,
+                reduceRequest: this.makeApiCallReductionRequest
             }}>
                 {this.props.children}
             </ProblemContext.Provider>

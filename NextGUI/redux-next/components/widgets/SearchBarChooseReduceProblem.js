@@ -5,17 +5,16 @@ import React,{useContext} from 'react'
 const filter = createFilterOptions();
 var initialized = false
 export default function SearchBarChooseReduceProblem(props) {
-    const {reduceToOptions,problem,setProblemReduceTo} = useContext(ProblemContext)
-    console.log(reduceToOptions)
+    const {reduceToOptions,problem,setProblemChosenReduceTo} = useContext(ProblemContext) //This search bar should take in an input of options and give an output of the chosen option.
     //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];
     var optionsArr = [];
 
     try {
-        
+        //console.log(reduceToOptions)
         reduceToOptions.map(function (element, index, array) {
-       
+            
             optionsArr.push({ problemName: element })
-            console.log(optionsArr)
+            //console.log(optionsArr)
           
         }, 80);
         //console.log(problemJson);
@@ -27,35 +26,28 @@ export default function SearchBarChooseReduceProblem(props) {
     
   
   return (
-    <Autocomplete
-      value={problem}
+      <Autocomplete 
+      style={{ width: "100%" }}
+      value={problem} //leaving this blank for some reason overwrites input
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemReduceTo(
+          setProblemChosenReduceTo(
             newValue
           );
         } else if (newValue && newValue.inputValue) {
           // Create a new value from the user input
-          setProblemReduceTo(
+          setProblemChosenReduceTo(
             newValue.inputValue,
           );
         } else {
-          setProblemReduceTo(newValue);
+          setProblemChosenReduceTo(newValue);
           }
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
 
         const { inputValue } = params;
-        // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-        // if (inputValue !== '' && !isExisting) {
-        //   filtered.push({
-        //     inputValue,
-        //     problemName: `Add "${inputValue}"`,
-        //   });
-        // }
-
         return filtered;
       }}
       selectOnFocus
