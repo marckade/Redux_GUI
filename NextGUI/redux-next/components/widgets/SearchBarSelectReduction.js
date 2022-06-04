@@ -3,62 +3,59 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../contexts/ProblemProvider'
 import React,{useContext} from 'react'
 const filter = createFilterOptions();
-var initialized = false;
+var initialized = false
+export default function SearchBarSelectReduction(props) {
+    const {reductionTypeOptions,problem,setProblemReductionType} = useContext(ProblemContext) //this takes an input of 
+    //console.log(reductionTypeOptions)
+    //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];
+    var optionsArr = [];
 
-export default function SearchBarProblemType(props) {
-
-  //console.log(props.url)
-  if (!initialized) {
-    const req = getRequest(props.url);
-    req.then(result => {
-      return result.json();
-    }).then(data => {
-      initializeProblemJson(data)
-      //console.log(problemJson)
-    })
-      .catch((error) => console.log("GET REQUEST FAILED"));
-    initialized = true;
-  }
-  //const [value, setValue] = React.useState(null); //state manager.
-  const {problem,setProblemName, setProblemInstance,makeApiCall} = useContext(ProblemContext)
+    try {
+        
+        reductionTypeOptions.map(function (element, index, array) {
+       
+            optionsArr.push({ problemName: element })
+            //console.log(optionsArr)
+          
+        }, 80);
+        //console.log(problemJson);
+    }
+    catch (error) {
+        console.log(error)
+    }
+   
+    
+  
   return (
-    <Autocomplete
-    style={{ width: "100%" }}
+      <Autocomplete
+      style={{ width: "100%" }}
       value={problem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemName(
+          setProblemReductionType(
             newValue
           );
         } else if (newValue && newValue.inputValue) {
           // Create a new value from the user input
-          setProblemName(
+          setProblemReductionType(
             newValue.inputValue,
           );
         } else {
-          setProblemName(newValue);
-        }
+          setProblemReductionType(newValue);
+          }
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
 
         const { inputValue } = params;
-        // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-        // if (inputValue !== '' && !isExisting) {
-        //   filtered.push({
-        //     inputValue,
-        //     problemName: `Add "${inputValue}"`,
-        //   });
-        // }
-
         return filtered;
       }}
       selectOnFocus
       clearOnBlur
       handleHomeEndKeys
       id="search-bar"
-      options={problemJson}
+      options={optionsArr} //This displays the passed in choices
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
@@ -81,22 +78,5 @@ export default function SearchBarProblemType(props) {
   );
 }
 
-//our problems to be shown
-var problemJson = [
- 
-];
 
-function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-  
-  arr.map(function (element, index, array) {
-    if (!problemJson.includes(element)) {
-      problemJson.push({ problemName: element })
-    }
-  }, 80);
-  //console.log(problemJson);
-}
-async function getRequest(url) {
-    const promise = await fetch(url);
-    return promise;
-}
 
