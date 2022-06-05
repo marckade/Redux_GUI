@@ -50,7 +50,8 @@ function AccordionDualInputNestedButton(props) {
               <SearchBarChooseReduceProblem
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
               /> {/**Search bar left (form control 1) */}
-              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText1}></PopoverTooltipHover>
+
+            <PopoverTooltipHover header={props.accordion.TOOLTIP.header} formalDef={props.accordion.TOOLTIP.formalDef} info={props.accordion.TOOLTIP.info}></PopoverTooltipHover>  
 
               <SearchBarSelectReduction
                 placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder} />

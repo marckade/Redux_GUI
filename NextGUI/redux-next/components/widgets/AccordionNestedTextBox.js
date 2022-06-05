@@ -38,14 +38,14 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
 function AccordionNestedTextBox(props) {
   //console.log(props)
-  const { problem, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
+  const { problemInstance, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
   const handleChangeInstance = (event) => {
    // console.log(event.target.value);
     setProblemInstance(event.target.value)
   }
   const handleChangeSearchSelection = (event) => {
-   // console.log(event.target.value);
-    setProblemName(event.target.value)
+    console.log(event.target.value);
+    //setProblemName(event.target.value)
   }
   return (
     <div>
@@ -59,9 +59,9 @@ function AccordionNestedTextBox(props) {
 
                 {/* <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}>
                 </FormControl> *FORM CONTROL 1 (header) */}
-                <SearchBarProblemType onChange={handleChangeSearchSelection} placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
+                <SearchBarProblemType placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
              
-              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
+              <PopoverTooltipHover header={props.accordion.TOOLTIP.header} formalDef={props.accordion.TOOLTIP.formalDef} info={props.accordion.TOOLTIP.info}></PopoverTooltipHover>  
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
 
               </Stack>
@@ -72,7 +72,7 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
             <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
-                <FormControl as= "textarea" value={props.accordion.CARD.problemInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                <FormControl as= "textarea" value={problemInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>

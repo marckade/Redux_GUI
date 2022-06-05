@@ -35,11 +35,7 @@ export default function SearchBarSelectSolver(props) {
           setChosenSolver(
             newValue
           );
-        } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
-          setChosenSolver(
-            newValue.inputValue,
-          );
+      
         } else {
           setChosenSolver(newValue);
           }

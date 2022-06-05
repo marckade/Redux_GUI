@@ -9,10 +9,14 @@ function popOver(props) {
   
   return(
   <Popover id="popover-basic" className="tooltip">
-    <Popover.Header as="h3">
+      <Popover.Header as="h3">
+        {props.header}
     </Popover.Header>
-    <Popover.Body>
-      {props.popupText}
+      <Popover.Body>
+        {props.formalDef}
+        <br></br>
+        <br></br>
+        {props.info}
     </Popover.Body>
   </Popover>
   );
@@ -20,7 +24,7 @@ function popOver(props) {
 }
   
 function PopoverTooltipHover(props) {
- 
+  //console.log(props)
   return(
     <OverlayTrigger trigger={["hover","focus"]} placement="bottom" overlay={popOver(props)}>
       

@@ -26,15 +26,16 @@ class ProblemProvider extends Component {
         
     }
     /** This method is essentially a "notify all listeners" method, except only for listeners that care about the problem name */
-    setProblemName = (newName) => { //State doesn't update immediately, may want to add a better notifier pattern since type can mismatch state here. 
+    setProblemName = (newName) => { //State doesn't update immediately, may want to add a better notifier pattern since type can mismatch state here.
         //console.log(newName);
-        this.setState({ problemName: newName })
-        //console.log(this.state.problemName)
-        //this.makeApiCallProblemInfo(newName.problemName) //test replacing this with a useEffect hook
-        //this.makeApiCallReduceToOptions(newName.problemName, this.state.problemType)
-        this.makeApiCallSolverOptions(newName.problemName, this.state.problemType)
-        this.makeApiCallVerifierOptions(newName.problemName, this.state.problemType)
-        
+        if (!(newName === null)) { //checks if the user x's out input, doesn't change until a new value is selected
+            this.setState({ problemName: newName })
+            //console.log(this.state.problemName)
+            //this.makeApiCallProblemInfo(newName.problemName) //test replacing this with a useEffect hook
+            this.makeApiCallReduceToOptions(newName.problemName, this.state.problemType)
+            this.makeApiCallSolverOptions(newName.problemName, this.state.problemType)
+            this.makeApiCallVerifierOptions(newName.problemName, this.state.problemType)
+        }
     }
 
 

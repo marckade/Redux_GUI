@@ -6,20 +6,12 @@ const filter = createFilterOptions();
 var initialized = false;
 
 export default function SearchBarProblemType(props) {
-  const {problem,problemName,setProblemName} = useContext(ProblemContext)
-  useEffect(() => {
-    console.log("RELOAD")
-  },[problemName])
+  const { problem, problemName, setProblemName } = useContext(ProblemContext) //passed in context
+  
+
   //console.log(props.url)
   if (!initialized) {
-    const req = getRequest(props.url);
-    req.then(result => {
-      return result.json();
-    }).then(data => {
-      initializeProblemJson(data)
-      //console.log(problemJson)
-    })
-      .catch((error) => console.log("GET REQUEST FAILED"));
+    initializeList(props.url+"navigation/NPC_ProblemsRefactor/") //
     initialized = true;
   }
   //const [value, setValue] = React.useState(null); //state manager.
@@ -32,11 +24,7 @@ export default function SearchBarProblemType(props) {
           setProblemName(
             newValue
           );
-        } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
-          setProblemName(
-            newValue.inputValue,
-          );
+     
         } else {
           setProblemName(newValue);
         }
@@ -47,12 +35,7 @@ export default function SearchBarProblemType(props) {
         const { inputValue } = params;
         // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-        // if (inputValue !== '' && !isExisting) {
-        //   filtered.push({
-        //     inputValue,
-        //     problemName: `Add "${inputValue}"`,
-        //   });
-        // }
+      
 
         return filtered;
       }}
@@ -66,10 +49,7 @@ export default function SearchBarProblemType(props) {
         if (typeof option === 'string') {
           return option;
         }
-        // Add "xxx" option created dynamically
-        if (option.inputValue) {
-          return option.inputValue;
-        }
+       
         // Regular option
         return option.problemName;
       }}
@@ -98,7 +78,24 @@ function initializeProblemJson(arr) { //converts asynchronous fetch request into
   //console.log(problemJson);
 }
 async function getRequest(url) {
-    const promise = await fetch(url);
-    return promise;
+    const promise = await fetch(url).then(result => {
+      return result.json()
+  })
+  return promise;
+  
 }
 
+function initializeList(url) {
+  const req = getRequest(url);
+  req.then(data => {
+    initializeProblemJson(data)
+    //console.log(problemJson)
+  })
+    .catch((error) => console.log("GET REQUEST FAILED",error));
+  initialized = true;
+}
+
+
+function getProblenType(url) {
+  
+}

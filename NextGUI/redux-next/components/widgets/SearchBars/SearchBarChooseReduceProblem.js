@@ -9,7 +9,7 @@ export default function SearchBarChooseReduceProblem(props) {
     var optionsArr = [];
 
     try {
-        //console.log(reduceToOptions)
+        console.log(reduceToOptions)
         reduceToOptions.map(function (element, index, array) {
             
             optionsArr.push({ problemName: element })
@@ -19,7 +19,7 @@ export default function SearchBarChooseReduceProblem(props) {
         //console.log(problemJson);
     }
     catch (error) {
-        //console.log(error)
+        console.log(error)
     }
    
     
