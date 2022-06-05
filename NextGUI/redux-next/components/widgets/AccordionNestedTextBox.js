@@ -65,11 +65,6 @@ function AccordionNestedTextBox(props) {
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
 
               </Stack>
-              
-             
-                
-
-           
             
         </Card.Header>
 

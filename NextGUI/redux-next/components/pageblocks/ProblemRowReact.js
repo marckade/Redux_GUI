@@ -16,25 +16,14 @@ const INPUTURL = { url: fullUrl }
 
 const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, TOOLTIP, INPUTURL }
 
-class ProblemRowReact extends Component { 
 
-    static contextType = ProblemContext;
-    render() {
-        
-        return (
-            <ProblemContext.Consumer>{(context) => {
-                //console.log(context)
-                CARD.problemInstance = context.problemInstance;
 
-                TOOLTIP.tooltipText = context.problemDescription
-                return (
-                    <AccordionNestedTextBox accordion={ACCORDION}></AccordionNestedTextBox>
-                )
-            }}
-            </ProblemContext.Consumer>
-        );
-    }
-
+function ProblemRowReact() {
+    return (
+        <>
+        <AccordionNestedTextBox accordion={ACCORDION}></AccordionNestedTextBox>
+        </>
+    )
 }
 
 export default ProblemRowReact

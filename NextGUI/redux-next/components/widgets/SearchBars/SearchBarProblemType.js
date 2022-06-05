@@ -1,12 +1,15 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext} from 'react'
+import React,{useContext,useEffect} from 'react'
 const filter = createFilterOptions();
 var initialized = false;
 
 export default function SearchBarProblemType(props) {
-
+  const {problem,problemName,setProblemName} = useContext(ProblemContext)
+  useEffect(() => {
+    console.log("RELOAD")
+  },[problemName])
   //console.log(props.url)
   if (!initialized) {
     const req = getRequest(props.url);
@@ -20,7 +23,6 @@ export default function SearchBarProblemType(props) {
     initialized = true;
   }
   //const [value, setValue] = React.useState(null); //state manager.
-  const {problem,setProblemName, setProblemInstance,makeApiCall} = useContext(ProblemContext)
   return (
     <Autocomplete
     style={{ width: "100%" }}

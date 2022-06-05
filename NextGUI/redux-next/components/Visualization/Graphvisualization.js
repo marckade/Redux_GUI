@@ -37,13 +37,13 @@ function Page(props) {
   useEffect(() => {
     // getData();
     draw();
-    console.log(viz)
+    //console.log(viz)
   }, [props]);
 
   
   //problemName
   function draw() {
-    console.log("Draw \n")
+    //console.log("Draw \n")
     viz = graphTest
     // console.log(props.problem)
   
@@ -54,7 +54,7 @@ function Page(props) {
 
   return (
     <div id="problemVisualization" style={imgStyle}>
-      {console.log("Viz \n"+viz)}
+      {/**console.log("Viz \n"+viz)*/}
       <Graphviz dot={graphTest} width={200} height={200} />;
     </div>
   );

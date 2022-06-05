@@ -5,6 +5,8 @@ import React,{useContext} from 'react'
 const filter = createFilterOptions();
 
 export default function SearchBarSelectReduction(props) {
+
+  
     const {reductionTypeOptions,problem,setProblemReductionType} = useContext(ProblemContext) //this takes an input of 
     //console.log(reductionTypeOptions)
     //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];

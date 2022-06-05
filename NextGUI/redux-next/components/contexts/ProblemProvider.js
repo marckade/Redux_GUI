@@ -30,8 +30,8 @@ class ProblemProvider extends Component {
         //console.log(newName);
         this.setState({ problemName: newName })
         //console.log(this.state.problemName)
-        this.makeApiCallProblemInfo(newName.problemName)
-        this.makeApiCallReduceToOptions(newName.problemName, this.state.problemType)
+        //this.makeApiCallProblemInfo(newName.problemName) //test replacing this with a useEffect hook
+        //this.makeApiCallReduceToOptions(newName.problemName, this.state.problemType)
         this.makeApiCallSolverOptions(newName.problemName, this.state.problemType)
         this.makeApiCallVerifierOptions(newName.problemName, this.state.problemType)
         
