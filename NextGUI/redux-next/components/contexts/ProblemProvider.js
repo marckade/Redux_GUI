@@ -28,12 +28,13 @@ class ProblemProvider extends Component {
     /** This method is essentially a "notify all listeners" method, except only for listeners that care about the problem name */
     setProblemName = (newName) => { //State doesn't update immediately, may want to add a better notifier pattern since type can mismatch state here. 
         //console.log(newName);
-        this.setState({problemName:newName})
+        this.setState({ problemName: newName })
         //console.log(this.state.problemName)
         this.makeApiCallProblemInfo(newName.problemName)
         this.makeApiCallReduceToOptions(newName.problemName, this.state.problemType)
         this.makeApiCallSolverOptions(newName.problemName, this.state.problemType)
         this.makeApiCallVerifierOptions(newName.problemName, this.state.problemType)
+        
     }
 
 
@@ -58,7 +59,6 @@ class ProblemProvider extends Component {
 
   
     makeApiCallReduceToOptions = (problemName, problemType) => {
-        console.log(problemName)
         const fullUrl = reduxBaseUrl+'Navigation/Problem_ReductionsRefactor/'+'?chosenProblem='+problemName+'&problemType='+problemType
      
         // URL to get problems to reduce to.
