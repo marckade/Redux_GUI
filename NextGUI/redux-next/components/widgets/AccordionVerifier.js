@@ -1,11 +1,13 @@
 import React from 'react'
-import { useContext } from 'react';
+import { useContext,useEffect,useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
 import { Stack, Button } from '@mui/material'
-import SearchBarSelectVerifier from './SearchBars/SearchBarSelectVerifier'
+import { ProblemContext } from '../contexts/ProblemProvider';
+import SearchBarSelectVerifierV2 from './SearchBars/SearchBarSelectVerifierV2';
+
 
 // import FormControl from '../components/FormControl'
 
@@ -32,11 +34,23 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 }
 
-function AccordionSingleInputNestedButton(props) {
-  //console.log(props)
+function AccordionVerifier(props) {
+  const { problemName, problemType, chosenVerifier,setChosenVerifier} = useContext(ProblemContext)
+  const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
+  const [testData, setTestData] = useState();
+  console.log("STATE CHANGE SOLVER")
+  var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
+  useEffect(() => {
+    SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
+    requestVerifyData(props.accordion.INPUTURL.url, chosenVerifier).then(data => {
+      setToolTip({header:data.verifierName,formalDef:data.verifierDefinition,info:data.source}) //updates TOOLTIP
+    }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+  }, [chosenVerifier])
+
+  
+  
   return (
     <div>
-
       <Accordion className="accordion" defaultActiveKey="1">
 
         <Card>
@@ -45,13 +59,18 @@ function AccordionSingleInputNestedButton(props) {
               <div>
                 {props.accordion.CARD.cardHeaderText}
               </div>
-              <SearchBarSelectVerifier placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}/> {/**FORM CONTROL 1 */}
-              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText1}></PopoverTooltipHover>
+              <SearchBarSelectVerifierV2
+                placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
+                url={SOLVEROPTIONSURL}
+                setData={setChosenVerifier}
+                data={problemName}
+              /> {/**Search bar left (form control 1) */}
+
+              <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>
 
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
             </Stack>
           </Card.Header>
-
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
@@ -73,4 +92,9 @@ function AccordionSingleInputNestedButton(props) {
   );
 }
 
-export default AccordionSingleInputNestedButton
+
+async function requestVerifyData(url,vName) {
+  return await fetch(url + vName + '/info').then(resp => resp.json());
+}
+
+export default AccordionVerifier

@@ -37,9 +37,9 @@ function TestPageContent() {
     
         <ReduceToRowReact></ReduceToRowReact>
 
-        {/* <SolveRowReact></SolveRowReact>
+        <SolveRowReact></SolveRowReact>
 
-        <VerifyRowReact></VerifyRowReact> */}
+        <VerifyRowReact></VerifyRowReact>
 
         <VisualizeRowReact></VisualizeRowReact> 
 
