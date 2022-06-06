@@ -24,9 +24,10 @@ export default function SearchBarProblemType(props) {
           setProblemName(
             newValue
           );
-     
+          props.setTestName(newValue);
         } else {
           setProblemName(newValue);
+          props.setTestName(newValue);
         }
       }}
       filterOptions={(options, params) => {
@@ -51,9 +52,9 @@ export default function SearchBarProblemType(props) {
         }
        
         // Regular option
-        return option.problemName;
+        return option;
       }}
-      renderOption={(props, option) => <li {...props}>{option.problemName}</li>}
+      renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -62,17 +63,15 @@ export default function SearchBarProblemType(props) {
     />
   );
 }
-
 //our problems to be shown
-var problemJson = [
- 
-];
+var problemJson = [];
 
 function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
   
   arr.map(function (element, index, array) {
+    console.log(element)
     if (!problemJson.includes(element)) {
-      problemJson.push({ problemName: element })
+      problemJson.push(element)
     }
   }, 80);
   //console.log(problemJson);
@@ -96,6 +95,3 @@ function initializeList(url) {
 }
 
 
-function getProblenType(url) {
-  
-}

@@ -18,8 +18,9 @@ const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, TOOLTIP, INPUT
 
 function ProblemRowReact() {
     const { problemName } = useContext(ProblemContext)
-    console.log(problemName.problemName)
+    //console.log(problemName.problemName)
     useEffect(() => {
+    console.log("problemNameChanged",problemName)
      toolTipReq(problemName.problemName)
     },[problemName])
     return (

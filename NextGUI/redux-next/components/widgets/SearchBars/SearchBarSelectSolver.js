@@ -9,7 +9,6 @@ export default function SearchBarSelectSolver(props) {
     //console.log(reductionTypeOptions)
     //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];
     var optionsArr = [];
-
     try {
         
         solverOptions.map(function (element, index, array) {
@@ -24,7 +23,6 @@ export default function SearchBarSelectSolver(props) {
         console.log(error)
     }
    
-    
   
   return (
       <Autocomplete

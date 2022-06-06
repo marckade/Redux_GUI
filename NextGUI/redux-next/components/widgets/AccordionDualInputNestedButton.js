@@ -1,5 +1,5 @@
 import React from 'react'
-import { useContext } from 'react';
+import { useContext,useEffect,useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl, Col, Row, Container } from 'react-bootstrap'
 import {Stack,Button} from '@mui/material'
@@ -34,8 +34,37 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 function AccordionDualInputNestedButton(props) {
-  //console.log(props.accordion.REDUCETO.reduceTo);
-  const {reduceRequest} = useContext(ProblemContext)
+
+  const {problemName, chosenReduceTo } = useContext(ProblemContext)
+
+  const [testName, setTestName] = useState('SAT3') //This may only actually cause a re-render event. But removing it means no rerender.
+  const [testName2, setTestName2] = useState('SAT3') //This may only actually cause a re-render event. But removing it means no rerender.
+
+  const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
+  const [toolTip2,setToolTip2] = useState(props.accordion.TOOLTIP)
+  const reduceRequest = () =>{console.log("Reduce Request")}
+
+  useEffect(() => {
+    //console.log("rerender reduce Row accordion, TESTNAME")
+   // console.log(testName,problemName)
+   // console.log(props.accordion.TOOLTIP.header); //always is the previous state.
+    requestProblemData(props.accordion.INPUTURL.url, testName).then(data => {
+      //console.log("REDUCE TO NAME: ",testName)
+      setToolTip({header:testName.problemName,formalDef:data.formalDefinition,info:data.problemDefinition}) //updates TOOLTIP
+    }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
+  }, [chosenReduceTo])
+
+  useEffect(() => {
+    console.log("rerender reductionTypeRow accordion, TESTNAME")
+   // console.log(testName,problemName)
+   // console.log(props.accordion.TOOLTIP.header); //always is the previous state.
+    requestReductionData(props.accordion.INPUTURL.url, testName2).then(data => {
+      console.log("REDUCE TO NAME: ",testName2)
+      setToolTip2({header:testName.problemName,formalDef:data.formalDefinition,info:data.problemDefinition}) //updates TOOLTIP
+    }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
+  }, [chosenReduceTo])
+
+
   return (
     <div>
 
@@ -49,20 +78,22 @@ function AccordionDualInputNestedButton(props) {
               {props.accordion.CARD.cardHeaderText}
               <SearchBarChooseReduceProblem
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
+                url={props.accordion.INPUTURL.url}
+                setTestName={setTestName}
               /> {/**Search bar left (form control 1) */}
 
-            <PopoverTooltipHover header={props.accordion.TOOLTIP.header} formalDef={props.accordion.TOOLTIP.formalDef} info={props.accordion.TOOLTIP.info}></PopoverTooltipHover>  
+            <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>  
 
               <SearchBarSelectReduction
-                placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder} />
-              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText2}></PopoverTooltipHover>
+                placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder}
+                setTestName={setTestName2}
+                url={props.accordion.INPUTURL.url}
+
+              />
+              <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
 
             </Stack>
-
-
-
-
 
           </Card.Header>
 
@@ -84,6 +115,15 @@ function AccordionDualInputNestedButton(props) {
 
     </div>
       );
+}
+
+async function requestProblemData(url, name) {
+  //console.log(name)
+  return await fetch(url+name+"Generic").then(resp => resp.json());
+}
+
+async function requestReductionData(url,reductionName) {
+  return await fetch(url + reductionName + '/info').then(resp => resp.json());
 }
 
 export default AccordionDualInputNestedButton

@@ -1,76 +1,65 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext} from 'react'
+import React,{useContext,useEffect} from 'react'
 const filter = createFilterOptions();
 
+
 export default function SearchBarSelectReduction(props) {
+  const { problem,problemName,problemType, setChosenReductionType,chosenReduceTo } = useContext(ProblemContext) //passed in context
+  //props.setTestName should be passed down.
 
-  
-    const {reductionTypeOptions,problem,setProblemReductionType} = useContext(ProblemContext) //this takes an input of 
-    //console.log(reductionTypeOptions)
-    //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];
-    var optionsArr = [];
+  useEffect(() => {
+    console.log("reload searchbar reduce") 
+  },[problemName])
+  //console.log(props.url)
 
-    try {
-        
-        reductionTypeOptions.map(function (element, index, array) {
-       
-            optionsArr.push({ problemName: element })
-            //console.log(optionsArr)
-          
-        }, 80);
-        //console.log(problemJson);
-    }
-    catch (error) {
-        console.log(error)
-    }
-   
-    
+    //console.log(props.url)
+    const fullUrl = props.url + 'Navigation/PossibleReductionsRefactor/' + '?reducingFrom=' + problemName + '&reducingTo='+chosenReduceTo+'&problemType=' + problemType
+    console.log(fullUrl)
+    initializeList(fullUrl) 
   
+  //const [value, setValue] = React.useState(null); //state manager.
   return (
-      <Autocomplete
-      style={{ width: "100%" }}
+    <Autocomplete
+    style={{ width: "100%" }}
       value={problem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemReductionType(
+          setChosenReductionType(
             newValue
           );
-        } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
-          setProblemReductionType(
-            newValue.inputValue,
-          );
+          props.setTestName(newValue);
         } else {
-          setProblemReductionType(newValue);
-          }
+          setChosenReductionType(newValue);
+          props.setTestName(newValue);
+        }
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
 
         const { inputValue } = params;
+        // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
+      
+
         return filtered;
       }}
       selectOnFocus
       clearOnBlur
       handleHomeEndKeys
       id="search-bar"
-      options={optionsArr} //This displays the passed in choices
+      options={problemJson}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
           return option;
         }
-        // Add "xxx" option created dynamically
-        if (option.inputValue) {
-          return option.inputValue;
-        }
+       
         // Regular option
-        return option.problemName;
+        return option;
       }}
-      renderOption={(props, option) => <li {...props}>{option.problemName}</li>}
+      renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -80,5 +69,43 @@ export default function SearchBarSelectReduction(props) {
   );
 }
 
+//our problems to be shown
+var problemJson = [
+ 
+];
+
+function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
+  console.log(problemJson)
+    while (problemJson.length) { 
+      problemJson.pop(); 
+  }
+  arr.map(function (element, index, array) {
+    
+    if (!problemJson.includes(element)) {
+      problemJson.push(element)
+    }
+  }, 80);
+  //console.log(problemJson);
+}
+async function getRequest(url) {
+  console.log(url)
+    const promise = await fetch(url).then(result => {
+      return result.json()
+  })
+  return promise;
+  
+}
+
+function initializeList(url) {
+  console.log(url)
+
+  const req = getRequest(url);
+  req.then(data => {
+   
+    initializeProblemJson(data)
+    //console.log(problemJson)
+  })
+    .catch((error) => console.log("GET REQUEST FAILED",error));
+}
 
 
