@@ -69,7 +69,7 @@ var problemJson = [];
 function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
   
   arr.map(function (element, index, array) {
-    console.log(element)
+    //console.log(element)
     if (!problemJson.includes(element)) {
       problemJson.push(element)
     }

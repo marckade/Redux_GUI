@@ -5,34 +5,30 @@ import React,{useContext,useEffect} from 'react'
 const filter = createFilterOptions();
 
 
-export default function SearchBarChooseReduceProblem(props) {
-  const { problem,problemName,problemType, chosenReduction, setChosenReduceTo } = useContext(ProblemContext) //passed in context
-  //props.setTestName should be passed down.
+export default function SearchBarV2(props) {
+  //props.setData and props.data should be passed down.
 
-  useEffect(() => {
-    console.log("reload searchbar reduce") 
-  },[problemName])
-  //console.log(props.url)
+  let stateVal = undefined;
 
-    //console.log(props.url)
-    const fullUrl = props.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
-    console.log(fullUrl)
+  const fullUrl = props.url;
     initializeList(fullUrl) 
   
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={problem}
+      value={stateVal}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setChosenReduceTo(
-            newValue
-          );
-          props.setTestName(newValue);
+          // setChosenReduceTo(
+          //   newValue
+          // );
+          props.setData(newValue);
+          stateVal = newValue
         } else {
-          setChosenReduceTo(newValue);
-          props.setTestName(newValue);
+          //setChosenReduceTo(newValue);
+          props.setData(newValue);
+          stateVal = newValue;
         }
       }}
       filterOptions={(options, params) => {
@@ -96,7 +92,6 @@ async function getRequest(url) {
 }
 
 function initializeList(url) {
-  console.log(url)
 
   const req = getRequest(url);
   req.then(data => {

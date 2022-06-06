@@ -16,12 +16,13 @@ const INPUTURL = { url: reduxBaseUrl }
 const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, TOOLTIP, INPUTURL }
 
 
+
+
 function ProblemRowReact() {
     const { problemName } = useContext(ProblemContext)
     //console.log(problemName.problemName)
     useEffect(() => {
     console.log("problemNameChanged",problemName)
-     toolTipReq(problemName.problemName)
     },[problemName])
     return (
         <>
@@ -30,16 +31,7 @@ function ProblemRowReact() {
     )
 }
 
-function toolTipReq(problemName) {
-    if (!(problemName===undefined)) {
-        fetch(reduxBaseUrl + problemName+"Generic").then(resp => resp.json()).then(data => {
-            TOOLTIP.info = data.problemDefinition;
-            TOOLTIP.formalDef = data.formalDefinition
-            TOOLTIP.header = problemName
-        }).catch((error)=>{console.log("Failed to retrieve info, you likely entered a nonexistent problem name")}) 
-    }
-   
-}
+
     
     
 export default ProblemRowReact

@@ -6,8 +6,7 @@ const filter = createFilterOptions();
 
 
 export default function SearchBarSelectReduction(props) {
-  const { problem,problemName,problemType, setChosenReductionType,chosenReduceTo } = useContext(ProblemContext) //passed in context
-  //props.setTestName should be passed down.
+    //props.setTestName should be passed down.
 
   useEffect(() => {
     console.log("reload searchbar reduce") 
@@ -23,7 +22,7 @@ export default function SearchBarSelectReduction(props) {
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={problem}
+      value={problemName}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           setChosenReductionType(

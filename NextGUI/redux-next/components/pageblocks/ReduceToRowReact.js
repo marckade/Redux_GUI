@@ -17,12 +17,6 @@ const INPUTURL = { url: reduxBaseUrl }
 const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, BUTTON, TOOLTIP, REDUCETO, INPUTURL }
 
 function ReduceToRowReact() { 
-
-
-
-    
-
-    
     
     return (
         
@@ -33,16 +27,6 @@ function ReduceToRowReact() {
 
 }
 
-
-function toolTipReq(reduceToName) {
-    var req = fetch("");
-    console.log(reduceToName);
-    if (!(reduceToName===undefined)) {
-         req = fetch(reduxBaseUrl + reduceToName.problemName + "Generic").then(resp => resp.json())
-        return req
-    }
-    return req
-}
 
 
 
