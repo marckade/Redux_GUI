@@ -35,8 +35,26 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 }
 
+
+
 function AccordionTogglesSvg(props) {
   //console.log(props)
+  let isSwitch1Checked = false;
+  let isSwitch2Checked = false;
+  let isSwitch3Checked = false;
+
+  function handleSwitch1Change(e) {
+    isSwitch1Checked = e.target.checked;
+    console.log("Switch 1 "+ isSwitch1Checked)
+  }
+
+  function handleSwitch2Change(e) {
+    let isSwitch2Checked = e.target.checked;
+  }
+
+  function handleSwitch3Change(e) {
+    let isSwitch2Checked = e.target.checked;
+  }
 
   return (
     <div>
@@ -45,9 +63,9 @@ function AccordionTogglesSvg(props) {
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
             <Stack className="float-end" direction="horizontal" gap={3} >
-              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} />
-              <FormControlLabel  control={<Switch />} label={props.accordion.SWITCHES.switch2} />
-              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
               <ContextAwareToggle className="float-end" eventKey="0">▼</ContextAwareToggle>
 
@@ -58,11 +76,7 @@ function AccordionTogglesSvg(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
               <Stack direction="horizontal" gap={1}>
-
-                <Graphvisualization problem={props.accordion.CARD.problemJson} instance={props.accordion.CARD.problemInstance}>
-
-                </Graphvisualization>
-
+                {isSwitch1Checked  ? null : <Graphvisualization></Graphvisualization>}
                 {/* {props.accordion.CARD.problemInstance} */}
               </Stack>
             </Card.Body>
