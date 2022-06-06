@@ -1,19 +1,17 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../contexts/ProblemProvider'
+import { ProblemContext } from '../../contexts/ProblemProvider'
 import React,{useContext} from 'react'
 const filter = createFilterOptions();
-var initialized = false
-export default function SearchBarSelectReduction(props) {
-    const {reductionTypeOptions,problem,setProblemReductionType} = useContext(ProblemContext) //this takes an input of 
+
+export default function SearchBarSelectVerifier(props) {
+    const {verifierOptions,problem,setChosenVerifier} = useContext(ProblemContext) //this takes an input of 
     //console.log(reductionTypeOptions)
     //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];
     var optionsArr = [];
-
     try {
-        
-        reductionTypeOptions.map(function (element, index, array) {
-       
+        verifierOptions.map(function (element, index, array) {
+
             optionsArr.push({ problemName: element })
             //console.log(optionsArr)
           
@@ -23,25 +21,23 @@ export default function SearchBarSelectReduction(props) {
     catch (error) {
         console.log(error)
     }
-   
-    
-  
+
   return (
       <Autocomplete
       style={{ width: "100%" }}
       value={problem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemReductionType(
+          setChosenVerifier(
             newValue
           );
         } else if (newValue && newValue.inputValue) {
           // Create a new value from the user input
-          setProblemReductionType(
+          setChosenVerifier(
             newValue.inputValue,
           );
         } else {
-          setProblemReductionType(newValue);
+          setChosenVerifier(newValue);
           }
       }}
       filterOptions={(options, params) => {
@@ -77,6 +73,5 @@ export default function SearchBarSelectReduction(props) {
     />
   );
 }
-
 
 

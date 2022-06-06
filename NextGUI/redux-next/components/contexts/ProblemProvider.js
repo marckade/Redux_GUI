@@ -12,89 +12,128 @@ class ProblemProvider extends Component {
         
         problemJson: "DEFAULT",
         problemType: "NPC",
-        problemName: "NODECOVER",
+        problemName: "DEFAULTTYPE",
         problemInstance: "{{1,2,3},{1,2},GENERIC}",
-        problemDescription: "Nodecover is a classic NP_Complete Problem",
+        problemDescription: "You need to enter a problem to see information about it",
         reduceToOptions: ["PROVIDERDEFAULT1", "PROVIDERDEFAULT2"],
         chosenReduceTo: "CHOSEN PROBLEM TO REDUCE TO",
         reductionTypeOptions: ["PROVIDERREDUCTIONCHOICE1"],
         chosenReductionType: "PROVIDERCHOSENREDUCTION",
-        reducedInstance: {instance: "PROVIDER_REDUCED_INSTANCE"}
+        reducedInstance: { instance: "PROVIDER_REDUCED_INSTANCE" },
+        solverOptions: ["SOLVER_OPTION_ONE"],
+        chosenSolver: "CHOSEN SOLVER PROVIDER",
+        verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"]
+        
     }
-    setProblemName = (newName) => {
+    /** This method is essentially a "notify all listeners" method, except only for listeners that care about the problem name */
+    setProblemName = (newName) => { //State doesn't update immediately, may want to add a better notifier pattern since type can mismatch state here.
         //console.log(newName);
-        this.setState({problemName:newName})
-        //console.log(this.state.problemName)
-        this.makeApiCallProblemInfo(newName.problemName)
-        this.makeApiCallReduceToOptions(newName.problemName,this.state.problemType)
-    
+        if (!(newName === null)) { //checks if the user x's out input, doesn't change until a new value is selected
+            this.setState({ problemName: newName })
+            //console.log(this.state.problemName)
+            //this.makeApiCallProblemInfo(newName.problemName) //test replacing this with a useEffect hook
+            // this.makeApiCallReduceToOptions(newName.problemName, this.state.problemType)
+            // this.makeApiCallSolverOptions(newName.problemName, this.state.problemType)
+            // this.makeApiCallVerifierOptions(newName.problemName, this.state.problemType)
+        }
     }
 
-    makeApiCallProblemInfo = (problemName) => {
 
-       // URL for a problem and instance by user input 
-       // reduxBaseUrl+`${problemName}Generic/instance?problemInstance=${problemInstance}`
-        const req = apiFetch(reduxBaseUrl+problemName+'Generic/') 
-           // `${problemName}Generic/instance?problemInstance=${problemInstance}`
-        req.then(response => response.json())
-            .then(data => {
-                this.setProblemInstance(data.defaultInstance)
-                this.setProblemJson(data.json())
-                return data;
-            })
-            .then(data => this.setProblemDescription(data.formalDefinition + " " + data.problemDefinition))
-            .catch((error) => { console.log("FETCH ERROR" + error) });
-    }
+    // //API Calls: Consider using state and remote data orchestration for this.
+    // makeApiCallProblemInfo = (problemName) => {
+    //     //console.log(problemName) //correct currentname .
+        
+
+    //    // URL for a problem and instance by user input 
+    //    // reduxBaseUrl+`${problemName}Generic/instance?problemInstance=${problemInstance}`
+    //     const req = apiFetch(reduxBaseUrl+problemName+'Generic/') 
+    //        // `${problemName}Generic/instance?problemInstance=${problemInstance}`
+    //     req.then(response => response.json())
+    //         .then(data => {
+    //             this.setProblemInstance(data.defaultInstance)
+    //             this.setProblemJson(data.json())
+    //             return data;
+    //         })
+    //         .then(data => this.setProblemDescription(data.formalDefinition + " " + data.problemDefinition))
+    //         .catch((error) => { console.log("FETCH ERROR" + error) });
+    // }
 
   
-    makeApiCallReduceToOptions = (problemName, problemType) => {
-        console.log(problemName)
-        const fullUrl = reduxBaseUrl+'Navigation/Problem_ReductionsRefactor/'+'?chosenProblem='+problemName+'&problemType='+problemType
+    // makeApiCallReduceToOptions = (problemName, problemType) => {
+    //     const fullUrl = reduxBaseUrl+'Navigation/Problem_ReductionsRefactor/'+'?chosenProblem='+problemName+'&problemType='+problemType
      
-        // URL to get problems to reduce to.
-        // reduxBaseUrl+`Navigation/Problem_ReductionsRefactor/?chosenProblem=${problemName}&problemType=${problemType}`
-        const req = apiFetch(fullUrl);
+    //     // URL to get problems to reduce to.
+    //     // reduxBaseUrl+`Navigation/Problem_ReductionsRefactor/?chosenProblem=${problemName}&problemType=${problemType}`
+    //     const req = apiFetch(fullUrl);
             
-        req.then(response => response.json())
+    //     req.then(response => response.json())
 
-        // why is the problemInstance being set here
-            .then(data => {
-                console.log(data)
-                return data;
-            })
-            .then(data => this.setProblemReduceToOptions(data))
-            .catch((error) => { console.log("FETCH ERROR" + error) });
-    }
+    //     // why is the problemInstance being set here
+    //         .then(data => {
+    //             console.log(data)
+    //             return data;
+    //         })
+    //         .then(data => this.setProblemReduceToOptions(data))
+    //         .catch((error) => { console.log("FETCH ERROR" + error) });
+    // }
 
-    makeApiCallReductionTypeOptions = (reduceFrom, reduceTo, type) => {
-        console.log(reduceFrom.problemName + " " + reduceTo + " " + type);
-        reduceFrom = reduceFrom.problemName; //is coming in as object
+    // makeApiCallReductionTypeOptions = (reduceFrom, reduceTo, type) => {
+    //     console.log(reduceFrom.problemName + " " + reduceTo + " " + type);
+    //     reduceFrom = reduceFrom.problemName; //is coming in as object
         
-        const fullUrl = reduxBaseUrl+'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+reduceFrom+'&reducingTo='+reduceTo+'&problemType='+type
-        const req = apiFetch(fullUrl);
+    //     const fullUrl = reduxBaseUrl+'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+reduceFrom+'&reducingTo='+reduceTo+'&problemType='+type
+    //     const req = apiFetch(fullUrl);
             
-        req.then(response => response.json())
-            .then(data => {
-                console.log(data)
-                return data;
-            })
-            .then(data => this.setProblemReductionTypeOptions(data))
-            .catch((error) => { console.log("FETCH ERROR" + error) });
-    }
+    //     req.then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             return data;
+    //         })
+    //         .then(data => this.setProblemReductionTypeOptions(data))
+    //         .catch((error) => { console.log("FETCH ERROR" + error) });
+    // }
     
-    makeApiCallReductionRequest = () => {
-        console.log(this.state.chosenReductionType)
-        const fullUrl = reduxBaseUrl+this.state.chosenReductionType.problemName+'/reduce?'+'problemInstance='+this.state.problemInstance
-        const req = apiFetch(fullUrl);
+    // makeApiCallReductionRequest = () => {
+    //     console.log(this.state.chosenReductionType)
+    //     const fullUrl = reduxBaseUrl+this.state.chosenReductionType.problemName+'/reduce?'+'problemInstance='+this.state.problemInstance
+    //     const req = apiFetch(fullUrl);
             
-        req.then(response => response.json())
-            .then(data => {
-                console.log(data)
-                return data;
-            })
-            .then(data => this.setProblemReductionTypeOptions(data))
-            .catch((error) => { console.log("FETCH ERROR" + error) });
-    }
+    //     req.then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             return data;
+    //         })
+    //         .then(data => this.setProblemReductionTypeOptions(data))
+    //         .catch((error) => { console.log("FETCH ERROR" + error) });
+    // }
+    // makeApiCallSolverOptions = (problemName) => {
+    //     console.log(problemName);
+    //     const fullUrl = reduxBaseUrl + "Navigation/Problem_SolversRefactor?chosenProblem=" + problemName + "&problemType=" + this.state.problemType
+    //     const req = apiFetch(fullUrl);
+    //     req.then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             return data;
+    //         })
+    //         .then(data => this.setSolverOptions(data))
+    //         .catch((error) => { console.log("FETCH ERROR" + error) });
+
+    // }
+
+    // makeApiCallVerifierOptions = (problemName) => {
+        
+    //     console.log(problemName);
+    //     const fullUrl = reduxBaseUrl + "Navigation/Problem_VerifiersRefactor?chosenProblem=" + problemName + "&problemType=" + this.state.problemType
+    //     const req = apiFetch(fullUrl);
+    //     req.then(response => response.json())
+    //         .then(data => {
+    //             console.log(data)
+    //             return data;
+    //         })
+    //         .then(data => this.setVerifierOptions(data))
+    //         .catch((error) => { console.log("FETCH ERROR" + error) });
+    // }
+
 
 
 
@@ -116,29 +155,34 @@ class ProblemProvider extends Component {
         this.setState({ reduceToOptions: options })
         console.log(options)
     }
-    setProblemChosenReduceTo = (newChoice) => {
-        this.setState({ chosenReduceTo: newChoice })
-        console.log("Now generating Reduction choices")
-        console.log(newChoice)
-        this.makeApiCallReductionTypeOptions(this.state.problemName,newChoice.problemName,this.state.problemType);
-    }
+    
 
     setProblemReductionTypeOptions = (options)=>{
         this.setState({reductionTypeOptions: options})
     }
-    setProblemReductionType = (newChoice) => {
+    setChosenReductionType = (newChoice) => {
         this.setState({ chosenReductionType: newChoice })
-        console.log(newChoice)
+        //console.log(newChoice)
     }
-    
-   
-    
-    
-
-   
-
-
-    
+    setSolverOptions = (options) => {
+        this.setState({solverOptions: options})
+    }
+    setChosenSolver = (newChoice) => {
+        this.setState({ chosenSolver: newChoice })
+        console.log("solver chosen")
+    }
+    setVerifierOptions = (options) => {
+        this.setState({verifierOptions:options})
+    }
+    setChosenVerifier = (newChoice) => {
+        this.setState({ chosenVerifier: newChoice })
+        console.log("verifier chosen")
+    }
+      
+    setChosenReduceTo = (newChoice) => {
+        this.setState({ chosenReduceTo: newChoice });
+        console.log("reduction problem chosen")
+    }
 
     render() {
         return (
@@ -150,9 +194,11 @@ class ProblemProvider extends Component {
                 setProblemReduceTo:this.setProblemReduceTo,
                 setProblemJson : this.setProblemJson,
                 makeApiCall: this.makeApiCall,
-                setProblemChosenReduceTo: this.setProblemChosenReduceTo,
-                setProblemReductionType: this.setProblemReductionType,
-                reduceRequest: this.makeApiCallReductionRequest
+                setChosenReduceTo: this.setChosenReduceTo,
+                setChosenReductionType: this.setChosenReductionType,
+                reduceRequest: this.makeApiCallReductionRequest,
+                setChosenSolver: this.setChosenSolver,
+                setChosenVerifier: this.setChosenVerifier
             }}>
                 {this.props.children}
             </ProblemContext.Provider>

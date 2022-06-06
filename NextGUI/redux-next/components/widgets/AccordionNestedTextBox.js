@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import { useContext } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl,Row,Col } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
-import SearchBarProblemType from './SearchBarProblemType';
+import SearchBarProblemType from './SearchBars/SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
 import {Stack,Button} from '@mui/material'
 
@@ -35,18 +35,28 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 
-
 function AccordionNestedTextBox(props) {
   //console.log(props)
-  const { problem, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
+  const {problemName, problemInstance, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
   const handleChangeInstance = (event) => {
    // console.log(event.target.value);
     setProblemInstance(event.target.value)
   }
-  const handleChangeSearchSelection = (event) => {
-   // console.log(event.target.value);
-    setProblemName(event.target.value)
-  }
+ 
+
+  const [testName,setTestName]= useState('DEFAULT ACCORDION NAME') //This may only actually cause a re-render event. But removing it means no rerender.
+  const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
+
+  useEffect(() => {
+   // console.log("rerender problem Row accordion, TESTNAME")
+    //console.log(testName,problemName)
+    //console.log(props.accordion.TOOLTIP.header); //always is the previous state.
+    requestProblemData(props.accordion.INPUTURL.url,problemName).then(data => {
+      setToolTip({header:problemName,formalDef:data.formalDefinition,info:data.problemDefinition}) //updates TOOLTIP
+    }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
+  }, [problemName])
+  
+  
   return (
     <div>
 
@@ -59,17 +69,12 @@ function AccordionNestedTextBox(props) {
 
                 {/* <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}>
                 </FormControl> *FORM CONTROL 1 (header) */}
-                <SearchBarProblemType onChange={handleChangeSearchSelection} placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
+                <SearchBarProblemType setTestName = {setTestName} placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
              
-              <PopoverTooltipHover popupText={props.accordion.TOOLTIP.tooltipText}></PopoverTooltipHover>  
+              <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>  
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
 
               </Stack>
-              
-             
-                
-
-           
             
         </Card.Header>
 
@@ -77,7 +82,7 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
             <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
-                <FormControl as= "textarea" value={props.accordion.CARD.problemInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                <FormControl as= "textarea" value={problemInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>
@@ -88,5 +93,14 @@ function AccordionNestedTextBox(props) {
     </div>
       );
 }
+
+
+
+async function requestProblemData(url, name) {
+  console.log(name)
+  return await fetch(url+name+"Generic").then(resp => resp.json());
+}
+
+
 
 export default AccordionNestedTextBox

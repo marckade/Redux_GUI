@@ -1,42 +1,34 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../contexts/ProblemProvider'
-import React,{useContext} from 'react'
+import { ProblemContext } from '../../contexts/ProblemProvider'
+import React,{useContext,useEffect} from 'react'
 const filter = createFilterOptions();
-var initialized = false;
 
-export default function SearchBarProblemType(props) {
 
-  //console.log(props.url)
-  if (!initialized) {
-    const req = getRequest(props.url);
-    req.then(result => {
-      return result.json();
-    }).then(data => {
-      initializeProblemJson(data)
-      //console.log(problemJson)
-    })
-      .catch((error) => console.log("GET REQUEST FAILED"));
-    initialized = true;
-  }
+export default function SearchBarV2(props) {
+  //props.setData and props.data should be passed down.
+
+  let stateVal = undefined;
+
+  const fullUrl = props.url;
+    initializeList(fullUrl) 
+  
   //const [value, setValue] = React.useState(null); //state manager.
-  const {problem,setProblemName, setProblemInstance,makeApiCall} = useContext(ProblemContext)
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={problem}
+      value={stateVal}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemName(
-            newValue
-          );
-        } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
-          setProblemName(
-            newValue.inputValue,
-          );
+          // setChosenReduceTo(
+          //   newValue
+          // );
+          props.setData(newValue);
+          stateVal = newValue
         } else {
-          setProblemName(newValue);
+          //setChosenReduceTo(newValue);
+          props.setData(newValue);
+          stateVal = newValue;
         }
       }}
       filterOptions={(options, params) => {
@@ -45,12 +37,7 @@ export default function SearchBarProblemType(props) {
         const { inputValue } = params;
         // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-        // if (inputValue !== '' && !isExisting) {
-        //   filtered.push({
-        //     inputValue,
-        //     problemName: `Add "${inputValue}"`,
-        //   });
-        // }
+      
 
         return filtered;
       }}
@@ -64,14 +51,11 @@ export default function SearchBarProblemType(props) {
         if (typeof option === 'string') {
           return option;
         }
-        // Add "xxx" option created dynamically
-        if (option.inputValue) {
-          return option.inputValue;
-        }
+       
         // Regular option
-        return option.problemName;
+        return option;
       }}
-      renderOption={(props, option) => <li {...props}>{option.problemName}</li>}
+      renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -87,16 +71,35 @@ var problemJson = [
 ];
 
 function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-  
+  console.log(problemJson)
+    while (problemJson.length) { 
+      problemJson.pop(); 
+  }
   arr.map(function (element, index, array) {
+    
     if (!problemJson.includes(element)) {
-      problemJson.push({ problemName: element })
+      problemJson.push(element)
     }
   }, 80);
   //console.log(problemJson);
 }
 async function getRequest(url) {
-    const promise = await fetch(url);
-    return promise;
+    const promise = await fetch(url).then(result => {
+      return result.json()
+  })
+  return promise;
+  
 }
+
+function initializeList(url) {
+
+  const req = getRequest(url);
+  req.then(data => {
+   
+    initializeProblemJson(data)
+    //console.log(problemJson)
+  })
+    .catch((error) => console.log("GET REQUEST FAILED",error));
+}
+
 

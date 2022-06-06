@@ -1,18 +1,18 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../contexts/ProblemProvider'
+import { ProblemContext } from '../../contexts/ProblemProvider'
 import React,{useContext} from 'react'
 const filter = createFilterOptions();
-var initialized = false
-export default function SearchBarChooseReduceProblem(props) {
-    const {reduceToOptions,problem,setProblemChosenReduceTo} = useContext(ProblemContext) //This search bar should take in an input of options and give an output of the chosen option.
+
+export default function SearchBarSelectSolver(props) {
+    const {solverOptions,problem,setChosenSolver} = useContext(ProblemContext) //this takes an input of 
+    //console.log(reductionTypeOptions)
     //var optionsArr = [{ problemName: "DEFAULT CHOICE" }];
     var optionsArr = [];
-
     try {
-        //console.log(reduceToOptions)
-        reduceToOptions.map(function (element, index, array) {
-            
+        
+        solverOptions.map(function (element, index, array) {
+       
             optionsArr.push({ problemName: element })
             //console.log(optionsArr)
           
@@ -23,24 +23,19 @@ export default function SearchBarChooseReduceProblem(props) {
         console.log(error)
     }
    
-    
   
   return (
-      <Autocomplete 
+      <Autocomplete
       style={{ width: "100%" }}
-      value={problem} //leaving this blank for some reason overwrites input
+      value={problem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemChosenReduceTo(
+          setChosenSolver(
             newValue
           );
-        } else if (newValue && newValue.inputValue) {
-          // Create a new value from the user input
-          setProblemChosenReduceTo(
-            newValue.inputValue,
-          );
+      
         } else {
-          setProblemChosenReduceTo(newValue);
+          setChosenSolver(newValue);
           }
       }}
       filterOptions={(options, params) => {
@@ -76,6 +71,5 @@ export default function SearchBarChooseReduceProblem(props) {
     />
   );
 }
-
 
 
