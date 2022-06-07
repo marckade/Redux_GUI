@@ -44,24 +44,36 @@ function AccordionNestedTextBox(props) {
 
   
   const [state, setState] = useState("DEFAULT")
-  const [counter, setCounter] = useState();
+  const [seconds, setSeconds] = useState(1);
+
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      //console.log("TIMER")
+    const timer = setInterval(() => {
+      setSeconds(seconds + 1);
       setProblemInstance(state)
+      console.log("TIMER")
+      console.log(state)
     }, 5000);
-    return () => clearInterval(intervalId)
-  }, [])
+               // clearing interval
+    return () => clearInterval(timer);
+  });
 
 
   useEffect(() => {
-    requestProblemData(props.accordion.INPUTURL.url,problemName,problemType).then(data => {
-      console.log(data.defaultInstance)
-      setState(data.defaultInstance)
-      setToolTip({header:problemName,formalDef:data.formalDefinition,info:data.problemDefinition+data.source})
-
-    })
+    try {
+      requestProblemData(props.accordion.INPUTURL.url, problemName, problemType).then(data => {
+        if (!(typeof data === "undefined")) {
+          console.log(data.defaultInstance)
+          setState(data.defaultInstance)
+          setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
+        }
+          
+      }).catch(console.log("Problem not defined"));
+    }
+    catch {
+      console.log("problem name is empty")
+    }
   },[problemName])
+  
   
   const handleChangeInstance = (event) => {
     console.log(event.target.value);
@@ -116,8 +128,9 @@ function AccordionNestedTextBox(props) {
 
 
 async function requestProblemData(url, name) {
-  console.log(name)
-  return await fetch(url+name+"Generic").then(resp => resp.json());
+    console.log(name)
+    return await fetch(url + name + "Generic").then(resp => resp.json());
+  
 }
 
 

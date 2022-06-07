@@ -19,10 +19,6 @@ import ProblemProvider from '../components/contexts/ProblemProvider'
 
 
 
-
-
-
-
 function TestPageContent() {
 
   const imgStyle = { textAlign: "center" }

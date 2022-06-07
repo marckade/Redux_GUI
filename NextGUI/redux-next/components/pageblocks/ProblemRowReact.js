@@ -19,11 +19,7 @@ const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, TOOLTIP, INPUT
 
 
 function ProblemRowReact() {
-    const { problemName } = useContext(ProblemContext)
-    //console.log(problemName.problemName)
-    useEffect(() => {
-    console.log("problemNameChanged",problemName)
-    },[problemName])
+
     return (
         <>
         <AccordionNestedTextBox accordion={ACCORDION}></AccordionNestedTextBox>

@@ -139,8 +139,10 @@ class ProblemProvider extends Component {
 
     // Setters
     setProblemInstance = (newInstance) => {
+        console.log(newInstance)
         this.setState({ problemInstance: newInstance })
         console.log("SET INSTANCE PROVIDER")
+        console.log(this.state.problemInstance)
     }
 
     setProblemJson = (newProblem) => {
@@ -157,7 +159,6 @@ class ProblemProvider extends Component {
         console.log(options)
     }
     
-
     setProblemReductionTypeOptions = (options)=>{
         this.setState({reductionTypeOptions: options})
     }
@@ -184,6 +185,10 @@ class ProblemProvider extends Component {
         this.setState({ chosenReduceTo: newChoice });
         console.log("reduction problem chosen")
     }
+    setReducedInstance = (newInstance) => {
+        this.setState({ reducedInstance: newInstance })
+        console.log("new reduced instance set")
+    }
 
     render() {
         return (
@@ -198,7 +203,7 @@ class ProblemProvider extends Component {
                 makeApiCall: this.makeApiCall,
                 setChosenReduceTo: this.setChosenReduceTo,
                 setChosenReductionType: this.setChosenReductionType,
-                reduceRequest: this.makeApiCallReductionRequest,
+                setReducedInstance: this.setReducedInstance,
                 setChosenSolver: this.setChosenSolver,
                 setChosenVerifier: this.setChosenVerifier
             }}>
