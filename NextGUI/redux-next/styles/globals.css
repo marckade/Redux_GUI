@@ -54,9 +54,37 @@ a {
   box-shadow: none;
 }
 
+/* .card-body{
+  display: inline;
+  margin: 0;
+} */
 
+#instanceDiv {
+  /* width: 100%;
+  height: 100%; */
+  display: inline;
+  float: left;
+}
+
+
+#reduceInstanceDiv {
+
+  height: 100%;
+  float: right;
+}
+
+#instanceDiv svg{
+ 
+  padding-right: 5px;
+  height: 100%;
+  /* Will use conditional to create a border */
+  border-right: 1px solid;
+}
 
 #reduceInstanceDiv svg {
-  height: 50%;
-  width: 50%;
+  height: 100%;
+  width: 100%;
+  padding-right: 5px;
 }
+
+

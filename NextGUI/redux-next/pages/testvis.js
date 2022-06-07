@@ -10,6 +10,10 @@ export default function Test(props){
 
         <div>
          {/* <Dot></Dot> */}
+         
+         <div id="instanceDiv" ></div>
+
+        <div id="reduceInstanceDiv"></div>
         <GraphvizPage name={"Daniel"} instance={"Test"}> </GraphvizPage>
         <Graphvisualization></Graphvisualization>
         

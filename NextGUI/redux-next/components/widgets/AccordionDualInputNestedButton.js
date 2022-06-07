@@ -114,10 +114,12 @@ function AccordionDualInputNestedButton(props) {
 
 async function requestProblemData(url, name) {
   //console.log(name)
+  //$`{url}{name}Generic`
   return await fetch(url+name+"Generic").then(resp => resp.json());
 }
 
 async function requestReductionData(url,reductionName) {
+    //$`{url}{reductionName}/info`
   return await fetch(url + reductionName + '/info').then(resp => resp.json());
 }
 
