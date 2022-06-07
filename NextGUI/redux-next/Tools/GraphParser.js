@@ -173,45 +173,7 @@ class GraphParser {
         }
     }
 
-    parseOutGraph() {
-        const newInstance = this.jsonData.instance.replaceAll('{', "").replaceAll('}', "").replaceAll('(', '').replaceAll(')', '');
-
-        // [0] is nodes,  [1] is edges,  [2] is k.
-        const splitInstance = newInstance.split(":");
-
-        // add nodes to NodeList
-        const nodes = splitInstance[0].split(",");
-        for (var elem of nodes) {
-            let element = elem;
-            if (elem.includes('!')) {
-                element = element.replaceAll("!", "_");
-            }
-
-            /* Adding the node to the nodeList. */
-            if (this.jsonData.nodeColoring !== null) {
-                this.nodeList.push({ "name": element.trim(), "color": this.jsonData.nodeColoring[elem.trim()] });
-            } else {
-                this.nodeList.push({ "name": element.trim(), "color": 0 });
-            }
-
-        }
-
-        // add edges to EdgeList
-        const edges = splitInstance[1].split('&');
-        for (var edge of edges) {
-            const fromTo = edge.split(',');
-
-            let nodeFrom = fromTo[0];
-            let nodeTo = fromTo[1];
-
-            if (nodeFrom.includes("!") || nodeTo.includes("!")) {
-                nodeFrom = nodeFrom.replaceAll("!", "_");
-                nodeTo = nodeTo.replaceAll("!", "_");
-            }
-
-            this.edgeList.push({ "source": nodeFrom.trim(), "target": nodeTo.trim() });
-        }
-    }
+  
 
     createUndirectedColoredGraph(name) {
         var graph = `graph ${name} { ` + '\n';

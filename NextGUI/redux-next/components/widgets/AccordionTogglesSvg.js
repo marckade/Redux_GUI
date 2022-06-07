@@ -95,10 +95,10 @@ function AccordionTogglesSvg(props) {
             <Card.Body>
               {/* <Stack direction="horizontal" gap={1}> */}
         
-                {/* {isSwitch1Checked ? <Graphvisualization/> : null} */}
+                {isSwitch1Checked ? <Graphvisualization/> : null}
 
 
-      
+{/*       
                 <div id="instanceDiv" >
                 <Graphvisualization id='Test' visualization="Daniel"></Graphvisualization>
 
@@ -107,7 +107,7 @@ function AccordionTogglesSvg(props) {
           
                 <div id="reduceInstanceDiv">
                 <Graphvisualization id='' ></Graphvisualization>
-                </div>
+                </div> */}
 
              
               {/* </Stack> */}
