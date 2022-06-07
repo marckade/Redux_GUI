@@ -152,49 +152,64 @@ const CSS_COLOR_NAMES = [
 class GraphParser {
 
     constructor(problem) {
-        this.name = problem.problemName;
-        this.instance =  problem.defaultInstance;
+        // this.name = problem.problemName ;
+        // this.instance =  problem.instance;
+        this.jsonData = problem;
+        this.directedRegex = /{{(\w(,\w)*)+},{(\(\w,\w\)(,\(\w,\w\))*)*},\d+}/;
+        this.unDirectedRegex = /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/;
         this.edgeList = [];
         this.nodeList = [];
     }
 
     graphType(instance) {
-      // TODO: cHECK if graph is directed or undirected
-      // return DOT format for respective type. 
+        // TODO: cHECK if graph is directed or undirected
+        // return DOT format for respective type. 
+        if (this.directedRegex.test(instance)) {
+            console.log("Directed graph called \n")
+
+        } else if (this.unDirectedRegex.test(instance)) {
+            console.log("Undirected graph called \n")
+
+        }
     }
 
-    parseOutGraph(jsonData) {
-        const newInstance = jsonData.defaultInstance.replaceAll('{', "").replaceAll('}', "").replaceAll('(', '').replaceAll(')', '');
-       
-       // [0] is nodes,  [1] is edges,  [2] is k.
+    parseOutGraph() {
+        const newInstance = this.jsonData.instance.replaceAll('{', "").replaceAll('}', "").replaceAll('(', '').replaceAll(')', '');
+
+        // [0] is nodes,  [1] is edges,  [2] is k.
         const splitInstance = newInstance.split(":");
-    
+
         // add nodes to NodeList
         const nodes = splitInstance[0].split(",");
-        for(var elem of nodes){
+        for (var elem of nodes) {
             let element = elem;
-            if(elem.includes('!')){
-                element  = element.replaceAll("!", "_");
+            if (elem.includes('!')) {
+                element = element.replaceAll("!", "_");
             }
-            
+
             /* Adding the node to the nodeList. */
-            this.nodeList.push({ "name": element.trim(), "color": jsonData.nodeColoring[elem.trim()]});
+            if (this.jsonData.nodeColoring !== null) {
+                this.nodeList.push({ "name": element.trim(), "color": this.jsonData.nodeColoring[elem.trim()] });
+            } else {
+                this.nodeList.push({ "name": element.trim(), "color": 0 });
+            }
+
         }
-    
+
         // add edges to EdgeList
         const edges = splitInstance[1].split('&');
-        for(var edge of edges){
+        for (var edge of edges) {
             const fromTo = edge.split(',');
-            
+
             let nodeFrom = fromTo[0];
             let nodeTo = fromTo[1];
-    
-            if(nodeFrom.includes("!") || nodeTo.includes("!")){
+
+            if (nodeFrom.includes("!") || nodeTo.includes("!")) {
                 nodeFrom = nodeFrom.replaceAll("!", "_");
-                nodeTo =  nodeTo.replaceAll("!", "_");
+                nodeTo = nodeTo.replaceAll("!", "_");
             }
-    
-            this.edgeList.push({"source": nodeFrom.trim(), "target": nodeTo.trim()});
+
+            this.edgeList.push({ "source": nodeFrom.trim(), "target": nodeTo.trim() });
         }
     }
 
@@ -214,7 +229,7 @@ class GraphParser {
         console.log(graph);
     }
 
-    createDirectedGraph(name){
+    createDirectedGraph(name) {
         var graph = `digraph ${name} { ` + '\n';
         graph += 'node [style="filled"];  \n';
 

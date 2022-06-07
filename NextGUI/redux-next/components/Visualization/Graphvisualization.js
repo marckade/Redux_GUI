@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
-const imgStyle = { textAlign: "center" }
+
 
 const graphTest = `graph GRAPHCOLORING {  
     node [style="filled"];  
@@ -32,12 +32,15 @@ const graphTest = `graph GRAPHCOLORING {
 function Page(props) {
   let viz = "";
 
+  const [visualization, setVisualization]= useState('')
+
   // const [data, setData] = useState("");
 
   useEffect(() => {
+    console.log(`${props.visualization}\n`)
     // getData();
     draw();
-    //console.log(viz)
+   console.log(visualization)
   }, [props]);
 
   
@@ -45,18 +48,17 @@ function Page(props) {
   function draw() {
     //console.log("Draw \n")
     viz = graphTest
-    // console.log(props.problem)
-  
+    setVisualization(graphTest)
 
     return
-
   }
 
+
+
   return (
-    <div id="problemVisualization" style={imgStyle}>
-      {/**console.log("Viz \n"+viz)*/}
-      <Graphviz dot={graphTest} width={200} height={200} />;
-    </div>
+  
+    <Graphviz dot={graphTest} width={200} height={200} />
+
   );
 }
 

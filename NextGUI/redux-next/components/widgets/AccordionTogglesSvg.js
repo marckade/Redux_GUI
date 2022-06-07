@@ -1,15 +1,16 @@
 import React from 'react'
 import { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Accordion,Card,AccordionContext,Stack} from 'react-bootstrap'
+import { Accordion, Card, AccordionContext, Stack } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipHover from './PopoverTooltipHover';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
-import {Button,Switch} from '@mui/material'
+import { Button, Switch } from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 import Graphvisualization from "../Visualization/Graphvisualization.js";
+
 
 
 function ContextAwareToggle({ children, eventKey, callback }) {
@@ -35,8 +36,43 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 }
 
+
+
 function AccordionTogglesSvg(props) {
   //console.log(props)
+  var visualization;
+  let isSwitch1Checked;
+  let isSwitch2Checked = false;
+  let isSwitch3Checked = false;
+
+  function handleSwitch1Change(e) {
+    isSwitch1Checked = e.target.checked;
+    if (isSwitch1Checked) {
+      visualization = <Graphvisualization />;
+      console.log("Switch 1 " + isSwitch1Checked);
+
+    }
+
+  }
+
+  function handleSwitch2Change(e) {
+    isSwitch2Checked = e.target.checked;
+  }
+
+  function handleSwitch3Change(e) {
+    isSwitch3Checked = e.target.checked;
+    if (isSwitch3Checked) {
+      document.querySelector("#instanceDiv svg").setAttribute("style","border-right: 1px solid;");
+
+      visualization = <div>
+        <Graphvisualization />
+        <Graphvisualization />
+
+      </div>;
+      console.log("Switch 3 " + isSwitch3Checked);
+
+    }
+  }
 
   return (
     <div>
@@ -45,9 +81,9 @@ function AccordionTogglesSvg(props) {
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
             <Stack className="float-end" direction="horizontal" gap={3} >
-              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} />
-              <FormControlLabel  control={<Switch />} label={props.accordion.SWITCHES.switch2} />
-              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
               <ContextAwareToggle className="float-end" eventKey="0">▼</ContextAwareToggle>
 
@@ -57,14 +93,24 @@ function AccordionTogglesSvg(props) {
 
           <Accordion.Collapse eventKey="0">
             <Card.Body>
-              <Stack direction="horizontal" gap={1}>
+              {/* <Stack direction="horizontal" gap={1}> */}
+        
+                {/* {isSwitch1Checked ? <Graphvisualization/> : null} */}
 
-                <Graphvisualization problem={props.accordion.CARD.problemJson} instance={props.accordion.CARD.problemInstance}>
 
-                </Graphvisualization>
+      
+                <div id="instanceDiv" >
+                <Graphvisualization id='Test' visualization="Daniel"></Graphvisualization>
 
-                {/* {props.accordion.CARD.problemInstance} */}
-              </Stack>
+                </div>
+
+          
+                <div id="reduceInstanceDiv">
+                <Graphvisualization id='' ></Graphvisualization>
+                </div>
+
+             
+              {/* </Stack> */}
             </Card.Body>
           </Accordion.Collapse>
         </Card>
