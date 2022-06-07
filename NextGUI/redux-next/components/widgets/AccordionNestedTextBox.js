@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from 'react'
-import { useContext } from 'react';
+import { useContext,useMemo } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl,Row,Col } from 'react-bootstrap'
@@ -36,25 +36,44 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
 
 function AccordionNestedTextBox(props) {
-  //console.log(props)
-  const {problemName, problemInstance, setProblemName, setProblemInstance, makeApiCall } = useContext(ProblemContext)
-  const handleChangeInstance = (event) => {
-   // console.log(event.target.value);
-    setProblemInstance(event.target.value)
-  }
  
-
+  //console.log(props)
+  const { problemName, problemType, problemInstance, setProblemName, setProblemInstance, makeApiCall, setProblemJson } = useContext(ProblemContext)
   const [testName,setTestName]= useState('DEFAULT ACCORDION NAME') //This may only actually cause a re-render event. But removing it means no rerender.
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
 
+  
+  const [state, setState] = useState("DEFAULT")
+  const [counter, setCounter] = useState();
   useEffect(() => {
-   // console.log("rerender problem Row accordion, TESTNAME")
-    //console.log(testName,problemName)
-    //console.log(props.accordion.TOOLTIP.header); //always is the previous state.
-    requestProblemData(props.accordion.INPUTURL.url,problemName).then(data => {
-      setToolTip({header:problemName,formalDef:data.formalDefinition,info:data.problemDefinition}) //updates TOOLTIP
-    }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
-  }, [problemName])
+    const intervalId = setInterval(() => {
+      //console.log("TIMER")
+      setProblemInstance(state)
+    }, 5000);
+    return () => clearInterval(intervalId)
+  }, [])
+
+
+  useEffect(() => {
+    requestProblemData(props.accordion.INPUTURL.url,problemName,problemType).then(data => {
+      console.log(data.defaultInstance)
+      setState(data.defaultInstance)
+      setToolTip({header:problemName,formalDef:data.formalDefinition,info:data.problemDefinition+data.source})
+
+    })
+  },[problemName])
+  
+  const handleChangeInstance = (event) => {
+    console.log(event.target.value);
+    setState(event.target.value)
+    console.log(state)
+  }
+  // const interval = setInterval(() => {
+  //   setProblemInstance(state)
+  // },5000)
+ 
+
+
   
   
   return (
@@ -69,7 +88,7 @@ function AccordionNestedTextBox(props) {
 
                 {/* <FormControl placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}>
                 </FormControl> *FORM CONTROL 1 (header) */}
-                <SearchBarProblemType setTestName = {setTestName} placeholder = {props.accordion.ACCORDION_FORM_ONE.placeHolder} url = {props.accordion.INPUTURL.url}></SearchBarProblemType>
+              <SearchBarProblemType setTestName={setTestName} placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder} url={props.accordion.INPUTURL.url}></SearchBarProblemType>
              
               <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>  
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
@@ -82,7 +101,7 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
             <Stack direction="horizontal" gap={1}>
               {props.accordion.CARD.cardBodyText}
-                <FormControl as= "textarea" value={problemInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                <FormControl as= "textarea" value={state} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
           </Card.Body>
         </Accordion.Collapse>

@@ -5,7 +5,7 @@ import React,{useContext,useEffect} from 'react'
 const filter = createFilterOptions();
 
 
-export default function SearchBarV2(props) {
+export default function SearchBarSelectReduceToV2(props) {
   //props.setData and props.data should be passed down.
 
   let stateVal = undefined;
@@ -71,7 +71,6 @@ var problemJson = [
 ];
 
 function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-  console.log(problemJson)
     while (problemJson.length) { 
       problemJson.pop(); 
   }

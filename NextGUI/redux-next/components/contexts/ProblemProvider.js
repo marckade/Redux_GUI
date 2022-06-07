@@ -139,7 +139,8 @@ class ProblemProvider extends Component {
 
     // Setters
     setProblemInstance = (newInstance) => {
-        this.setState({problemInstance:newInstance})
+        this.setState({ problemInstance: newInstance })
+        console.log("SET INSTANCE PROVIDER")
     }
 
     setProblemJson = (newProblem) => {
@@ -190,6 +191,7 @@ class ProblemProvider extends Component {
                 //These functions (and above state values) are what consumers or useContext(ProblemInsance)  have access to.
                 ...this.state,
                 setProblemInstance: this.setProblemInstance,
+                setProblemJson:this.setProblemJson,
                 setProblemName: this.setProblemName,
                 setProblemReduceTo:this.setProblemReduceTo,
                 setProblemJson : this.setProblemJson,
