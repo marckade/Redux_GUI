@@ -9,13 +9,13 @@ export default function SearchBarSelectReduction(props) {
     //props.setTestName should be passed down.
 
   useEffect(() => {
-    console.log("reload searchbar reduce") 
+    //console.log("reload searchbar reduce") 
   },[problemName])
   //console.log(props.url)
 
     //console.log(props.url)
     const fullUrl = props.url + 'Navigation/PossibleReductionsRefactor/' + '?reducingFrom=' + problemName + '&reducingTo='+chosenReduceTo+'&problemType=' + problemType
-    console.log(fullUrl)
+    //console.log(fullUrl)
     initializeList(fullUrl) 
   
   //const [value, setValue] = React.useState(null); //state manager.

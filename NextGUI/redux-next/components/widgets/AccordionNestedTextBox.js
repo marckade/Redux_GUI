@@ -129,7 +129,12 @@ function AccordionNestedTextBox(props) {
 
 async function requestProblemData(url, name) {
     console.log(name)
-    return await fetch(url + name + "Generic").then(resp => resp.json());
+  return await fetch(url + name + "Generic").then(resp =>
+  {
+    if (resp.ok) {
+      return resp.json()
+    }
+  });
   
 }
 

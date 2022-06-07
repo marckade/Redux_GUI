@@ -98,7 +98,7 @@ function initializeList(url) {
     initializeProblemJson(data)
     //console.log(problemJson)
   })
-    .catch((error) => console.log("GET REQUEST FAILED",error));
+    .catch((error) => console.log("GET REQUEST FAILED SELECT REDUCE TO"));
 }
 
 

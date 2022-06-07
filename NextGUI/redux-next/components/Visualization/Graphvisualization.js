@@ -37,10 +37,10 @@ function Page(props) {
   // const [data, setData] = useState("");
 
   useEffect(() => {
-    console.log(`${props.visualization}\n`)
+   // console.log(`${props.visualization}\n`)
     // getData();
     draw();
-   console.log(visualization)
+   //console.log(visualization)
   }, [props]);
 
   

@@ -48,7 +48,7 @@ function AccordionDualInputNestedButton(props) {
     requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
     console.log(data)
       setReducedInstance(data.reductionTo.instance);
-    })
+    }).catch((error)=>console.log("REDUCTION FAILED, one or more properties was invalid"))
   }
 
   //TOOLTIP LEFT
@@ -104,7 +104,7 @@ function AccordionDualInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              {"NOTHING"}
+              {reducedInstance+""}
               <div className="submitButton">
                 <Button
                   style={{ backgroundColor: 'blue', WebkitTextFillColor: 'white' }}
@@ -135,7 +135,12 @@ async function requestReductionData(url,reductionName) {
 async function requestReducedInstance(url, reductionName, reduceFrom) {
   var parsedInstance = reduceFrom.replaceAll('&','%26');
 
-  return await fetch(url+reductionName+'/reduce?'+"problemInstance="+parsedInstance).then(resp => resp.json());
+  return await fetch(url + reductionName + '/reduce?' + "problemInstance=" + parsedInstance).then(resp =>
+  {
+    if (resp.ok) {
+      return resp.json();
+    }
+    })
 }
 
 export default AccordionDualInputNestedButton
