@@ -35,9 +35,8 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 function AccordionSingleInputNestedButton(props) {
-  const { problemName, problemType, chosenSolver,setChosenSolver} = useContext(ProblemContext)
+  const { problemName, problemInstance,problemType, chosenSolver,setChosenSolver,solvedInstance,setSolvedInstance} = useContext(ProblemContext)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
-  const [testData, setTestData] = useState();
   console.log("STATE CHANGE SOLVER")
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_SolversRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   useEffect(() => {
@@ -47,7 +46,15 @@ function AccordionSingleInputNestedButton(props) {
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
   }, [chosenSolver])
 
-  
+  const handleSolve = () => {
+    console.log("SOLVE REQUEST BUTTON")
+    requestSolvedInstance(props.accordion.INPUTURL.url, chosenSolver, problemInstance).then(data => {
+      console.log(data)
+      setSolvedInstance(data);
+    }).catch((error) => {
+      console.log("SOLVE REQUEST INSTANCE FAILED")
+    })
+  }
   
   return (
     <div>
@@ -74,10 +81,11 @@ function AccordionSingleInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              {props.accordion.CARD.cardBodyText}
+              {props.accordion.CARD.cardBodyText +" "+ solvedInstance}
               <div className="submitButton">
                 <Button
                   style={{ backgroundColor: 'lightblue' }}
+                  onClick={handleSolve}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>
@@ -93,8 +101,26 @@ function AccordionSingleInputNestedButton(props) {
 }
 
 
-async function requestSolverData(url,solverName) {
-  return await fetch(url + solverName + '/info').then(resp => resp.json());
+async function requestSolverData(url, solverName) {
+  
+  return await fetch(url + solverName + '/info').then(resp =>
+    {
+      if (resp.ok) {
+        return resp.json();
+      }
+      });
+}
+
+async function requestSolvedInstance(url, sName, instance) {
+  var parsedInstance = instance.replaceAll('&','%26');
+
+  const totalUrl = url +`${sName}/solve?problemInstance=${parsedInstance}`
+  return await fetch(totalUrl).then(resp =>
+    {
+      if (resp.ok) {
+        return resp.json();
+      }
+      })
 }
 
 export default AccordionSingleInputNestedButton

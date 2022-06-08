@@ -22,7 +22,8 @@ class ProblemProvider extends Component {
         reducedInstance: { instance: "PROVIDER_REDUCED_INSTANCE" },
         solverOptions: ["SOLVER_OPTION_ONE"],
         chosenSolver: "CHOSEN SOLVER PROVIDER",
-        verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"]
+        verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"],
+        solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDE"
         
     }
     /** This method is essentially a "notify all listeners" method, except only for listeners that care about the problem name */
@@ -189,6 +190,10 @@ class ProblemProvider extends Component {
         this.setState({ reducedInstance: newInstance })
         console.log("new reduced instance set")
     }
+    setSolvedInstance = (newInstance) => {
+        this.setState({ solvedInstance: newInstance })
+        console.log("new solved instance set")
+    }
 
     render() {
         return (
@@ -205,7 +210,8 @@ class ProblemProvider extends Component {
                 setChosenReductionType: this.setChosenReductionType,
                 setReducedInstance: this.setReducedInstance,
                 setChosenSolver: this.setChosenSolver,
-                setChosenVerifier: this.setChosenVerifier
+                setChosenVerifier: this.setChosenVerifier,
+                setSolvedInstance: this.setSolvedInstance
             }}>
                 {this.props.children}
             </ProblemContext.Provider>
