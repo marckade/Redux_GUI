@@ -14,7 +14,7 @@ function VerifyRowReact() {
     const BUTTON = { buttonText: "Verify" }
     const CARD = { cardBodyText: "Verified Solution:", cardHeaderText: "Verifier" }
     const INPUTURL = { url: reduxBaseUrl }
-    const TOOLTIP = { header: "HELLO I AM PROBLEM INFORMATION", formalDef: "DefaultDef", info: "info" }
+    const TOOLTIP = { header: "Problem Verifier", formalDef: "Choose a verifier to see information about it", info: "" }
 
     const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,BUTTON,TOOLTIP,INPUTURL}
     return (

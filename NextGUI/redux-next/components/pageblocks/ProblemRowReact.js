@@ -9,7 +9,7 @@ const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing s
 const ACCORDION_FORM_ONE = { placeHolder: "Select problem" }
 const ACCORDION_FORM_TWO = { placeHolder: "default instance" }
 var CARD = { cardBodyText: "Instance", cardHeaderText: "Problem",problemInstance:"Default problem" }
-const TOOLTIP = { header: "HELLO I AM PROBLEM INFORMATION", formalDef: "DefaultDef", info: "info" }
+const TOOLTIP = { header: "Problem Information", formalDef: "Choose a problem to see information about it", info: "" }
 const INPUTURL = { url: reduxBaseUrl }
 
 

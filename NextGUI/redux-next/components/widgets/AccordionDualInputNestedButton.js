@@ -33,21 +33,24 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 function AccordionDualInputNestedButton(props) {
-  console.log("STATE CHANGE")
+  console.log("STATE CHANGE REDUCEBOX")
+  
   var REDUCETOOPTIONSURL = props.accordion.INPUTURL.url;
   var REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url;
   const { problemName,problemInstance, problemType, chosenReduceTo, setChosenReduceTo, chosenReductionType, setChosenReductionType,reducedInstance,setReducedInstance } = useContext(ProblemContext)
-
+  const [reducedInstanceLocal, setReducedInstanceLocal] = useState("Reduced Instance goes here");
    REDUCETOOPTIONSURL= props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
    REDUCTIONTYPEOPTIONSURL= props.accordion.INPUTURL.url+ 'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+problemName+'&reducingTo='+chosenReduceTo+'&problemType='+problemType
-
-  const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
-  const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP) //keeps track of tooltip state (right)
+   console.log(reducedInstance)
+   console.log(problemName)
+  const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
+  const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
   const reduceRequest = () => {
     console.log("Problem Instance at time of reduce req: ", problemInstance);
+    
     requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
-    console.log(data)
       setReducedInstance(data.reductionTo.instance);
+      setReducedInstanceLocal(data.reductionTo.instance);
     }).catch((error)=>console.log("REDUCTION FAILED, one or more properties was invalid"))
   }
 
@@ -104,7 +107,7 @@ function AccordionDualInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              {reducedInstance+""}
+              {reducedInstance}
               <div className="submitButton">
                 <Button
                   style={{ backgroundColor: 'blue', WebkitTextFillColor: 'white' }}
