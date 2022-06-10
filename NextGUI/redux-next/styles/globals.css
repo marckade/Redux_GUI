@@ -59,32 +59,20 @@ a {
   margin: 0;
 } */
 
-#instanceDiv {
-  /* width: 100%;
-  height: 100%; */
-  display: inline;
-  float: left;
+
+.wrap {
+  display: flex;
+}
+
+.gutter {
+  background-color: black;
+
+  background-repeat: no-repeat;
+  background-position: 50%; 
 }
 
 
-#reduceInstanceDiv {
-
-  height: 100%;
-  float: right;
+.gutter.gutter-horizontal {
+  /* background-image: url('grips/vertical.png'); */
+  cursor: col-resize;
 }
-
-#instanceDiv svg{
- 
-  padding-right: 5px;
-  height: 100%;
-  /* Will use conditional to create a border */
-  border-right: 1px solid;
-}
-
-#reduceInstanceDiv svg {
-  height: 100%;
-  width: 100%;
-  padding-right: 5px;
-}
-
-

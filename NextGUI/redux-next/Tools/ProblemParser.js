@@ -21,9 +21,9 @@ var problems = [
 
 class ProblemParser {
 
-    constructor(name, instance) {
+    constructor(name) {
         this.name = name;
-        this.instance = instance;
+       
     }
 
 
