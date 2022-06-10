@@ -35,11 +35,13 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 }
 
 function AccordionVerifier(props) {
-  const { problemName, problemType, chosenVerifier,setChosenVerifier} = useContext(ProblemContext)
+  const [verifiedInstance, setVerifiedInstance] = useState("");
+
+  const { problemName, problemInstance, problemType, chosenVerifier,setChosenVerifier,solvedInstance} = useContext(ProblemContext)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
-  const [testData, setTestData] = useState();
-  console.log("STATE CHANGE SOLVER")
+  console.log("STATE CHANGE VERIFIER")
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
+
   useEffect(() => {
     SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
     requestVerifyData(props.accordion.INPUTURL.url, chosenVerifier).then(data => {
@@ -47,6 +49,11 @@ function AccordionVerifier(props) {
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
   }, [chosenVerifier])
 
+  const handleVerify = () => {
+    requestVerifiedInstance(props.accordion.INPUTURL.url, chosenVerifier, problemInstance, solvedInstance).then(data => {
+      setVerifiedInstance(data);
+    })
+  }
   
   
   return (
@@ -74,10 +81,11 @@ function AccordionVerifier(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              {props.accordion.CARD.cardBodyText}
+              {props.accordion.CARD.cardBodyText+" " + verifiedInstance}
               <div className="submitButton">
                 <Button
                   style={{ backgroundColor: 'lightblue' }}
+                  onClick={handleVerify}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>
@@ -93,8 +101,25 @@ function AccordionVerifier(props) {
 }
 
 
-async function requestVerifyData(url,vName) {
-  return await fetch(url + vName + '/info').then(resp => resp.json());
+async function requestVerifyData(url, vName) {
+  
+  return await fetch(url + vName + '/info').then(resp =>
+    {
+      if (resp.ok) {
+        return resp.json();
+      }
+      });
+}
+async function requestVerifiedInstance(url, vName, instance, cert) {
+  var parsedInstance = instance.replaceAll('&','%26');
+
+  const fetchUrl = url+vName+`/verify?problemInstance=${parsedInstance}&certificate=${cert}`
+  return await fetch(fetchUrl).then(resp =>
+    {
+      if (resp.ok) {
+        return resp.json();
+      }
+      });
 }
 
 export default AccordionVerifier
