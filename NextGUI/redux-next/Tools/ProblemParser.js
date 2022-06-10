@@ -3,12 +3,12 @@
 // PROBLEMS AND THEIR VISUALIZATIONS
 var problems = [
 
-    { name: 'GRAPHCOLORING', type: 'Undirected graph' },
-    { name: 'ARCSET', type: 'Directed graph' },
-    { name: 'VERTEXCOVER', type: 'Undirected graph' },
-    { name: 'CLIQUE', type: 'Undirected graph' },
-    { name: 'TSP', type: 'Undirected graph'},
-    { name: 'KNAPSACK', type: 'Undirected graph'},
+    { name: 'GRAPHCOLORING', type: 'Undirected graph', regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/ },
+    { name: 'ARCSET', type: 'Directed graph',          regex: /{{(\w(,\w)*)+},{(\(\w,\w\)(,\(\w,\w\))*)*},\d+}/ },
+    { name: 'VERTEXCOVER', type: 'Undirected graph', regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/ },
+    { name: 'CLIQUE', type: 'Undirected graph', regex:/{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/},
+    { name: 'TSP', type: 'Undirected graph', regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/ },
+    { name: 'KNAPSACK', type: 'Undirected graph',regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/},
     { name: 'EXACTCOVER', type: '' },
     { name: 'DM3', type: 'Hyper graph'},
     { name: 'SAT3', type: 'Boolean formula'},
