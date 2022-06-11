@@ -11,7 +11,7 @@ import BookData from "./Data.json";
 
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
-const baseUrl = 'http://localhost:27000/'
+const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
 const searchbarPlaceHolder = "Enter a Problem Name..."
 
 const DEFAULTTEXTBOX = { name: "Get Instance (ie. ARCSETGeneric, VERTEXCOVERGeneric)", submitMsg: "Get Instance" ,reqUrl: baseUrl}

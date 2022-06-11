@@ -21,7 +21,6 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 
   const isCurrentEventKey = activeEventKey === eventKey;
-
   return (
     <Button
       className = "float-end"
@@ -33,7 +32,6 @@ function ContextAwareToggle({ children, eventKey, callback }) {
     </Button>
   );
 }
-
 
 function AccordionNestedTextBox(props) {
  
@@ -60,8 +58,10 @@ function AccordionNestedTextBox(props) {
 
   useEffect(() => {
     try {
+      console.log(props.accordion.INPUTURL.url)
       requestProblemData(props.accordion.INPUTURL.url, problemName, problemType).then(data => {
         if (!(typeof data === "undefined")) {
+          console.log(data);
           console.log(data.defaultInstance)
           setState(data.defaultInstance)
           setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })

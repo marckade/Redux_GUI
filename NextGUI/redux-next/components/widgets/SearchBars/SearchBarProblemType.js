@@ -11,7 +11,7 @@ export default function SearchBarProblemType(props) {
 
   //console.log(props.url)
   if (!initialized) {
-    initializeList(`${props.url}"navigation/NPC_ProblemsRefactor/`) //
+    initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`) //
     initialized = true;
   }
   //const [value, setValue] = React.useState(null); //state manager.

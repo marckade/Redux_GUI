@@ -1,18 +1,21 @@
 
-
+/**
+ * SolveRowReact.js
+ * This component passes down some styling information for popups and default text, and then passes it down to the
+ * AccordionSingleInputNestedButton component which deals with most of the actual logic of the Redux Solution Row. 
+ * @author Alex Diviney
+ */
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import AccordionSingleInputNestedButton from '../widgets/AccordionSingleInputNestedButton'
 
 
-function SolveRowReact() { 
-    const reduxBaseUrl = 'http://localhost:27000/'
+function SolveRowReact(props) { 
     const ACCORDION_FORM_ONE = { placeHolder: "Select Solver" }
-
     const BUTTON = { buttonText: "Solve" }
     const CARD = { cardBodyText: "Solution:", cardHeaderText: "Solver" }
     const TOOLTIP = { header: "Solver Information", formalDef: "Choose a type of solver to see information about it", info: "" }
-    const INPUTURL = { url: reduxBaseUrl }
+    const INPUTURL = { url: props.reduxBaseUrl }
 
     const ACCORDION = {ACCORDION_FORM_ONE,CARD,BUTTON,TOOLTIP,INPUTURL}
     return (
