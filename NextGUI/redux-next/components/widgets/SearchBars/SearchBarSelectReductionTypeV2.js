@@ -1,9 +1,19 @@
+/**
+ * SearchBarSelectReductionTypeV2.js
+ * 
+* Attempts to create a generic searchbar with passed down props have failed, something about the array
+ * of queried data is global and was causing label overriding. 
+ * 
+ * This searchbar is essentially the same as every other v2 suffix'd searchbar except for some error codes
+ * @author Alex Diviney
+ */
+
+
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
 import React,{useContext,useEffect} from 'react'
 const filter = createFilterOptions();
-
 
 export default function SearchBarSelectReductionTypeV2(props) {
   //props.setData and props.data should be passed down.

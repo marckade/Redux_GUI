@@ -1,4 +1,4 @@
-//redux.com
+//redux.aws.cose.isu.edu (this page will be replaced by testpage )
 import TextBox from '../components/widgets/TextBox'
 import TextBoxInstance from '../components/widgets/TextBoxInstance';
 import 'bootstrap/dist/css/bootstrap.min.css'

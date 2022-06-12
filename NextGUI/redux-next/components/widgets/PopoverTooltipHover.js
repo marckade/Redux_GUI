@@ -1,4 +1,12 @@
-
+/**
+ * PopoverTooltipHover.js
+ * 
+ * This is a resuable "widget" that acts as tooltip.
+ * 
+ * Requires the prop attributes "header","formalDef", and "info" which will become more generic in the future.
+ * 
+ * @author Alex Diviney
+ */
 
 
 import { OverlayTrigger, Tooltip,Popover,Button} from 'react-bootstrap';

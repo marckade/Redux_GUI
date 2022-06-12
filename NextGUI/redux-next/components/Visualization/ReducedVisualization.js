@@ -1,3 +1,12 @@
+/**
+ * ReducedVisualization.js
+ * 
+ * This component generates an example split view with two graphs using the Graphviz library and the React split component.
+ * 
+ * @author Daniel Igbokwe
+ */
+
+
 import Split from "react-split";
 
 

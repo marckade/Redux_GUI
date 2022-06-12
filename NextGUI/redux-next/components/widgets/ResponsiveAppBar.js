@@ -1,3 +1,13 @@
+/**
+ * ResponsiveAppBar.js
+ *
+ * This component was directly ripped from the app bar section of mui.com: 
+ * https://mui.com/material-ui/react-app-bar/
+ * 
+ * @author Alex Diviney
+ */
+
+
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';

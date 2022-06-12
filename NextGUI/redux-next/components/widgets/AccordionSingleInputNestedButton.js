@@ -1,3 +1,14 @@
+/**
+ * AccordionSingleInputNestedButton.js
+ * 
+ * This component does the real grunt work of the SolveRowReact component. It uses passed in props to style and provide default text for its objects,
+ * uses the global state values for the problem name and instance, sets global state values pertaining to reduction, and has a variety of listeners and API calls.
+ * 
+ * Essentialy, this is the brains of the SolveRowReact.js component and deals with the GUI's Solve "Row"
+ * @author Alex Diviney
+ */
+
+
 import React from 'react'
 import { useContext,useEffect,useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'

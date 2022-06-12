@@ -1,3 +1,12 @@
+/**
+ * TextBoxInstance.js
+ * 
+ * Development textbox to demonstrate functionality
+ * 
+ * @author Alex Diviney
+ */
+
+
 import React from 'react';
 import { useState } from 'react';
 import TextBox from './TextBox';

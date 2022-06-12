@@ -1,5 +1,19 @@
+/**
+ * ProblemProvider.js
+ * 
+ * This component defines the global state for the Redux application. 
+ * 
+ * It uses a global "context" which any individual component can then tap into by using the useContext react hook. 
+ * Essentially, all the methods in here are setters, and so components can either use the context hook to access a read only
+ * global state value, or use a provided setter method to edit the state of that global state value.
+ * 
+ * @author Alex Diviney
+ * 
+ */
+
+
 import React from 'react'
-import { useContext, useState,createContext, Component } from 'react'
+import { useContext, useState, createContext, Component } from 'react'
 
 
 export const ProblemContext = createContext();
@@ -9,7 +23,7 @@ const reduxBaseUrl = 'http://localhost:27000/'
 class ProblemProvider extends Component {
 
     state = {
-        
+
         problemJson: "DEFAULT",
         problemType: "NPC",
         problemName: "DEFAULTTYPE",
@@ -24,14 +38,14 @@ class ProblemProvider extends Component {
         chosenSolver: "CHOSEN SOLVER PROVIDER",
         verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"],
         solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDER"
-        
+
     }
 
 
-        // Setters
+    // Setters
 
-    
-    setProblemName = (newName) => { 
+
+    setProblemName = (newName) => {
         //console.log(newName);
         if (!(newName === null)) { //checks if the user x's out input, doesn't change until a new value is selected
             this.setState({ problemName: newName })
@@ -46,41 +60,41 @@ class ProblemProvider extends Component {
     }
 
     setProblemJson = (newProblem) => {
-        this.setState({problemJson:newProblem})
+        this.setState({ problemJson: newProblem })
         console.log(newProblem)
     }
 
     setProblemDescription = (newDescription) => {
-        this.setState({problemDescription:newDescription})
+        this.setState({ problemDescription: newDescription })
     }
 
     setProblemReduceToOptions = (options) => {
         this.setState({ reduceToOptions: options })
         console.log(options)
     }
-    
-    setProblemReductionTypeOptions = (options)=>{
-        this.setState({reductionTypeOptions: options})
+
+    setProblemReductionTypeOptions = (options) => {
+        this.setState({ reductionTypeOptions: options })
     }
     setChosenReductionType = (newChoice) => {
         this.setState({ chosenReductionType: newChoice })
         //console.log(newChoice)
     }
     setSolverOptions = (options) => {
-        this.setState({solverOptions: options})
+        this.setState({ solverOptions: options })
     }
     setChosenSolver = (newChoice) => {
         this.setState({ chosenSolver: newChoice })
         console.log("solver chosen")
     }
     setVerifierOptions = (options) => {
-        this.setState({verifierOptions:options})
+        this.setState({ verifierOptions: options })
     }
     setChosenVerifier = (newChoice) => {
         this.setState({ chosenVerifier: newChoice })
         console.log("verifier chosen")
     }
-      
+
     setChosenReduceTo = (newChoice) => {
         this.setState({ chosenReduceTo: newChoice });
         console.log("reduction problem chosen")
@@ -100,10 +114,10 @@ class ProblemProvider extends Component {
                 //These functions (and above state values) are what consumers or useContext(ProblemInsance)  have access to.
                 ...this.state,
                 setProblemInstance: this.setProblemInstance,
-                setProblemJson:this.setProblemJson,
+                setProblemJson: this.setProblemJson,
                 setProblemName: this.setProblemName,
-                setProblemReduceTo:this.setProblemReduceTo,
-                setProblemJson : this.setProblemJson,
+                setProblemReduceTo: this.setProblemReduceTo,
+                setProblemJson: this.setProblemJson,
                 makeApiCall: this.makeApiCall,
                 setChosenReduceTo: this.setChosenReduceTo,
                 setChosenReductionType: this.setChosenReductionType,
@@ -117,12 +131,8 @@ class ProblemProvider extends Component {
 
         );
     }
-    
+
 }
 
-async function apiFetch(url) {
-    let request = await fetch(url)
-    return request;
-}
 
 export default ProblemProvider

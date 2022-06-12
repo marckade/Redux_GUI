@@ -1,3 +1,17 @@
+/**
+ * AccordionTogglesSvg.js
+ * 
+ * This component does the real grunt work of the VerifyRowReact component. It uses passed in props to style and provide default text for its objects,
+ * uses many of the global state values and has a variety of listeners and API calls.
+ * 
+ * The actual visualization logic is handled by imported Visualization components.
+ * 
+ * Essentialy, this is the brains of the VisualizeRowReact.js component and deals with the GUI's Visualize "Row"
+ * 
+ * @author Alex Diviney, Daniel Igbokwe
+ */
+
+
 import React from 'react'
 import { useContext, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
