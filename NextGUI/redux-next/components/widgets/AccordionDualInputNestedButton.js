@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl, Col, Row, Container } from 'react-bootstrap'
 import {Stack,Button} from '@mui/material'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
-import PopoverTooltipHover from './PopoverTooltipHover';
+import PopoverTooltipClick from './PopoverTooltipClick';
 
 import { ProblemContext } from '../contexts/ProblemProvider';
 import SearchBarSelectReduceToV2 from './SearchBars/SearchBarSelectReduceToV2';
@@ -98,7 +98,7 @@ function AccordionDualInputNestedButton(props) {
                 data={problemName}
               /> {/**Search bar left (form control 1) */}
 
-            <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>  
+            <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>  
 
               <SearchBarSelectReductionTypeV2
                 placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder}
@@ -108,7 +108,7 @@ function AccordionDualInputNestedButton(props) {
                 
 
               />
-              <PopoverTooltipHover toolTip={toolTip2}></PopoverTooltipHover>
+              <PopoverTooltipClick toolTip={toolTip2}></PopoverTooltipClick>
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
 
             </Stack>

@@ -34,9 +34,9 @@ function popOver(props) {
 
 }
   
-function PopoverTooltipHover(props) {
+function PopoverTooltipClick(props) {
   return(
-    <OverlayTrigger trigger={["hover","focus"]} placement="bottom" overlay={popOver(props)}>
+    <OverlayTrigger trigger={["click"]} placement="bottom" overlay={popOver(props)}>
       
       <InfoOutlinedIcon>
         <Button variant="success">
@@ -48,5 +48,5 @@ function PopoverTooltipHover(props) {
   )
 }
   
-export default PopoverTooltipHover;
+export default PopoverTooltipClick;
   

@@ -17,7 +17,7 @@ import { useContext, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, Stack } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
-import PopoverTooltipHover from './PopoverTooltipHover';
+import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button, Switch } from '@mui/material'

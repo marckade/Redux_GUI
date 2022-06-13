@@ -14,7 +14,7 @@ import { useContext,useMemo } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl,Row,Col } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
-import PopoverTooltipHover from './PopoverTooltipHover';
+import PopoverTooltipClick from './PopoverTooltipClick';
 import SearchBarProblemType from './SearchBars/SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
 import {Stack,Button} from '@mui/material'
@@ -119,7 +119,7 @@ function AccordionNestedTextBox(props) {
               {/**FORM CONTROL 1 */ }
               <SearchBarProblemType setTestName={setTestName} placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder} url={props.accordion.INPUTURL.url}></SearchBarProblemType>
              
-              <PopoverTooltipHover toolTip={toolTip}></PopoverTooltipHover>  
+              <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>  
               <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
 
               </Stack>

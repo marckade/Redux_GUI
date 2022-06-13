@@ -47,31 +47,44 @@ function TestPageContent() {
       <ResponsiveAppBar></ResponsiveAppBar>
 
       <div className="container my-5 ">{ /** This is an artifact from the old bootstrap code, may be deprecated */}
-        
-      
-      <ProblemProvider>
-        
-        <ProblemRowReact reduxBaseUrl={reduxBaseUrl}></ProblemRowReact>
-    
-        <ReduceToRowReact reduxBaseUrl={reduxBaseUrl}></ReduceToRowReact>
 
-        <SolveRowReact reduxBaseUrl={reduxBaseUrl}></SolveRowReact>
 
-        <VerifyRowReact reduxBaseUrl={reduxBaseUrl}></VerifyRowReact>
 
-        <VisualizeRowReact reduxBaseUrl={reduxBaseUrl}></VisualizeRowReact> 
 
-      </ProblemProvider>
+        <ProblemProvider>
+
+          <div className="d-flex flex-column">
+
+            <div className="p-2 col-example">
+              <ProblemRowReact reduxBaseUrl={reduxBaseUrl}></ProblemRowReact>
+            </div>
+            <div className="p-2 col-example">
+
+              <ReduceToRowReact reduxBaseUrl={reduxBaseUrl}></ReduceToRowReact>
+            </div>
+            <div className="p-2 col-example">
+              <SolveRowReact reduxBaseUrl={reduxBaseUrl}></SolveRowReact>
+            </div>
+            <div className="p-2 col-example">
+
+              <VerifyRowReact reduxBaseUrl={reduxBaseUrl}></VerifyRowReact>
+            </div>
+            <div className="p-2 col-example">
+              <VisualizeRowReact reduxBaseUrl={reduxBaseUrl}></VisualizeRowReact>
+            </div>
+          </div>
+
+        </ProblemProvider>
 
         {/*<!-- /Container-->*/}
 
-       <footer className='fixed-bottom'>
-        <Image src={isulogo} width={300} height={150} style = {imgStyle}></Image>     
+        <footer className='fixed-bottom'>
+          <Image src={isulogo} width={300} height={150} style={imgStyle}></Image>
         </footer>
-    </div> 
+      </div>
     </>
-                    
-    )
+
+  )
 }
 
 /**
