@@ -1,0 +1,78 @@
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.TextBox{
+  text-align: center;
+  margin: 100px;
+  background-color: aliceblue;
+
+}
+.TextBoxInner{
+  margin: 100px;
+  text-align: center;
+}
+
+.toggleButton{
+  text-align: right;
+}
+.submitButton{
+  text-align:right;
+  
+}
+.centerImage{
+  text-align: center;
+}
+
+
+* {
+  box-sizing: border-box;
+  
+}
+
+/* .accordion{
+  background-color:lightgray;
+} */
+
+/* .paddedDiv{
+  outline-color: black;
+  outline-style:initial;
+  padding: 10px;
+} */
+
+
+/* Remove active colors from default accordion button */
+.accordion-button:not(.collapsed) {
+  color: rgba(255, 255, 255, 0);
+  background-color: rgba(255, 255, 255, 0);
+  box-shadow: none;
+}
+
+/* .card-body{
+  display: inline;
+  margin: 0;
+} */
+
+
+.wrap {
+  display: flex;
+}
+
+.gutter {
+  background-color: black;
+
+  background-repeat: no-repeat;
+  background-position: 50%; 
+}
+
+
+.gutter.gutter-horizontal {
+  /* background-image: url('grips/vertical.png'); */
+  cursor: col-resize;
+}

@@ -44,8 +44,9 @@ async function readJson () {
     //var fetchPromise = fetch('./digraphTestData.json');
     //var userInstance = "{{1,2,3,4,5,6,7} : {(1,2) & (1,6) & (2,3) & (3,4) & (4,5) & (5,3) & (4,2)} : 2}"
     //var userInstance = document.getElementById('problemInstanceText').value;
-    var userInstance = problemInstanceText;
-    var url  = new URL("http://localhost:27000/ARCSETDev/instance/");
+  var userInstance = problemInstanceText;
+  var url = new URL("http://redux.aws.cose.isu.edu:27000/ARCSETDev/instance/")
+    //var devurl  = new URL("http://localhost:27000/ARCSETDev/instance/");
     var params = {problemInstance: userInstance,}
     Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 

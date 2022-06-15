@@ -179,7 +179,8 @@ async function readJson(){
 // fetch json data
 
 var userInstance = problemInstanceText;
-var url  = new URL("http://localhost:27000/VERTEXCOVERGeneric/instance/");
+var url = new URL("http://redux.aws.cose.isu.edu:27000/VERTEXCOVERGeneric/instance/")
+//var devurl  = new URL("http://localhost:27000/VERTEXCOVERGeneric/instance/");
 var params = {problemInstance: userInstance,}
 Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 await fetch(url)
