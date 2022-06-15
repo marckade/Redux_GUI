@@ -22,8 +22,9 @@ const TOOLTIP2 = { header: "Reduction Type", formalDef: "Choose a type of reduct
 const REDUCETO = { reduceTo: ["DEFAULTPROBLEM1", "DEFAULTPROBLEM2"] }
 
 function ReduceToRowReact(props) { 
-    const INPUTURL = { url: props.reduxBaseUrl}
-    const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, BUTTON, TOOLTIP1,TOOLTIP2, REDUCETO, INPUTURL }
+    const INPUTURL = { url: props.reduxBaseUrl }
+    const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}
+    const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, BUTTON, TOOLTIP1,TOOLTIP2, REDUCETO, INPUTURL,THEME }
 
     return (
         

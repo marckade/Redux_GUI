@@ -16,8 +16,10 @@ function SolveRowReact(props) {
     const CARD = { cardBodyText: "Solution:", cardHeaderText: "Solver" }
     const TOOLTIP = { header: "Solver Information", formalDef: "Choose a type of solver to see information about it", info: "" }
     const INPUTURL = { url: props.reduxBaseUrl }
+    const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}
 
-    const ACCORDION = {ACCORDION_FORM_ONE,CARD,BUTTON,TOOLTIP,INPUTURL}
+
+    const ACCORDION = {ACCORDION_FORM_ONE,CARD,BUTTON,TOOLTIP,INPUTURL,THEME}
     return (
         <AccordionSingleInputNestedButton accordion={ACCORDION}></AccordionSingleInputNestedButton>
         

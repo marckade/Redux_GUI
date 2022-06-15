@@ -22,20 +22,21 @@ import SearchBarSelectReduceToV2 from './SearchBars/SearchBarSelectReduceToV2';
 import SearchBarSelectReductionTypeV2 from './SearchBars/SearchBarSelectReductionTypeV2';
 
 
-function ContextAwareToggle({ children, eventKey, callback }) {
+function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const { activeEventKey } = useContext(AccordionContext);
+
   const decoratedOnClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey),
   );
 
   const isCurrentEventKey = activeEventKey === eventKey;
-
   return (
     <Button
+      color = 'white'
       className = "float-end"
       type="button"
-      style={{ backgroundColor: isCurrentEventKey ? 'pink' : 'blue' }}
+      style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
     >
       {children}
@@ -109,7 +110,7 @@ function AccordionDualInputNestedButton(props) {
 
               />
               <PopoverTooltipClick toolTip={toolTip2}></PopoverTooltipClick>
-              <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
+              <ContextAwareToggle eventKey="0" colors={props.accordion.THEME.colors}>▼</ContextAwareToggle>
 
             </Stack>
 

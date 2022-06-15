@@ -8,6 +8,9 @@ import PopoverTooltipHover from '../components/widgets/PopoverTooltipClick';
 import BookData from "./Data.json";
 // import AutoComplete from '../components/widgets/SearchBar';
 
+import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
+import { createTheme, ThemeProvider, Typograph } from "@mui/material"
+import {orange} from "@mui/material/colors"
 
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
@@ -27,22 +30,46 @@ const TOOLTIP = {tooltipText: "HELLO I AM INFORMATION MAIN"}
 const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,TOOLTIP}
 
 function HomePage() {
-  
-  return(
-    <div className="TextBox">
-      <div className = "TextBoxInner">
-        <TextBoxInstance textbox={DEFAULTTEXTBOX} />
-        </div>
-      <div className = "TextBoxInner">
-        <TextBoxInstance textbox={ALTTEXTBOX} />
-      </div>
-      <div className="TextBoxInner">
-        {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-        {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
-      </div>
-      <div className="TextBoxInner">
-        </div>
-    </div>
+
+  const theme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: "#424242",
+      },
+      secondary: {
+        main:"#f47920"
+      }
+    }
+  });
+
+
+  return (
+    
+    <>
+    <ThemeProvider theme = {theme}>
+    <ResponsiveAppBar></ResponsiveAppBar>
+    </ThemeProvider>
+    </>
+
+    
+    // <div className="TextBox">
+    //   <div className = "TextBoxInner">
+    //     <TextBoxInstance textbox={DEFAULTTEXTBOX} />
+    //     </div>
+    //   <div className = "TextBoxInner">
+    //     <TextBoxInstance textbox={ALTTEXTBOX} />
+    //   </div>
+    //   <div className="TextBoxInner">
+    //     {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
+    //     {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
+    //   </div>
+    //   <div className="TextBoxInner">
+    //     </div>
+    // </div>
+
+
+    
   )
 }
 

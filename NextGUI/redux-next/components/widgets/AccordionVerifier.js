@@ -12,7 +12,7 @@ import SearchBarSelectVerifierV2 from './SearchBars/SearchBarSelectVerifierV2';
 // import FormControl from '../components/FormControl'
 
 
-function ContextAwareToggle({ children, eventKey, callback }) {
+function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -21,12 +21,12 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 
   const isCurrentEventKey = activeEventKey === eventKey;
-
   return (
     <Button
-      className="toggleButton"
+      color = 'white'
+      className = "float-end"
       type="button"
-      style={{ backgroundColor: isCurrentEventKey ? 'pink' : 'blue' }}
+      style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
     >
       {children}
@@ -75,7 +75,7 @@ function AccordionVerifier(props) {
 
               <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>
 
-              <ContextAwareToggle eventKey="0">▼</ContextAwareToggle>
+              <ContextAwareToggle eventKey="0" colors={props.accordion.THEME.colors}>▼</ContextAwareToggle>
             </Stack>
           </Card.Header>
           <Accordion.Collapse eventKey="0">

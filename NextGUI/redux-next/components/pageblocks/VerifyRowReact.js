@@ -22,8 +22,10 @@ function VerifyRowReact(props) {
     const CARD = { cardBodyText: "Verified Solution:", cardHeaderText: "Verifier" }
     const INPUTURL = { url: props.reduxBaseUrl }
     const TOOLTIP = { header: "Problem Verifier", formalDef: "Choose a verifier to see information about it", info: "" }
+    const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}
 
-    const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,BUTTON,TOOLTIP,INPUTURL}
+
+    const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,BUTTON,TOOLTIP,INPUTURL,THEME}
     return (
         <AccordionVerifier accordion={ACCORDION}></AccordionVerifier>
     )

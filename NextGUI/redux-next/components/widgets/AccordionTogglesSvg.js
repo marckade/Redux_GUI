@@ -30,8 +30,7 @@ import { ProblemContext } from '../contexts/ProblemProvider';
 
 
 
-function ContextAwareToggle({ children, eventKey, callback }) {
-
+function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -40,17 +39,16 @@ function ContextAwareToggle({ children, eventKey, callback }) {
   );
 
   const isCurrentEventKey = activeEventKey === eventKey;
-
   return (
-    <>
-      <Button
-        type="button"
-        style={{ backgroundColor: isCurrentEventKey ? 'pink' : 'blue' }}
-        onClick={decoratedOnClick}
-      >
-        {children}
-      </Button>
-    </>
+    <Button
+      color = 'white'
+      className = "float-end"
+      type="button"
+      style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
+      onClick={decoratedOnClick}
+    >
+      {children}
+    </Button>
   );
 }
 
@@ -163,7 +161,8 @@ function AccordionTogglesSvg(props) {
               <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
               <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
-              <ContextAwareToggle className="float-end" eventKey="0">▼</ContextAwareToggle>
+              <ContextAwareToggle className="float-end" eventKey="0" colors={props.accordion.THEME.colors}>▼</ContextAwareToggle>
+              
 
             </Stack>
 

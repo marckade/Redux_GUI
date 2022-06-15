@@ -27,7 +27,7 @@ import isulogo from '../components/images/ISULogo.png'
 import SearchBarProblemType from '../components/widgets/SearchBars/SearchBarProblemType'
 import ProblemProvider from '../components/contexts/ProblemProvider'
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
-
+import { createTheme, ThemeProvider, Typograph } from "@mui/material"
 
 const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
 
@@ -40,17 +40,43 @@ function TestPageContent() {
 
   const imgStyle = { textAlign: "center" }
 
+  const theme = createTheme({
+    palette: {
+      mode: "light",
+      primary: {
+        main: "#424242",
+        contrastText: "#fff" //button text white instead of black
+      },
+      secondary: {
+        main:"#f47920"
+      },
+      white: {
+        main:"#ffffff"
+      }
+      
+    },
+    // overrides: {
+    //   MuiButton: {
+    //     raisedPrimary: {
+    //       color: 'white',
+    //       contrastText: "#fff" //button text white instead of black
+
+    //     },
+    //   },
+    // }
+  });
+
 
   return (
     <>
-
-      <ResponsiveAppBar></ResponsiveAppBar>
+      <ThemeProvider theme = {theme}>
+        <ResponsiveAppBar></ResponsiveAppBar>
 
       <div className="container my-5 ">{ /** This is an artifact from the old bootstrap code, may be deprecated */}
 
 
 
-
+      
         <ProblemProvider>
 
           <div className="d-flex flex-column">
@@ -76,12 +102,14 @@ function TestPageContent() {
 
         </ProblemProvider>
 
+
         {/*<!-- /Container-->*/}
 
         <footer className='fixed-bottom'>
           <Image src={isulogo} width={300} height={150} style={imgStyle}></Image>
         </footer>
-      </div>
+        </div>
+        </ThemeProvider>
     </>
 
   )
