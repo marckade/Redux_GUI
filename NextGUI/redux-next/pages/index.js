@@ -1,80 +1,130 @@
-//redux.aws.cose.isu.edu (this page will be replaced by testpage )
-import TextBox from '../components/widgets/TextBox'
-import TextBoxInstance from '../components/widgets/TextBoxInstance';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import AccordionNestedTextBox from '../components/widgets/AccordionNestedTextBox';
-import PopoverTooltipHover from '../components/widgets/PopoverTooltipClick';
-// import SearchBar from '../components/widgets/SearchBar';
-import BookData from "./Data.json";
-// import AutoComplete from '../components/widgets/SearchBar';
+//redux.aws.cose.isu.edu/testpage
+//testpage.js
+/**
+ * This is the main page for the Redux Application. All active components are children (in the heirarchy) of this parent react component.
+ * 
+ * 
+ */
 
+
+
+
+import React from 'react' //React is implicitly imported
+import ProblemRow from '../components/pageblocks/ProblemRow'
+import ProblemRowReact from '../components/pageblocks/ProblemRowReact'
+import ReduceToRow from '../components/pageblocks/ReduceToRow'
+import ReduceToRowReact from '../components/pageblocks/ReduceToRowReact'
+import VisualizeRow from '../components/pageblocks/VisualizeRow'
+import VisualizeRowReact from '../components/pageblocks/VisualizeRowReact'
+import SolveRow from '../components/pageblocks/SolveRow'
+import SolveRowReact from '../components/pageblocks/SolveRowReact'
+import VerifyRow from '../components/pageblocks/VerifyRow'
+import VerifyRowReact from '../components/pageblocks/VerifyRowReact'
+import Button from 'react-bootstrap/Button'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Image from 'next/image'
+import isulogo from '../components/images/ISULogo.png'
+import SearchBarProblemType from '../components/widgets/SearchBars/SearchBarProblemType'
+import ProblemProvider from '../components/contexts/ProblemProvider'
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
 import { createTheme, ThemeProvider, Typograph } from "@mui/material"
-import {orange} from "@mui/material/colors"
 
+const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
+//const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
 
-//const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
-const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
-const searchbarPlaceHolder = "Enter a Problem Name..."
+/**
+ * Generates the actual page contents
+ * 
+ * @returns The contents of the page (jsx)
+ */
+function TestPageContent() {
 
-const DEFAULTTEXTBOX = { name: "Get Instance (ie. ARCSETGeneric, VERTEXCOVERGeneric)", submitMsg: "Get Instance" ,reqUrl: reduxBaseUrl}
-const ALTTEXTBOX = { name: "Instance", submitMsg: "Validate",reqUrl: reduxBaseUrl}
-const FINDREDUCTIONS = { name: "Choose What You want to reduce to", submitMsg: "Reduce", reqUrl: reduxBaseUrl }
-const NESTEDACCORDION = { header: "TestHeader", text1: "Text1" }
-const NESTEDFORMCONTROL = { placeHolder: "PlaceholderText" }
-const ACCORDION_FORM_ONE = { placeHolder: "PlaceHolder Text One" }
-const ACCORDION_FORM_TWO = { placeHolder: "PlaceHolder Text Two" }
-const CARD = { cardBodyText: "CARD BODY", cardHeaderText: "Card Header" }
-const TOOLTIP = {tooltipText: "HELLO I AM INFORMATION MAIN"}
-
-const ACCORDION = {ACCORDION_FORM_ONE,ACCORDION_FORM_TWO,CARD,TOOLTIP}
-
-function HomePage() {
+  const imgStyle = { textAlign: "center" }
 
   const theme = createTheme({
     palette: {
       mode: "light",
       primary: {
         main: "#424242",
+        contrastText: "#fff" //button text white instead of black
       },
       secondary: {
         main:"#f47920"
+      },
+      white: {
+        main:"#ffffff"
       }
-    }
+      
+    },
+    // overrides: {
+    //   MuiButton: {
+    //     raisedPrimary: {
+    //       color: 'white',
+    //       contrastText: "#fff" //button text white instead of black
+
+    //     },
+    //   },
+    // }
   });
 
 
   return (
-    
     <>
-    <ThemeProvider theme = {theme}>
-    <ResponsiveAppBar></ResponsiveAppBar>
-    </ThemeProvider>
+      <ThemeProvider theme = {theme}>
+        <ResponsiveAppBar></ResponsiveAppBar>
+
+      <div className="container my-5 ">{ /** This is an artifact from the old bootstrap code, may be deprecated */}
+
+
+
+      
+        <ProblemProvider>
+
+          <div className="d-flex flex-column">
+
+            <div className="p-2 col-example">
+              <ProblemRowReact reduxBaseUrl={reduxBaseUrl}></ProblemRowReact>
+            </div>
+            <div className="p-2 col-example">
+
+              <ReduceToRowReact reduxBaseUrl={reduxBaseUrl}></ReduceToRowReact>
+            </div>
+            <div className="p-2 col-example">
+              <SolveRowReact reduxBaseUrl={reduxBaseUrl}></SolveRowReact>
+            </div>
+            <div className="p-2 col-example">
+
+              <VerifyRowReact reduxBaseUrl={reduxBaseUrl}></VerifyRowReact>
+            </div>
+            <div className="p-2 col-example">
+              <VisualizeRowReact reduxBaseUrl={reduxBaseUrl}></VisualizeRowReact>
+            </div>
+          </div>
+
+        </ProblemProvider>
+
+
+        {/*<!-- /Container-->*/}
+
+        <footer className='fixed-bottom'>
+          <Image src={isulogo} width={300} height={150} style={imgStyle}></Image>
+        </footer>
+        </div>
+        </ThemeProvider>
     </>
 
-    
-    // <div className="TextBox">
-    //   <div className = "TextBoxInner">
-    //     <TextBoxInstance textbox={DEFAULTTEXTBOX} />
-    //     </div>
-    //   <div className = "TextBoxInner">
-    //     <TextBoxInstance textbox={ALTTEXTBOX} />
-    //   </div>
-    //   <div className="TextBoxInner">
-    //     {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-    //     {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
-    //   </div>
-    //   <div className="TextBoxInner">
-    //     </div>
-    // </div>
-
-
-    
   )
 }
 
+/**
+ * Renders the actual page contents (this is the default export and is seen by next.js due to folder structure and broadcasted)
+ * @returns A rendered page
+ */
+export default function TestPage() {
+  return (
+    <>
+      <TestPageContent></TestPageContent> {/** Renders the actual contents of the page */}
+    </>
+  )
+}
 
-
-
-
-export default HomePage;
