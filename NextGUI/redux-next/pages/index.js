@@ -29,8 +29,8 @@ import ProblemProvider from '../components/contexts/ProblemProvider'
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
 import { createTheme, ThemeProvider, Typograph } from "@mui/material"
 
-const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
-//const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
+//const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
+const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
 
 /**
  * Generates the actual page contents
