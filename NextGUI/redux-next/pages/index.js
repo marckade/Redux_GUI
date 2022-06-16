@@ -76,7 +76,6 @@ function TestPageContent() {
       <div className="container my-5 ">{ /** This is an artifact from the old bootstrap code, may be deprecated */}
 
 
-
       
         <ProblemProvider>
 
@@ -102,14 +101,14 @@ function TestPageContent() {
           </div>
 
         </ProblemProvider>
+        </div>
 
 
         {/*<!-- /Container-->*/}
 
-        <footer className='fixed-bottom'>
+        <footer className='fixed-bottom centered'>
           <Image src={isulogo} width={300} height={150} style={imgStyle}></Image>
         </footer>
-        </div>
         </ThemeProvider>
     </>
 

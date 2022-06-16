@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
-import { Stack, Button } from '@mui/material'
+import { Stack, Button,Box } from '@mui/material'
 import { ProblemContext } from '../contexts/ProblemProvider';
 import SearchBarSelectVerifierV2 from './SearchBars/SearchBarSelectVerifierV2';
 
@@ -62,10 +62,11 @@ function AccordionVerifier(props) {
 
         <Card>
           <Card.Header>
-            <Stack direction="horizontal" gap={1}>
-              <div>
-                {props.accordion.CARD.cardHeaderText}
-              </div>
+            <Stack direction="horizontal" gap={2}>
+              <Box sx={{ width: '10%' }}>
+              {props.accordion.CARD.cardHeaderText}
+              </Box>
+             
               <SearchBarSelectVerifierV2
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
                 url={SOLVEROPTIONSURL}
@@ -84,7 +85,9 @@ function AccordionVerifier(props) {
               {props.accordion.CARD.cardBodyText+" " + verifiedInstance}
               <div className="submitButton">
                 <Button
-                  style={{ backgroundColor: 'lightblue' }}
+                  size='large'
+                  color='white'
+                  style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={handleVerify}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>

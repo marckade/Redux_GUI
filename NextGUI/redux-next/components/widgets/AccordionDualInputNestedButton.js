@@ -13,7 +13,7 @@ import React from 'react'
 import { useContext,useEffect,useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl, Col, Row, Container } from 'react-bootstrap'
-import {Stack,Button} from '@mui/material'
+import {Stack,Button,Box} from '@mui/material'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 
@@ -33,6 +33,7 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const isCurrentEventKey = activeEventKey === eventKey;
   return (
     <Button
+      sx={{ height:54, width: 64 }}
       color = 'white'
       className = "float-end"
       type="button"
@@ -91,7 +92,11 @@ function AccordionDualInputNestedButton(props) {
           <Card.Header>
 
             <Stack direction="horizontal" justifyContent="right" gap={2}>
+              <Box
+              sx={{width:'22%'}}
+              >
               {props.accordion.CARD.cardHeaderText}
+              </Box>
               <SearchBarSelectReduceToV2
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
                 url={REDUCETOOPTIONSURL}
@@ -122,7 +127,9 @@ function AccordionDualInputNestedButton(props) {
               {reducedInstance}
               <div className="submitButton">
                 <Button
-                  style={{ backgroundColor: 'blue', WebkitTextFillColor: 'white' }}
+                  size='large'
+                  color='white'
+                   style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={reduceRequest}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
