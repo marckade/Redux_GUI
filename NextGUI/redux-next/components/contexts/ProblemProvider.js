@@ -37,7 +37,7 @@ class ProblemProvider extends Component {
         solverOptions: ["SOLVER_OPTION_ONE"],
         chosenSolver: "CHOSEN SOLVER PROVIDER",
         verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"],
-        solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDER"
+        solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDER",
 
     }
 

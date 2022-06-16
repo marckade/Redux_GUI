@@ -12,7 +12,7 @@
 import { OverlayTrigger, Tooltip,Popover,Button} from 'react-bootstrap';
 import { SvgIcon } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { useEffect } from 'react';
+import { useEffect,useContext } from 'react';
 import { ProblemContext } from '../contexts/ProblemProvider';
 import { getThemeProps } from '@mui/system';
 
@@ -35,15 +35,14 @@ function popOver(props) {
 }
   
 function PopoverTooltipClick(props) {
+  
+
   return(
-    <OverlayTrigger trigger={["click"]} placement="bottom" overlay={popOver(props)}>
-      
+    <OverlayTrigger rootClose={true} trigger="click" placement="bottom" overlay={popOver(props)}>
       <InfoOutlinedIcon>
         <Button variant="success">
         </Button>
         </InfoOutlinedIcon>
-     
-      
     </OverlayTrigger>
   )
 }
