@@ -28,6 +28,11 @@ function popOver(props) {
         <br></br>
         <br></br>
         {props.toolTip.info}
+        <br></br>
+        <br></br>
+        {props.toolTip.source}
+        <br></br><br></br>
+        {props.toolTip.credit}
     </Popover.Body>
   </Popover>
   );
