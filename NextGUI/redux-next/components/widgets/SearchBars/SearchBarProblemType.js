@@ -15,24 +15,40 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext} from 'react'
+import React,{useContext, useState} from 'react'
 const filter = createFilterOptions();
 var initialized = false;
+var defaultProblem = null;
+//our problems to be shown
+var problemJson = [];
 
 export default function SearchBarProblemType(props) {
   const { problem, problemName, setProblemName } = useContext(ProblemContext) //passed in context
+  const [defaultProblemName, setDefaultProblemName] = useState()
   
 
   //console.log(props.url)
   if (!initialized) {
     initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`) //
     initialized = true;
+    console.log('Problem Json list \n') 
+  
+    // problemJson.forEach(element => {
+    //   if(element ===  'SAT3'){
+    //     console.log(element);
+
+    //     // defaultProblem = element;
+    //     console.log(`This is the default problem ${element} \n`)
+    //   }
+    // });
+
   }
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={problem}
+    //defaultValue={defaultProblem !== null ?  props.setTestName : null}
+      value={defaultProblem} 
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           setProblemName(
@@ -41,7 +57,7 @@ export default function SearchBarProblemType(props) {
           props.setTestName(newValue);
         } else {
           setProblemName(newValue);
-          props.setTestName(newValue);
+          props.setTestName(newValue); 
         }
       }}
       filterOptions={(options, params) => {
@@ -77,8 +93,7 @@ export default function SearchBarProblemType(props) {
     />
   );
 }
-//our problems to be shown
-var problemJson = [];
+
 
 /**
  * converts asynchronous fetch request into synchronous call that sets the dropdown labels by updating our array
@@ -89,6 +104,16 @@ function initializeProblemJson(arr) {
   arr.map(function (element, index, array) {
     //console.log(element)
     if (!problemJson.includes(element)) {
+      // console.log(`${element} \n`)
+
+      if(element ===  'SAT3'){
+        console.log(element);
+        // props.setTestName(element);
+        
+        defaultProblem = element;
+        console.log(`This is the default problem ${element} \n`)
+      }
+
       problemJson.push(element)
     }
   }, 80);
@@ -120,5 +145,6 @@ function initializeList(url) {
     .catch((error) => console.log("GET REQUEST FAILED",error));
   initialized = true;
 }
+
 
 

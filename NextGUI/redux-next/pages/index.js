@@ -88,6 +88,11 @@ function TestPageContent() {
 
               <ReduceToRowReact reduxBaseUrl={reduxBaseUrl}></ReduceToRowReact>
             </div>
+
+            <div className="p-2 col-example">
+              <VisualizeRowReact reduxBaseUrl={reduxBaseUrl}></VisualizeRowReact>
+            </div>
+            
             <div className="p-2 col-example">
               <SolveRowReact reduxBaseUrl={reduxBaseUrl}></SolveRowReact>
             </div>
@@ -95,9 +100,7 @@ function TestPageContent() {
 
               <VerifyRowReact reduxBaseUrl={reduxBaseUrl}></VerifyRowReact>
             </div>
-            <div className="p-2 col-example">
-              <VisualizeRowReact reduxBaseUrl={reduxBaseUrl}></VisualizeRowReact>
-            </div>
+           
           </div>
 
         </ProblemProvider>
