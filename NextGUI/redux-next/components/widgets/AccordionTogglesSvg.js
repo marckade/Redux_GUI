@@ -26,6 +26,7 @@ import { Button, Switch, Container} from '@mui/material'
 import Graphvisualization from "../Visualization/Graphvisualization";
 import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
+import { getClique } from '../Visualization/svgs/SatToClique';
 
 
 
@@ -183,9 +184,11 @@ function AccordionTogglesSvg(props) {
               </Stack> : null}
 
               {/* Reduction SVg works below*/}
-              {showReduction ? <ReducedVisualizations instanceVisualization={<Graphvisualization dot={graphDotTest} />}
-                reducedVisualization={<Graphvisualization dot={graphDotTest2} />}></ReducedVisualizations> : null}
-
+              {showReduction ? <ReducedVisualizations 
+                instanceVisualization={<div id={'problem'}></div>}
+                reducedVisualization={<div id={'reduction'}>{getClique('reduction')}</div>}
+              ></ReducedVisualizations> : null}
+  
             </Card.Body>
           </Accordion.Collapse>
         </Card>
