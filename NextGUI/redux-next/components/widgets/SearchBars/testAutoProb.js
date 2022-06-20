@@ -1,62 +1,89 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from '@mui/material/TextField';
 import { Autocomplete } from "@mui/material";
 
 
 
-export default function TestAuto(props){
+export default function TestAuto(props) {
 
-    const [problemName, setProblemName] = useState();
-    var defaultProblem = 'SAT3';
-    var problemList = [];
-
-    async function getRequest(url) {
-        const promise = await fetch(url).then(result => {
-          return result.json()
-      })
-      return promise;
-      
-    }
+  const [problemName, setProblemName] = useState('');
+  var defaultProblem = 'SAT3';
+  var problemList = [];
 
 
+  useEffect(() => {
 
-    function getProblemsList(){
-        const req =  getRequest(`http://localhost:27000//navigation/NPC_ProblemsRefactor/`);
-        req.then(data => {
+    initializeList(`http://localhost:27000/navigation/NPC_ProblemsRefactor/`);
 
-            console.log(` The problem List is below \n`)
+  }, [])
 
+  async function getRequest(url) {
+    const promise = await fetch(url).then(result => {
+      return result.json()
+    })
+    return promise;
 
-            data.map(function(element, i, a){
+  }
 
-                if(!problemJson.includes(element)){
-                    console.log(`${element} \n`)
+  function initializeProblemJson(arr) {
 
-                }
-
-            })
-        })
-
-    }
-    
+    arr.map(function (element, index, array) {
 
 
+      // if (problemList.length !== 0) {
+        //console.log(element)
 
-    return(
+        if (!problemList.includes(element)) {
+          // console.log(`${element} \n`)
 
-        <Autocomplete 
+          if (element === 'SAT3') {
+            console.log(element);
+            setProblemName(element);
+            console.log(`This is the default problem ${element} \n`)
+          }
 
-        value={defaultProblem}
+          problemList.push(element);
+        }
+     // } else {
+     //   problemList.push(element)
 
-        onChange={(event, newValue) => setProblemName(newValue)}
+     // }
+    }, 80);
+    //console.log(problemJson);
+  }
+
+  function initializeList(url) {
+    const req = getRequest(url);
+    req.then(data => {
+      initializeProblemJson(data)
+      //console.log(problemJson)
+    })
+      .catch((error) => console.log("GET REQUEST FAILED", error));
+    // initialized = true;
+  }
 
 
-        renderInput={(params) => (
-            <TextField {...params} label={props.placeholder} />
-          )}
-        
-        
-        />
-    )
+
+  return (
+
+    <Autocomplete
+      selectOnFocus
+      clearOnBlur
+      handleHomeEndKeys
+
+      value={problemName}
+      options={problemList}
+
+      onChange={(event, newValue) => setProblemName(newValue)}
+
+
+
+      renderInput={(params) => (
+        <TextField {...params} label={props.placeholder} />
+      )}
+
+
+    />
+  )
 
 }

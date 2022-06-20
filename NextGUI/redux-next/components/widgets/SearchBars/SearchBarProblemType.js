@@ -9,57 +9,62 @@
  * to say this is that this search bar is not dependent on any state variables, but other search bars may 
  * be dependent on state variables (the problem name) that this searchbar sets. 
  * 
- * @author Alex Diviney
+ * @author Alex Diviney, Daniel Igbokwe
  */
 
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext, useState} from 'react'
+import { ProblemContext } from '../../contexts/ProblemProvider';
+import React,{useContext, useState, useEffect} from 'react';
 const filter = createFilterOptions();
-var initialized = false;
-var defaultProblem = null;
+// var initialized = false;
+// var defaultProblem = null;
 //our problems to be shown
 var problemJson = [];
 
+
+
+
 export default function SearchBarProblemType(props) {
-  const { problem, problemName, setProblemName } = useContext(ProblemContext) //passed in context
-  const [defaultProblemName, setDefaultProblemName] = useState()
+  const { problem, problemName, setProblemName } = useContext(ProblemContext); //passed in context
+  const [defaultProblemName, setDefaultProblemName] = useState('');
+  
+
+
+  useEffect(() => {
+    initializeList(`http://localhost:27000/navigation/NPC_ProblemsRefactor/`);
+  }, [])
+
+
+
   
 
   //console.log(props.url)
-  if (!initialized) {
-    initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`) //
-    initialized = true;
-    console.log('Problem Json list \n') 
-  
-    // problemJson.forEach(element => {
-    //   if(element ===  'SAT3'){
-    //     console.log(element);
+  // if (!initialized) {
+  //   initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`) //
+  //   initialized = true;
+  //   console.log('Problem Json list \n') 
 
-    //     // defaultProblem = element;
-    //     console.log(`This is the default problem ${element} \n`)
-    //   }
-    // });
-
-  }
+  // }
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
     style={{ width: "100%" }}
     //defaultValue={defaultProblem !== null ?  props.setTestName : null}
-      value={defaultProblem} 
+      value={defaultProblemName} 
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           setProblemName(
             newValue
           );
+          setDefaultProblemName(newValue)
           props.setTestName(newValue);
         } else {
           setProblemName(newValue);
           props.setTestName(newValue); 
         }
       }}
+
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
 
@@ -92,9 +97,9 @@ export default function SearchBarProblemType(props) {
       )}
     />
   );
-}
 
 
+  
 /**
  * converts asynchronous fetch request into synchronous call that sets the dropdown labels by updating our array
  * @param {*} arr 
@@ -104,14 +109,11 @@ function initializeProblemJson(arr) {
   arr.map(function (element, index, array) {
     //console.log(element)
     if (!problemJson.includes(element)) {
-      // console.log(`${element} \n`)
-
+     
       if(element ===  'SAT3'){
-        console.log(element);
-        // props.setTestName(element);
-        
-        defaultProblem = element;
-        console.log(`This is the default problem ${element} \n`)
+        setDefaultProblemName(element);
+        setProblemName(element);
+        props.setTestName(element); 
       }
 
       problemJson.push(element)
@@ -137,13 +139,19 @@ async function getRequest(url) {
  * 
  */
 function initializeList(url) {
-  const req = getRequest(url);
-  req.then(data => {
-    initializeProblemJson(data)
-    //console.log(problemJson)
-  })
-    .catch((error) => console.log("GET REQUEST FAILED",error));
-  initialized = true;
+  if(problemJson.length === 0){
+    const req = getRequest(url);
+    req.then(data => {
+      initializeProblemJson(data)
+      //console.log(problemJson)
+    })
+      .catch((error) => console.log("GET REQUEST FAILED",error));
+
+  }
+ 
+  // initialized = true;
+}
+
 }
 
 
