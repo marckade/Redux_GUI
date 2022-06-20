@@ -77,7 +77,7 @@ function AccordionNestedTextBox(props) {
       setSeconds(seconds + 1);
       setProblemInstance(state)
       console.log("TIMER")
-      console.log(state)
+      //console.log(state)
     }, 5000);
     // clearing interval
     return () => clearInterval(timer);
@@ -86,11 +86,11 @@ function AccordionNestedTextBox(props) {
   //Updates the problem instance on problem name change to be the default instance of the new problem. also updates tooltips with that information.
   useEffect(() => {
     try {
-      console.log(props.accordion.INPUTURL.url)
+      //console.log(props.accordion.INPUTURL.url)
       requestProblemData(props.accordion.INPUTURL.url, problemName, problemType).then(data => {
         if (!(typeof data === "undefined")) {
-          console.log(data);
-          console.log(data.defaultInstance)
+          //console.log(data);
+          //console.log(data.defaultInstance)
           setState(data.defaultInstance)
           setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
         }
