@@ -28,8 +28,8 @@ import { Box, createTheme, Grid, ThemeProvider, Typograph } from "@mui/material"
 import { Container } from 'react-bootstrap'
 
 //const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
-const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
-
+const reduxBaseUrl = process.env.NEXT_PUBLIC_REDUX_BASE_URL; //redux url. Note the trailing slash
+console.log("Instance URL is: ",reduxBaseUrl);
 /**
  * Generates the actual page contents
  * 

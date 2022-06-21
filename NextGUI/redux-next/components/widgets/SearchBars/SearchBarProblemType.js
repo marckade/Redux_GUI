@@ -51,13 +51,13 @@ export default function SearchBarProblemType(props) {
     <Autocomplete
     style={{ width: "100%" }}
     //defaultValue={defaultProblem !== null ?  props.setTestName : null}
-      value={defaultProblemName} 
+      value={problemName} 
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           setProblemName(
             newValue
           );
-          setDefaultProblemName(newValue)
+          //setDefaultProblemName(newValue)
           props.setTestName(newValue);
         } else {
           setProblemName(newValue);
@@ -111,7 +111,7 @@ function initializeProblemJson(arr) {
     if (!problemJson.includes(element)) {
      
       if(element ===  'SAT3'){
-        setDefaultProblemName(element);
+        //setDefaultProblemName(element);
         setProblemName(element);
         props.setTestName(element); 
       }
