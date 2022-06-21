@@ -9,6 +9,7 @@
  * to say this is that this search bar is not dependent on any state variables, but other search bars may 
  * be dependent on state variables (the problem name) that this searchbar sets. 
  * 
+ * 
  * @author Alex Diviney
  */
 

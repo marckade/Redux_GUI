@@ -56,29 +56,48 @@ function ContextAwareToggle({ children, eventKey, callback, colors }) {
 function AccordionNestedTextBox(props) {
 
   //console.log(props)
-  const { problemName, problemType, problemInstance, setProblemName, setProblemInstance, makeApiCall, setProblemJson } = useContext(ProblemContext)
+  const {
+    problemName,
+    problemType,
+    problemInstance,
+    setProblemName,
+    setProblemInstance,
+    makeApiCall,
+    setProblemJson
+  } = useContext(ProblemContext) //We are giving this row access to basically all global state. This will allow us to reset a page on problem change.
+
   const [testName, setTestName] = useState('DEFAULT ACCORDION NAME') //This may only actually cause a re-render event. But removing it means no rerender.
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
 
 
-  const [state, setState] = useState("DEFAULT")
+  const [problemLocalInstance, setProblemLocalInstance] = useState("DEFAULT Instance")
   const [seconds, setSeconds] = useState(1);
+  const [timerIsActive, setTimerActive] = useState(false);
 
-  //Alex Note:
-  //This is a lazy way to ensure that the state of the application updates when the problem instance field is edited.
-  //We cannot change the global state on every character change of instance, because the way that React Context works, it notifies 
-  //all state variable listeners (as far as I can tell) that a change has happened and essentially will rerender listener components. 
-  //A rerender triggers a cascade of API calls, which so far as I can tell, are acting pretty synchronously. This slows user input to a crawl
-  //and triggers a large amount of uneccessary api requests.  
-  //Instead we have a timer here that will update the state continuously, grabbing whatever state the instance is at upon time of trigger and 
-  //then updating all listeners with that state. This solution is NOT SCALABLE, and needs to be improved.
+
+  //Updates state on problemName changing.
   useEffect(() => {
-    const timer = setInterval(() => {
-      setSeconds(seconds + 1);
-      setProblemInstance(state)
-      console.log("TIMER")
-      //console.log(state)
-    }, 5000);
+    let timer = null;
+    if (timerIsActive) {
+      timer = setInterval(() => {
+        setSeconds(seconds + 1);
+        console.log("TIMER")
+        console.log(seconds);
+        if (seconds % 2 === 0) {
+          console.log("Two HIT, Instance updating globally"
+          )
+          console.log(problemLocalInstance);
+          const cleanedInstance = problemLocalInstance.replaceAll(' ', '')
+          console.log(cleanedInstance);
+          setProblemInstance(cleanedInstance);
+          setTimerActive(false);
+          setSeconds(1);
+        }
+      }, 1000);
+    }
+    else {
+      clearInterval(timer)
+    }
     // clearing interval
     return () => clearInterval(timer);
   });
@@ -91,7 +110,8 @@ function AccordionNestedTextBox(props) {
         if (!(typeof data === "undefined")) {
           //console.log(data);
           //console.log(data.defaultInstance)
-          setState(data.defaultInstance)
+          setProblemLocalInstance(data.defaultInstance);
+          setProblemInstance(data.defaultInstance);
           setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
         }
 
@@ -104,10 +124,20 @@ function AccordionNestedTextBox(props) {
 
   //Local state that handles problem instance change without triggering mass refreshing.
   const handleChangeInstance = (event) => {
-    console.log(event.target.value);
-    setState(event.target.value)
-    console.log(state)
+    try {
+    }
+    catch (error) {
+      console.log("Couldn't clean problem instance: ", error);
+    }
+    setProblemLocalInstance(event.target.value)
+    if (!timerIsActive) {
+      setTimerActive(true);
+    }
   }
+
+  // useEffect(() => {
+  //   window.location.reload(false);
+  // },[testName])
 
 
   return (
@@ -136,7 +166,7 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
               <Stack direction="horizontal" gap={1}>
                 {props.accordion.CARD.cardBodyText}
-                <FormControl as="textarea" value={state} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                <FormControl as="textarea" value={problemLocalInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
               </Stack>
             </Card.Body>
           </Accordion.Collapse>

@@ -19,9 +19,8 @@ export default function SearchBarSelectReduceToV2(props) {
   //props.setData and props.data should be passed down.
 
   let stateVal = undefined;
-
   const fullUrl = props.url;
-    initializeList(fullUrl) 
+  initializeList(fullUrl); 
   
   //const [value, setValue] = React.useState(null); //state manager.
   return (
