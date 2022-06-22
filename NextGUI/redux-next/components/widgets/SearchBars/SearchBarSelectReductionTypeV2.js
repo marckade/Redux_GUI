@@ -5,40 +5,54 @@
  * of queried data is global and was causing label overriding. 
  * 
  * This searchbar is essentially the same as every other v2 suffix'd searchbar except for some error codes
- * @author Alex Diviney
+ * @author Alex Diviney, Daniel Igbokwe
  */
 
 
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext,useEffect} from 'react'
+import React,{useContext,useEffect, useState} from 'react'
 const filter = createFilterOptions();
+var problemJson = [];
 
 export default function SearchBarSelectReductionTypeV2(props) {
   //props.setData and props.data should be passed down.
+  //our problems to be shown
+
+
+  const [reductionType, setChosenReduceTo] = useState('');
+  const { chosenReduceTo } = useContext(ProblemContext);
+  //chosenReduceTo
+
+
 
   let stateVal = undefined;
 
   const fullUrl = props.url;
-    initializeList(fullUrl) 
+    console.log(fullUrl) 
+    useEffect(() => {
+      problemJson = [];
+      setChosenReduceTo("");
+      initializeList(fullUrl);
+    }, [chosenReduceTo])
   
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={stateVal}
+      value={reductionType}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          // setChosenReduceTo(
-          //   newValue
-          // );
+          setChosenReduceTo(
+            newValue
+          );
           props.setData(newValue);
-          stateVal = newValue
+          // stateVal = newValue
         } else {
-          //setChosenReduceTo(newValue);
+          setChosenReduceTo(newValue);
           props.setData(newValue);
-          stateVal = newValue;
+          // stateVal = newValue;
         }
       }}
       filterOptions={(options, params) => {
@@ -73,20 +87,24 @@ export default function SearchBarSelectReductionTypeV2(props) {
       )}
     />
   );
-}
 
-//our problems to be shown
-var problemJson = [
- 
-];
 
-function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-    while (problemJson.length) { 
-      problemJson.pop(); 
-  }
+
+  function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
+    problemJson = [];
+  //   while (problemJson.length) { 
+  //     problemJson.pop(); 
+  // }
   arr.map(function (element, index, array) {
+    // problemJson = [];
     
     if (!problemJson.includes(element)) {
+      if(element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE'){
+        props.setData(element);
+        setChosenReduceTo(element)
+        console.log(element)
+
+      }
       problemJson.push(element)
     }
   }, 80);
@@ -106,9 +124,15 @@ function initializeList(url) {
   req.then(data => {
    
     initializeProblemJson(data)
-    //console.log(problemJson)
+    console.log(data)
   })
     .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SELECT REDUCTION TYPE"));
 }
+
+
+
+}
+
+
 
 

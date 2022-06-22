@@ -13,7 +13,7 @@ import React from 'react'
 import { useContext,useEffect,useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl, Col, Row, Container } from 'react-bootstrap'
-import {Stack,Button} from '@mui/material'
+import {Stack,Button,Box} from '@mui/material'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 
@@ -33,6 +33,7 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const isCurrentEventKey = activeEventKey === eventKey;
   return (
     <Button
+      sx={{ height:54, width: 64 }}
       color = 'white'
       className = "float-end"
       type="button"
@@ -53,10 +54,12 @@ function AccordionDualInputNestedButton(props) {
   const [reducedInstanceLocal, setReducedInstanceLocal] = useState("Reduced Instance goes here");
    REDUCETOOPTIONSURL= props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
    REDUCTIONTYPEOPTIONSURL= props.accordion.INPUTURL.url+ 'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+problemName+'&reducingTo='+chosenReduceTo+'&problemType='+problemType
-   console.log(reducedInstance)
-   console.log(problemName)
+   //console.log(reducedInstance)
+   //console.log(problemName)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
+  const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
+
   const reduceRequest = () => {
     console.log("Problem Instance at time of reduce req: ", problemInstance);
     
@@ -83,6 +86,8 @@ function AccordionDualInputNestedButton(props) {
     }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
   }, [chosenReductionType])
 
+
+ 
   return (
     <div>
 
@@ -91,12 +96,16 @@ function AccordionDualInputNestedButton(props) {
           <Card.Header>
 
             <Stack direction="horizontal" justifyContent="right" gap={2}>
+              <Box
+              sx={{width:'22%'}}
+              >
               {props.accordion.CARD.cardHeaderText}
+              </Box>
               <SearchBarSelectReduceToV2
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
                 url={REDUCETOOPTIONSURL}
                 setData={setChosenReduceTo}
-                data={problemName}
+                data={testData}
               /> {/**Search bar left (form control 1) */}
 
             <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>  
@@ -122,7 +131,9 @@ function AccordionDualInputNestedButton(props) {
               {reducedInstance}
               <div className="submitButton">
                 <Button
-                  style={{ backgroundColor: 'blue', WebkitTextFillColor: 'white' }}
+                  size='large'
+                  color='white'
+                   style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={reduceRequest}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>

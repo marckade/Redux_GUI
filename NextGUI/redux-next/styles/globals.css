@@ -76,3 +76,9 @@ a {
   /* background-image: url('grips/vertical.png'); */
   cursor: col-resize;
 }
+
+.isu-logo{
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+}

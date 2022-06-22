@@ -20,13 +20,14 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Switch } from '@mui/material'
+import { Button, Switch, Container} from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 import Graphvisualization from "../Visualization/Graphvisualization";
 import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
-
+import { getClique } from '../Visualization/svgs/Sat3ToCliqueReducetion';
+import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
 
 
 
@@ -44,6 +45,7 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
       color = 'white'
       className = "float-end"
       type="button"
+      sx={{ height:54, width: 64 }}
       style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
     >
@@ -156,13 +158,14 @@ function AccordionTogglesSvg(props) {
         <Card>
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
-            <Stack className="float-end" direction="horizontal" gap={3} >
+            <Stack className="float-end" direction="horizontal" gap={3} 
+            >
+
               <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
-              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
               <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
-              <ContextAwareToggle className="float-end" eventKey="0" colors={props.accordion.THEME.colors}>▼</ContextAwareToggle>
-              
+              <ContextAwareToggle className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{height:'60px'} }>▼</ContextAwareToggle>
 
             </Stack>
 
@@ -174,16 +177,19 @@ function AccordionTogglesSvg(props) {
 
                {/* Single Visualization works below*/}
 
-              {showSolution && showGadgets === false && showReduction === false ? <Stack className="justify-content-center" direction="horizontal" gap={2}>
+              {showSolution === false && showGadgets === false && showReduction === false ? <Stack className="justify-content-center" direction="horizontal" gap={2}>
 
                 <Graphvisualization dot={graphDotTest} />
 
               </Stack> : null}
 
               {/* Reduction SVg works below*/}
-              {showReduction ? <ReducedVisualizations instanceVisualization={<Graphvisualization dot={graphDotTest} />}
-                reducedVisualization={<Graphvisualization dot={graphDotTest2} />}></ReducedVisualizations> : null}
-
+              {showReduction ? 
+              <ReducedVisualizations 
+                instanceVisualization={<div id={'problem'}>{getSat3('problem')}</div>}
+                reducedVisualization={<div id={'reduction'}>{getClique('reduction')}</div>}
+              ></ReducedVisualizations> : null}
+  
             </Card.Body>
           </Accordion.Collapse>
         </Card>

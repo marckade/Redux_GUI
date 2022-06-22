@@ -9,15 +9,15 @@
  */
 
 import React, { useEffect, useState } from 'react'
-import { useContext,useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Accordion, Card, AccordionContext, FormControl,Row,Col } from 'react-bootstrap'
+import { Accordion, Card, AccordionContext, FormControl, Row, Col } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 import SearchBarProblemType from './SearchBars/SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
-import {Stack,Button} from '@mui/material'
+import { Stack, Button, Box } from '@mui/material'
 
 /**
  * This represents the button that triggers the accordion component opening or closing
@@ -25,7 +25,7 @@ import {Stack,Button} from '@mui/material'
  * @param {*} param0 parameters change handler
  * @returns A Dropdown toggle component. 
  */
-function ContextAwareToggle({ children, eventKey, callback,colors }) {
+function ContextAwareToggle({ children, eventKey, callback, colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -36,8 +36,9 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const isCurrentEventKey = activeEventKey === eventKey;
   return (
     <Button
-      color = 'white'
-      className = "float-end"
+      sx={{ height: 54, width: 64 }}
+      color='white'
+      className="float-end"
       type="button"
       style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
@@ -53,94 +54,128 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
  * @returns 
  */
 function AccordionNestedTextBox(props) {
- 
+
   //console.log(props)
-  const { problemName, problemType, problemInstance, setProblemName, setProblemInstance, makeApiCall, setProblemJson } = useContext(ProblemContext)
-  const [testName,setTestName]= useState('DEFAULT ACCORDION NAME') //This may only actually cause a re-render event. But removing it means no rerender.
+  const {
+    problemName,
+    problemType,
+    problemInstance,
+    setProblemName,
+    setProblemInstance,
+    makeApiCall,
+    setProblemJson
+  } = useContext(ProblemContext) //We are giving this row access to basically all global state. This will allow us to reset a page on problem change.
+
+  const [testName, setTestName] = useState('DEFAULT ACCORDION NAME') //This may only actually cause a re-render event. But removing it means no rerender.
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
 
-  
-  const [state, setState] = useState("DEFAULT")
-  const [seconds, setSeconds] = useState(1);
 
-  //Alex Note:
-  //This is a lazy way to ensure that the state of the application updates when the problem instance field is edited.
-  //We cannot change the global state on every character change of instance, because the way that React Context works, it notifies 
-  //all state variable listeners (as far as I can tell) that a change has happened and essentially will rerender listener components. 
-  //A rerender triggers a cascade of API calls, which so far as I can tell, are acting pretty synchronously. This slows user input to a crawl
-  //and triggers a large amount of uneccessary api requests.  
-  //Instead we have a timer here that will update the state continuously, grabbing whatever state the instance is at upon time of trigger and 
-  //then updating all listeners with that state. This solution is NOT SCALABLE, and needs to be improved.
+  const [problemLocalInstance, setProblemLocalInstance] = useState("DEFAULT Instance")
+  const [seconds, setSeconds] = useState(1);
+  const [timerIsActive, setTimerActive] = useState(false);
+
+
+  //Updates state on problemName changing.
   useEffect(() => {
-    const timer = setInterval(() => {
-      setSeconds(seconds + 1);
-      setProblemInstance(state)
-      console.log("TIMER")
-      console.log(state)
-    }, 5000);
-               // clearing interval
+    let timer = null;
+    if (timerIsActive) {
+      timer = setInterval(() => {
+        setSeconds(seconds + 1);
+        console.log("TIMER")
+        console.log(seconds);
+        if (seconds % 2 === 0) {
+          console.log("Two HIT, Instance updating globally"
+          )
+          console.log(problemLocalInstance);
+          const cleanedInstance = problemLocalInstance.replaceAll(' ', '')
+          console.log(cleanedInstance);
+          setProblemInstance(cleanedInstance);
+          setTimerActive(false);
+          setSeconds(1);
+        }
+      }, 1000);
+    }
+    else {
+      clearInterval(timer)
+    }
+    // clearing interval
     return () => clearInterval(timer);
   });
 
   //Updates the problem instance on problem name change to be the default instance of the new problem. also updates tooltips with that information.
   useEffect(() => {
     try {
-      console.log(props.accordion.INPUTURL.url)
+      //console.log(props.accordion.INPUTURL.url)
       requestProblemData(props.accordion.INPUTURL.url, problemName, problemType).then(data => {
         if (!(typeof data === "undefined")) {
-          console.log(data);
-          console.log(data.defaultInstance)
-          setState(data.defaultInstance)
+          //console.log(data);
+          //console.log(data.defaultInstance)
+          setProblemLocalInstance(data.defaultInstance);
+          setProblemInstance(data.defaultInstance);
           setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
         }
-          
+
       }).catch(console.log("Problem not defined"));
     }
     catch {
       console.log("problem name is empty")
     }
-  },[problemName])
-  
+  }, [problemName])
+
   //Local state that handles problem instance change without triggering mass refreshing.
   const handleChangeInstance = (event) => {
-    console.log(event.target.value);
-    setState(event.target.value)
-    console.log(state)
+    try {
+    }
+    catch (error) {
+      console.log("Couldn't clean problem instance: ", error);
+    }
+    setProblemLocalInstance(event.target.value)
+    if (!timerIsActive) {
+      setTimerActive(true);
+    }
   }
- 
-  
+
+  // useEffect(() => {
+  //   window.location.reload(false);
+  // },[testName])
+
+
   return (
     <div>
-<Accordion className = "accordion" defaultActiveKey="1">
-      <Card>
+      <Accordion className="accordion" defaultActiveKey="1">
+        <Card>
           <Card.Header>
-           
+
             <Stack direction="horizontal" justifyContent="right" gap={2}>
-            {props.accordion.CARD.cardHeaderText}
-              {/**FORM CONTROL 1 */ }
+              <Box
+              sx={{width:'10%'}}
+              >
+                {props.accordion.CARD.cardHeaderText}
+                </Box>
+              {/**FORM CONTROL 1 */}
               <SearchBarProblemType setTestName={setTestName} placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder} url={props.accordion.INPUTURL.url}></SearchBarProblemType>
-             
-              <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>  
+
+              <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>
               <ContextAwareToggle eventKey="0" colors={props.accordion.THEME.colors}>▼</ContextAwareToggle>
 
-              </Stack>
-            
-        </Card.Header>
-
-        <Accordion.Collapse eventKey="0">
-            <Card.Body>
-            <Stack direction="horizontal" gap={1}>
-              {props.accordion.CARD.cardBodyText}
-                <FormControl as= "textarea" value={state} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
             </Stack>
-          </Card.Body>
-        </Accordion.Collapse>
-      </Card>
-    
-          </Accordion>
-          
+
+          </Card.Header>
+
+          <Accordion.Collapse eventKey="0">
+            <Card.Body>
+              <Stack direction="horizontal" gap={1}>
+                {props.accordion.CARD.cardBodyText}
+                <FormControl as="textarea" value={problemLocalInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+              </Stack>
+            </Card.Body>
+          </Accordion.Collapse>
+        </Card>
+
+      </Accordion>
+
     </div>
-      );
+  );
 }
 
 
@@ -151,14 +186,13 @@ function AccordionNestedTextBox(props) {
  * @returns A promise from the passed in url. 
  */
 async function requestProblemData(url, name) {
-    console.log(name)
-  return await fetch(url + name + "Generic").then(resp =>
-  {
+  console.log(name)
+  return await fetch(url + name + "Generic").then(resp => {
     if (resp.ok) {
       return resp.json()
     }
   });
-  
+
 }
 
 

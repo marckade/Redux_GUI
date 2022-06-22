@@ -5,40 +5,59 @@
  * of queried data is global and was causing label overriding. 
  * 
  * This searchbar is essentially the same as every other v2 suffix'd searchbar except for some error codes
- * @author Alex Diviney
+ * @author Alex Diviney, Daniel Igbokwe
  */
 
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext,useEffect} from 'react'
+import { ProblemContext } from '../../contexts/ProblemProvider';
+import React,{useContext,useEffect, useState} from 'react';
 const filter = createFilterOptions();
+
+//our problems to be shown
+var problemJson = [];
+
+
 
 
 export default function SearchBarSelectReduceToV2(props) {
   //props.setData and props.data should be passed down.
 
-  let stateVal = undefined;
+  const [defaultProblemName, setDefaultProblemName] = useState('');
+  const { problemName } = useContext(ProblemContext);
+  
 
+  // let stateVal = undefined;
   const fullUrl = props.url;
-    initializeList(fullUrl) 
+  console.log(`URL is ${fullUrl}`)
+   // initializeList(fullUrl);
+
+    useEffect(() => {
+      setDefaultProblemName("");
+      props.setData("");
+      initializeList(fullUrl);
+    }, [problemName])
+  
+  
   
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={stateVal}
+      value={defaultProblemName}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // setChosenReduceTo(
           //   newValue
           // );
           props.setData(newValue);
-          stateVal = newValue
+          setDefaultProblemName(newValue);
+          // stateVal = newValue
         } else {
           //setChosenReduceTo(newValue);
+          setDefaultProblemName(newValue);
           props.setData(newValue);
-          stateVal = newValue;
+          // stateVal = newValue;
         }
       }}
       filterOptions={(options, params) => {
@@ -73,20 +92,23 @@ export default function SearchBarSelectReduceToV2(props) {
       )}
     />
   );
-}
 
-//our problems to be shown
-var problemJson = [
- 
-];
 
-function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-    while (problemJson.length) { 
-      problemJson.pop(); 
-  }
+  function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
+  //   while (problemJson.length) { 
+  //     problemJson.pop(); 
+  // }
+
+  problemJson = [];
   arr.map(function (element, index, array) {
+
     
     if (!problemJson.includes(element)) {
+      if(element ===  'CLIQUE'){
+        // stateVal = element;
+        props.setData(element)
+        setDefaultProblemName(element);
+      }
       problemJson.push(element)
     }
   }, 80);
@@ -109,6 +131,9 @@ function initializeList(url) {
     //console.log(problemJson)
   })
     .catch((error) => console.log("GET REQUEST FAILED SELECT REDUCE TO"));
+    
+}
+
 }
 
 

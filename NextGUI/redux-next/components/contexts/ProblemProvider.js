@@ -24,9 +24,13 @@ class ProblemProvider extends Component {
 
     state = {
 
+        // Alex it might be better to leave this as an empty string
+        // When the page is loaded first the problem name was 
+        // DEFAULTTYPE before it changed to SAT3, so I changed it to empty string
+
         problemJson: "DEFAULT",
         problemType: "NPC",
-        problemName: "DEFAULTTYPE",
+        problemName: "",
         problemInstance: "{{1,2,3},{1,2},GENERIC}",
         problemDescription: "You need to enter a problem to see information about it",
         reduceToOptions: ["PROVIDERDEFAULT1", "PROVIDERDEFAULT2"],
@@ -37,7 +41,7 @@ class ProblemProvider extends Component {
         solverOptions: ["SOLVER_OPTION_ONE"],
         chosenSolver: "CHOSEN SOLVER PROVIDER",
         verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"],
-        solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDER"
+        solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDER",
 
     }
 
