@@ -6,9 +6,6 @@
  * 
  */
 
-
-
-
 import React from 'react' //React is implicitly imported
 import ProblemRow from '../components/pageblocks/ProblemRow'
 import ProblemRowReact from '../components/pageblocks/ProblemRowReact'
@@ -27,11 +24,12 @@ import isulogo from '../components/images/ISULogo.png'
 import SearchBarProblemType from '../components/widgets/SearchBars/SearchBarProblemType'
 import ProblemProvider from '../components/contexts/ProblemProvider'
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
-import { createTheme, ThemeProvider, Typograph } from "@mui/material"
+import { Box, createTheme, Grid, ThemeProvider, Typograph } from "@mui/material"
+import { Container } from 'react-bootstrap'
 
 //const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
-const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
-
+const reduxBaseUrl = process.env.NEXT_PUBLIC_REDUX_BASE_URL; //redux url. Note the trailing slash
+console.log("Instance URL is: ",reduxBaseUrl);
 /**
  * Generates the actual page contents
  * 
@@ -39,7 +37,7 @@ const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing s
  */
 function TestPageContent() {
 
-  const imgStyle = { textAlign: "center" }
+  const imgStyle = { textAlign: "center"}
 
   const theme = createTheme({
     palette: {
@@ -109,10 +107,20 @@ function TestPageContent() {
 
         {/*<!-- /Container-->*/}
 
-        <footer className='fixed-bottom centered'>
-          <Image src={isulogo} width={300} height={150} style={imgStyle}></Image>
-        </footer>
-        </ThemeProvider>
+        {/* <footer className='fixed-bottom centered'> */}
+        {/* </footer> */}
+      </ThemeProvider>
+        <Box
+
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    minHeight="10vh"
+    // marginTop={'25%'}
+    //Tried to push the logo down with the margin
+  >
+        <Image src={isulogo} height={150} width={400} ></Image>
+    </Box>
     </>
 
   )

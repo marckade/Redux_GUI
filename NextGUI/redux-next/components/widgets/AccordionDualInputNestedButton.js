@@ -54,10 +54,12 @@ function AccordionDualInputNestedButton(props) {
   const [reducedInstanceLocal, setReducedInstanceLocal] = useState("Reduced Instance goes here");
    REDUCETOOPTIONSURL= props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
    REDUCTIONTYPEOPTIONSURL= props.accordion.INPUTURL.url+ 'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+problemName+'&reducingTo='+chosenReduceTo+'&problemType='+problemType
-   console.log(reducedInstance)
-   console.log(problemName)
+   //console.log(reducedInstance)
+   //console.log(problemName)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
+  const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
+
   const reduceRequest = () => {
     console.log("Problem Instance at time of reduce req: ", problemInstance);
     
@@ -84,6 +86,8 @@ function AccordionDualInputNestedButton(props) {
     }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
   }, [chosenReductionType])
 
+
+ 
   return (
     <div>
 
@@ -101,7 +105,7 @@ function AccordionDualInputNestedButton(props) {
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
                 url={REDUCETOOPTIONSURL}
                 setData={setChosenReduceTo}
-                data={problemName}
+                data={testData}
               /> {/**Search bar left (form control 1) */}
 
             <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>  

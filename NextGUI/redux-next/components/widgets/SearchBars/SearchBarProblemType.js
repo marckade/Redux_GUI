@@ -27,9 +27,9 @@ var problemJson = [];
 
 export default function SearchBarProblemType(props) {
   const { problem, problemName, setProblemName } = useContext(ProblemContext); //passed in context
-  const [defaultProblemName, setDefaultProblemName] = useState('');
+  // const [defaultProblemName, setDefaultProblemName] = useState('');
   
-
+// need to change the url to the live site
 
   useEffect(() => {
     initializeList(`http://localhost:27000/navigation/NPC_ProblemsRefactor/`);
@@ -51,13 +51,13 @@ export default function SearchBarProblemType(props) {
     <Autocomplete
     style={{ width: "100%" }}
     //defaultValue={defaultProblem !== null ?  props.setTestName : null}
-      value={defaultProblemName} 
+      value={problemName} 
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           setProblemName(
             newValue
           );
-          setDefaultProblemName(newValue)
+          //setDefaultProblemName(newValue)
           props.setTestName(newValue);
         } else {
           setProblemName(newValue);
@@ -111,7 +111,7 @@ function initializeProblemJson(arr) {
     if (!problemJson.includes(element)) {
      
       if(element ===  'SAT3'){
-        setDefaultProblemName(element);
+        //setDefaultProblemName(element);
         setProblemName(element);
         props.setTestName(element); 
       }

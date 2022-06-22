@@ -20,24 +20,23 @@ var problemJson = [];
 
 
 
-
-
 export default function SearchBarSelectReduceToV2(props) {
   //props.setData and props.data should be passed down.
 
   const [defaultProblemName, setDefaultProblemName] = useState('');
-
+  const { problemName } = useContext(ProblemContext);
   
 
-  let stateVal = undefined;
-
+  // let stateVal = undefined;
   const fullUrl = props.url;
   console.log(`URL is ${fullUrl}`)
    // initializeList(fullUrl);
 
     useEffect(() => {
+      setDefaultProblemName("");
+      props.setData("");
       initializeList(fullUrl);
-    }, [])
+    }, [problemName])
   
   
   
@@ -99,13 +98,15 @@ export default function SearchBarSelectReduceToV2(props) {
   //   while (problemJson.length) { 
   //     problemJson.pop(); 
   // }
+
+  problemJson = [];
   arr.map(function (element, index, array) {
-    console.log(element)
+
     
     if (!problemJson.includes(element)) {
       if(element ===  'CLIQUE'){
         // stateVal = element;
-        props.setData(element);
+        props.setData(element)
         setDefaultProblemName(element);
       }
       problemJson.push(element)

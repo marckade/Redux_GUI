@@ -26,8 +26,8 @@ import { Button, Switch, Container} from '@mui/material'
 import Graphvisualization from "../Visualization/Graphvisualization";
 import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
-import { getClique } from '../Visualization/svgs/SatToClique';
-
+import { getClique } from '../Visualization/svgs/Sat3ToCliqueReducetion';
+import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
 
 
 
@@ -162,7 +162,7 @@ function AccordionTogglesSvg(props) {
             >
 
               <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
-              <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
               <FormControlLabel control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
               <ContextAwareToggle className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{height:'60px'} }>▼</ContextAwareToggle>
@@ -177,15 +177,16 @@ function AccordionTogglesSvg(props) {
 
                {/* Single Visualization works below*/}
 
-              {showSolution && showGadgets === false && showReduction === false ? <Stack className="justify-content-center" direction="horizontal" gap={2}>
+              {showSolution === false && showGadgets === false && showReduction === false ? <Stack className="justify-content-center" direction="horizontal" gap={2}>
 
                 <Graphvisualization dot={graphDotTest} />
 
               </Stack> : null}
 
               {/* Reduction SVg works below*/}
-              {showReduction ? <ReducedVisualizations 
-                instanceVisualization={<div id={'problem'}></div>}
+              {showReduction ? 
+              <ReducedVisualizations 
+                instanceVisualization={<div id={'problem'}>{getSat3('problem')}</div>}
                 reducedVisualization={<div id={'reduction'}>{getClique('reduction')}</div>}
               ></ReducedVisualizations> : null}
   
