@@ -56,6 +56,7 @@ export default function SearchBarSelectReduceToV2(props) {
           // stateVal = newValue
         } else {
           //setChosenReduceTo(newValue);
+          setDefaultProblemName(newValue);
           props.setData(newValue);
           // stateVal = newValue;
         }
@@ -95,15 +96,16 @@ export default function SearchBarSelectReduceToV2(props) {
 
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-    while (problemJson.length) { 
-      problemJson.pop(); 
-  }
+  //   while (problemJson.length) { 
+  //     problemJson.pop(); 
+  // }
   arr.map(function (element, index, array) {
     console.log(element)
     
     if (!problemJson.includes(element)) {
       if(element ===  'CLIQUE'){
         // stateVal = element;
+        props.setData(element);
         setDefaultProblemName(element);
       }
       problemJson.push(element)
@@ -128,6 +130,7 @@ function initializeList(url) {
     //console.log(problemJson)
   })
     .catch((error) => console.log("GET REQUEST FAILED SELECT REDUCE TO"));
+    
 }
 
 }
