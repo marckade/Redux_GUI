@@ -95,10 +95,10 @@ export default function SearchBarSelectVerifierV2(props) {
 
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-  //   while (problemJson.length) { 
-  //     problemJson.pop(); 
-  // }
-  problemJson = [];
+    while (problemJson.length) { 
+      problemJson.pop(); 
+  }
+  // problemJson = [];
   arr.map(function (element, index, array) {
     
     if (!problemJson.includes(element)) {
