@@ -111,10 +111,13 @@ function TestPageContent() {
         {/* </footer> */}
       </ThemeProvider>
         <Box
+
     display="flex"
     justifyContent="center"
     alignItems="center"
     minHeight="10vh"
+    // marginTop={'25%'}
+    //Tried to push the logo down with the margin
   >
         <Image src={isulogo} height={150} width={400} ></Image>
     </Box>

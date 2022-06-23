@@ -27,12 +27,14 @@ export default function SearchBarSelectReduceToV2(props) {
   const { problemName } = useContext(ProblemContext);
   
 
-  let stateVal = undefined;
+  // let stateVal = undefined;
   const fullUrl = props.url;
   console.log(`URL is ${fullUrl}`)
    // initializeList(fullUrl);
 
     useEffect(() => {
+      setDefaultProblemName("");
+      props.setData("");
       initializeList(fullUrl);
     }, [problemName])
   
@@ -53,6 +55,7 @@ export default function SearchBarSelectReduceToV2(props) {
           // stateVal = newValue
         } else {
           //setChosenReduceTo(newValue);
+          setDefaultProblemName(newValue);
           props.setData(newValue);
           // stateVal = newValue;
         }
@@ -95,13 +98,15 @@ export default function SearchBarSelectReduceToV2(props) {
     while (problemJson.length) { 
       problemJson.pop(); 
   }
+
+  // problemJson = [];
   arr.map(function (element, index, array) {
-    console.log(element)
+
     
     if (!problemJson.includes(element)) {
-      if(element ===  'CLIQUE'){
+      if(element ===  'CLIQUE'&& problemName === 'SAT3'){
         // stateVal = element;
-        props.setData(element)
+        props.setData(element);
         setDefaultProblemName(element);
       }
       problemJson.push(element)
@@ -126,6 +131,7 @@ function initializeList(url) {
     //console.log(problemJson)
   })
     .catch((error) => console.log("GET REQUEST FAILED SELECT REDUCE TO"));
+    
 }
 
 }

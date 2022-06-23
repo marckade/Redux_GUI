@@ -27,9 +27,9 @@ var problemJson = [];
 
 export default function SearchBarProblemType(props) {
   const { problem, problemName, setProblemName } = useContext(ProblemContext); //passed in context
-  const [defaultProblemName, setDefaultProblemName] = useState('');
+  // const [defaultProblemName, setDefaultProblemName] = useState('');
   
-
+// need to change the url to the live site
 
   useEffect(() => {
     initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`);

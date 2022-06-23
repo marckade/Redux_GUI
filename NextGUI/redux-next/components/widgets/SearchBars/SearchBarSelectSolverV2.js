@@ -11,33 +11,52 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext,useEffect} from 'react'
+import React,{useContext,useEffect, useState} from 'react'
 const filter = createFilterOptions();
+
+//our problems to be shown
+var problemJson = [
+ 
+];
+
+
 
 export default function SearchBarSelectSolverV2(props) {
   //props.setData and props.data should be passed down.
+  const [defaultSolver, setDefaultSolver] = useState('');
+  const { problemName } = useContext(ProblemContext);
+  
 
   let stateVal = undefined;
 
   const fullUrl = props.url;
-    initializeList(fullUrl) 
+    // initializeList(fullUrl) 
+    useEffect(() => {
+      setDefaultSolver("");
+      props.setData("");
+      initializeList(fullUrl);
+    }, [problemName])
+  
+  
   
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={stateVal}
+      value={defaultSolver}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // setChosenReduceTo(
           //   newValue
           // );
           props.setData(newValue);
-          stateVal = newValue
+          setDefaultSolver(newValue);
+          // stateVal = newValue
         } else {
           //setChosenReduceTo(newValue);
           props.setData(newValue);
-          stateVal = newValue;
+          setDefaultSolver(newValue);
+          // stateVal = newValue;
         }
       }}
       filterOptions={(options, params) => {
@@ -72,20 +91,21 @@ export default function SearchBarSelectSolverV2(props) {
       )}
     />
   );
-}
 
-//our problems to be shown
-var problemJson = [
- 
-];
 
-function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
+
+  function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
     while (problemJson.length) { 
       problemJson.pop(); 
   }
+  // problemJson = []
   arr.map(function (element, index, array) {
     
     if (!problemJson.includes(element)) {
+      if(element === 'SkeletonSolver' && problemName === 'SAT3'){
+        props.setData(element);
+        setDefaultSolver(element);
+      }
       problemJson.push(element)
     }
   }, 80);
@@ -110,4 +130,7 @@ function initializeList(url) {
     .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SOLVER"));
 }
 
+
+
+}
 
