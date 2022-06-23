@@ -32,7 +32,7 @@ export default function SearchBarProblemType(props) {
 // need to change the url to the live site
 
   useEffect(() => {
-    initializeList(`http://localhost:27000/navigation/NPC_ProblemsRefactor/`);
+    initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`);
   }, [])
 
 

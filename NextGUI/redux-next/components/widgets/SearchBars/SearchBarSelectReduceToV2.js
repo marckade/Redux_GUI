@@ -95,18 +95,18 @@ export default function SearchBarSelectReduceToV2(props) {
 
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-  //   while (problemJson.length) { 
-  //     problemJson.pop(); 
-  // }
+    while (problemJson.length) { 
+      problemJson.pop(); 
+  }
 
-  problemJson = [];
+  // problemJson = [];
   arr.map(function (element, index, array) {
 
     
     if (!problemJson.includes(element)) {
-      if(element ===  'CLIQUE'){
+      if(element ===  'CLIQUE'&& problemName === 'SAT3'){
         // stateVal = element;
-        props.setData(element)
+        props.setData(element);
         setDefaultProblemName(element);
       }
       problemJson.push(element)
