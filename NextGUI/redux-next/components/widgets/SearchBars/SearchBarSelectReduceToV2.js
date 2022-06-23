@@ -104,9 +104,9 @@ export default function SearchBarSelectReduceToV2(props) {
 
     
     if (!problemJson.includes(element)) {
-      if(element ===  'CLIQUE'){
+      if(element ===  'CLIQUE'&& problemName === 'SAT3'){
         // stateVal = element;
-        props.setData(element)
+        props.setData(element);
         setDefaultProblemName(element);
       }
       problemJson.push(element)

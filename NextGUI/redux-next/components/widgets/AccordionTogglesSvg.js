@@ -13,7 +13,7 @@
 
 
 import React from 'react'
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, Stack } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
@@ -28,6 +28,7 @@ import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
 import { getClique } from '../Visualization/svgs/Sat3ToCliqueReducetion';
 import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
+
 
 
 
