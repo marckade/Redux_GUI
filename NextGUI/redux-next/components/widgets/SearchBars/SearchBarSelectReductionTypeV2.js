@@ -11,46 +11,48 @@
 
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext,useEffect, useState} from 'react'
+import { ProblemContext } from '../../contexts/ProblemProvider';
+import React, { useContext, useEffect, useState } from 'react';
+import message from './SearchBarSelectReduceToV2';
 const filter = createFilterOptions();
+export const noReductionsTypeMessage =
+  'No reductions available. Click on the create button to add a new reduction solver method';
 var problemJson = [];
+
 
 export default function SearchBarSelectReductionTypeV2(props) {
   //props.setData and props.data should be passed down.
   //our problems to be shown
 
 
-  const [reductionType, setChosenReduceTo] = useState('');
+  const [reductionType, setReduceToType] = useState('');
   const { chosenReduceTo } = useContext(ProblemContext);
+  const [noReductionsType, setNoReductionsType] = useState(false);
   //chosenReduceTo
 
-
-
-  let stateVal = undefined;
-
   const fullUrl = props.url;
-    console.log(fullUrl) 
-    useEffect(() => {
-      problemJson = [];
-      setChosenReduceTo("");
-      initializeList(fullUrl);
-    }, [chosenReduceTo])
-  
+  console.log(fullUrl)
+  useEffect(() => {
+    problemJson = [];
+    setReduceToType("");
+    initializeList(fullUrl);
+  }, [chosenReduceTo]);
+
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
-    style={{ width: "100%" }}
+      style={{ width: "100%" }}
+      disabled={noReductionsType ? true : false}
       value={reductionType}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setChosenReduceTo(
+          setReduceToType(
             newValue
           );
           props.setData(newValue);
           // stateVal = newValue
         } else {
-          setChosenReduceTo(newValue);
+          setReduceToType(newValue);
           props.setData(newValue);
           // stateVal = newValue;
         }
@@ -61,7 +63,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
         const { inputValue } = params;
         // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-      
+
 
         return filtered;
       }}
@@ -75,7 +77,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
         if (typeof option === 'string') {
           return option;
         }
-       
+
         // Regular option
         return option;
       }}
@@ -83,7 +85,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label={props.placeholder} />
+        <TextField {...params} label={props.placeholder}
+        />
       )}
     />
   );
@@ -91,47 +94,70 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-    problemJson = [];
-  //   while (problemJson.length) { 
-  //     problemJson.pop(); 
-  // }
-  arr.map(function (element, index, array) {
     // problemJson = [];
-    
-    if (!problemJson.includes(element)) {
-      if(element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE'){
-        props.setData(element);
-        setChosenReduceTo(element)
-        console.log(element)
-
-      }
-      problemJson.push(element)
+      while (problemJson.length) { 
+        problemJson.pop(); 
     }
-  }, 80);
-  //console.log(problemJson);
-}
-async function getRequest(url) {
+
+    // if (!arr.length) { 
+    //   setNoReductionsType(true);
+    //   setReduceToType(noReductionsTypeMessage);
+    //   props.setData('');
+    //  }
+
+    arr.map(function (element, index, array) {
+      // problemJson = [];
+      setNoReductionsType(false);
+
+      if (!problemJson.includes(element)) {
+        if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
+          props.setData(element);
+          setReduceToType(element);
+
+        }
+        problemJson.push(element);
+       
+      }
+
+    }, 80);
+    //console.log(problemJson);
+  }
+  async function getRequest(url) {
     const promise = await fetch(url).then(result => {
       return result.json()
-  })
-  return promise;
+    })
+    return promise;
+
+  }
+
+  function initializeList(url) {
+
+    console.log(message.noReductionsMessage)
+    console.log(chosenReduceTo)
+
+    if(chosenReduceTo !== ''){
+      console.log("here dawg");
+      const req = getRequest(url);
+      req.then(data => {
   
-}
+        initializeProblemJson(data)
+        console.log(data)
+      })
+        .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SELECT REDUCTION TYPE"));
 
-function initializeList(url) {
+    } else{
+      setNoReductionsType(true);
+      setReduceToType(noReductionsTypeMessage);
+    }
 
-  const req = getRequest(url);
-  req.then(data => {
    
-    initializeProblemJson(data)
-    console.log(data)
-  })
-    .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SELECT REDUCTION TYPE"));
-}
+  }
 
 
 
 }
+
+// export noReductionsMessage
 
 
 

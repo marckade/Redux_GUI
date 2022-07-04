@@ -10,14 +10,13 @@
 
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext,useEffect, useState} from 'react'
+import { ProblemContext } from '../../contexts/ProblemProvider';
+import React,{useContext,useEffect, useState} from 'react';
 const filter = createFilterOptions();
+const noSolverMessage = ' No solvers available. Click on the create button to add a new solver';
 
 //our problems to be shown
-var problemJson = [
- 
-];
+var problemJson = [];
 
 
 
@@ -25,9 +24,9 @@ export default function SearchBarSelectSolverV2(props) {
   //props.setData and props.data should be passed down.
   const [defaultSolver, setDefaultSolver] = useState('');
   const { problemName } = useContext(ProblemContext);
+  // const [noSolvers, setNoSolvers] = useState(false);
   
 
-  let stateVal = undefined;
 
   const fullUrl = props.url;
     // initializeList(fullUrl) 
@@ -65,14 +64,13 @@ export default function SearchBarSelectSolverV2(props) {
         const { inputValue } = params;
         // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-      
-
         return filtered;
       }}
       selectOnFocus
       clearOnBlur
       handleHomeEndKeys
       id="search-bar"
+    
       options={problemJson}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
@@ -98,16 +96,23 @@ export default function SearchBarSelectSolverV2(props) {
     while (problemJson.length) { 
       problemJson.pop(); 
   }
+
+
+   //Every problem should have a generic solver 
+      // if(!arr){ setNoSolvers(true);}
   // problemJson = []
   arr.map(function (element, index, array) {
+    //setNoSolvers(false);
     
     if (!problemJson.includes(element)) {
       if(element === 'SkeletonSolver' && problemName === 'SAT3'){
         props.setData(element);
         setDefaultSolver(element);
       }
-      problemJson.push(element)
+      problemJson.push(element);
     }
+
+    
   }, 80);
   //console.log(problemJson);
 }
