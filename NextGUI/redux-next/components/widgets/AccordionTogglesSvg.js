@@ -121,26 +121,23 @@ function AccordionTogglesSvg(props) {
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
 
+  useEffect(() => {
+    setShowSolution(true); //ALEX NOTE: Lazy fix to allow showing the reduction. We need to redo the SVG state management soon. 
+  },[showReduction])
+
 
   function handleSwitch1Change(e) {
 
+    setShowGadgets(true);
     // change state of Switch 
-    setShowSolution(e.target.checked)
-    if (showSolution) {
-      //setDotInstance(graphDotTest2);
-      requestDotInstance(props.accordion.INPUTURL.url, problemName, problemInstance).then(data => {
-        console.log(data);
-        return data;
-      })
-        .then(data => {
-          var parsedInstance = data.replaceAll('"', '');
-          parsedInstance = parsedInstance.replaceAll('\\u003E', '>');
-          setInstance(parsedInstance)
-        }).catch((error) => console.log(error));
-    }
-    else {
-      setInstance(graphDotTest);
-    }
+    //setShowSolution(e.target.checked)
+    // if (showSolution) {
+    //   //setDotInstance(graphDotTest2);
+
+    // }
+    // else {
+    //   setInstance(graphDotTest);
+    // }
   }
 
   function handleSwitch2Change(e) {
@@ -150,6 +147,7 @@ function AccordionTogglesSvg(props) {
 
   function handleSwitch3Change(e) {
     setShowReduction(e.target.checked);
+
     console.log("Switch 3 Reduction  " + e.target.checked);
   }
 
@@ -198,14 +196,6 @@ function AccordionTogglesSvg(props) {
       </Accordion>
     </div>
   );
-}
-
-async function requestDotInstance(url, name, instance) {
-  var parsedInstance = instance.replaceAll('&', '%26');
-
-
-  const fullUrl = `${url}${name}Visualizer/visualize?problemInstance=${parsedInstance}`;
-  return await fetch(fullUrl).then(resp => resp.json());
 }
 
 export default AccordionTogglesSvg
