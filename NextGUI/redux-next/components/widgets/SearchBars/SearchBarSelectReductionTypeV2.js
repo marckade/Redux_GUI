@@ -86,6 +86,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
       freeSolo
       renderInput={(params) => (
         <TextField {...params} label={props.placeholder}
+        InputProps={ noReductionsType ? { ...params.InputProps, style: { fontSize: 12 } } : {...params.InputProps}}
         />
       )}
     />
@@ -135,7 +136,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
     console.log(message.noReductionsMessage)
     console.log(chosenReduceTo)
 
-    if(chosenReduceTo !== ''){
+    if(chosenReduceTo !== ''   ){
       console.log("here dawg");
       const req = getRequest(url);
       req.then(data => {

@@ -92,7 +92,10 @@ export default function SearchBarSelectReduceToV2(props) {
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label={props.placeholder} />
+        <TextField {...params} label={props.placeholder}
+        InputProps={ noReductions ? { ...params.InputProps, style: { fontSize: 12 } } : {...params.InputProps}}
+        />
+        
       )}
     />
   );

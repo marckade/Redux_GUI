@@ -18,16 +18,19 @@ export default function TestAuto(props) {
 
     <Autocomplete
       selectOnFocus
-      value={defaultProblem}
+      // value={defaultProblem}
       options={problemList}
-      disabled={noReductions ? true : false}
+      // disabled={noReductions ? true : false}
       // {noReductions ? disabled : null}
 
       
 
 
       renderInput={(params) => (
-        <TextField {...params} label={props.placeholder} />
+        <TextField 
+        {...params} 
+        InputProps={ noReductions ? { ...params.InputProps, style: { fontSize: 40 } } : {...params.InputProps}}
+        />
       )}
 
 
