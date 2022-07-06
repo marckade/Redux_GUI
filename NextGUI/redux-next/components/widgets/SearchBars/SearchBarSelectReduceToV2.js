@@ -13,7 +13,8 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
 import React,{useContext,useEffect, useState} from 'react';
 const filter = createFilterOptions();
-
+export const noReductionsMessage =
+  'No reductions available. Click on the create button to add a new reduction method';
 //our problems to be shown
 var problemJson = [];
 
@@ -23,8 +24,10 @@ var problemJson = [];
 export default function SearchBarSelectReduceToV2(props) {
   //props.setData and props.data should be passed down.
 
-  const [defaultProblemName, setDefaultProblemName] = useState('');
+  // const [defaultProblemName, setDefaultProblemName] = useState('');
+  const [reductionProblem, setReduceTo] = useState('');
   const { problemName } = useContext(ProblemContext);
+  const [noReductions, setNoReductions] = useState(false);
   
 
   // let stateVal = undefined;
@@ -33,7 +36,7 @@ export default function SearchBarSelectReduceToV2(props) {
    // initializeList(fullUrl);
 
     useEffect(() => {
-      setDefaultProblemName("");
+      setReduceTo("");
       props.setData("");
       initializeList(fullUrl);
     }, [problemName])
@@ -44,18 +47,19 @@ export default function SearchBarSelectReduceToV2(props) {
   return (
     <Autocomplete
     style={{ width: "100%" }}
-      value={defaultProblemName}
+    disabled={noReductions ? true : false}
+      value={reductionProblem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // setChosenReduceTo(
           //   newValue
           // );
           props.setData(newValue);
-          setDefaultProblemName(newValue);
+          setReduceTo(newValue);
           // stateVal = newValue
         } else {
           //setChosenReduceTo(newValue);
-          setDefaultProblemName(newValue);
+          setReduceTo(newValue);
           props.setData(newValue);
           // stateVal = newValue;
         }
@@ -88,7 +92,10 @@ export default function SearchBarSelectReduceToV2(props) {
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label={props.placeholder} />
+        <TextField {...params} label={props.placeholder}
+        InputProps={ noReductions ? { ...params.InputProps, style: { fontSize: 12 } } : {...params.InputProps}}
+        />
+        
       )}
     />
   );
@@ -99,20 +106,35 @@ export default function SearchBarSelectReduceToV2(props) {
       problemJson.pop(); 
   }
 
+
+ 
+
+  if (!arr.length) { 
+    setNoReductions(true);
+    setReduceTo(noReductionsMessage);
+    props.setData('');
+   }
+
   // problemJson = [];
   arr.map(function (element, index, array) {
-
-    
+    setNoReductions(false);
     if (!problemJson.includes(element)) {
       if(element ===  'CLIQUE'&& problemName === 'SAT3'){
         // stateVal = element;
         props.setData(element);
-        setDefaultProblemName(element);
+        setReduceTo(element);
       }
       problemJson.push(element)
     }
-  }, 80);
-  //console.log(problemJson);
+
+  
+
+  }
+  , 80);
+
+
+  
+
 }
 async function getRequest(url) {
     const promise = await fetch(url).then(result => {
