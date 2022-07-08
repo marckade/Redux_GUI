@@ -20,7 +20,7 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Switch, Container} from '@mui/material'
+import { Button, Switch, Container, Grid} from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 import Graphvisualization from "../Visualization/Graphvisualization";
@@ -29,18 +29,34 @@ import { ProblemContext } from '../contexts/ProblemProvider';
 import { getClique } from '../Visualization/svgs/Sat3ToCliqueReducetion';
 import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
 
+// import Sat3SvgReact from '../Visualization/svgs/SAT3_SVG_React';
+import Split from "react-split";
+import SAT3_SVG_React from '../Visualization/svgs/SAT3_SVG_React';
 
 
 
-function ContextAwareToggle({ children, eventKey, callback,colors }) {
+function ContextAwareToggle({ children, eventKey, callback, colors }) {
+  
+  const [rerender, setRerender] = useState(false);
+  
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
     eventKey,
-    () => callback && callback(eventKey),
+    () => {
+      testFunc();
+      callback && callback(eventKey)
+    
+    },
   );
-
+  function testFunc() {
+    //console.log("TEST FUNCTION TOGGLE ")
+  }
   const isCurrentEventKey = activeEventKey === eventKey;
+
+  useEffect(() => {
+    setRerender(!rerender)
+  },[isCurrentEventKey])
   return (
     <Button
       color = 'white'
@@ -114,41 +130,142 @@ function AccordionTogglesSvg(props) {
      }`;
 
 
-  const { problemName, problemInstance } = useContext(ProblemContext);
+  const defaultSat3VisualizationArr = [
+    [
+        "x1",
+        "!x2",
+        "x3"
+    ],
+    [
+        "!x1",
+        "x3",
+        "x1"
+    ],
+    [
+        "x2",
+        "!x3",
+        "x1"
+    ],
+  ]
+  
+  var defaultCLIQUEVisualizationArr =  [
+    {
+        "name": "x1",
+        "cluster": "0"
+    },
+    {
+        "name": "!x2",
+        "cluster": "0"
+    },
+    {
+        "name": "x3",
+        "cluster": "0"
+    },
+    {
+        "name": "!x1",
+        "cluster": "1"
+    },
+    {
+        "name": "x3",
+        "cluster": "1"
+    },
+    {
+        "name": "x1",
+        "cluster": "1"
+    },
+    {
+        "name": "x2",
+        "cluster": "2"
+    },
+    {
+        "name": "!x3",
+        "cluster": "2"
+    },
+    {
+        "name": "x1",
+        "cluster": "2"
+    },
+
+];
+  const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
   const [instance, setInstance] = useState(graphDotTest2);
   const [reduction, setReductionInstance] = useState(graphDotTest2);
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
+  const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
+  const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
+  const [rerender, setRerender] = useState(false); //This is an escape hatch to refresh svgs.
 
   useEffect(() => {
-    setShowSolution(true); //ALEX NOTE: Lazy fix to allow showing the reduction. We need to redo the SVG state management soon. 
-  },[showReduction])
+    setShowSolution(true); //ALEX NOTE: Lazy fix to allow showing the reduction. We need to redo the SVG state management soon.
+   
+    if (!showReduction) {
+      console.log("SHOW REDUCTION FALSE EFFECT")
+      triggerRerender();
+    }
+  }, [showReduction])
+  
+  useEffect(() => {
+  },[rerender])
 
+  useEffect(() => {
+    var apiCompatibleInstance = problemInstance.replaceAll('&', "%26");
+    if (problemName === "SAT3") {
+      getProblemVisualizationData(props.accordion.INPUTURL.url, problemName, apiCompatibleInstance).then(data => {
+        //console.log(data);
+        setProblemVisualizationData(data.clauses);
+      });
+      getReducedVisualizationData(props.accordion.INPUTURL.url, chosenReductionType, apiCompatibleInstance).then(data => {
+        setReducedVisualizationData(data.reductionTo.clusterNodes)
+        console.log(data.reductionTo.clusterNodes)
+      })
+    }
+  },[problemInstance])
 
+  function triggerRerender() {
+    setRerender(!rerender);
+  }
   function handleSwitch1Change(e) {
-
-    setShowGadgets(true);
-    // change state of Switch 
-    //setShowSolution(e.target.checked)
-    // if (showSolution) {
-    //   //setDotInstance(graphDotTest2);
-
-    // }
-    // else {
-    //   setInstance(graphDotTest);
-    // }
+    setShowSolution(!showSolution);
   }
 
-  function handleSwitch2Change(e) {
+  function handleSwitch2Change(e) { //gadget switch.
+    setShowGadgets(true);
+    setShowGadgets(false);
     setShowGadgets(e.target.checked);
     console.log("Switch 2 Gadgets  " + e.target.checked);
   }
 
-  function handleSwitch3Change(e) {
+  function handleSwitch3Change(e) { //Reduction Switch
     setShowReduction(e.target.checked);
-
+    if (!e.target.checked) {
+      triggerRerender();
+    }
     console.log("Switch 3 Reduction  " + e.target.checked);
+  
+  }
+
+  function handleDragEnd(e){
+    console.log("DRAGGED");
+    
+  }
+   function getProblemVisualizationData(url, name, instance) {
+    var fullUrl = `${url}${name}Generic/instance?problemInstance=${instance}`;
+    return fetch(fullUrl).then(resp => {
+      if (resp.ok) {
+        return resp.json()
+      }
+    });
+  }
+  function getReducedVisualizationData(url, reduction, instance) {
+    var fullUrl = `${url}${reduction}/reduce?problemInstance=${instance}`;
+    console.log(fullUrl);
+    return fetch(fullUrl).then(resp => {
+      if (resp.ok) {
+        return resp.json()
+      }
+    });
   }
 
   return (
@@ -176,18 +293,29 @@ function AccordionTogglesSvg(props) {
 
                {/* Single Visualization works below*/}
 
-              {showSolution === false && showGadgets === false && showReduction === false ? <Stack className="justify-content-center" direction="horizontal" gap={2}>
+              
+              
+              {/* {showSolution === false && showGadgets === false && showReduction === false ? <Stack className="justify-content-center" direction="horizontal" gap={2}>
 
                 <Graphvisualization dot={graphDotTest} />
-
-              </Stack> : null}
+              {"HELLO WORLD"}
+              </Stack> : null} */}
+              {!showReduction ? 
+                <Container>
+                  <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React>
+                  {/* <div id={'problem'}>{getSat3('problem',problemVisualizationData)}</div> */}
+                  </Container>:null
+              }
 
               {/* Reduction SVg works below*/}
-              {showReduction ? 
+              {showReduction && !(document===undefined)? 
+                <>
               <ReducedVisualizations 
-                instanceVisualization={<div id={'problem'}>{getSat3('problem')}</div>}
-                reducedVisualization={<div id={'reduction'}>{getClique('reduction')}</div>}
-              ></ReducedVisualizations> : null}
+                instanceVisualization={<div id={'problem'}>{getSat3('problem',problemVisualizationData)}</div>}
+                reducedVisualization={<div id={'reduction'}>{getClique('reduction',reducedVisualizationData)}</div>}
+                ></ReducedVisualizations>
+                </>
+                : null}
   
             </Card.Body>
           </Accordion.Collapse>
@@ -197,5 +325,7 @@ function AccordionTogglesSvg(props) {
     </div>
   );
 }
+
+
 
 export default AccordionTogglesSvg

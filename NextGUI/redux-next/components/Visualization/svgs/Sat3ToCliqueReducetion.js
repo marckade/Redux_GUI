@@ -5,68 +5,68 @@ var height = 500;
 let nodes = [];
 let edges = [];
 
-var data =  [
-    {
-        "name": "x1",
-        "cluster": "0"
-    },
-    {
-        "name": "!x2",
-        "cluster": "0"
-    },
-    {
-        "name": "x3",
-        "cluster": "0"
-    },
-    {
-        "name": "!x1",
-        "cluster": "1"
-    },
-    {
-        "name": "x3",
-        "cluster": "1"
-    },
-    {
-        "name": "x1",
-        "cluster": "1"
-    },
-    {
-        "name": "x2",
-        "cluster": "2"
-    },
-    {
-        "name": "!x3",
-        "cluster": "2"
-    },
-    {
-        "name": "x1",
-        "cluster": "2"
-    },
-    // {
-    //     "name": "x4",
-    //     "cluster": "3"
-    // },
-    // {
-    //     "name": "!x3",
-    //     "cluster": "3"
-    // },
-    // {
-    //     "name": "x2",
-    //     "cluster": "3"
-    // },
-    // {
-    //     "name": "x4",
-    //     "cluster": "4"
-    // },
-    // {
-    //     "name": "!x2",
-    //     "cluster": "4"
-    // },
-    // {
-    //     "name": "x1",
-    //     "cluster": "4"
-    // }
-];
+// var data =  [
+//     {
+//         "name": "x1",
+//         "cluster": "0"
+//     },
+//     {
+//         "name": "!x2",
+//         "cluster": "0"
+//     },
+//     {
+//         "name": "x3",
+//         "cluster": "0"
+//     },
+//     {
+//         "name": "!x1",
+//         "cluster": "1"
+//     },
+//     {
+//         "name": "x3",
+//         "cluster": "1"
+//     },
+//     {
+//         "name": "x1",
+//         "cluster": "1"
+//     },
+//     {
+//         "name": "x2",
+//         "cluster": "2"
+//     },
+//     {
+//         "name": "!x3",
+//         "cluster": "2"
+//     },
+//     {
+//         "name": "x1",
+//         "cluster": "2"
+//     },
+//     // {
+//     //     "name": "x4",
+//     //     "cluster": "3"
+//     // },
+//     // {
+//     //     "name": "!x3",
+//     //     "cluster": "3"
+//     // },
+//     // {
+//     //     "name": "x2",
+//     //     "cluster": "3"
+//     // },
+//     // {
+//     //     "name": "x4",
+//     //     "cluster": "4"
+//     // },
+//     // {
+//     //     "name": "!x2",
+//     //     "cluster": "4"
+//     // },
+//     // {
+//     //     "name": "x1",
+//     //     "cluster": "4"
+//     // }
+// ];
 const degrees = (value) => value * (Math.PI / 180);
 const sin = (theta) => Math.sin(degrees(theta));
 const cos = (theta) => Math.cos(degrees(theta));
@@ -79,10 +79,10 @@ const positionByDegree = (degree, r, w, h) => {
 }
 
 
-function getClique(divID){
+function getClique(divID,data){
     let svg = new d3.select("#"+divID).append("svg")
-        .attr("width", width)
-        .attr("height", height)
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("class", "all");
     
         let centerX = width/2;

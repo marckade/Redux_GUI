@@ -1,31 +1,40 @@
 import * as d3 from 'd3'
+import dynamic from "next/dynamic";
 
-let data = [
-    [
-        "x1",
-        "!x2",
-        "x3"
-    ],
-    [
-        "!x1",
-        "x3",
-        "x1"
-    ],
-    [
-        "x2",
-        "!x3",
-        "x1"
-    ],
-]
+
+// let data = [
+//     [
+//         "x1",
+//         "!x2",
+//         "x3"
+//     ],
+//     [
+//         "!x1",
+//         "x3",
+//         "x1"
+//     ],
+//     [
+//         "x2",
+//         "!x3",
+//         "x1"
+//     ],
+// ]
 var width = 600;
 var height = 600;
 
+
 let clauses = [];
 let literals = [];
-function getSat3(divID){
+function getSat3(divID,data) {
+    
+   // var element = d3.select("#" + divID);
+    //var width = element.node().getBoundingClientRect().width;
+    //console.log(width);
+    //var parentWidth = element.getBoundingClientRect().width;
+    //width = parentWidth;   
     let svg = new d3.select("#"+divID).append("svg")
-        .attr("width", width)
-        .attr("height", height)
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("class", "all");
     // new clause("a",svg,100,200,["X","Y","Z"]).show();
     let w = 20;

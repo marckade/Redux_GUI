@@ -7,6 +7,7 @@
  */
 
 
+import { Container } from "@mui/material";
 import Split from "react-split";
 
 
@@ -15,27 +16,32 @@ export default function visualize(props){
 
 
     return(
-        <Split className="wrap" direction="horizontal" style={{height: '500px'}}>
+        <Split className="wrap" direction="horizontal" style={{height: 'inherit'}}>
             
             {/* <div className="visualization" id="instanceDiv" >
                 {props.instanceVisualization}
 
             </div> */}
+            <div>
+            <Container>
             {props.instanceVisualization !== null ? <div className="visualization" id="instanceDiv" >
                 {props.instanceVisualization}
 
             </div> : null}
-
+                </Container>
+            </div>
             {/* <div className="visualization"  id="reducedDiv">
             {props.instanceVisualization}
                 
             </div> */}
-
+            <div>
+            <Container>
             {props.reducedVisualization !== null ? <div className="visualization" id="reducedDiv" >
                 {props.reducedVisualization}
 
             </div> : null}
-
+            </Container>
+            </div>
         </Split>
     )
 }
