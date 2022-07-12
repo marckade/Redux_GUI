@@ -17,7 +17,7 @@ const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}
 
 function VisualizeRowReact(props) {
     const INPUTURL = { url: props.reduxBaseUrl }
-    const ACCORDION = {CARD,SWITCHES,INPUTURL,THEME}
+    const ACCORDION = {CARD,SWITCHES,INPUTURL,THEME,INPUTURL}
 
     return (
         <AccordionTogglesSvg accordion={ACCORDION}></AccordionTogglesSvg>
