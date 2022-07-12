@@ -15,7 +15,9 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
+// import  ProblemParser from '../../Tools/ProblemParser';
 import React,{useContext, useState, useEffect} from 'react';
+import { ProblemParser } from '../../../Tools/ProblemParser';
 const filter = createFilterOptions();
 // var initialized = false;
 // var defaultProblem = null;
@@ -23,7 +25,7 @@ const filter = createFilterOptions();
 var problemJson = [];
 
 
-
+const problemParser = new ProblemParser()
 
 export default function SearchBarProblemType(props) {
   const { problem, problemName, setProblemName } = useContext(ProblemContext); //passed in context
@@ -51,6 +53,7 @@ export default function SearchBarProblemType(props) {
     <Autocomplete
     style={{ width: "100%" }}
     //defaultValue={defaultProblem !== null ?  props.setTestName : null}
+    //problemParser.getWikiName(problemName)
       value={problemName} 
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
