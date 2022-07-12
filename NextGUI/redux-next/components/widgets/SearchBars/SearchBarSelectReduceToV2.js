@@ -12,11 +12,13 @@ import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
 import React,{useContext,useEffect, useState} from 'react';
+import { ProblemParser } from '../../../Tools/ProblemParser';
 const filter = createFilterOptions();
 export const noReductionsMessage =
   'No reductions available. Click on the create button to add a new reduction method';
 //our problems to be shown
 var problemJson = [];
+const problemParser = new ProblemParser()
 
 
 
@@ -48,6 +50,7 @@ export default function SearchBarSelectReduceToV2(props) {
     <Autocomplete
     style={{ width: "100%" }}
     disabled={noReductions ? true : false}
+    //problemParser.getWikiName(reductionProblem)
       value={reductionProblem}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
