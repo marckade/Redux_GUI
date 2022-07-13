@@ -46,9 +46,10 @@ function Page(props) {
   // const graphTest = props.dot;
   //const [visualization, setVisualization]= useState('')
 
+  console.log(props.dot);
 
   return (
-    <Graphviz dot={props.dot} />
+    <Graphviz dot={props.dot} options={props.options} />
 
   );
 }

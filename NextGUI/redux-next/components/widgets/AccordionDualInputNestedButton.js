@@ -64,6 +64,7 @@ function AccordionDualInputNestedButton(props) {
     console.log("Problem Instance at time of reduce req: ", problemInstance);
     
     requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
+ 
       setReducedInstance(data.reductionTo.instance);
       setReducedInstanceLocal(data.reductionTo.instance);
     }).catch((error)=>console.log("REDUCTION FAILED, one or more properties was invalid"))
@@ -74,6 +75,10 @@ function AccordionDualInputNestedButton(props) {
     REDUCETOOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
     requestProblemData(props.accordion.INPUTURL.url, chosenReduceTo).then(data => {
       setToolTip({header:chosenReduceTo,formalDef:data.formalDefinition,info:data.problemDefinition}) //updates TOOLTIP
+
+      // clear reduce instance 
+      setReducedInstance('');
+      setReducedInstanceLocal('');
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
   }, [chosenReduceTo])
 
@@ -83,6 +88,9 @@ function AccordionDualInputNestedButton(props) {
     requestReductionData(props.accordion.INPUTURL.url, chosenReductionType).then(data => {
       console.log("REDUCTION TYPE: ",chosenReductionType)
       setToolTip2({header:chosenReductionType,formalDef:data.reductionDefinition,info:data.source}) //updates TOOLTIP
+       // clear reduce instance 
+       setReducedInstance('');
+       setReducedInstanceLocal('');
     }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
   }, [chosenReductionType])
 
