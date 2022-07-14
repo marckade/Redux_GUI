@@ -1,7 +1,8 @@
 import React from 'react'
 import { getClique } from './Sat3ToCliqueReduction'
 import dynamic from "next/dynamic";
-import { useRef,useState,useEffect } from 'react';
+import { useRef,useState,useEffect,useContext } from 'react';
+import {ProblemContext} from '../../contexts/ProblemProvider'
 
 /// SAT3_SVG_React.js
 /// This is a wrapper for the SAT3 visualization instance. It allows us to use the visualization as a react component, and also disables
@@ -9,9 +10,10 @@ import { useRef,useState,useEffect } from 'react';
 
 function CliqueSvgReact(props) {
     const ref = useRef(null);
+    const {problemInstance} = useContext(ProblemContext)
     useEffect(() => {
         getClique(ref.current, props.data);
-    },[])
+    },[problemInstance])
     return (
         <svg ref={ref}
             style={{

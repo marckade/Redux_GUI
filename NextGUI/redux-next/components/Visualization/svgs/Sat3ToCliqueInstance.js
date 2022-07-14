@@ -25,7 +25,8 @@ const height = 600;
 
 let clauses = [];
 let literals = [];
-function getSat3(ref,data,parentState) {
+function getSat3(ref, data, parentState) {
+    
     
    // var element = d3.select("#" + divID);
     //var width = element.node().getBoundingClientRect().width;

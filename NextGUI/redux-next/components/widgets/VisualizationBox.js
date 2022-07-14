@@ -12,7 +12,7 @@ import Split from 'react-split'
 
 
 export default function VisualizationBox({reduceToggled,loading,problemVisualizationData,reducedVisualizationData}) {
-    console.log(reduceToggled,loading)
+    //console.log(reduceToggled,loading)
     if (reduceToggled && !loading) {
 
         return (
