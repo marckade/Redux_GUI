@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
-var width = 600;
-var height = 600;
+var width = 400;
+var height = 350;
 
 let nodes = [];
 let edges = [];

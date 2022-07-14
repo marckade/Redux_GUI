@@ -16,7 +16,7 @@ function Sat3SvgReact(props) {
     return (
         <svg ref={ref}
             style={{
-                height: "500px",
+                height: "700px",
                 width:"100%",
             marginRight: "0px",
             marginLeft: "0px",
