@@ -25,14 +25,14 @@ const height = 600;
 
 let clauses = [];
 let literals = [];
-function getSat3(divID,data) {
+function getSat3(ref,data,parentState) {
     
    // var element = d3.select("#" + divID);
     //var width = element.node().getBoundingClientRect().width;
     //console.log(width);
     //var parentWidth = element.getBoundingClientRect().width;
     //width = parentWidth;   
-    let svg = new d3.select("#"+divID).append("svg")
+    let svg = new d3.select(ref).append("svg")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("class", "all");
@@ -54,7 +54,7 @@ function getSat3(divID,data) {
         }
     }
 
-    d3.select("#"+divID).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
+    d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 }
 
 function showCluster(cluster){

@@ -12,6 +12,7 @@ import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
 import { Button, createTheme, ThemeProvider, Typograph } from "@mui/material"
 import { orange } from "@mui/material/colors"
 import { useState, useEffect } from 'react';
+import TEST_SVG_REACT from '../components/Visualization/svgs/TEST_SVG_REACT';
 
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
@@ -95,13 +96,9 @@ function HomePage() {
     <>
     <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
-        <Button onClick={handleButtonClick} variant="outlined" color="error">
-        {seconds}
-        </Button>
-        
-        <Button onClick={handleButtonClick2} variant="outlined" color="warning">
-        {button2Count}
-      </Button>
+      {"HELLO"}
+        <TEST_SVG_REACT></TEST_SVG_REACT>
+
     </ThemeProvider>
     </>
 

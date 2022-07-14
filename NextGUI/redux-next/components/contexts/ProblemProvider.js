@@ -28,20 +28,20 @@ class ProblemProvider extends Component {
         // When the page is loaded first the problem name was 
         // DEFAULTTYPE before it changed to SAT3, so I changed it to empty string
 
-        problemJson: "DEFAULT",
+        problemJson: "",
         problemType: "NPC",
         problemName: "",
-        problemInstance: "{{1,2,3},{1,2},GENERIC}",
+        problemInstance: "{{1,2,3},{1,2},GENERIC}", //Careful about changing this value, the application boot up sequence is dependent on having a default value.
         problemDescription: "You need to enter a problem to see information about it",
-        reduceToOptions: ["PROVIDERDEFAULT1", "PROVIDERDEFAULT2"],
-        chosenReduceTo: "CHOSEN PROBLEM TO REDUCE TO",
-        reductionTypeOptions: ["PROVIDERREDUCTIONCHOICE1"],
-        chosenReductionType: "PROVIDERCHOSENREDUCTION",
-        reducedInstance: "PROVIDER_REDUCED_INSTANCE",
-        solverOptions: ["SOLVER_OPTION_ONE"],
-        chosenSolver: "CHOSEN SOLVER PROVIDER",
-        verifierOptions: ["PROVIDER_VERIFIER_OPTION_ONE"],
-        solvedInstance: "DEFAULT SOLVED INSTANCE PROVIDER",
+        reduceToOptions: ["", ""],
+        chosenReduceTo: "",
+        reductionTypeOptions: [""],
+        chosenReductionType: "",
+        reducedInstance: "",
+        solverOptions: [""],
+        chosenSolver: "",
+        verifierOptions: [""],
+        solvedInstance: "",
 
     }
 
