@@ -51,11 +51,11 @@ const node = svg
         }
     })
     .on("mouseover", function (d) {
-        console.log("HOVERING OVER A NODE", d.target)
-        svg.selectAll('circle').style('fill',"#abc")
+        //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+        svg.selectAll(`.${d.target.__data__.name}`).style('fill', "#abc")
     })
-    .on("mouseout", function () {
-        svg.selectAll('circle').style('fill',"#fff")
+    .on("mouseout", function (d) {
+        svg.selectAll(`.${d.target.__data__.name}`).style('fill', "#ff1744")
     })
  
     
@@ -73,9 +73,9 @@ const simulation = d3.forceSimulation(data.nodes)                 // Force algor
           .id(function(d) { return d.name; })                     // This provide  the id of a node
           .links(data.links)                                    // and this the list of links
     )
-    .force("charge", d3.forceManyBody().strength(-400))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
+    .force("charge", d3.forceManyBody().strength(charge))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
     .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
-    .on("end", ticked);
+    .on("tick", ticked);
 
 
 
@@ -91,6 +91,7 @@ function ticked() {
     node
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function (d) { return d.y; })
+        .attr("class", function (d) { return d.name; })
         .attr("searchId", function (d) { return d.name; });
     
     text
@@ -116,15 +117,15 @@ function ticked() {
           <svg 
               width={width}
               height={height}
-          ref={ref}
+            ref={ref}
         />
       )
 }
 
 
 export default function VertexCoverSvgReact() {
-  const [charge, setCharge] = useState(-3);
-
+  const [charge, setCharge] = useState(-400);
+  
   // create nodes with unique ids
   // radius: 5px
   const nodes = [
@@ -141,14 +142,14 @@ export default function VertexCoverSvgReact() {
     <div className="App">
       <h1>React & D3 force graph</h1>
       <p>Current charge: {charge}</p>
-      <input
+      {/* <input
         type="range"
-        min="-30"
-        max="30"
+        min="-500"
+        max= "500"
         step="1"
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
-      />
+      /> */}
      <ForceGraph w={500} h={500} nodes={nodes} links={links} charge={charge} />
     </div>
   );
