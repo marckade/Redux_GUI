@@ -13,6 +13,7 @@ import { Button, createTheme, ThemeProvider, Typograph } from "@mui/material"
 import { orange } from "@mui/material/colors"
 import { useState, useEffect } from 'react';
 import TEST_SVG_REACT from '../components/Visualization/svgs/TEST_SVG_REACT';
+import VertexCoverSvgReact from '../components/Visualization/svgs/VertexCover_SVG_React';
 
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
@@ -98,6 +99,7 @@ function HomePage() {
         <ResponsiveAppBar></ResponsiveAppBar>
       {"HELLO"}
         <TEST_SVG_REACT></TEST_SVG_REACT>
+        <VertexCoverSvgReact></VertexCoverSvgReact>
 
     </ThemeProvider>
     </>

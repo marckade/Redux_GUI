@@ -1,0 +1,103 @@
+{
+    "nodes": [
+      {
+        
+        "name": "A",
+        "cover" :"true"
+      },
+      {
+        "id": 2,
+        "name": "B",
+        "cover" :"true"
+      },
+      {
+        "id": 3,
+        "name": "C",
+        "cover" :"true"
+      },
+      {
+        "id": 4,
+        "name": "D",
+        "cover" :"true"
+      },
+      {
+        "id": 5,
+        "name": "E",
+        "cover" :"true"
+      },
+      {
+        "id": 6,
+        "name": "F",
+        "cover" :"true"
+      },
+      {
+        "id": 7,
+        "name": "G",
+        "cover" :"true"
+      },
+      {
+        "id": 8,
+        "name": "H",
+        "cover" :"false"
+      },
+      {
+        "id": 9,
+        "name": "I",
+        "cover" :"true"
+      },
+      {
+        "id": 10,
+        "name": "J",
+        "cover" :"true"
+      }
+    ],
+    "links": [
+  
+      {
+        "source": "A",
+        "target": "B"
+      },
+      {
+        "source": "A",
+        "target": "E"
+      },
+      {
+        "source": "A",
+        "target": "F"
+      },
+  
+      {
+        "source": "B",
+        "target": "C"
+      },
+              {
+        "source": "B",
+        "target": "G"
+      }
+      ,
+  
+      {
+        "source": "C",
+        "target": "D"
+      },
+       {
+        "source": "H",
+        "target": "C"
+      }
+      ,
+      {
+        "source": "D",
+        "target": "E"
+      }
+      ,
+  
+      {
+        "source": "D",
+        "target": "I"
+      },
+      {
+        "source": "E",
+        "target": "J"
+      }
+    ]
+  }
