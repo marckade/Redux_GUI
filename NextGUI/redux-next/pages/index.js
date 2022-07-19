@@ -35,7 +35,7 @@ console.log("Instance URL is: ",reduxBaseUrl);
  * 
  * @returns The contents of the page (jsx)
  */
-function TestPageContent() {
+function MainPageContent() {
 
   const imgStyle = { textAlign: "center"}
 
@@ -130,10 +130,10 @@ function TestPageContent() {
  * Renders the actual page contents (this is the default export and is seen by next.js due to folder structure and broadcasted)
  * @returns A rendered page
  */
-export default function TestPage() {
+export default function MainPage() {
   return (
     <>
-      <TestPageContent></TestPageContent> {/** Renders the actual contents of the page */}
+      <MainPageContent></MainPageContent> {/** Renders the actual contents of the page */}
     </>
   )
 }

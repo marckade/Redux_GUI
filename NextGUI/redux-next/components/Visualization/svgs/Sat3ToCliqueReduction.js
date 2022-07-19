@@ -1,72 +1,11 @@
 import * as d3 from 'd3'
-var width = 500;
-var height = 500;
+var width = 400;
+var height = 350;
 
 let nodes = [];
 let edges = [];
 
-// var data =  [
-//     {
-//         "name": "x1",
-//         "cluster": "0"
-//     },
-//     {
-//         "name": "!x2",
-//         "cluster": "0"
-//     },
-//     {
-//         "name": "x3",
-//         "cluster": "0"
-//     },
-//     {
-//         "name": "!x1",
-//         "cluster": "1"
-//     },
-//     {
-//         "name": "x3",
-//         "cluster": "1"
-//     },
-//     {
-//         "name": "x1",
-//         "cluster": "1"
-//     },
-//     {
-//         "name": "x2",
-//         "cluster": "2"
-//     },
-//     {
-//         "name": "!x3",
-//         "cluster": "2"
-//     },
-//     {
-//         "name": "x1",
-//         "cluster": "2"
-//     },
-//     // {
-//     //     "name": "x4",
-//     //     "cluster": "3"
-//     // },
-//     // {
-//     //     "name": "!x3",
-//     //     "cluster": "3"
-//     // },
-//     // {
-//     //     "name": "x2",
-//     //     "cluster": "3"
-//     // },
-//     // {
-//     //     "name": "x4",
-//     //     "cluster": "4"
-//     // },
-//     // {
-//     //     "name": "!x2",
-//     //     "cluster": "4"
-//     // },
-//     // {
-//     //     "name": "x1",
-//     //     "cluster": "4"
-//     // }
-// ];
+
 const degrees = (value) => value * (Math.PI / 180);
 const sin = (theta) => Math.sin(degrees(theta));
 const cos = (theta) => Math.cos(degrees(theta));
@@ -79,12 +18,12 @@ const positionByDegree = (degree, r, w, h) => {
 }
 
 
-function getClique(divID,data){
-    let svg = new d3.select("#"+divID).append("svg")
-    .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", `0 0 ${width} ${height}`)
+function getClique(ref,data){
+    let svg = new d3.select(ref).append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("class", "all");
-    
+        
         let centerX = width/2;
         let centerY = height/3;
         let r = centerX/2;
@@ -115,7 +54,7 @@ function getClique(divID,data){
 
         nodes.forEach(node => node.show());
     
-    d3.select("#"+divID).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
+    d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 
 }
 

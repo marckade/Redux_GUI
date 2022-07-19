@@ -32,6 +32,7 @@ import SAT3_SVG_React from '../Visualization/svgs/SAT3_SVG_React';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import VisualizationBox from './VisualizationBox';
 import { svg } from 'd3';
+import TEST_SVG_REACT from '../Visualization/svgs/TEST_SVG_REACT';
 
 
 
@@ -202,19 +203,12 @@ function AccordionTogglesSvg(props) {
   const [svgIsLoading, setSvgIsLoading] = useState(false);
 
 
-  useEffect(() => {
-    setShowSolution(true); //ALEX NOTE: Lazy fix to allow showing the reduction. We need to redo the SVG state management soon.
-   
-      triggerRerender();
-  }, [showReduction])
+
   
-  useEffect(() => {
-  }, [rerender])
 
   useEffect(() => {
     if (svgIsLoading) {
       setSvgIsLoading(false);
-      triggerRerender();
     }
   }, [svgIsLoading])
  
@@ -233,10 +227,7 @@ function AccordionTogglesSvg(props) {
     }
   },[problemInstance])
 
-  function triggerRerender() {
-    setRerender(!rerender);
-    
-  }
+ 
   function handleSwitch1Change(e) {
     setShowSolution(!showSolution);
   }
