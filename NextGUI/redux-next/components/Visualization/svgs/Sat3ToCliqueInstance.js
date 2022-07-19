@@ -19,34 +19,43 @@ import dynamic from "next/dynamic";
 //         "x1"
 //     ],
 // ]
-var width = 600;
-var height = 600;
+const width = 600;
+const height = 600;
 
 
 let clauses = [];
 let literals = [];
-function getSat3(divID,data) {
+function getSat3(ref, data, parentState) {
+    
     
    // var element = d3.select("#" + divID);
     //var width = element.node().getBoundingClientRect().width;
     //console.log(width);
     //var parentWidth = element.getBoundingClientRect().width;
     //width = parentWidth;   
-    let svg = new d3.select("#"+divID).append("svg")
+    let svg = new d3.select(ref).append("svg")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("class", "all");
     // new clause("a",svg,100,200,["X","Y","Z"]).show();
-    let w = 20;
+    let x = 20;
+    let y = 100;
     console.log(data.length, "length")
-    for(let i = 0; i<data.length; i++){
-        let c = new clause(i, svg, w, 100, [data[i][0],data[i][1],data[i][2]], 15);
+    for (let i = 0; i < data.length; i++){
+        console.log("x", i, x);
+        let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15);
         c.show();
-        console.log(i);
-        w += c.width + 10;
+        console.log("width", i, width - c.width, width);
+        x += c.width + 10;
+        console.log(x,(width-c.width))
+        if (x >= width - c.width) {
+            console.log('greater than width')
+            x = 20;
+            y += 50
+        }
     }
 
-    d3.select("#"+divID).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
+    d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 }
 
 function showCluster(cluster){
