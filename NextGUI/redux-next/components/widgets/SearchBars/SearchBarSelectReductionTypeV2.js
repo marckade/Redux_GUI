@@ -100,11 +100,11 @@ export default function SearchBarSelectReductionTypeV2(props) {
         problemJson.pop(); 
     }
 
-    // if (!arr.length) { 
-    //   setNoReductionsType(true);
-    //   setReduceToType(noReductionsTypeMessage);
-    //   props.setData('');
-    //  }
+    if (!arr.length) { 
+      setNoReductionsType(true);
+      setReduceToType(noReductionsTypeMessage);
+      props.setData('');
+     }
 
     arr.map(function (element, index, array) {
       // problemJson = [];

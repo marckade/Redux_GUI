@@ -91,9 +91,9 @@ export default function SearchBarSelectReduceToV2(props) {
        
         // Regular option
         return option;
-      }}
 
-        // return wiki_name here
+      }}      // return wiki_name here
+
       renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
