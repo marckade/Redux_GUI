@@ -66,6 +66,12 @@ export default function SearchBarSelectReduceToV2(props) {
           props.setData(newValue);
           // stateVal = newValue;
         }
+
+        if(newValue === "" || newValue === null ){
+          props.setData("");
+          setReduceTo("");
+
+        }
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
@@ -85,12 +91,15 @@ export default function SearchBarSelectReduceToV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
+        
           return option;
         }
        
         // Regular option
         return option;
-      }}
+
+      }}      // return wiki_name here
+
       renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo

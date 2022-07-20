@@ -66,6 +66,12 @@ export default function SearchBarProblemType(props) {
           setProblemName(newValue);
           props.setTestName(newValue); 
         }
+
+        if(newValue === "" || newValue === null ){
+          props.setTestName("");
+          setProblemName("");
+
+        }
       }}
 
       filterOptions={(options, params) => {

@@ -12,11 +12,16 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider'
-import React,{useContext,useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 const filter = createFilterOptions();
 //our problems to be shown
+
+export const noProblemChosenMessage =
+  'No Verifier available. Please select a problem';
+
+
 var problemJson = [
- 
+
 ];
 
 
@@ -27,35 +32,46 @@ export default function SearchBarSelectVerifierV2(props) {
   let stateVal = undefined;
   const [defaultVerifier, setDefaultVerifier] = useState('');
   const { problemName } = useContext(ProblemContext);
-  
+  const [noVerifier, setNoVerifiers] = useState(false);
+
 
   const fullUrl = props.url;
-    // initializeList(fullUrl) 
-    useEffect(() => {
-      setDefaultVerifier("");
-      props.setData("");
+  // initializeList(fullUrl) 
+  useEffect(() => {
+    setDefaultVerifier("");
+    props.setData("");
+
+
+    if (problemName === "" || problemName === null) {
+      setNoVerifiers(true);
+      setDefaultVerifier(noProblemChosenMessage);
+    } else {
       initializeList(fullUrl);
-    }, [problemName])
-  
-  
+    }
+
+
+  }, [problemName])
+
+
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
-    style={{ width: "100%" }}
+      style={{ width: "100%" }}
       value={defaultVerifier}
+      disabled={noVerifier ? true : false}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // setChosenReduceTo(
           //   newValue
           // );
           props.setData(newValue);
-          setDefaultVerifier(newValue);  
+          setDefaultVerifier(newValue);
           // stateVal = newValue
         } else {
           //setChosenReduceTo(newValue);
           props.setData(newValue);
           setDefaultVerifier(newValue);
-          
+
           // stateVal = newValue;
         }
       }}
@@ -65,7 +81,7 @@ export default function SearchBarSelectVerifierV2(props) {
         const { inputValue } = params;
         // Suggest the creation of a new value
         const isExisting = options.some((option) => inputValue === option.title);
-      
+
 
         return filtered;
       }}
@@ -79,7 +95,7 @@ export default function SearchBarSelectVerifierV2(props) {
         if (typeof option === 'string') {
           return option;
         }
-       
+
         // Regular option
         return option;
       }}
@@ -87,7 +103,9 @@ export default function SearchBarSelectVerifierV2(props) {
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label={props.placeholder} />
+        <TextField {...params} label={props.placeholder}
+          InputProps={noVerifier ? { ...params.InputProps, style: { fontSize: 12 } } : { ...params.InputProps }}
+        />
       )}
     />
   );
@@ -95,41 +113,49 @@ export default function SearchBarSelectVerifierV2(props) {
 
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-    while (problemJson.length) { 
-      problemJson.pop(); 
-  }
-  // problemJson = [];
-  arr.map(function (element, index, array) {
-    
-    if (!problemJson.includes(element)) {
-
-      if(element === 'KadensSimpleVerifier' && problemName === 'SAT3'){
-        props.setData(element);
-        setDefaultVerifier(element);
-      }
-      problemJson.push(element)
+    while (problemJson.length) {
+      problemJson.pop();
     }
-  }, 80);
-  //console.log(problemJson);
-}
-async function getRequest(url) {
+    // problemJson = [];
+    arr.map(function (element, index, array) {
+
+      if (!problemJson.includes(element)) {
+
+        if (element === 'KadensSimpleVerifier' && problemName === 'SAT3') {
+          props.setData(element);
+          setDefaultVerifier(element);
+        }
+        problemJson.push(element)
+      }
+    }, 80);
+    //console.log(problemJson);
+  }
+  async function getRequest(url) {
     const promise = await fetch(url).then(result => {
       return result.json()
-  })
-  return promise;
-  
-}
+    })
+    return promise;
 
-function initializeList(url) {
+  }
 
-  const req = getRequest(url);
-  req.then(data => {
-   
-    initializeProblemJson(data)
-    //console.log(problemJson)
-  })
-    .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR VERIFIER"));
-}
+  function initializeList(url) {
+    const req = getRequest(url);
+    setNoVerifiers(false);
+    setDefaultVerifier('');
+    req.then(data => {
+
+      initializeProblemJson(data)
+      //console.log(problemJson)
+    })
+      .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR VERIFIER"));
+
+
+    // }else{
+    //   setNoVerifiers(true);
+    // setDefaultVerifier(noProblemChosenMessage);
+    // }
+
+  }
 
 
 
