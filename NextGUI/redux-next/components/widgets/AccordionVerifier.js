@@ -45,6 +45,7 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
 }
 
 function AccordionVerifier(props) {
+
   const [verifiedInstance, setVerifiedInstance] = useState("");
   const [verifyResult, setVerifyResult] = useState("");
 
@@ -54,11 +55,16 @@ function AccordionVerifier(props) {
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType;
 
   useEffect(() => {
+    setVerifiedInstance("");
+    setVerifyResult("");
     SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
     requestVerifyData(props.accordion.INPUTURL.url, chosenVerifier).then(data => {
       setToolTip({header:data.verifierName,formalDef:data.verifierDefinition,info:data.source}) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
-  }, [chosenVerifier])
+  }, [chosenVerifier]);
+
+
+
 
 
   useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow

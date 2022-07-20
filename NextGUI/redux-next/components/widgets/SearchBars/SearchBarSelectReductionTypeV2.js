@@ -45,6 +45,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
       disabled={noReductionsType ? true : false}
       value={reductionType}
       onChange={(event, newValue) => {
+
+   
         if (typeof newValue === 'string') {
           setReduceToType(
             newValue
@@ -56,6 +58,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
           props.setData(newValue);
           // stateVal = newValue;
         }
+      
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
@@ -136,8 +139,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
     console.log(message.noReductionsMessage)
     console.log(chosenReduceTo)
 
-    if(chosenReduceTo !== ''   ){
-      console.log("here dawg");
+    if(chosenReduceTo !== ''){
+    
       const req = getRequest(url);
       req.then(data => {
   

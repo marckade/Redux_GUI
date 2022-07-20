@@ -115,6 +115,13 @@ function AccordionNestedTextBox(props) {
           setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
         }
 
+        if(problemName === '' || problemName === null ){
+        
+          setProblemLocalInstance('');
+          setProblemInstance('');
+
+        }
+
       }).catch(console.log("Problem not defined"));
     }
     catch {

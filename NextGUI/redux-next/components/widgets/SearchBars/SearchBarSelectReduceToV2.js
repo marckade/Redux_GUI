@@ -66,6 +66,12 @@ export default function SearchBarSelectReduceToV2(props) {
           props.setData(newValue);
           // stateVal = newValue;
         }
+
+        if(newValue === "" || newValue === null ){
+          props.setData("");
+          setReduceTo("");
+
+        }
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
