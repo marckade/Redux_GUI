@@ -10,12 +10,12 @@
 
 
 import React from 'react'
-import { useContext,useEffect,useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
-import { Stack, Button,Box } from '@mui/material'
+import { Stack, Button, Box } from '@mui/material'
 import { ProblemContext } from '../contexts/ProblemProvider';
 import SearchBarSelectSolverV2 from './SearchBars/SearchBarSelectSolverV2';
 
@@ -23,7 +23,7 @@ import SearchBarSelectSolverV2 from './SearchBars/SearchBarSelectSolverV2';
 // import FormControl from '../components/FormControl'
 
 
-function ContextAwareToggle({ children, eventKey, callback,colors }) {
+function ContextAwareToggle({ children, eventKey, callback, colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -34,9 +34,9 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const isCurrentEventKey = activeEventKey === eventKey;
   return (
     <Button
-      sx={{ height:54, width: 64 }}
-      color = 'white'
-      className = "float-end"
+      sx={{ height: 54, width: 64 }}
+      color='white'
+      className="float-end"
       type="button"
       style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
@@ -47,14 +47,15 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
 }
 
 function AccordionSingleInputNestedButton(props) {
-  const { problemName, problemInstance,problemType, chosenSolver,setChosenSolver,solvedInstance,setSolvedInstance} = useContext(ProblemContext)
+  const { problemName, problemInstance, problemType, chosenSolver, setChosenSolver, solvedInstance, setSolvedInstance } = useContext(ProblemContext)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
   console.log("STATE CHANGE SOLVER")
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_SolversRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   useEffect(() => {
+    setSolvedInstance("");
     SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_SolversRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
     requestSolverData(props.accordion.INPUTURL.url, chosenSolver).then(data => {
-      setToolTip({header:chosenSolver,formalDef:data.solverDefinition,info:data.source}) //updates TOOLTIP
+      setToolTip({ header: chosenSolver, formalDef: data.solverDefinition, info: data.source }) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
   }, [chosenSolver])
 
@@ -67,7 +68,7 @@ function AccordionSingleInputNestedButton(props) {
       console.log("SOLVE REQUEST INSTANCE FAILED")
     })
   }
-  
+
   return (
     <div>
       <Accordion className="accordion" defaultActiveKey="1">
@@ -76,9 +77,9 @@ function AccordionSingleInputNestedButton(props) {
           <Card.Header>
             <Stack direction="horizontal" gap={2}>
               <Box sx={{ width: '10%' }}>
-              {props.accordion.CARD.cardHeaderText}
+                {props.accordion.CARD.cardHeaderText}
               </Box>
-              
+
               <SearchBarSelectSolverV2
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
                 url={SOLVEROPTIONSURL}
@@ -94,7 +95,7 @@ function AccordionSingleInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              {props.accordion.CARD.cardBodyText +" "+ solvedInstance}
+              {props.accordion.CARD.cardBodyText + " " + solvedInstance}
               <div className="submitButton">
                 <Button
                   size='large'
@@ -104,7 +105,7 @@ function AccordionSingleInputNestedButton(props) {
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>
-            
+
           </Accordion.Collapse>
 
         </Card>
@@ -117,25 +118,23 @@ function AccordionSingleInputNestedButton(props) {
 
 
 async function requestSolverData(url, solverName) {
-  
-  return await fetch(url + solverName + '/info').then(resp =>
-    {
-      if (resp.ok) {
-        return resp.json();
-      }
-      });
+
+  return await fetch(url + solverName + '/info').then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+  });
 }
 
 async function requestSolvedInstance(url, sName, instance) {
-  var parsedInstance = instance.replaceAll('&','%26');
+  var parsedInstance = instance.replaceAll('&', '%26');
 
-  const totalUrl = url +`${sName}/solve?problemInstance=${parsedInstance}`
-  return await fetch(totalUrl).then(resp =>
-    {
-      if (resp.ok) {
-        return resp.json();
-      }
-      })
+  const totalUrl = url + `${sName}/solve?problemInstance=${parsedInstance}`
+  return await fetch(totalUrl).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+  })
 }
 
 export default AccordionSingleInputNestedButton

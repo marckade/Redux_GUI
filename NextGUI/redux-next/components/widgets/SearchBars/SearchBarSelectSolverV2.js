@@ -11,7 +11,7 @@
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
-import React,{useContext,useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 const filter = createFilterOptions();
 const noSolverMessage = ' No solvers available. Click on the create button to add a new solver';
 
@@ -24,25 +24,32 @@ export default function SearchBarSelectSolverV2(props) {
   //props.setData and props.data should be passed down.
   const [defaultSolver, setDefaultSolver] = useState('');
   const { problemName } = useContext(ProblemContext);
-  // const [noSolvers, setNoSolvers] = useState(false);
-  
+  const [noSolver, setNoSolvers] = useState(false);
+
 
 
   const fullUrl = props.url;
-    // initializeList(fullUrl) 
-    useEffect(() => {
-      setDefaultSolver("");
-      props.setData("");
+  // initializeList(fullUrl) 
+  useEffect(() => {
+    setDefaultSolver("");
+    props.setData("");
+
+    if (problemName === "" || problemName === null) {
+      setNoSolvers(true);
+      setDefaultSolver(noSolverMessage);
+    } else {
       initializeList(fullUrl);
-    }, [problemName])
-  
-  
-  
+    }
+  }, [problemName])
+
+
+
   //const [value, setValue] = React.useState(null); //state manager.
   return (
     <Autocomplete
-    style={{ width: "100%" }}
+      style={{ width: "100%" }}
       value={defaultSolver}
+      disabled={noSolver ? true : false}
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // setChosenReduceTo(
@@ -70,14 +77,14 @@ export default function SearchBarSelectSolverV2(props) {
       clearOnBlur
       handleHomeEndKeys
       id="search-bar"
-    
+
       options={problemJson}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
           return option;
         }
-       
+
         // Regular option
         return option;
       }}
@@ -85,7 +92,9 @@ export default function SearchBarSelectSolverV2(props) {
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
-        <TextField {...params} label={props.placeholder} />
+        <TextField {...params} label={props.placeholder}
+          InputProps={noSolver ? { ...params.InputProps, style: { fontSize: 12 } } : { ...params.InputProps }}
+        />
       )}
     />
   );
@@ -93,47 +102,57 @@ export default function SearchBarSelectSolverV2(props) {
 
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-    while (problemJson.length) { 
-      problemJson.pop(); 
-  }
-
-
-   //Every problem should have a generic solver 
-      // if(!arr){ setNoSolvers(true);}
-  // problemJson = []
-  arr.map(function (element, index, array) {
-    //setNoSolvers(false);
-    
-    if (!problemJson.includes(element)) {
-      if(element === 'SkeletonSolver' && problemName === 'SAT3'){
-        props.setData(element);
-        setDefaultSolver(element);
-      }
-      problemJson.push(element);
+    while (problemJson.length) {
+      problemJson.pop();
     }
 
-    
-  }, 80);
-  //console.log(problemJson);
-}
-async function getRequest(url) {
+
+    //Every problem should have a generic solver 
+    // if(!arr){ setNoSolvers(true);}
+    // problemJson = []
+    arr.map(function (element, index, array) {
+      //setNoSolvers(false);
+
+      if (!problemJson.includes(element)) {
+        if (element === 'SkeletonSolver' && problemName === 'SAT3') {
+          props.setData(element);
+          setDefaultSolver(element);
+        }
+        problemJson.push(element);
+      }
+
+
+    }, 80);
+    //console.log(problemJson);
+  }
+  async function getRequest(url) {
     const promise = await fetch(url).then(result => {
       return result.json()
-  })
-  return promise;
-  
-}
+    })
+    return promise;
 
-function initializeList(url) {
+  }
 
-  const req = getRequest(url);
-  req.then(data => {
-   
-    initializeProblemJson(data)
-    //console.log(problemJson)
-  })
-    .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SOLVER"));
-}
+  function initializeList(url) {
+
+    // if(problemName !== "" || problemName !== null ){
+    const req = getRequest(url);
+    setNoSolvers(false);
+    setNoSolvers("");
+    req.then(data => {
+
+      initializeProblemJson(data)
+      //console.log(problemJson)
+    })
+      .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SOLVER"));
+
+    // }else{
+    //   setNoSolvers(true);
+    //   setNoSolvers(noSolverMessage);
+    // }
+
+
+  }
 
 
 
