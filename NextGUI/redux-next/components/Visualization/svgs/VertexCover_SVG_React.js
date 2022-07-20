@@ -5,7 +5,7 @@ import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-function ForceGraph({ w, h,nodes, links, charge }) {
+function ForceGraph({ w, h, charge }) {
     const [animatedNodes, setAnimatedNodes] = useState([]);
     const [animatedLinks, setAnimatedLinks] = useState([]);
     const margin = {top: 10, right: 30, bottom: 30, left: 40},
@@ -36,11 +36,15 @@ const link = svg
   .join("line")
     .style("stroke", "#aaa")
 
+
+
 // Initialize the nodes
+    
 const node = svg
   .selectAll("circle")
   .data(data.nodes)
-  .join("circle")
+    .join("circle")
+    .attr("class", function (d) { return d.cover; })
     .attr("r", 20)
     .style("fill", function (d) {
         if (d.cover === "true") {
@@ -52,10 +56,16 @@ const node = svg
     })
     .on("mouseover", function (d) {
         //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-        svg.selectAll(`.${d.target.__data__.name}`).style('fill', "#abc")
+        svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#abc")
     })
     .on("mouseout", function (d) {
-        svg.selectAll(`.${d.target.__data__.name}`).style('fill', "#ff1744")
+        if (d.target.__data__.cover === "true") {
+            svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ffea00")
+        }
+        else {
+            svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ff1744")
+
+        }
     })
  
     
@@ -91,7 +101,6 @@ function ticked() {
     node
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function (d) { return d.y; })
-        .attr("class", function (d) { return d.name; })
         .attr("searchId", function (d) { return d.name; });
     
     text
@@ -150,7 +159,7 @@ export default function VertexCoverSvgReact() {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={500} h={500} nodes={nodes} links={links} charge={charge} />
+     <ForceGraph w={500} h={500} charge={charge} />
     </div>
   );
 }
