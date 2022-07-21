@@ -144,6 +144,10 @@ function AccordionTogglesSvg(props) {
         "x1"
     ],
   ]
+
+  const defaultSat3SolutionArr = [
+    ["x1"]
+  ]
   
   var defaultCLIQUEVisualizationArr =  [
     {
@@ -198,6 +202,7 @@ function AccordionTogglesSvg(props) {
   const [showReduction, setShowReduction] = useState(false);
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
+  const [problemSolutionData, setProblemSolutionData] = useState(defaultSat3SolutionArr);
   const [rerender, setRerender] = useState(false); //This is an escape hatch to refresh svgs.
   const [accordionOpened, setAccordionOpened] = useState(false);
   const [svgIsLoading, setSvgIsLoading] = useState(false);
@@ -290,7 +295,7 @@ function AccordionTogglesSvg(props) {
               >
                Refresh
               </Button>
-              <FormControlLabel checked={showSolution} control={<Switch />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
+              <FormControlLabel checked={showSolution} control={<Switch id={"showSolution"}/>} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
               <FormControlLabel checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
               <FormControlLabel checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
@@ -303,7 +308,13 @@ function AccordionTogglesSvg(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              <VisualizationBox loading={svgIsLoading} reduceToggled={showReduction} problemVisualizationData={problemVisualizationData} reducedVisualizationData={reducedVisualizationData}></VisualizationBox>
+              <VisualizationBox 
+                loading={svgIsLoading}
+                reduceToggled={showReduction}
+                problemVisualizationData={problemVisualizationData}
+                reducedVisualizationData={reducedVisualizationData}
+                problemSolutionData={problemSolutionData}
+              ></VisualizationBox>
   
             </Card.Body>
           </Accordion.Collapse>

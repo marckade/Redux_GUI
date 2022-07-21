@@ -11,7 +11,7 @@ function Sat3SvgReact(props) {
     const ref = useRef(null);
     const {problemInstance} = useContext(ProblemContext)
     useEffect(() => {
-        getSat3(ref.current, props.data);
+        getSat3(ref.current, props.data, props.solution);
     },[problemInstance])
     return (
         <svg ref={ref}

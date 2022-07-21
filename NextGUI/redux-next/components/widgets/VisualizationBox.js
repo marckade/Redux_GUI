@@ -11,7 +11,7 @@ import Split from 'react-split'
 
 
 
-export default function VisualizationBox({reduceToggled,loading,problemVisualizationData,reducedVisualizationData}) {
+export default function VisualizationBox({reduceToggled,loading,problemVisualizationData,reducedVisualizationData,problemSolutionData}) {
     //console.log(reduceToggled,loading)
     if (reduceToggled && !loading) {
 
@@ -29,7 +29,10 @@ export default function VisualizationBox({reduceToggled,loading,problemVisualiza
                     
                 >
                                 <Container>
-                                <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React>
+                                <SAT3_SVG_React 
+                                    data={problemVisualizationData}
+                                    solution={problemSolutionData}
+                                ></SAT3_SVG_React>
                                 </Container>
                                 <Container>
                                 <CLIQUE_SVG_REACT data={reducedVisualizationData}></CLIQUE_SVG_REACT>

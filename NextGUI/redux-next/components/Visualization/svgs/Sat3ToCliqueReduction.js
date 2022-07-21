@@ -1,4 +1,6 @@
 import * as d3 from 'd3'
+import VisColors from '../constants/VisColors';
+
 var width = 400;
 var height = 350;
 
@@ -61,18 +63,21 @@ function getClique(ref,data){
 function showCluster(cluster){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll(".c_"+cluster)
-        .attr("fill", "red");
+        .attr("fill", VisColors.ClauseHighlight)
+        .attr("stroke", VisColors.ClauseHighlight);
     }
 }
 function showElement(element){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll("#"+element)
-        .attr("fill", "yellow");
+        .attr("fill", VisColors.ElementHighlight)
+        .attr("stroke", VisColors.ElementHighlight);
     }
 }
 function clear(){
     d3.selectAll(".gadget")
-        .attr("fill", "white");
+        .attr("fill", VisColors.Background)
+        .attr("stroke", VisColors.Background);
 }
 
 
@@ -88,6 +93,12 @@ class node {
         this.id = "_"+id.replace("!","not");
     }
     show(c = this.cluster, e = this.id) {
+        this.svg.append("circle")
+            .attr("cx", this.x)
+            .attr("cy", this.y)
+            .attr("r", this.size)
+            .attr("stroke","black")
+            .attr("stroke-width", "3px")
         this.svg.append("circle")
             .attr("cx", this.x)
             .attr("cy", this.y)

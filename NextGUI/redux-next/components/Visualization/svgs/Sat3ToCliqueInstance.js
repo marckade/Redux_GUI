@@ -1,4 +1,5 @@
 import * as d3 from 'd3'
+import VisColors from '../constants/VisColors';
 import dynamic from "next/dynamic";
 
 
@@ -25,7 +26,7 @@ const height = 600;
 
 let clauses = [];
 let literals = [];
-function getSat3(ref, data, parentState) {
+function getSat3(ref, data, parentState, solution) {
     
     
    // var element = d3.select("#" + divID);
@@ -40,45 +41,66 @@ function getSat3(ref, data, parentState) {
     // new clause("a",svg,100,200,["X","Y","Z"]).show();
     let x = 20;
     let y = 100;
-    console.log(data.length, "length")
     for (let i = 0; i < data.length; i++){
-        console.log("x", i, x);
-        let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15);
+        let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15, solution);
         c.show();
-        console.log("width", i, width - c.width, width);
-        x += c.width + 10;
-        console.log(x,(width-c.width))
+        x += c.width + 8;
+        if (i < data.length-1){
+            svg.append("text")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("text-anchor", "left")
+            .attr("dominant-baseline", "middle")
+            .attr("font-size", "15px")
+            .attr("font-family", "'Courier New', Courier, monospace")
+            .text("\u2227");
+            x += 16;
+        }
         if (x >= width - c.width) {
-            console.log('greater than width')
             x = 20;
             y += 50
         }
     }
 
+    d3.selectAll(".true")
+        .attr("fill",VisColors.ElementHighlight)
+        .attr("stroke",VisColors.ElementHighlight);
+
     d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 }
 
+function showSolution(){
+    if(d3.select("#showSolution").property("checked")){
+        d3.selectAll(".true")
+            .attr("fill",VisColors.ElementHighlight);
+        
+    }
+}
 function showCluster(cluster){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll(".c_"+cluster)
-        .attr("fill", "red");
+        .attr("fill", VisColors.ClauseHighlight)
+        .attr("stroke", VisColors.ClauseHighlight);
     }
 }
 function showElement(element){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll("#"+element)
-        .attr("fill", "yellow");
+        .attr("fill", VisColors.ElementHighlight)
+        .attr("stroke", VisColors.ElementHighlight);
     }
 }
 function clear(){
     d3.selectAll(".gadget")
-        .attr("fill", "white");
+        .attr("fill", VisColors.Background)
+        .attr("stroke", VisColors.Background);
 }
 
 class literal{
-    constructor(id, className, name, svg, x, y, size = 20){
+    constructor(id, className, name, svg, x, y, size = 20, solution){
         this.id = "_"+id.replace("!","not");
         this.className = className;
+        this.solution = solution;
         this.name = name;
         this.svg = svg;
         this.x = x;
@@ -93,7 +115,9 @@ class literal{
             .attr("height", this.size)
             .attr("width", this.size*this.name.length)
             .attr("id", this.id)
-            .attr("class", "c_"+this.className+" gadget")
+            .attr("class", "c_"+this.className+" gadget"+" "+this.solution)
+            .attr("stroke-linejoin","round")
+            .attr("stroke-width", "7px")
             .on("mouseover", function () {
                 showCluster(c)
                 showElement(e);
@@ -108,6 +132,7 @@ class literal{
             .attr("text-anchor", "left")
             .attr("dominant-baseline", "middle")
             .attr("font-size", this.size+"px")
+            .attr("font-family", "'Courier New', Courier, monospace")
             .text(this.name)
             .on("mouseover", function () {
                 showCluster(c);
@@ -121,15 +146,26 @@ class literal{
 }
 
 class clause{
-    constructor(className,svg,x,y,literals,size = 20){
+    constructor(className,svg,x,y,literals,size = 20,solution=[["x1"]]){
         this.className = className;
         this.svg = svg;
         this.x = x;
         this.y = y;
         this.size = size;
         this.literalsIDs = [];
+        this.solution = solution;
         for (let i=0; i<literals.length; i++){
             this.literalsIDs[i] = literals[i] + "_"+(i + className*3);
+        }
+        this.literalsSolutions = [];
+        for (let i=0; i<literals.length; i++){
+            console.log(this.solution[0],literals[i])
+            if (this.solution[0].includes(literals[i])){
+                this.literalsSolutions[i] = true;
+            }
+            else{
+                this.literalsSolutions[i] = false;
+            }
         }
         this.literals = literals
         this.width = 0;
@@ -137,9 +173,9 @@ class clause{
         //
     }
     show(c = this.className){
-        let l1 = new literal(this.literalsIDs[0], this.className, this.literals[0], this.svg, (this.x + this.size), this.y, this.size);
-        let l2 = new literal(this.literalsIDs[1], this.className, this.literals[1], this.svg, (this.x + this.size*2 + l1.size*l1.name.length), this.y, this.size);   
-        let l3 = new literal(this.literalsIDs[2], this.className, this.literals[2], this.svg, (this.x + this.size*3 + l1.size*l1.name.length + l2.size*l2.name.length), this.y, this.size);
+        let l1 = new literal(this.literalsIDs[0], this.className, this.literals[0], this.svg, (this.x + this.size), this.y, this.size, this.literalsSolutions[0]);
+        let l2 = new literal(this.literalsIDs[1], this.className, this.literals[1], this.svg, (this.x + this.size*2 + l1.size*l1.name.length), this.y, this.size, this.literalsSolutions[1]);   
+        let l3 = new literal(this.literalsIDs[2], this.className, this.literals[2], this.svg, (this.x + this.size*3 + l1.size*l1.name.length + l2.size*l2.name.length), this.y, this.size, this.literalsSolutions[2]);
         this.width = this.size*3 + l1.size*l1.name.length + l2.size*l2.name.length + l3.size*l3.name.length + this.size/2;
         this.svg.append("rect")
             .attr("x", this.x)
@@ -148,6 +184,8 @@ class clause{
             .attr("height", this.size*2)
             .attr("width", this.width)
             .attr("class", "c_"+this.className+" gadget")
+            .attr("stroke-linejoin","round")
+            .attr("stroke-width", "7px")
             .on("mouseover", function () {
                 showCluster(c);
             })
@@ -162,13 +200,13 @@ class clause{
             .attr("font-size", this.size+"px")
             .text("(");
         l1.show();
-        console.log(this.literals);
         this.svg.append("text")
             .attr("x", this.x + this.size + l1.size*l1.name.length)
             .attr("y", this.y)
             .attr("text-anchor", "left")
             .attr("dominant-baseline", "middle")
             .attr("font-size", this.size+"px")
+            .attr("font-family", "'Courier New', Courier, monospace")
             .text("\u2228");
         l2.show();     
         this.svg.append("text")
@@ -177,6 +215,7 @@ class clause{
             .attr("text-anchor", "left")
             .attr("dominant-baseline", "middle")
             .attr("font-size", this.size+"px")
+            .attr("font-family", "'Courier New', Courier, monospace")
             .text("\u2228");
         l3.show();
         this.svg.append("text")
@@ -185,6 +224,7 @@ class clause{
             .attr("text-anchor", "left")
             .attr("dominant-baseline", "middle")
             .attr("font-size", this.size+"px")
+            .attr("font-family", "'Courier New', Courier, monospace")
             .text(")");
        
         // this.
