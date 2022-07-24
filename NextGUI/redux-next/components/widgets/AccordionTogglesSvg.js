@@ -33,6 +33,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import VisualizationBox from './VisualizationBox';
 import { svg } from 'd3';
 import TEST_SVG_REACT from '../Visualization/svgs/TEST_SVG_REACT';
+import VisualizationLogic from './VisualizationLogic';
 
 
 
@@ -258,8 +259,6 @@ function AccordionTogglesSvg(props) {
     setShowSolution(false);
     setShowGadgets(false);
     setShowReduction(false);
-    
-    
   }
    function getProblemVisualizationData(url, name, instance) {
     var fullUrl = `${url}${name}Generic/instance?problemInstance=${instance}`;
@@ -279,6 +278,14 @@ function AccordionTogglesSvg(props) {
     });
   }
 
+  
+  const logicProps = {
+    solverOn: false,
+    reductionOn: false,
+    gadgetsOn: false,
+    problemName: "VERTEXCOVER",
+    problemInstance: problemInstance
+  }
   return (
     <div>
       <Accordion className="accordion" defaultActiveKey="1">
@@ -315,7 +322,9 @@ function AccordionTogglesSvg(props) {
                 reducedVisualizationData={reducedVisualizationData}
                 problemSolutionData={problemSolutionData}
               ></VisualizationBox>
-  
+              {/* <VisualizationLogic
+               props={logicProps}>
+              </VisualizationLogic> */}
             </Card.Body>
           </Accordion.Collapse>
         </Card>

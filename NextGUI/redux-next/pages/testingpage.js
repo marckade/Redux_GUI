@@ -14,6 +14,7 @@ import { orange } from "@mui/material/colors"
 import { useState, useEffect } from 'react';
 import TEST_SVG_REACT from '../components/Visualization/svgs/TEST_SVG_REACT';
 import VertexCoverSvgReact from '../components/Visualization/svgs/VertexCover_SVG_React';
+import VisualizationLogic from '../components/widgets/VisualizationLogic';
 
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
@@ -92,6 +93,14 @@ function HomePage() {
     //setSeconds(0)
   }
 
+  const logicProps = {
+    solverOn: false,
+    reductionOn: false,
+    gadgetsOn: false,
+    problemName: "VERTEXCOVER",
+    problemInstance: "{{a,b},{{a,b}},1}"
+  }
+
   return (
     
     <>
@@ -99,7 +108,7 @@ function HomePage() {
         <ResponsiveAppBar></ResponsiveAppBar>
       {"HELLO"}
         <TEST_SVG_REACT></TEST_SVG_REACT>
-        <VertexCoverSvgReact></VertexCoverSvgReact>
+        <VisualizationLogic props={ logicProps }></VisualizationLogic>
 
     </ThemeProvider>
     </>
