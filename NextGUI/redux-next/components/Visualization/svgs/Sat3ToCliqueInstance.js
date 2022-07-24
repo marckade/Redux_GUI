@@ -41,26 +41,31 @@ function getSat3(ref, data, parentState, solution) {
     // new clause("a",svg,100,200,["X","Y","Z"]).show();
     let x = 20;
     let y = 100;
-    for (let i = 0; i < data.length; i++){
-        let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15, solution);
-        c.show();
-        x += c.width + 8;
-        if (i < data.length-1){
-            svg.append("text")
-            .attr("x", x)
-            .attr("y", y)
-            .attr("text-anchor", "left")
-            .attr("dominant-baseline", "middle")
-            .attr("font-size", "15px")
-            .attr("font-family", "'Courier New', Courier, monospace")
-            .text("\u2227");
-            x += 16;
+    if( data!== null){
+
+        for (let i = 0; i < data.length; i++){
+            let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15, solution);
+            c.show();
+            x += c.width + 8;
+            if (i < data.length-1){
+                svg.append("text")
+                .attr("x", x)
+                .attr("y", y)
+                .attr("text-anchor", "left")
+                .attr("dominant-baseline", "middle")
+                .attr("font-size", "15px")
+                .attr("font-family", "'Courier New', Courier, monospace")
+                .text("\u2227");
+                x += 16;
+            }
+            if (x >= width - c.width) {
+                x = 20;
+                y += 50
+            }
         }
-        if (x >= width - c.width) {
-            x = 20;
-            y += 50
-        }
+
     }
+   
 
     d3.selectAll(".true")
         .attr("fill",VisColors.ElementHighlight)

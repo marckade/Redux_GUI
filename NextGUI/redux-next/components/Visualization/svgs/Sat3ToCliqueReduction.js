@@ -1,6 +1,10 @@
 import * as d3 from 'd3'
 import VisColors from '../constants/VisColors';
+import { ProblemContext } from '../../contexts/ProblemProvider';
 
+
+
+// const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
 var width = 400;
 var height = 350;
 
@@ -58,7 +62,11 @@ function getClique(ref,data){
     
     d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 
-}
+}    
+
+
+
+
 
 function showCluster(cluster){
     if(d3.select("#highlightGadgets").property("checked")){

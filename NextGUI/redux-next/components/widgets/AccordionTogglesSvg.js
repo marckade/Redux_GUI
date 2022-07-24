@@ -20,14 +20,14 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Switch, Container, Grid} from '@mui/material'
+import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses} from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 import Graphvisualization from "../Visualization/Graphvisualization";
 import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
-import { getClique } from '../Visualization/svgs/Sat3ToCliqueReduction';
-import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
+// import { getClique } from '../Visualization/svgs/Sat3ToCliqueReduction';
+// import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
 import SAT3_SVG_React from '../Visualization/svgs/SAT3_SVG_React';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import VisualizationBox from './VisualizationBox';
@@ -195,14 +195,14 @@ function AccordionTogglesSvg(props) {
     backgroundColor: '#43a047'
   }
   const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
-  const [instance, setInstance] = useState(graphDotTest2);
-  const [reduction, setReductionInstance] = useState(graphDotTest2);
+  // const [reduction, setReductionInstance] = useState(graphDotTest2);
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
-  const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
+  //defaultSat3VisualizationArr
+  const [problemVisualizationData, setProblemVisualizationData] = useState();
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
-  const [problemSolutionData, setProblemSolutionData] = useState(defaultSat3SolutionArr);
+  const [problemSolutionData, setProblemSolutionData] = useState(null);
   const [rerender, setRerender] = useState(false); //This is an escape hatch to refresh svgs.
   const [accordionOpened, setAccordionOpened] = useState(false);
   const [svgIsLoading, setSvgIsLoading] = useState(false);
@@ -216,7 +216,7 @@ function AccordionTogglesSvg(props) {
       setSvgIsLoading(false);
     }
   }, [svgIsLoading])
- 
+
 
   useEffect(() => {
     var apiCompatibleInstance = problemInstance.replaceAll('&', "%26");
@@ -229,12 +229,18 @@ function AccordionTogglesSvg(props) {
         setReducedVisualizationData(data.reductionTo.clusterNodes)
         console.log(data.reductionTo.clusterNodes)
       }).catch((error)=>{console.log(error)})
+      
     }
+    setInitialLoad(true)
+
   },[problemInstance])
 
  
-  function handleSwitch1Change(e) {
-    setShowSolution(!showSolution);
+  function handleSwitch1Change(e) { // solution switch
+  //  console.log("Switch 1   " + e.target.checked);
+    setShowSolution(e.target.checked);
+    setProblemSolutionData(defaultSat3SolutionArr);
+   // console.log("Switch 1   " + e.target.checked);
   }
 
   function handleSwitch2Change(e) { //gadget switch.
@@ -270,16 +276,25 @@ function AccordionTogglesSvg(props) {
     });
   }
   function getReducedVisualizationData(url, reduction, instance) {
-    var fullUrl = `${url}${reduction}/reduce?problemInstance=${instance}`;
+
+    if(reduction !== null || reduction !== ''){
+      var fullUrl = `${url}${reduction}/reduce?problemInstance=${instance}`;
     console.log(fullUrl);
     return fetch(fullUrl).then(resp => {
       if (resp.ok) {
         return resp.json()
       }
     });
+
+    }
+    
   }
 
+  
+ 
   return (
+   
+
     <div>
       <Accordion className="accordion" defaultActiveKey="1">
         <Card>
@@ -313,7 +328,7 @@ function AccordionTogglesSvg(props) {
                 reduceToggled={showReduction}
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
-                problemSolutionData={problemSolutionData}
+                problemSolutionData={showSolution ? problemSolutionData : null}
               ></VisualizationBox>
   
             </Card.Body>

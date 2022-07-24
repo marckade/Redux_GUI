@@ -9,10 +9,23 @@ import TEST_SVG_REACT from '../Visualization/svgs/TEST_SVG_REACT';
 import Split from 'react-split'
 
 
+const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
+const [initialLoad, setInitialLoad] = useState(false);
+
 
 
 export default function VisualizationBox({reduceToggled,loading,problemVisualizationData,reducedVisualizationData,problemSolutionData}) {
     //console.log(reduceToggled,loading)
+
+    useEffect(() => {
+        if(initialLoad){
+          console.log("Got here visual")
+        // setProblemVisualizationData("")
+        // setReducedVisualizationData(null)
+        // setProblemSolutionData(null)
+      }
+    
+      }, [problemName])
     if (reduceToggled && !loading) {
 
         return (
@@ -47,7 +60,7 @@ export default function VisualizationBox({reduceToggled,loading,problemVisualiza
             <>
                 
                 <Container>
-                        <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React>
+                     <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React>
                     </Container>
                     
                 </>)
