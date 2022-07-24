@@ -5,7 +5,7 @@ import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-function ForceGraph({ w, h, charge }) {
+function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
     const [animatedNodes, setAnimatedNodes] = useState([]);
     const [animatedLinks, setAnimatedLinks] = useState([]);
     const margin = {top: 10, right: 30, bottom: 30, left: 40},
@@ -26,9 +26,10 @@ const svg = d3.select(ref.current)
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
-
-d3.json("http://localhost:3000/graph.json").then( function( data) {
-
+      const problemUrl = apiCall + '?problemInstance=' + problemInstance;
+d3.json(problemUrl).then( function( data) {
+  console.log(data);
+  console.log(problemUrl)
 // Initialize the links
 const link = svg
   .selectAll("line")
@@ -44,29 +45,30 @@ const node = svg
   .selectAll("circle")
   .data(data.nodes)
     .join("circle")
-    .attr("class", function (d) { return d.cover; })
+    // .attr("class", function (d) { return d.cover; })
     .attr("r", 20)
-    .style("fill", function (d) {
-        if (d.cover === "true") {
-                return "#00e676"
-        }
-        else {
-            return "#ff1744"
-        }
+  .style("fill", function (d) {
+      return "#00e676"
+        // if (d.cover === "true") {
+        //         return "#00e676"
+        // }
+        // else {
+        //     return "#ff1744"
+        // }
     })
-    .on("mouseover", function (d) {
-        //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-        svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#abc")
-    })
-    .on("mouseout", function (d) {
-        if (d.target.__data__.cover === "true") {
-            svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ffea00")
-        }
-        else {
-            svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ff1744")
+    // .on("mouseover", function (d) {
+    //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+    //     svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#abc")
+    // })
+    // .on("mouseout", function (d) {
+    //     if (d.target.__data__.cover === "true") {
+    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ffea00")
+    //     }
+    //     else {
+    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ff1744")
 
-        }
-    })
+    //     }
+    // })
  
     
 const text = svg.selectAll("text") //Append Text on top of nodes.
@@ -132,7 +134,7 @@ function ticked() {
 }
 
 
-export default function VertexCoverSvgReact() {
+export default function VertexCoverSvgReact(props) {
   const [charge, setCharge] = useState(-400);
   
   // create nodes with unique ids
@@ -159,7 +161,7 @@ export default function VertexCoverSvgReact() {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={500} h={500} charge={charge} />
+     <ForceGraph w={500} h={500} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
     </div>
   );
 }
