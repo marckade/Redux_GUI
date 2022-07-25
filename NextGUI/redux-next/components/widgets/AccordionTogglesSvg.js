@@ -23,8 +23,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses} from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
-import Graphvisualization from "../Visualization/Graphvisualization";
-import ReducedVisualizations from "../Visualization/ReducedVisualization";
+//import Graphvisualization from "../Visualization/Graphvisualization";
+//import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
 // import { getClique } from '../Visualization/svgs/Sat3ToCliqueReduction';
 // import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
@@ -201,7 +201,7 @@ function AccordionTogglesSvg(props) {
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
   //defaultSat3VisualizationArr
-  const [problemVisualizationData, setProblemVisualizationData] = useState();
+  const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
   const [problemSolutionData, setProblemSolutionData] = useState(null);
   const [rerender, setRerender] = useState(false); //This is an escape hatch to refresh svgs.
@@ -232,7 +232,7 @@ function AccordionTogglesSvg(props) {
       }).catch((error)=>{console.log(error)})
       
     }
-    setInitialLoad(true)
+    
 
   },[problemInstance])
 
@@ -333,7 +333,7 @@ function AccordionTogglesSvg(props) {
                 reduceToggled={showReduction}
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
-                problemSolutionData={showSolution ? problemSolutionData : null}
+                problemSolutionData={showSolution}
               ></VisualizationBox>
               {/* <VisualizationLogic
                props={logicProps}>

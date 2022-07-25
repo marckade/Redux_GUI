@@ -41,7 +41,7 @@ function getSat3(ref, data, parentState, solution) {
     // new clause("a",svg,100,200,["X","Y","Z"]).show();
     let x = 20;
     let y = 100;
-    if( data!== null){
+    
 
         for (let i = 0; i < data.length; i++){
             let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15, solution);
@@ -62,7 +62,7 @@ function getSat3(ref, data, parentState, solution) {
                 x = 20;
                 y += 50
             }
-        }
+        
 
     }
    
