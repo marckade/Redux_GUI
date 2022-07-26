@@ -82,7 +82,7 @@ const text = svg.selectAll("text") //Append Text on top of nodes.
 
 // Let's list the force we wanna apply on the network
 const simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-    .force("link", d3.forceLink()                               // This force provides links between nodes
+    .force("link", d3.forceLink(data.links).distance(charge*-1.5)                               // This force provides links between nodes
           .id(function(d) { return d.name; })                     // This provide  the id of a node
           .links(data.links)                                    // and this the list of links
     )
@@ -136,20 +136,9 @@ function ticked() {
 
 
 export default function CliqueSvgReactV2(props) {
-  const [charge, setCharge] = useState(-400);
+  const [charge, setCharge] = useState(-50);
   
-  // create nodes with unique ids
-  // radius: 5px
-  const nodes = [
-    {"id": "Alice"},
-    {"id": "Bob"},
-    {"id": "Carol"}
-  ];
-  
-  const links = [
-    {"source": "Alice", "target": "Bob"},
-    {"source": "Bob", "target": "Carol"}
-  ];
+
   return (
     <div className="visualization">
    

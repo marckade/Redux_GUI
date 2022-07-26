@@ -26,7 +26,7 @@ const svg = d3.select(ref.current)
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
-      const problemUrl = apiCall + '?problemInstance=' + problemInstance;
+      const problemUrl = apiCall;
 d3.json(problemUrl).then( function( data) {
   console.log(data);
   console.log(problemUrl)
@@ -48,13 +48,16 @@ const node = svg
     // .attr("class", function (d) { return d.cover; })
     .attr("r", 20)
   .style("fill", function (d) {
-      return "#00e676"
-        // if (d.cover === "true") {
-        //         return "#00e676"
-        // }
-        // else {
-        //     return "#ff1744"
-        // }
+        if (d.attribute1 === "true") {
+          return "#00e676"
+        }
+        else if (d.attribute1 === "false") {
+          return "#ff1744"
+
+        }
+        else {
+          return "#D5DBDB"
+        }
     })
     // .on("mouseover", function (d) {
     //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)

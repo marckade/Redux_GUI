@@ -15,7 +15,7 @@ export default function VisualizationLogic(props ) {
    let problemName = props.problemName
     if (problemName === "VERTEXCOVER") {
 
-        apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize"
+        apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
          visualization = <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>;
         

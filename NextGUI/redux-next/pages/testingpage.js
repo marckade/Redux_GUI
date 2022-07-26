@@ -59,8 +59,11 @@ function HomePage() {
     reductionOn: false,
     gadgetsOn: false,
     problemName: "VERTEXCOVER",
-    problemInstance: "{{a,b},{{a,b}},1}"
+    problemInstance: "{{a,b,c,d,e,f,g},{{a,b},{a,c},{c,d},{c,e},{d,f},{e,f},{e,g}},3}",
+    problemSolution: "{e,f,c,d,a,b}"
   }
+  const apiCallDef = `http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=${logicProps.problemInstance}`;
+  const apiCallSolved = `http://localhost:27000/VCSolver/visualize?problemInstance=${logicProps.problemInstance}&solutionString=${logicProps.problemSolution}`
 
   return (
     
@@ -78,10 +81,20 @@ function HomePage() {
         </div>
         
         <input onChange={handleTextBox}></input>
-        {"HELLO"}
         <TEST_SVG_REACT></TEST_SVG_REACT>
-        <VisualizationLogic props={ logicProps }></VisualizationLogic>
+        <div>
+          <div>
+            <h1>Original Instance</h1>
+        <VertexCoverSvgReact apiCall={apiCallDef} instance={logicProps.problemInstance}></VertexCoverSvgReact>;
 
+        </div>
+          <div>
+            <h1>Solved Instance</h1>
+        <VertexCoverSvgReact apiCall={apiCallSolved} instance={logicProps.problemInstance}></VertexCoverSvgReact>;
+          </div>
+        </div>
+
+        
     </ThemeProvider>
     </>
   )
