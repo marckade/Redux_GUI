@@ -1,5 +1,5 @@
 import React from 'react'
-import { getSat3 } from './Sat3ToCliqueInstance'
+import { fullClear, getSat3, showSolution} from './Sat3ToCliqueInstance'
 import dynamic from "next/dynamic";
 import { useRef,useState,useEffect,useContext } from 'react';
 import {ProblemContext} from '../../contexts/ProblemProvider'
@@ -11,8 +11,14 @@ function Sat3SvgReact(props) {
     const ref = useRef(null);
     const {problemInstance} = useContext(ProblemContext)
     useEffect(() => {
-        getSat3(ref.current, props.data, props.solution);
-    },[problemInstance])
+        getSat3(ref.current, props.data);
+        if(props.showSolution){
+            console.log("Show Solution !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            console.log(props.solution);
+            showSolution(props.solution);
+        } else fullClear();
+
+    },[problemInstance,props.showSolution])
     return (
         <svg ref={ref}
             style={{

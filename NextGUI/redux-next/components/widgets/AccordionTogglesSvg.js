@@ -146,9 +146,8 @@ function AccordionTogglesSvg(props) {
     ],
   ]
 
-  const defaultSat3SolutionArr = [
-    ["x1"]
-  ]
+  const defaultSat3SolutionArr = ["x1"]
+  
   
   var defaultCLIQUEVisualizationArr =  [
     {
@@ -331,9 +330,10 @@ function AccordionTogglesSvg(props) {
               <VisualizationBox 
                 loading={svgIsLoading}
                 reduceToggled={showReduction}
+                solveToggled={showSolution}
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
-                problemSolutionData={showSolution}
+                problemSolutionData={defaultSat3SolutionArr}
               ></VisualizationBox>
               {/* <VisualizationLogic
                props={logicProps}>
