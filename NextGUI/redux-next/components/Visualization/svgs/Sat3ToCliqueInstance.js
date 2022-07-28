@@ -26,7 +26,7 @@ const height = 600;
 
 let clauses = [];
 let literals = [];
-function getSat3(ref, data, parentState, solution) {
+function getSat3(ref, data, parentState) {
     
     
    // var element = d3.select("#" + divID);
@@ -44,7 +44,7 @@ function getSat3(ref, data, parentState, solution) {
     
 
         for (let i = 0; i < data.length; i++){
-            let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15, solution);
+            let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15);
             c.show();
             x += c.width + 8;
             if (i < data.length-1){
@@ -74,11 +74,11 @@ function getSat3(ref, data, parentState, solution) {
     d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 }
 
-function showSolution(){
-    if(d3.select("#showSolution").property("checked")){
-        d3.selectAll(".true")
-            .attr("fill",VisColors.ElementHighlight);
-        
+function showSolution(solution){
+    for(let i=0; i<solution.length; i++){
+        d3.selectAll("."+solution[i])
+            .attr("fill",VisColors.ElementHighlight)
+            .attr("stroke", VisColors.ElementHighlight);
     }
 }
 function showCluster(cluster){
@@ -96,16 +96,22 @@ function showElement(element){
     }
 }
 function clear(){
+    if(d3.select("#highlightGadgets").property("checked")){
+    d3.selectAll(".gadget")
+        .attr("fill", VisColors.Background)
+        .attr("stroke", VisColors.Background);
+    }
+}
+function fullClear(){
     d3.selectAll(".gadget")
         .attr("fill", VisColors.Background)
         .attr("stroke", VisColors.Background);
 }
 
 class literal{
-    constructor(id, className, name, svg, x, y, size = 20, solution){
+    constructor(id, className, name, svg, x, y, size = 20){
         this.id = "_"+id.replace("!","not");
         this.className = className;
-        this.solution = solution;
         this.name = name;
         this.svg = svg;
         this.x = x;
@@ -120,7 +126,7 @@ class literal{
             .attr("height", this.size)
             .attr("width", this.size*this.name.length)
             .attr("id", this.id)
-            .attr("class", "c_"+this.className+" gadget"+" "+this.solution)
+            .attr("class", "c_"+this.className+" gadget"+" "+this.name)
             .attr("stroke-linejoin","round")
             .attr("stroke-width", "7px")
             .on("mouseover", function () {
@@ -237,5 +243,7 @@ class clause{
 }
 
 export{
-    getSat3
+    getSat3,
+    showSolution,
+    fullClear
 }

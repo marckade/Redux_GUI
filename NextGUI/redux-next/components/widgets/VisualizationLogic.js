@@ -3,7 +3,7 @@
 import VertexCoverSvgReact from "../Visualization/svgs/VertexCover_SVG_React";
 import SAT3_SVG_React from "../Visualization/svgs/SAT3_SVG_React";
 import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
-
+import CliqueSvgReactV2 from "../Visualization/svgs/Clique_SVG_REACT_V2";
 
 export default function VisualizationLogic(props ) {
    // const innerProps = props.props;
@@ -37,9 +37,10 @@ export default function VisualizationLogic(props ) {
     else if (problemName === "SAT3") {
         visualization = <SAT3_SVG_React data={props.problemVisualizationData}></SAT3_SVG_React>;
 
-    }else if(problemName === "CLIQUE"){
-        visualization =  <CLIQUE_SVG_REACT data={props.problemVisualizationData}></CLIQUE_SVG_REACT>
-
+    } else if (problemName === "CLIQUE") {
+        apiCall = "http://localhost:27000/CLIQUEGeneric/visualize"
+         visualization =  <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
+        
     }
 
 

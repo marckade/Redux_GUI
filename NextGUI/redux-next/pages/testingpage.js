@@ -9,7 +9,7 @@ import BookData from "./Data.json";
 // import AutoComplete from '../components/widgets/SearchBar';
 
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
-import { Button, createTheme, ThemeProvider, Typograph } from "@mui/material"
+import { Button, createTheme, Input, ThemeProvider, Typograph } from "@mui/material"
 import { orange } from "@mui/material/colors"
 import { useState, useEffect } from 'react';
 import TEST_SVG_REACT from '../components/Visualization/svgs/TEST_SVG_REACT';
@@ -46,51 +46,12 @@ function HomePage() {
       }
     }
   });
-
-
   
-  const [seconds, setSeconds] = useState(0);
-  const [isActive, setActive] = useState(false);
-  const [button2Count, setButton2Count] = useState(0);
-
-  
-  useEffect(() => {
-    let timer = null;
-    if (isActive) {
-      timer = setInterval(() => {
-        setSeconds(seconds + 1);
-        console.log("TIMER")
-        console.log(seconds);
-        //console.log(state)
-        if (seconds % 5 === 0) {
-          console.log("Fifth")
-          //console.log(button2Count);
-          
-        }
-        if (seconds % 10 === 0) {
-          console.log("TEN HIT")
-          console.log("Button 2 count: "+button2Count)
-          setActive(false);
-        }
-      }, 1000);
-    }
-    else {
-      clearInterval(timer)
-    }
-    // clearing interval
-    return () => clearInterval(timer);
-  });
-
+  const [text, setText] = useState("");
     
-  const handleButtonClick = () => {
-    setActive(!isActive)
-  }
-  const handleButtonClick2 = () => {
-    if (isActive === false) {
-      setActive(true);
-    }
-    setButton2Count((button2Count) => button2Count + 1)
-    //setSeconds(0)
+  const handleTextBox = (event) => {
+    setText(event.target.value)
+    console.log(event.target.value)
   }
 
   const logicProps = {
@@ -106,31 +67,23 @@ function HomePage() {
     <>
     <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
-      {"HELLO"}
+
+        <div>
+        {/* <TextField
+  id="outlined-name"
+  label="Name"
+  value={""}
+  onChange={handleTextBox}
+        /> */}
+        </div>
+        
+        <input onChange={handleTextBox}></input>
+        {"HELLO"}
         <TEST_SVG_REACT></TEST_SVG_REACT>
         <VisualizationLogic props={ logicProps }></VisualizationLogic>
 
     </ThemeProvider>
     </>
-
-    
-    // <div className="TextBox">
-    //   <div className = "TextBoxInner">
-    //     <TextBoxInstance textbox={DEFAULTTEXTBOX} />
-    //     </div>
-    //   <div className = "TextBoxInner">
-    //     <TextBoxInstance textbox={ALTTEXTBOX} />
-    //   </div>
-    //   <div className="TextBoxInner">
-    //     {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-    //     {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
-    //   </div>
-    //   <div className="TextBoxInner">
-    //     </div>
-    // </div>
-
-
-    
   )
 }
 

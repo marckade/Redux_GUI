@@ -83,9 +83,11 @@ function showElement(element){
     }
 }
 function clear(){
+    if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll(".gadget")
         .attr("fill", VisColors.Background)
         .attr("stroke", VisColors.Background);
+    }
 }
 
 

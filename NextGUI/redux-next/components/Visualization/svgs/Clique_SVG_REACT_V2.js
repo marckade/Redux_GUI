@@ -48,7 +48,8 @@ const node = svg
     // .attr("class", function (d) { return d.cover; })
     .attr("r", 20)
   .style("fill", function (d) {
-      return "#00e676"
+      return "#FFC300";
+      //"#00e676"
         // if (d.cover === "true") {
         //         return "#00e676"
         // }
@@ -134,7 +135,7 @@ function ticked() {
 }
 
 
-export default function VertexCoverSvgReact(props) {
+export default function CliqueSvgReactV2(props) {
   const [charge, setCharge] = useState(-400);
   
   // create nodes with unique ids
@@ -151,7 +152,7 @@ export default function VertexCoverSvgReact(props) {
   ];
   return (
     <div className="visualization">
-    
+   
       {/* <input
         type="range"
         min="-500"
