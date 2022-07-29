@@ -17,75 +17,84 @@ import VisualizationLogic from './VisualizationLogic';
 
 
 
-export default function VisualizationBox({reduceToggled,solveToggled,loading,problemVisualizationData,reducedVisualizationData,problemSolutionData}) {
+export default function VisualizationBox({ reduceToggled, solveToggled, loading, problemVisualizationData, reducedVisualizationData, problemSolutionData, visualizationState }) {
     //console.log(reduceToggled,loading)
-    const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
+    const { problemName, problemInstance, chosenReduceTo, reduceToInstance } = useContext(ProblemContext);
 
 
-    // useEffect(() => {
-    //     if(initialLoad){
-    //       console.log("Got here visual")
-    //     // setProblemVisualizationData("")
-    //     // setReducedVisualizationData(null)
-    //     // setProblemSolutionData(null)
-    //   }
-    
-    //   }, [problemName])
-    if (reduceToggled && !loading) {
 
-        return (
-            <>
-                    {/* <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React>
-                    <CLIQUE_SVG_REACT data={reducedVisualizationData}></CLIQUE_SVG_REACT> */}
-                    {/* <TEST_SVG_REACT></TEST_SVG_REACT>
-                    <TEST_SVG_REACT></TEST_SVG_REACT> */}
-                    +
-                <Split
-                    class="wrap"      
-                    direction="horizontal"
-                    style={{ height: 'inherit' }}
-                    
-                >
-                                <Container>
-                                <SAT3_SVG_React 
-                                    data={problemVisualizationData}
-                                    solution={problemSolutionData}
-                                    showSolution={solveToggled}
-                                ></SAT3_SVG_React>
-                                </Container>
-                                <Container>
-                                <CLIQUE_SVG_REACT data={reducedVisualizationData}></CLIQUE_SVG_REACT>
-                                </Container>
-                    </Split>
-              
-            </>
-        )
-    }
-    else if (!reduceToggled && !loading) {
-        return (
-            <>
-                
-                <Container>
-                <VisualizationLogic
-                        problemName={problemName}
-                        problemInstance={problemInstance}
-                        reductionName={chosenReductionType}
-                        problemSolutionData={problemSolutionData}
-                        reducedVisualizationData={reducedVisualizationData}
-                        problemVisualizationData={problemVisualizationData}
-                        solverOn={true}
-                        reductionOn={reduceToggled}
-                        gadgetsOn={false}
+    // if (visualizationState.reductionOn && !loading) {
+
+    //     return (
+    //         <>
+    //                 {/* <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React>
+    //                 <CLIQUE_SVG_REACT data={reducedVisualizationData}></CLIQUE_SVG_REACT> */}
+    //                 {/* <TEST_SVG_REACT></TEST_SVG_REACT>
+    //                 <TEST_SVG_REACT></TEST_SVG_REACT> */}
+    //                 +
+    //             <Split
+    //                 class="wrap"      
+    //                 direction="horizontal"
+    //                 style={{ height: 'inherit' }}
+
+    //             >
+    //                             <Container>
+    //                             <SAT3_SVG_React 
+    //                                 data={problemVisualizationData}
+    //                                 solution={problemSolutionData}
+    //                                 showSolution={solveToggled}
+    //                             ></SAT3_SVG_React>
+    //                             </Container>
+    //                             <Container>
+    //                             <CLIQUE_SVG_REACT data={reducedVisualizationData}></CLIQUE_SVG_REACT>
+    //                             </Container>
+    //                 </Split>
+
+    //         </>
+    //     )
+    // }
+    // else if (!visualizationState.reductionOn && !loading) {
+    //     return (
+    //         <>
+
+    //             <Container>
+    //             <VisualizationLogic
+    //                     problemName={problemName}
+    //                     problemInstance={problemInstance}
+    //                     reductionName={chosenReductionType}
+    //                     loading={loading}
+    //                     problemSolutionData={problemSolutionData}
+    //                     reducedVisualizationData={reducedVisualizationData}
+    //                     problemVisualizationData={problemVisualizationData}
+    //                     visualizationState ={visualizationState}
+    //                     // solverOn={true}
+    //                     // reductionOn={reduceToggled}
+    //                     // gadgetsOn={false}
 
 
-                    />
-                     {/* <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React> */}
-                    </Container>
-                    
-                </>)
-    }
-    return (<>
-    {"LOADING"}
-    </>
+    //                 />
+    //                  {/* <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React> */}
+    //                 </Container>
+
+    //             </>)
+    // }
+
+
+    return (
+        <>
+            <VisualizationLogic
+                problemName={problemName}
+                problemInstance={problemInstance}
+                reductionName={chosenReduceTo}
+                loading={loading}
+                problemSolutionData={problemSolutionData}
+                reducedVisualizationData={reducedVisualizationData}
+                problemVisualizationData={problemVisualizationData}
+                visualizationState={visualizationState}
+            // solverOn={true}
+            // reductionOn={reduceToggled}
+            // gadgetsOn={false}
+            />
+        </>
     )
 }

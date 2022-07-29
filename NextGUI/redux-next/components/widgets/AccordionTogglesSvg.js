@@ -290,11 +290,9 @@ function AccordionTogglesSvg(props) {
 
   
   const logicProps = {
-    solverOn: false,
-    reductionOn: false,
-    gadgetsOn: false,
-    problemName: "VERTEXCOVER",
-    problemInstance: problemInstance
+    solverOn: showSolution,
+    reductionOn: showReduction,
+    gadgetsOn: showGadgets,
   }
   return (
    
@@ -334,10 +332,26 @@ function AccordionTogglesSvg(props) {
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
                 problemSolutionData={defaultSat3SolutionArr}
+                visualizationState={logicProps}
               ></VisualizationBox>
               {/* <VisualizationLogic
                props={logicProps}>
               </VisualizationLogic> */}
+
+               {/* <VisualizationLogic
+                problemName={problemName}
+                problemInstance={problemInstance}
+                reductionName={chosenReductionType}
+                loading={svgIsLoading}
+                problemSolutionData={problemSolutionData}
+                reducedVisualizationData={reducedVisualizationData}
+                problemVisualizationData={problemVisualizationData}
+                visualizationState={logicProps}
+            // solverOn={true}
+            // reductionOn={reduceToggled}
+            // gadgetsOn={false}
+            /> */}
+            
             </Card.Body>
           </Accordion.Collapse>
         </Card>
