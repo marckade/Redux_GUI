@@ -329,8 +329,9 @@ function AccordionTogglesSvg(props) {
 
               <VisualizationBox 
                 loading={svgIsLoading}
-                reduceToggled={showReduction}
-                solveToggled={showSolution}
+                // reduceToggled={showReduction}
+                //We are using the logicProps(visualizationState to handle this)
+                // solveToggled={showSolution}
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
                 problemSolutionData={defaultSat3SolutionArr}

@@ -50,16 +50,17 @@ export default function VisualizationLogic(props) {
         //         url={props.url}
         //     ></SAT3_SVG_React>;
 
-        if (visualizationState.solverOn) {
+        // if (visualizationState.solverOn) {
 
-        }
-        else if (visualizationState.reductionOn) {
+        // }
+        //else 
+        if (visualizationState.reductionOn) {
             if (reductionName === "CLIQUE") {
             
                 visualization = <SAT3_SVG_React 
                                                 data={props.problemVisualizationData}
                                                 solution={props.problemSolutionData}
-                                                showSolution={true}
+                                                showSolution={props.visualizationState.solverOn}
                                                 url={props.url}
                                             ></SAT3_SVG_React>
                 reducedVisualization = <CLIQUE_SVG_REACT data={props.reducedVisualizationData}></CLIQUE_SVG_REACT>
@@ -71,7 +72,10 @@ export default function VisualizationLogic(props) {
 
         }
         else {
-            visualization = <SAT3_SVG_React data={props.problemVisualizationData}></SAT3_SVG_React>;
+            visualization = <SAT3_SVG_React data={props.problemVisualizationData}
+            showSolution={props.visualizationState.solverOn}
+            url={props.url}
+            ></SAT3_SVG_React>;
         }
 
         // Clique problem
