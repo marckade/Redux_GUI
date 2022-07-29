@@ -240,6 +240,7 @@ function AccordionTogglesSvg(props) {
   //  console.log("Switch 1   " + e.target.checked);
     setShowSolution(e.target.checked);
     setProblemSolutionData(defaultSat3SolutionArr);
+    setShowGadgets(false);
    // console.log("Switch 1   " + e.target.checked);
   }
 
@@ -247,6 +248,7 @@ function AccordionTogglesSvg(props) {
     setShowGadgets(true);
     setShowGadgets(false);
     setShowGadgets(e.target.checked);
+    setShowSolution(false);
     console.log("Switch 2 Gadgets  " + e.target.checked);
   }
 
@@ -334,6 +336,8 @@ function AccordionTogglesSvg(props) {
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
                 problemSolutionData={defaultSat3SolutionArr}
+                url={props.accordion.INPUTURL.url}
+
               ></VisualizationBox>
               {/* <VisualizationLogic
                props={logicProps}>

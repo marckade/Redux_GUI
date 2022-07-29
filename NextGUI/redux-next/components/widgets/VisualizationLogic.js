@@ -35,7 +35,11 @@ export default function VisualizationLogic(props ) {
         // }
     }
     else if (problemName === "SAT3") {
-        visualization = <SAT3_SVG_React data={props.problemVisualizationData}></SAT3_SVG_React>;
+        visualization = <SAT3_SVG_React 
+                data={props.problemVisualizationData}
+                showSolution={props.solverOn}
+                url={props.url}
+            ></SAT3_SVG_React>;
 
     } else if (problemName === "CLIQUE") {
         apiCall = "http://localhost:27000/CLIQUEGeneric/visualize"

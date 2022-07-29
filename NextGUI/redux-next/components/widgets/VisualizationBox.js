@@ -17,7 +17,7 @@ import VisualizationLogic from './VisualizationLogic';
 
 
 
-export default function VisualizationBox({reduceToggled,solveToggled,loading,problemVisualizationData,reducedVisualizationData,problemSolutionData}) {
+export default function VisualizationBox({reduceToggled,solveToggled,loading,problemVisualizationData,reducedVisualizationData,problemSolutionData,url}) {
     //console.log(reduceToggled,loading)
     const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
 
@@ -51,6 +51,7 @@ export default function VisualizationBox({reduceToggled,solveToggled,loading,pro
                                     data={problemVisualizationData}
                                     solution={problemSolutionData}
                                     showSolution={solveToggled}
+                                    url={url}
                                 ></SAT3_SVG_React>
                                 </Container>
                                 <Container>
@@ -73,10 +74,10 @@ export default function VisualizationBox({reduceToggled,solveToggled,loading,pro
                         problemSolutionData={problemSolutionData}
                         reducedVisualizationData={reducedVisualizationData}
                         problemVisualizationData={problemVisualizationData}
-                        solverOn={true}
+                        solverOn={solveToggled}
                         reductionOn={reduceToggled}
                         gadgetsOn={false}
-
+                        url={url}
 
                     />
                      {/* <SAT3_SVG_React data={problemVisualizationData}></SAT3_SVG_React> */}
