@@ -78,8 +78,10 @@ function showCluster(cluster){
 function showElement(element){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll("#"+element)
-        .attr("fill", VisColors.ElementHighlight)
-        .attr("stroke", VisColors.ElementHighlight);
+        // .attr("fill", VisColors.ElementHighlight)
+        // .attr("stroke", VisColors.ElementHighlight);
+        .attr("fill", "#00e676")
+        .attr("stroke", "#00e676");
     }
 }
 function clear(){
@@ -115,7 +117,10 @@ class node {
             .attr("r", this.size)
             .attr("class", "c_"+this.cluster+" "+"gadget")
             .attr("id", this.id)
-            .attr("fill","white")
+            .attr("fill", function (d) {
+                console.log(d);
+                return "#00e676";
+            })
             .attr("stroke","black")
             .on("mouseover", function () {
                 showCluster(c);

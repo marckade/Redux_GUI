@@ -74,7 +74,8 @@ function getSat3(ref, data, parentState) {
     d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
 }
 
-function showSolution(solution){
+function showSolution(solution) {
+    console.log(solution);
     for(let i=0; i<solution.length; i++){
         d3.selectAll("."+solution[i])
             .attr("fill",VisColors.ElementHighlight)
@@ -109,7 +110,7 @@ function fullClear(){
 }
 
 class literal{
-    constructor(id, className, name, svg, x, y, size = 20){
+    constructor(id, className, name, svg, x, y, size = 25){
         this.id = "_"+id.replace("!","not");
         this.className = className;
         this.name = name;
@@ -124,7 +125,7 @@ class literal{
             .attr("y", this.y-this.size/2)
             .attr("fill", "white")
             .attr("height", this.size)
-            .attr("width", this.size*this.name.length)
+            .attr("width", this.size*this.name.length-7)//subtracting 7 since the stroke length is 7.
             .attr("id", this.id)
             .attr("class", "c_"+this.className+" gadget"+" "+this.name)
             .attr("stroke-linejoin","round")
@@ -170,7 +171,7 @@ class clause{
         }
         this.literalsSolutions = [];
         for (let i=0; i<literals.length; i++){
-            console.log(this.solution[0],literals[i])
+            //console.log(this.solution[0],literals[i])
             if (this.solution[0].includes(literals[i])){
                 this.literalsSolutions[i] = true;
             }
