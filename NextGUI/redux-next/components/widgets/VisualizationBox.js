@@ -17,7 +17,8 @@ import VisualizationLogic from './VisualizationLogic';
 
 
 
-export default function VisualizationBox({ reduceToggled, solveToggled, loading, problemVisualizationData, reducedVisualizationData, problemSolutionData, visualizationState }) {
+export default function VisualizationBox({ reduceToggled, solveToggled, loading, problemVisualizationData, reducedVisualizationData, problemSolutionData, visualizationState, url }) {
+
     //console.log(reduceToggled,loading)
     const { problemName, problemInstance, chosenReduceTo, reduceToInstance } = useContext(ProblemContext);
 
@@ -86,6 +87,7 @@ export default function VisualizationBox({ reduceToggled, solveToggled, loading,
                 problemName={problemName}
                 problemInstance={problemInstance}
                 reductionName={chosenReduceTo}
+                url={url}
                 loading={loading}
                 problemSolutionData={problemSolutionData}
                 reducedVisualizationData={reducedVisualizationData}

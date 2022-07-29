@@ -44,6 +44,11 @@ export default function VisualizationLogic(props) {
 
 
     else if (problemName === "SAT3") {
+        // visualization = <SAT3_SVG_React 
+        //         data={props.problemVisualizationData}
+        //         showSolution={props.solverOn}
+        //         url={props.url}
+        //     ></SAT3_SVG_React>;
 
         if (visualizationState.solverOn) {
 
@@ -55,6 +60,7 @@ export default function VisualizationLogic(props) {
                                                 data={props.problemVisualizationData}
                                                 solution={props.problemSolutionData}
                                                 showSolution={true}
+                                                url={props.url}
                                             ></SAT3_SVG_React>
                 reducedVisualization = <CLIQUE_SVG_REACT data={props.reducedVisualizationData}></CLIQUE_SVG_REACT>
             }
