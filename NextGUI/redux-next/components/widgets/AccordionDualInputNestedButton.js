@@ -99,7 +99,7 @@ function AccordionDualInputNestedButton(props) {
   return (
     <div>
 
-      <Accordion className="accordion" defaultActiveKey="1">
+      <Accordion className="accordion" defaultActiveKey="0">
         <Card>
           <Card.Header>
 

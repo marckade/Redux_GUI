@@ -77,56 +77,6 @@ function AccordionTogglesSvg(props) {
 
 
 
-  const graphDotTest = `graph GRAPHCOLORING {  
-    node [style="filled"];  
-    a--b; 
-    b--c; 
-    c--a; 
-    d--a; 
-    d--e; 
-    e--a; 
-    f--a; 
-    f--g; 
-    a--g; 
-    h--a; 
-    h--i; 
-    a--i; 
-    a[fillcolor = Green] 
-    b[fillcolor = White] 
-    c[fillcolor = White] 
-    d[fillcolor = White] 
-    e[fillcolor = White] 
-    f[fillcolor = White] 
-    g[fillcolor = White] 
-    h[fillcolor = White] 
-    i[fillcolor = White] 
-     }`;
-
-  const graphDotTest2 = `graph GRAPHCOLORING {  
-    node [style="filled"];  
-    a--b; 
-    b--c; 
-    c--a; 
-    d--a; 
-    d--e; 
-    e--a; 
-    f--a; 
-    f--g; 
-    a--g; 
-    h--a; 
-    h--i; 
-    a--i; 
-    a[fillcolor = White] 
-    b[fillcolor = White] 
-    c[fillcolor = White] 
-    d[fillcolor = White] 
-    e[fillcolor = White] 
-    f[fillcolor = White] 
-    g[fillcolor = White] 
-    h[fillcolor = White] 
-    i[fillcolor = White] 
-     }`;
-
 
   const defaultSat3VisualizationArr = [
     [
@@ -300,7 +250,7 @@ function AccordionTogglesSvg(props) {
    
 
     <div>
-      <Accordion className="accordion" defaultActiveKey="1">
+      <Accordion className="accordion" defaultActiveKey="0">
         <Card>
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
