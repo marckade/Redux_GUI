@@ -28,6 +28,9 @@ import { Stack, Button, Box } from '@mui/material'
 function ContextAwareToggle({ children, eventKey, callback, colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
+
+
+
   const decoratedOnClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey),
@@ -70,7 +73,7 @@ function AccordionNestedTextBox(props) {
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
 
 
-  const [problemLocalInstance, setProblemLocalInstance] = useState("DEFAULT Instance")
+  const [problemLocalInstance, setProblemLocalInstance] = useState("")
   const [seconds, setSeconds] = useState(1);
   const [timerIsActive, setTimerActive] = useState(false);
 
@@ -149,7 +152,7 @@ function AccordionNestedTextBox(props) {
 
   return (
     <div>
-      <Accordion className="accordion" defaultActiveKey="1">
+      <Accordion className="accordion" defaultActiveKey="0">
         <Card>
           <Card.Header>
 

@@ -19,7 +19,7 @@ const CARD = { cardBodyText: "Reduce To:", cardHeaderText: "Reduce To" }
 const TOOLTIP1 = { header: "Reduce To Problem", formalDef: "Choose a problem to reduce your original problem to to see information about it", info: "" }
 const TOOLTIP2 = { header: "Reduction Type", formalDef: "Choose a type of reduction to see information about it", info: "" }
 
-const REDUCETO = { reduceTo: ["DEFAULTPROBLEM1", "DEFAULTPROBLEM2"] }
+const REDUCETO = { reduceTo: ["", ""] }
 
 function ReduceToRowReact(props) { 
     const INPUTURL = { url: props.reduxBaseUrl }
