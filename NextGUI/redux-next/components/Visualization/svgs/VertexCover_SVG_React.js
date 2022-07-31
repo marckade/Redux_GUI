@@ -131,7 +131,7 @@ function ticked() {
 });
  
       }, [])
-      return (
+  return (
           <svg 
               width={width}
               height={height}

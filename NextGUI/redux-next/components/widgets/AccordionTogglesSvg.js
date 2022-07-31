@@ -207,6 +207,7 @@ function AccordionTogglesSvg(props) {
   const [accordionOpened, setAccordionOpened] = useState(false);
   const [svgIsLoading, setSvgIsLoading] = useState(false);
 
+  let apiCompatibleInstance =problemInstance.replaceAll('&',"%26").replaceAll(' ','');
 
 
   
@@ -219,7 +220,7 @@ function AccordionTogglesSvg(props) {
 
 
   useEffect(() => {
-    var apiCompatibleInstance = problemInstance.replaceAll('&', "%26");
+    apiCompatibleInstance = problemInstance.replaceAll('&',"%26").replaceAll(' ','');
     if (problemName === "SAT3") {
       getProblemVisualizationData(props.accordion.INPUTURL.url, problemName, apiCompatibleInstance).then(data => {
         //console.log(data);
@@ -227,7 +228,7 @@ function AccordionTogglesSvg(props) {
       }).catch((error)=>{console.log(error)});
       getReducedVisualizationData(props.accordion.INPUTURL.url, chosenReductionType, apiCompatibleInstance).then(data => {
         setReducedVisualizationData(data.reductionTo.clusterNodes)
-        console.log(data.reductionTo.clusterNodes)
+        // console.log(data.reductionTo.clusterNodes)
       }).catch((error)=>{console.log(error)})
       
     }
@@ -332,6 +333,7 @@ function AccordionTogglesSvg(props) {
                 // reduceToggled={showReduction}
                 //We are using the logicProps(visualizationState to handle this)
                 // solveToggled={showSolution}
+                apiInstance ={apiCompatibleInstance}
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
                 problemSolutionData={defaultSat3SolutionArr}
