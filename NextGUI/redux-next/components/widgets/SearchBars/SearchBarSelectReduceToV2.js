@@ -29,7 +29,7 @@ export default function SearchBarSelectReduceToV2(props) {
 
   // const [defaultProblemName, setDefaultProblemName] = useState('');
   const [reductionProblem, setReduceTo] = useState('');
-  const { problemName } = useContext(ProblemContext);
+  const { problemName, setReducedInstance } = useContext(ProblemContext);
   const [noReductions, setNoReductions] = useState(false);
   
 
@@ -70,7 +70,7 @@ export default function SearchBarSelectReduceToV2(props) {
 
         if(newValue === "" || newValue === null ){
           props.setData("");
-          props.setInstance("");
+          setReducedInstance("");
           setReduceTo("");
 
         }

@@ -103,7 +103,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
     while (problemJson.length) {
       problemJson.pop();
     }
-
+     // check if reduceTo is selected
     if (!arr.length) {
       setNoReductionsType(true);
       setReduceToType(noReductionsTypeMessage);
