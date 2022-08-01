@@ -22,7 +22,8 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 const svg = d3.select(ref.current)
 .append("svg")
 .attr("width", width + margin.left + margin.right)
-.attr("height", height + margin.top + margin.bottom)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("viewBox", [-width / 2, -height / 2, width, height])
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
@@ -82,12 +83,15 @@ const text = svg.selectAll("text") //Append Text on top of nodes.
 
 // Let's list the force we wanna apply on the network
 const simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-    .force("link", d3.forceLink()                               // This force provides links between nodes
+    .force("link", d3.forceLink(data.links).distance(charge*-0.75)                               // This force provides links between nodes
           .id(function(d) { return d.name; })                     // This provide  the id of a node
           .links(data.links)                                    // and this the list of links
     )
-    .force("charge", d3.forceManyBody().strength(charge))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-    .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
+    .force("charge", d3.forceManyBody().strength(charge*4))
+    // This adds repulsion between nodes. Play with the charge for the repulsion strength
+    .force("x", d3.forceX()) //centers disconnected subgraphs
+  .force("y", d3.forceY())
+  .force("collide", d3.forceCollide().radius(d => d.r + 1).iterations(10))
     .on("tick", ticked);
 
 
@@ -136,20 +140,9 @@ function ticked() {
 
 
 export default function CliqueSvgReactV2(props) {
-  const [charge, setCharge] = useState(-400);
+  const [charge, setCharge] = useState(-150);
   
-  // create nodes with unique ids
-  // radius: 5px
-  const nodes = [
-    {"id": "Alice"},
-    {"id": "Bob"},
-    {"id": "Carol"}
-  ];
-  
-  const links = [
-    {"source": "Alice", "target": "Bob"},
-    {"source": "Bob", "target": "Carol"}
-  ];
+
   return (
     <div className="visualization">
    

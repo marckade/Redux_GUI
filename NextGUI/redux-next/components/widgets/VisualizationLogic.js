@@ -18,6 +18,7 @@ export default function VisualizationLogic(props) {
     let reducedVisualization;
     let problemName = props.problemName
     let reductionName = props.reductionName
+    let reductionType = props.reductionType
     let visualizationState = props.visualizationState
     let loading = props.loading
 
@@ -34,7 +35,7 @@ export default function VisualizationLogic(props) {
 
         }
         else {
-            apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize"
+            apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
             visualization = <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>;
 
@@ -56,15 +57,60 @@ export default function VisualizationLogic(props) {
         //else
          
         if (visualizationState.reductionOn) {
-            if (reductionName === "CLIQUE") {
-            
-                visualization = <SAT3_SVG_React 
+            if (reductionName === "CLIQUE" && !visualizationState.solverOn) {
+
+                visualization =
+                    <div>
+                    {"SOLVER OFF SPLIT VIZ SAT"}
+                    <SAT3_SVG_React 
                                                 data={props.problemVisualizationData}
                                                 solution={props.problemSolutionData}
                                                 showSolution={props.visualizationState.solverOn}
                                                 url={props.url}
-                                            ></SAT3_SVG_React>
-                reducedVisualization = <CLIQUE_SVG_REACT data={props.reducedVisualizationData}></CLIQUE_SVG_REACT>
+                ></SAT3_SVG_React>
+                </div>
+                
+                reducedVisualization =
+                    <>
+                    {/* {"SOLVER OFF SPLIT VIZ CLIQUE"} */}
+                    
+                    <CLIQUE_SVG_REACT
+                    data={props.reducedVisualizationData}
+                    url={props.url}
+                    reductionType={reductionType}
+                    problemInstance={props.problemInstance}
+                    solveSwitch={visualizationState.solverOn}>
+                </CLIQUE_SVG_REACT>
+                </>
+            }
+            else if (reductionName === "CLIQUE" && visualizationState.solverOn) {
+                
+                visualization =
+                    <div>
+                        {"SOLVER ON SPLIT VIZ SAT"}
+                    <SAT3_SVG_React 
+                                                data={props.problemVisualizationData}
+                                                solution={props.problemSolutionData}
+                                                showSolution={props.visualizationState.solverOn}
+                                                url={props.url}
+                        ></SAT3_SVG_React>
+                    </div>
+                //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
+                reducedVisualization =
+                    <>
+                        <div>
+                        {"SOLVER ON SPLIT VIZ CLIQUE"}
+                        </div>
+                    <CLIQUE_SVG_REACT
+                    data={props.reducedVisualizationData}
+                    url={props.url}
+                    reductionType={reductionType}
+                    problemInstance={props.problemInstance}
+                    solveSwitch={visualizationState.solverOn}
+                ></CLIQUE_SVG_REACT>
+                </>
+
+
             }
 
 
@@ -73,10 +119,17 @@ export default function VisualizationLogic(props) {
 
         }
         else {
-            visualization = <SAT3_SVG_React data={props.problemVisualizationData}
+
+            visualization =
+                <div>
+                    
+                    {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"}
+            <SAT3_SVG_React data={props.problemVisualizationData}
             showSolution={props.visualizationState.solverOn}
             url={props.url}
-            ></SAT3_SVG_React>;
+                >
+                    </SAT3_SVG_React>
+            </div>
         }
 
         // Clique problem
@@ -130,7 +183,7 @@ export default function VisualizationLogic(props) {
     // GUI
 
     if (!visualizationState.reductionOn && !loading) {
-        {console.log("reduction state: "+visualizationState.reductionOn)}
+        // {console.log("reduction state: "+visualizationState.reductionOn)}
         return (
             <>
             <Container>
@@ -140,7 +193,7 @@ export default function VisualizationLogic(props) {
         )
     }
     else if(visualizationState.reductionOn && !loading){
-        {console.log("reduction state: "+visualizationState.reductionOn)}
+        // {console.log("reduction state: "+visualizationState.reductionOn)}
         return(
             <>
              <Split

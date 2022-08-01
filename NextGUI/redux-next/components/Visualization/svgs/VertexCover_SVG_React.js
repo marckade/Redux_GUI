@@ -22,11 +22,13 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 const svg = d3.select(ref.current)
 .append("svg")
 .attr("width", width + margin.left + margin.right)
-.attr("height", height + margin.top + margin.bottom)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("viewBox", [-width / 2, -height / 2, width, height])
+  .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
-      const problemUrl = apiCall + '?problemInstance=' + problemInstance;
+      const problemUrl = apiCall;
 d3.json(problemUrl).then( function( data) {
   console.log(data);
   console.log(problemUrl)
@@ -48,13 +50,16 @@ const node = svg
     // .attr("class", function (d) { return d.cover; })
     .attr("r", 20)
   .style("fill", function (d) {
-      return "#00e676"
-        // if (d.cover === "true") {
-        //         return "#00e676"
-        // }
-        // else {
-        //     return "#ff1744"
-        // }
+        if (d.attribute1 === "true") {
+          return "#00e676"
+        }
+        else if (d.attribute1 === "false") {
+          return "#ff1744"
+
+        }
+        else {
+          return "#D5DBDB"
+        }
     })
     // .on("mouseover", function (d) {
     //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)
@@ -81,12 +86,14 @@ const text = svg.selectAll("text") //Append Text on top of nodes.
 
 // Let's list the force we wanna apply on the network
 const simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-    .force("link", d3.forceLink()                               // This force provides links between nodes
+    .force("link", d3.forceLink().distance(charge*-1.5)                               // This force provides links between nodes
           .id(function(d) { return d.name; })                     // This provide  the id of a node
           .links(data.links)                                    // and this the list of links
     )
-    .force("charge", d3.forceManyBody().strength(charge))         // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-    .force("center", d3.forceCenter(width / 2, height / 2))     // This force attracts nodes to the center of the svg area
+    .force("charge", d3.forceManyBody().strength(charge*4)) // This adds repulsion between nodes 
+    .force("x", d3.forceX()) //centers disconnected subgraphs
+  .force("y", d3.forceY())
+  .force("collide", d3.forceCollide().radius(d => d.r * 2).iterations(10)) //collision detection
     .on("tick", ticked);
 
 
@@ -124,7 +131,7 @@ function ticked() {
 });
  
       }, [])
-      return (
+  return (
           <svg 
               width={width}
               height={height}
@@ -135,7 +142,7 @@ function ticked() {
 
 
 export default function VertexCoverSvgReact(props) {
-  const [charge, setCharge] = useState(-400);
+  const [charge, setCharge] = useState(-50);
   
   // create nodes with unique ids
   // radius: 5px
@@ -149,6 +156,8 @@ export default function VertexCoverSvgReact(props) {
     {"source": "Alice", "target": "Bob"},
     {"source": "Bob", "target": "Carol"}
   ];
+
+  
   return (
     <div className="visualization">
     

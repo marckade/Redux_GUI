@@ -1,6 +1,7 @@
 import * as d3 from 'd3'
 import VisColors from '../constants/VisColors';
 import { ProblemContext } from '../../contexts/ProblemProvider';
+// import { Constants } from 'two.js/src/constants';
 
 
 
@@ -23,8 +24,7 @@ const positionByDegree = (degree, r, w, h) => {
     }
 }
 
-
-function getClique(ref,data){
+function getClique(ref, data) {
     let svg = new d3.select(ref).append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", `0 0 ${width} ${height}`)
@@ -36,7 +36,7 @@ function getClique(ref,data){
         let center = {"x":centerX,"y":centerY}
         // new node("X","C", svg, center).show(); 
 
-        data.sort((a,b) => (a.cluster > b.cluster) ? 1 : ((b.cluster > a.cluster) ? -1 : 0)); 
+    data.sort((a,b) => (a.cluster > b.cluster) ? 1 : ((b.cluster > a.cluster) ? -1 : 0)); 
 
         let n = data.length;
         let m = n + n/3;
@@ -44,7 +44,8 @@ function getClique(ref,data){
         let dataCount = 0;
         for(var i=0; i<m; i++){
             if(i%4 === 0) {continue;}
-            nodes[dataCount] = new node(data[dataCount].name+"_"+dataCount,data[dataCount].cluster,data[dataCount].name,svg,positionByDegree(i*360/m,r,centerX,centerY));
+            nodes[dataCount] = new node(data[dataCount].name + "_" + dataCount, data[dataCount].cluster, data[dataCount].name, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
+            //console.log(nodes[dataCount]);
             dataCount ++;
         }
         
@@ -64,10 +65,6 @@ function getClique(ref,data){
 
 }    
 
-
-
-
-
 function showCluster(cluster){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll(".c_"+cluster)
@@ -78,8 +75,10 @@ function showCluster(cluster){
 function showElement(element){
     if(d3.select("#highlightGadgets").property("checked")){
     d3.selectAll("#"+element)
-        .attr("fill", VisColors.ElementHighlight)
-        .attr("stroke", VisColors.ElementHighlight);
+        // .attr("fill", VisColors.ElementHighlight)
+        // .attr("stroke", VisColors.ElementHighlight);
+        .attr("fill", "#00e676")
+        .attr("stroke", "#00e676");
     }
 }
 function clear(){
@@ -92,15 +91,30 @@ function clear(){
 
 
 class node {
-    constructor(id, cluster, name, svg, position = {"x":10,"y":10}, size = 15) {
+    constructor(id, cluster, name, solutionState,svg, position = {"x":10,"y":10}, size = 15) {
         this.svg = svg;
         this.x = position.x;
         this.y = position.y;
         this.size = size;
         this.name = name;
         this.cluster = cluster;
+        this.solutionState = solutionState;
         this.variable = name.replace("!","");
-        this.id = "_"+id.replace("!","not");
+        this.id = "_" + id.replace("!", "not");
+        this.color = "white"
+        
+            if (solutionState === "") {
+                //console.log(this.solutionState)
+                this.color= "white"
+            }
+            else if (solutionState === "True") {
+                this.color= "#00E676";//green
+            }
+            else {
+                //console.log("solution state node:",this.solutionState)
+                this.color= "#E600E3";//purple 
+            }
+        
     }
     show(c = this.cluster, e = this.id) {
         this.svg.append("circle")
@@ -115,7 +129,7 @@ class node {
             .attr("r", this.size)
             .attr("class", "c_"+this.cluster+" "+"gadget")
             .attr("id", this.id)
-            .attr("fill","white")
+            .attr("fill", this.color)
             .attr("stroke","black")
             .on("mouseover", function () {
                 showCluster(c);
