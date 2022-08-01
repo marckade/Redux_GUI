@@ -13,6 +13,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
 import React,{useContext,useEffect, useState} from 'react';
 import { ProblemParser } from '../../../Tools/ProblemParser';
+
 const filter = createFilterOptions();
 export const noReductionsMessage =
   'No reductions available. Click on the create button to add a new reduction method';
@@ -69,6 +70,7 @@ export default function SearchBarSelectReduceToV2(props) {
 
         if(newValue === "" || newValue === null ){
           props.setData("");
+          props.setInstance("");
           setReduceTo("");
 
         }

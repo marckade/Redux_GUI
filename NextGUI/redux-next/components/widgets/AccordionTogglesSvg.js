@@ -148,7 +148,7 @@ function AccordionTogglesSvg(props) {
   // const [reduction, setReductionInstance] = useState(graphDotTest2);
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
-  const [showReduction, setShowReduction] = useState(false);
+  const [showReduction, setShowReduction] = useState(true);
   //defaultSat3VisualizationArr
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
@@ -267,7 +267,7 @@ function AccordionTogglesSvg(props) {
               </Button>
               <FormControlLabel checked={showSolution} control={<Switch id={"showSolution"}/>} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
               <FormControlLabel checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
-              <FormControlLabel checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
+              <FormControlLabel checked={ showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
               <ContextAwareToggle accordionState={accordionOpened} setAccordionState={setAccordionOpened} className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{height:'60px'} }>▼</ContextAwareToggle>
 
