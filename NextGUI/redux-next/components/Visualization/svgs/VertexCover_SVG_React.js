@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
     const [animatedNodes, setAnimatedNodes] = useState([]);
     const [animatedLinks, setAnimatedLinks] = useState([]);
-    const margin = {top: 10, right: 30, bottom: 30, left: 40},
+    const margin = {top: 200, right: 30, bottom: 30, left: 200},
     width = w - margin.left - margin.right,
     height = h - margin.top - margin.bottom;
     
@@ -20,11 +20,9 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 
 // append the svg object to the body of the page
 const svg = d3.select(ref.current)
-.append("svg")
-.attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .attr("viewBox", [-width / 2, -height / 2, width, height])
-  .attr("style", "max-width: 100%; height: auto; height: intrinsic;")
+  .append("svg")
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", "0 0 600 400")
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
@@ -135,7 +133,15 @@ function ticked() {
           <svg 
               width={width}
               height={height}
-            ref={ref}
+      ref={ref}
+      style={{
+        display: "inline-block",
+        position: "relative",
+        height: "100%",
+        width: "100%",
+    marginRight: "0px",
+    marginLeft: "0px",
+  }}
         />
       )
 }
@@ -159,7 +165,7 @@ export default function VertexCoverSvgReact(props) {
 
   
   return (
-    <div className="visualization">
+    <>
     
       {/* <input
         type="range"
@@ -169,8 +175,8 @@ export default function VertexCoverSvgReact(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={500} h={500} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
-    </div>
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
+    </>
   );
 }
 
