@@ -53,7 +53,8 @@ export default function VisualizationLogic(props) {
         // if (visualizationState.solverOn) {
 
         // }
-        //else 
+        //else
+         
         if (visualizationState.reductionOn) {
             if (reductionName === "CLIQUE") {
             
