@@ -1,6 +1,7 @@
 //This is a react compatible vertexcover visualization built in d3.
 
 
+import { Container } from "@mui/material";
 import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -8,7 +9,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
     const [animatedNodes, setAnimatedNodes] = useState([]);
     const [animatedLinks, setAnimatedLinks] = useState([]);
-    const margin = {top: 10, right: 30, bottom: 30, left: 40},
+    const margin = {top: 200, right: 30, bottom: 30, left: 200},
     width = w - margin.left - margin.right,
     height = h - margin.top - margin.bottom;
     
@@ -19,11 +20,10 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
        // set the dimensions and margins of the graph
 
 // append the svg object to the body of the page
-const svg = d3.select(ref.current)
-.append("svg")
-.attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .attr("viewBox", [-width / 2, -height / 2, width, height])
+      const svg = d3.select(ref.current)
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 600 400")
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
@@ -133,7 +133,15 @@ function ticked() {
           <svg 
               width={width}
               height={height}
-            ref={ref}
+          ref={ref}
+          style={{
+            display: "inline-block",
+            position: "relative",
+            height: "100%",
+            width: "100%",
+        marginRight: "0px",
+        marginLeft: "0px",
+      }}
         />
       )
 }
@@ -144,7 +152,7 @@ export default function CliqueSvgReactV2(props) {
   
 
   return (
-    <div className="visualization">
+    <Container>
    
       {/* <input
         type="range"
@@ -154,8 +162,8 @@ export default function CliqueSvgReactV2(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={500} h={500} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
-    </div>
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
+    </Container>
   );
 }
 

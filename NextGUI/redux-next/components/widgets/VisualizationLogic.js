@@ -22,6 +22,12 @@ export default function VisualizationLogic(props) {
     let visualizationState = props.visualizationState
     let loading = props.loading
 
+    const handleBar = (sizes) => {
+        console.log(sizes);
+    }
+
+    console.log(reductionName);
+
     if (problemName === "VERTEXCOVER") {
 
 
@@ -141,8 +147,18 @@ export default function VisualizationLogic(props) {
 
             //Reductions 
 
-            if (reductionName === "VERTEXCOVER") {
-                reducedVisualization =  <VertexCoverSvgReact data={props.reducedVisualizationData}></VertexCoverSvgReact>
+            if (reductionName === "VertexCover") {
+
+                let apiCall1 = "http://localhost:27000/CLIQUEGeneric/visualize"
+                visualization =
+                    <Container>
+                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>                    
+                    </Container>
+                apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
+                reducedVisualization =
+                    <Container>
+                        <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
+                    </Container>;
             }
 
         }
@@ -150,25 +166,15 @@ export default function VisualizationLogic(props) {
 
         }
         else {
+            
             apiCall = "http://localhost:27000/CLIQUEGeneric/visualize"
-            visualization = <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
+            visualization =
+                <>
+                {"CLIQUE V2 Viz"}
+                <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
+                </>
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -193,19 +199,24 @@ export default function VisualizationLogic(props) {
     }
     else if(visualizationState.reductionOn && !loading){
         // {console.log("reduction state: "+visualizationState.reductionOn)}
+
+
+        
         return(
             <>
              <Split
                     class="wrap"      
                     direction="horizontal"
                     style={{ height: 'inherit' }}
-                    
+                    onDragStart={handleBar}
                 >
-                                <Container>
+                    <Container>
+                        {"Container1"}
                                 {visualization}
                                 </Container>
 
-                                <Container>
+                    <Container>
+                        {"Container2"}
                                 {reducedVisualization}
                                 </Container>
                     </Split>

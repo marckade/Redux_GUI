@@ -30,39 +30,44 @@ function getClique(ref, data) {
         .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("class", "all");
         
-        let centerX = width/2;
-        let centerY = height/3;
-        let r = centerX/2;
-        let center = {"x":centerX,"y":centerY}
-        // new node("X","C", svg, center).show(); 
+    let centerX = width / 2;
+    let centerY = height / 3;
+    let r = centerX / 2;
+    let center = { "x": centerX, "y": centerY }
+    // new node("X","C", svg, center).show();
 
-    data.sort((a,b) => (a.cluster > b.cluster) ? 1 : ((b.cluster > a.cluster) ? -1 : 0)); 
+    try {
+        data.sort((a, b) => (a.cluster > b.cluster) ? 1 : ((b.cluster > a.cluster) ? -1 : 0));
+    
 
         let n = data.length;
-        let m = n + n/3;
+    let m = n + n / 3;
 
-        let dataCount = 0;
-        for(var i=0; i<m; i++){
-            if(i%4 === 0) {continue;}
-            nodes[dataCount] = new node(data[dataCount].name + "_" + dataCount, data[dataCount].cluster, data[dataCount].name, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
-            //console.log(nodes[dataCount]);
-            dataCount ++;
-        }
+    let dataCount = 0;
+    for (var i = 0; i < m; i++) {
+        if (i % 4 === 0) { continue; }
+        nodes[dataCount] = new node(data[dataCount].name + "_" + dataCount, data[dataCount].cluster, data[dataCount].name, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
+        //console.log(nodes[dataCount]);
+        dataCount++;
+    }
         
-        for(var i=0; i<nodes.length; i++){
-            for(var j=0; j<nodes.length; j++){
-                if (nodes[i].Cluster() !== nodes[j].Cluster()){
-                    if((nodes[i].Name() === nodes[j].Name() && nodes[i].Variable() === nodes[j].Variable())||nodes[i].Variable() !== nodes[j].Variable()){
-                        new edge(svg,nodes[i],nodes[j]);
-                    }
+    for (var i = 0; i < nodes.length; i++) {
+        for (var j = 0; j < nodes.length; j++) {
+            if (nodes[i].Cluster() !== nodes[j].Cluster()) {
+                if ((nodes[i].Name() === nodes[j].Name() && nodes[i].Variable() === nodes[j].Variable()) || nodes[i].Variable() !== nodes[j].Variable()) {
+                    new edge(svg, nodes[i], nodes[j]);
                 }
             }
         }
+    }
 
-        nodes.forEach(node => node.show());
+    nodes.forEach(node => node.show());
     
     d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
-
+}
+    catch(error) {
+        console.log("SAT3ToCliqueReuction Data Sort Error, BAD DATA")
+    }
 }    
 
 function showCluster(cluster){
