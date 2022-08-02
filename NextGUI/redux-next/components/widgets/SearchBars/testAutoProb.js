@@ -9,7 +9,9 @@ export default function TestAuto(props) {
   // const [problemName, setProblemName] = useState('');
   var defaultProblem = 'SAT3';
   var problemList = ['ST', 'DT', 'FT'];
+  // const list =  []
   const [noReductions, setReductions] = useState(true);
+  const [problem, setTestName] = useState(defaultProblem);
 
   // setReductions(true)
 
@@ -18,10 +20,32 @@ export default function TestAuto(props) {
 
     <Autocomplete
       selectOnFocus
-      // value={defaultProblem}
+      value={problem}
+
+      onChange={(event, newValue) => {
+        if (typeof newValue === 'string') {
+          setProblemName(
+            newValue
+          );
+          //setDefaultProblemName(newValue)
+          props.setTestName(newValue);
+        } 
+
+        console.log("new problem chosen test: "+problem)
+      }}
+
+
       options={problemList}
-      // disabled={noReductions ? true : false}
-      // {noReductions ? disabled : null}
+      getOptionLabel={(option) => {
+        // Value selected with enter, right from the input
+        if (typeof option === 'string') {
+          return option;
+        }
+       
+        // Regular option
+        return option;
+      }}
+      
 
       
 
