@@ -66,7 +66,7 @@ export default function VisualizationLogic(props) {
 
                 visualization =
                     <div>
-                    {"SOLVER OFF SPLIT VIZ SAT"}
+                    {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
                     <SAT3_SVG_React 
                                                 data={props.problemVisualizationData}
                                                 solution={props.problemSolutionData}
@@ -92,7 +92,7 @@ export default function VisualizationLogic(props) {
                 
                 visualization =
                     <div>
-                        {"SOLVER ON SPLIT VIZ SAT"}
+                        {/* {"SOLVER ON SPLIT VIZ SAT"} */}
                     <SAT3_SVG_React 
                                                 data={props.problemVisualizationData}
                                                 solution={props.problemSolutionData}
@@ -104,7 +104,7 @@ export default function VisualizationLogic(props) {
                 reducedVisualization =
                     <>
                         <div>
-                        {"SOLVER ON SPLIT VIZ CLIQUE"}
+                        {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
                         </div>
                     <CLIQUE_SVG_REACT
                     data={props.reducedVisualizationData}
@@ -128,7 +128,7 @@ export default function VisualizationLogic(props) {
             visualization =
                 <div>
                     
-                    {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"}
+                    {/* {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"} */}
             <SAT3_SVG_React data={props.problemVisualizationData}
             showSolution={props.visualizationState.solverOn}
             url={props.url}
@@ -170,7 +170,7 @@ export default function VisualizationLogic(props) {
             apiCall = "http://localhost:27000/CLIQUEGeneric/visualize"
             visualization =
                 <>
-                {"CLIQUE V2 Viz"}
+                {/* {"CLIQUE V2 Viz"} */}
                 <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
                 </>
         }
@@ -211,12 +211,12 @@ export default function VisualizationLogic(props) {
                     onDragStart={handleBar}
                 >
                     <Container>
-                        {"Container1"}
+                        {/* {"Container1"} */}
                                 {visualization}
                                 </Container>
 
                     <Container>
-                        {"Container2"}
+                        {/* {"Container2"} */}
                                 {reducedVisualization}
                                 </Container>
                     </Split>

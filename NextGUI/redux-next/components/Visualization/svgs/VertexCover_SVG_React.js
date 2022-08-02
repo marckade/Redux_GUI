@@ -139,8 +139,8 @@ function ticked() {
         position: "relative",
         height: "100%",
         width: "100%",
-    marginRight: "0px",
-    marginLeft: "0px",
+        marginRight: "0px",
+        marginLeft: "0px",
   }}
         />
       )
@@ -175,7 +175,7 @@ export default function VertexCoverSvgReact(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance = {props.instance} />
     </>
   );
 }

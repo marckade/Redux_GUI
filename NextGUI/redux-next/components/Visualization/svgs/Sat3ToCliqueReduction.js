@@ -77,9 +77,12 @@ function showCluster(cluster){
         .attr("stroke", VisColors.ClauseHighlight);
     }
 }
-function showElement(element){
+//Element comes in as an exact name. Ie. x1, x2_1 ... !x3_2, etc.
+function showElement(element) {
+    let parsedElement = element;
+    console.log(parsedElement);
     if(d3.select("#highlightGadgets").property("checked")){
-    d3.selectAll("#"+element)
+    d3.selectAll("#"+element) //This currently takes the 
         // .attr("fill", VisColors.ElementHighlight)
         // .attr("stroke", VisColors.ElementHighlight);
         .attr("fill", "#00e676")
