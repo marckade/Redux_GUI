@@ -15,6 +15,16 @@ function getProblemSolutionData(url, solver, instance) {
       }
     });
 }
+function getNormalProblemData(url, problemName, instance) {
+  var fullUrl = `${url}${problemName}Generic/instance?problemInstance=${instance}`;
+  console.log(fullUrl)
+  return fetch(fullUrl).then(resp => {
+    if (resp.ok) {
+      //console.log(resp.json());
+      return resp.json()
+    }
+  });
+}
 
 function Sat3SvgReact(props) {
     const ref = useRef(null);
@@ -38,12 +48,18 @@ function Sat3SvgReact(props) {
                 setSolutionData(finalArr);
               }).catch((error)=>{console.log(error)});
             //console.log(solutionData);
-            
-        } else fullClear();
+        }
+        
+        else if (!props.showSolution) { //ALEX NOTE: Code in here causes a rerender of sat3 that gets rid of the solution.
+          console.log("Show NORMAL DATA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          fullClear();
+
+
+        }
 
     }, [problemInstance, props.showSolution])
-  
-    showSolution(solutionData);
+    showSolution(solutionData); //Data fed to this triggers a instance render with solution
+
 
     return (
         <svg ref={ref}
