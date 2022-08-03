@@ -67,15 +67,14 @@ function AccordionDualInputNestedButton(props) {
   const reduceRequest = () => {
     console.log("Problem Instance at time of reduce req: ", problemInstance);
 
+    if(chosenReductionType !== '' && chosenReductionType !== null){
+      requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
 
-
-   
-    requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
-
-      setReducedInstance(data.reductionTo.instance);
-      setReducedInstanceLocal(data.reductionTo.instance);
-    }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
-   
+        setReducedInstance(data.reductionTo.instance);
+        setReducedInstanceLocal(data.reductionTo.instance);
+      }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
+     
+    }
 
   }
 
