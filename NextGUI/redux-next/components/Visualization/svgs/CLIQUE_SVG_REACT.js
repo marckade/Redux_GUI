@@ -70,21 +70,23 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
     const [jsonData, setJsonData] = useState(defaultArr);
     useEffect(() => {
         if (props.solveSwitch) {
-            console.log("solved Visualization",props.solveSwitch);
+            //console.log("solved Visualization",props.solveSwitch);
             getReducedVisualizationData(props.url, props.reductionType, "solvedVisualization", props.problemInstance).then(data => {
                 setJsonData(data)
             })
         }
         else if (!props.solveSwitch) {
-            console.log("solved Visualization", props.solveSwitch);
+            //console.log("solved Visualization", props.solveSwitch);
             getReducedVisualizationData(props.url, props.reductionType, "reduce", props.problemInstance).then(data => {
                 setJsonData(data.reductionTo.clusterNodes)
+            }).catch((error) => {
+                console.log("CLIQUE_SVG_REACT solver switch off switch faled to fetch data")
             })
         }
         
     }, [props.problemInstance,props.solveSwitch])
     getClique(ref.current, jsonData);
-    console.log(jsonData);
+    //console.log(jsonData);
     return (
         <svg ref={ref}
             style={{

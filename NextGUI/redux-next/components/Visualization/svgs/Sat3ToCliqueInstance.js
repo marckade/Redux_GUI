@@ -111,7 +111,7 @@ function fullClear(){
 
 class literal{
     constructor(id, className, name, svg, x, y, size = 25){
-        this.id = "_"+id.replace("!","not");
+        this.id = "_"+id.replace("!","not")
         this.className = className;
         this.name = name;
         this.svg = svg;
@@ -167,7 +167,7 @@ class clause{
         this.literalsIDs = [];
         this.solution = solution;
         for (let i=0; i<literals.length; i++){
-            this.literalsIDs[i] = literals[i] + "_"+(i + className*3);
+            this.literalsIDs[i] = literals[i] + "_"+(i + className*3); //ALEX NOTE: I don't understand this math but it has to do with underscores in names
         }
         this.literalsSolutions = [];
         for (let i=0; i<literals.length; i++){

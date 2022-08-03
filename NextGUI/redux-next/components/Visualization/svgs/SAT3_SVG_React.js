@@ -39,10 +39,12 @@ function Sat3SvgReact(props) {
               }).catch((error)=>{console.log(error)});
             //console.log(solutionData);
             
-            showSolution(solutionData);
         } else fullClear();
 
-    },[problemInstance,props.showSolution])
+    }, [problemInstance, props.showSolution])
+  
+    showSolution(solutionData);
+
     return (
         <svg ref={ref}
             style={{
