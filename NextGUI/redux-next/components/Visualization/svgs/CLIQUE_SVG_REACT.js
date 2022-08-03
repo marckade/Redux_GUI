@@ -79,6 +79,8 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
             //console.log("solved Visualization", props.solveSwitch);
             getReducedVisualizationData(props.url, props.reductionType, "reduce", props.problemInstance).then(data => {
                 setJsonData(data.reductionTo.clusterNodes)
+            }).catch((error) => {
+                console.log("CLIQUE_SVG_REACT solver switch off switch faled to fetch data")
             })
         }
         
