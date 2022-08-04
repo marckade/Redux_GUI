@@ -97,8 +97,8 @@ function showElement(element) {
         d3.selectAll("#" + element) //This currently takes the 
             // .attr("fill", VisColors.ElementHighlight)
             // .attr("stroke", VisColors.ElementHighlight);
-            .attr("fill", "#00e676")
-            .attr("stroke", "#00e676");
+            .attr("fill", VisColors.ElementHighlight)
+            .attr("stroke", VisColors.ElementHighlight);
     }
 }
 function clear() {

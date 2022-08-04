@@ -10,52 +10,53 @@ import {ProblemContext} from '../../contexts/ProblemProvider'
 // Note that it also is taking in additional props like the url prop and sending a data request that it forwards to the child component
 function CliqueSvgReact(props) { //props.url, props.reductionName, props.problemInstance, props.solveSwitch
 
+    //ALEX NOTE: This Default Array gets exposed upon api call failure I think. For dev testing, try setting a solution state variable to "True"
     const defaultArr= [
         {
             "name": "x1",
             "cluster": "0",
-            "solutionState":"True"
+            "solutionState":""
         },
         {
             "name": "!x2",
             "cluster": "0",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
             "name": "x3",
             "cluster": "0",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
             "name": "!x1",
             "cluster": "1",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
             "name": "x3_1",
             "cluster": "1",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
             "name": "x1_1",
             "cluster": "1",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
             "name": "x2",
             "cluster": "2",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
             "name": "!x3",
             "cluster": "2",
-            "solutionState":"True"
+            "solutionState":""
 
         },
         {
