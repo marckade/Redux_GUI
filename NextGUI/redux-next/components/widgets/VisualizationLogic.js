@@ -19,6 +19,7 @@ export default function VisualizationLogic(props) {
     let problemName = props.problemName
     let reductionName = props.reductionName
     let reductionType = props.reductionType
+    let reducedInstance = props.reducedInstance;
     let visualizationState = props.visualizationState
     let loading = props.loading
 
@@ -144,11 +145,14 @@ export default function VisualizationLogic(props) {
                     <Container>
                         <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
                     </Container>
-                apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
-                reducedVisualization =
+                console.log(props.problemInstance);
+                
+                let apiCall2 = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                reducedVisualization =<>
                     <Container>
-                        <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
-                    </Container>;
+                        <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance}></VertexCoverSvgReact>
+                    </Container>
+                    </>
             }
 
         }
