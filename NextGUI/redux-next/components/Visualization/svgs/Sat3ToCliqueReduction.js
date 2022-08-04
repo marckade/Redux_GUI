@@ -58,7 +58,7 @@ function getClique(ref, data) {
 
             
             let nodeId = nodeName + '_' + dataCount;
-            console.log([idTest, nodeName, nodeId]);
+            //console.log([idTest, nodeName, nodeId]);
             nodes[dataCount] = new node(idTest, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
             dataCount++;
         }
@@ -92,13 +92,13 @@ function showCluster(cluster) {
 //Element comes in as an exact id. Ie. x1, x2_1 ... !x3_2, etc.
 function showElement(element) {
     let parsedElement = element;
-    console.log(parsedElement);
+   // console.log(parsedElement);
     if (d3.select("#highlightGadgets").property("checked")) {
         d3.selectAll("#" + element) //This currently takes the 
             // .attr("fill", VisColors.ElementHighlight)
             // .attr("stroke", VisColors.ElementHighlight);
-            .attr("fill", "#00e676")
-            .attr("stroke", "#00e676");
+            .attr("fill", VisColors.ElementHighlight)
+            .attr("stroke", VisColors.ElementHighlight);
     }
 }
 function clear() {

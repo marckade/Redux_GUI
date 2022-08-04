@@ -78,8 +78,8 @@ function showSolution(solution) {
     console.log(solution);
     for(let i=0; i<solution.length; i++){
         d3.selectAll("."+solution[i])
-            .attr("fill",VisColors.ElementHighlight)
-            .attr("stroke", VisColors.ElementHighlight);
+            .attr("fill",VisColors.SolutionHighlight)
+            .attr("stroke", VisColors.SolutionHighlight);
     }
 }
 function showCluster(cluster){

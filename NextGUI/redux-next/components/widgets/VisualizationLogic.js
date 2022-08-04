@@ -19,15 +19,15 @@ export default function VisualizationLogic(props) {
     let problemName = props.problemName
     let reductionName = props.reductionName
     let reductionType = props.reductionType
+    let reducedInstance = props.reducedInstance;
     let visualizationState = props.visualizationState
     let loading = props.loading
 
     const handleBar = (sizes) => {
-        console.log(sizes);
+        //console.log(sizes);
     }
 
-    console.log(reductionName);
-
+    //VertexCover 
     if (problemName === "VERTEXCOVER") {
 
 
@@ -49,72 +49,62 @@ export default function VisualizationLogic(props) {
     }
 
 
-
+    //3SAT
     else if (problemName === "SAT3") {
-        // visualization = <SAT3_SVG_React 
-        //         data={props.problemVisualizationData}
-        //         showSolution={props.solverOn}
-        //         url={props.url}
-        //     ></SAT3_SVG_React>;
 
-        // if (visualizationState.solverOn) {
-
-        // }
-        //else
-         
         if (visualizationState.reductionOn) {
             if (reductionName === "CLIQUE" && !visualizationState.solverOn) {
 
                 visualization =
                     <div>
-                    {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
-                    <SAT3_SVG_React 
-                                                data={props.problemVisualizationData}
-                                                solution={props.problemSolutionData}
-                                                showSolution={props.visualizationState.solverOn}
-                                                url={props.url}
-                ></SAT3_SVG_React>
-                </div>
-                
+                        {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
+                        <SAT3_SVG_React
+                            data={props.problemVisualizationData}
+                            solution={props.problemSolutionData}
+                            showSolution={props.visualizationState.solverOn}
+                            url={props.url}
+                        ></SAT3_SVG_React>
+                    </div>
+
                 reducedVisualization =
                     <>
-                    {/* {"SOLVER OFF SPLIT VIZ CLIQUE"} */}
-                    
-                    <CLIQUE_SVG_REACT
-                    data={props.reducedVisualizationData}
-                    url={props.url}
-                    reductionType={reductionType}
-                    problemInstance={props.problemInstance}
-                    solveSwitch={visualizationState.solverOn}>
-                </CLIQUE_SVG_REACT>
-                </>
+                        {/* {"SOLVER OFF SPLIT VIZ CLIQUE"} */}
+
+                        <CLIQUE_SVG_REACT
+                            data={props.reducedVisualizationData}
+                            url={props.url}
+                            reductionType={reductionType}
+                            problemInstance={props.problemInstance}
+                            solveSwitch={visualizationState.solverOn}>
+                        </CLIQUE_SVG_REACT>
+                    </>
             }
             else if (reductionName === "CLIQUE" && visualizationState.solverOn) {
-                
+
                 visualization =
                     <div>
                         {/* {"SOLVER ON SPLIT VIZ SAT"} */}
-                    <SAT3_SVG_React 
-                                                data={props.problemVisualizationData}
-                                                solution={props.problemSolutionData}
-                                                showSolution={props.visualizationState.solverOn}
-                                                url={props.url}
+                        <SAT3_SVG_React
+                            data={props.problemVisualizationData}
+                            solution={props.problemSolutionData}
+                            showSolution={props.visualizationState.solverOn}
+                            url={props.url}
                         ></SAT3_SVG_React>
                     </div>
                 //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
                 reducedVisualization =
                     <>
                         <div>
-                        {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
+                            {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
                         </div>
-                    <CLIQUE_SVG_REACT
-                    data={props.reducedVisualizationData}
-                    url={props.url}
-                    reductionType={reductionType}
-                    problemInstance={props.problemInstance}
-                    solveSwitch={visualizationState.solverOn}
-                ></CLIQUE_SVG_REACT>
-                </>
+                        <CLIQUE_SVG_REACT
+                            data={props.reducedVisualizationData}
+                            url={props.url}
+                            reductionType={reductionType}
+                            problemInstance={props.problemInstance}
+                            solveSwitch={visualizationState.solverOn}
+                        ></CLIQUE_SVG_REACT>
+                    </>
 
 
             }
@@ -128,14 +118,14 @@ export default function VisualizationLogic(props) {
 
             visualization =
                 <div>
-                    
+
                     {/* {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"} */}
-            <SAT3_SVG_React data={props.problemVisualizationData}
-            showSolution={props.visualizationState.solverOn}
-            url={props.url}
-                >
+                    <SAT3_SVG_React data={props.problemVisualizationData}
+                        showSolution={props.visualizationState.solverOn}
+                        url={props.url}
+                    >
                     </SAT3_SVG_React>
-            </div>
+                </div>
         }
 
         // Clique problem
@@ -153,13 +143,16 @@ export default function VisualizationLogic(props) {
                 let apiCall1 = "http://localhost:27000/CLIQUEGeneric/visualize"
                 visualization =
                     <Container>
-                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>                    
+                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
                     </Container>
-                apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
-                reducedVisualization =
+                console.log(props.problemInstance);
+                
+                let apiCall2 = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                reducedVisualization =<>
                     <Container>
-                        <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
-                    </Container>;
+                        <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance}></VertexCoverSvgReact>
+                    </Container>
+                    </>
             }
 
         }
@@ -167,12 +160,12 @@ export default function VisualizationLogic(props) {
 
         }
         else {
-            
+
             apiCall = "http://localhost:27000/CLIQUEGeneric/visualize"
             visualization =
                 <>
-                {/* {"CLIQUE V2 Viz"} */}
-                <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
+                    {/* {"CLIQUE V2 Viz"} */}
+                    <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
                 </>
         }
     }
@@ -185,48 +178,48 @@ export default function VisualizationLogic(props) {
 
 
 
-    
+
     // GUI
 
     if (!visualizationState.reductionOn && !loading) {
         // {console.log("reduction state: "+visualizationState.reductionOn)}
         return (
             <>
-            <Container>
-                {visualization}
-            </Container>
+                <Container>
+                    {visualization}
+                </Container>
             </>
         )
     }
-    else if(visualizationState.reductionOn && !loading){
+    else if (visualizationState.reductionOn && !loading) {
         // {console.log("reduction state: "+visualizationState.reductionOn)}
 
 
-        
-        return(
+
+        return (
             <>
-             <Split
-                    class="wrap"      
+                <Split
+                    class="wrap"
                     direction="horizontal"
                     style={{ height: 'inherit' }}
                     onDragStart={handleBar}
                 >
                     <Container>
                         {/* {"Container1"} */}
-                                {visualization}
-                                </Container>
+                        {visualization}
+                    </Container>
 
                     <Container>
                         {/* {"Container2"} */}
-                                {reducedVisualization}
-                                </Container>
-                    </Split>
-            
+                        {reducedVisualization}
+                    </Container>
+                </Split>
+
             </>
         )
     }
 
-    return(
+    return (
         <>
         </>
     )
