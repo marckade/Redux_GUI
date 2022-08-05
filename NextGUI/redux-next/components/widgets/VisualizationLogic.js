@@ -3,8 +3,7 @@
 
 import Split from 'react-split'
 import { Container } from '@mui/material';
-
-
+import { useState } from 'react';
 import VertexCoverSvgReact from "../Visualization/svgs/VertexCover_SVG_React";
 import SAT3_SVG_React from "../Visualization/svgs/SAT3_SVG_React";
 import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
@@ -131,6 +130,9 @@ export default function VisualizationLogic(props) {
         // Clique problem
     } else if (problemName === "CLIQUE") {
 
+        const [gadgetState, setGadgetState] = useState('');
+        const [highlightNode, setHighlightNode] = useState('');
+
         if (visualizationState.solverOn) {
 
         }
@@ -143,14 +145,14 @@ export default function VisualizationLogic(props) {
                 let apiCall1 = "http://localhost:27000/CLIQUEGeneric/visualize"
                 visualization =
                     <Container>
-                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
+                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance} highlightNode={highlightNode} setHighlightNode={setHighlightNode}> </CliqueSvgReactV2>
                     </Container>
                 console.log(props.problemInstance);
                 
                 let apiCall2 = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
                 reducedVisualization =<>
                     <Container>
-                        <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance}></VertexCoverSvgReact>
+                        <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance} highlightNode={highlightNode} setHighlightNode={setHighlightNode}></VertexCoverSvgReact>
                     </Container>
                     </>
             }
@@ -165,7 +167,7 @@ export default function VisualizationLogic(props) {
             visualization =
                 <>
                     {/* {"CLIQUE V2 Viz"} */}
-                    <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
+                    <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance} highlightNode={highlightNode} setHighlightNode={setHighlightNode}> </CliqueSvgReactV2>
                 </>
         }
     }

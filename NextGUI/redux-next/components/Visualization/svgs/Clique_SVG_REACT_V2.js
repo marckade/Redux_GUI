@@ -6,9 +6,9 @@ import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
-    const [animatedNodes, setAnimatedNodes] = useState([]);
-    const [animatedLinks, setAnimatedLinks] = useState([]);
+function ForceGraph({ w, h, charge,apiCall,problemInstance,highlightNode,setHighlightNode }) {
+
+
     const margin = {top: 200, right: 30, bottom: 30, left: 200},
     width = w - margin.left - margin.right,
     height = h - margin.top - margin.bottom;
@@ -46,31 +46,28 @@ const node = svg
   .selectAll("circle")
   .data(data.nodes)
     .join("circle")
-    // .attr("class", function (d) { return d.cover; })
+    .attr("class", function (d) { return "node_"+d.name; }) //node prefix added to class name to allow for int names by user.
     .attr("r", 20)
   .style("fill", function (d) {
-      return "#FFC300";
+      //return "#FFC300";
       //"#00e676"
-        // if (d.cover === "true") {
-        //         return "#00e676"
-        // }
-        // else {
-        //     return "#ff1744"
-        // }
+        if (d.name === highlightNode) {
+                return "#FFC300"
+        }
+        else {
+            return "#FFC300"
+        }
     })
-    // .on("mouseover", function (d) {
-    //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-    //     svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#abc")
-    // })
-    // .on("mouseout", function (d) {
-    //     if (d.target.__data__.cover === "true") {
-    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ffea00")
-    //     }
-    //     else {
-    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ff1744")
-
-    //     }
-    // })
+    .on("mouseover", function (d) {
+      console.log("HOVERING OVER A NODE", d.target.__data__.name)
+      console.log(d.target.__data__.name);
+      svg.selectAll(`.${"node_" + d.target.__data__.name}`).style('fill', "#ff1744") //note node prefix
+      setHighlightNode(d.target.__data__.name);
+    })
+    .on("mouseout", function (d) {                  
+            svg.selectAll(`.${"node_"+d.target.__data__.name}`).style('fill', "#abc")
+        
+    })
  
     
 const text = svg.selectAll("text") //Append Text on top of nodes.
@@ -149,7 +146,7 @@ function ticked() {
 
 export default function CliqueSvgReactV2(props) {
   const [charge, setCharge] = useState(-150);
-  
+  console.log(props)
 
   return (
     <Container>
@@ -162,7 +159,7 @@ export default function CliqueSvgReactV2(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} highlightNode={props.highlightNode} setHighlightNode={props.setHighlightNode} />
     </Container>
   );
 }
