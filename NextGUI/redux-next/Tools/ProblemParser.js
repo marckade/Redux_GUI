@@ -1,7 +1,7 @@
-// import  noReductionsMessage  from "../components/widgets/SearchBars/SearchBarSelectReduceToV2";
+
 
 // PROBLEMS AND THEIR VISUALIZATIONS
-let noReductionsMessage = 'No reductions available. Click on the add button to add a new reduction method';
+let noReductionsMessage = 'No reductions available. Click on the add button to add a new reduce-to';
 
 
 
@@ -13,7 +13,7 @@ wikiName.set('CLIQUE', 'Clique');
 wikiName.set('SUBSETSUM', 'Subset sum');
 wikiName.set('DM3', '3-dimensional matching');
 wikiName.set('KNAPSACK', 'Knapsack');
-wikiName.set('TSP', 'Traveling  salesman problem');
+wikiName.set('TSP', 'Traveling Salesperson Problem');
 wikiName.set('INTPROGRAMMING01', '0–1 integer programming');
 wikiName.set('VERTEXCOVER','Vertex cover');
 wikiName.set('GRAPHCOLORING', 'Graph Coloring');
@@ -38,7 +38,7 @@ export class ProblemParser {
         if(wikiName.has(problemName)){
             return wikiName.get(problemName);
         }
-
+       
         if(problemName === noReductionsMessage){
             return noReductionsMessage;
         }
