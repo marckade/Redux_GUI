@@ -16,7 +16,7 @@ import { ProblemParser } from '../../../Tools/ProblemParser';
 
 const filter = createFilterOptions();
 export const noReductionsMessage =
-  'No reductions available. Click on the add button to add a new reduction method';
+  'No reductions available. Click on the add button to add a new reduce-to';
 //our problems to be shown
 var problemJson = [];
 const problemParser = new ProblemParser()
