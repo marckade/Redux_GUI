@@ -1,23 +1,24 @@
 
 
 // PROBLEMS AND THEIR VISUALIZATIONS
+let noReductionsMessage = 'No reductions available. Click on the add button to add a new reduce-to';
 
 
-var problems = [
 
-    { name: 'GRAPHCOLORING',wikiName: 'Graph Coloring', type: 'Undirected graph', regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/ },
-    { name: 'ARCSET', type: 'Directed graph',          regex: /{{(\w(,\w)*)+},{(\(\w,\w\)(,\(\w,\w\))*)*},\d+}/ },
-    { name: 'VERTEXCOVER',wikiName: 'Vertex cover', type: 'Undirected graph', regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/ },
-    { name: 'CLIQUE',wikiName:'Clique', type: 'Undirected graph', regex:/{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/},
-    { name: 'TSP', type: 'Undirected graph', regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/ },
-    { name: 'KNAPSACK', type: 'Undirected graph',regex: /{{(\w(,\w)*)+},{(\{\w,\w\}(,\{\w,\w\})*)*},\d+}/},
-    { name: 'EXACTCOVER', wikiName: 'Exact cover', type: '' },
-    { name: 'DM3',wikiName: '3-dimensional matching', type: 'Hyper graph'},
-    { name: 'SAT3', wikiName:'3SAT', type: 'Boolean formula'},
-    { name: 'SUBSETSUM',wikiName: 'Subset sum', type: '' },
-    { name: 'INTPROGRAMMING01', wikiName: '0-1 integer programming', type: '' }
-
-];
+const wikiName = new Map()
+wikiName.set('SAT3', '3SAT');
+wikiName.set('SAT', 'SAT');
+wikiName.set('ARCSET', 'Feedback arc set problem');
+wikiName.set('CLIQUE', 'Clique');
+wikiName.set('SUBSETSUM', 'Subset sum');
+wikiName.set('DM3', '3-dimensional matching');
+wikiName.set('KNAPSACK', 'Knapsack');
+wikiName.set('TSP', 'Traveling Salesperson Problem');
+wikiName.set('INTPROGRAMMING01', '0–1 integer programming');
+wikiName.set('VERTEXCOVER','Vertex cover');
+wikiName.set('GRAPHCOLORING', 'Graph Coloring');
+wikiName.set('ExactCover', 'Exact cover')
+wikiName.set('VertexCover', 'Vertex cover')
 
 
 
@@ -26,30 +27,23 @@ var problems = [
 
 export class ProblemParser {
 
-    constructor(name) {
-        this.name = name;
-       
-    }
-
-
-    getVisualization() {
-
-        //TODO: Possibly use IF statement
-        //to change visualizations depending on the problems list.
-
-    }
+ 
 
 
     getWikiName(problemName){
-        // const problem = problems.get(problemName);
         let name = ''
 
-        problems.forEach((item) => {
-            if(problemName === item.name){
-                name = item.wikiName;
+        console.log("problem name "+problemName )
 
-            }
-          });
+        if(wikiName.has(problemName)){
+            return wikiName.get(problemName);
+        }
+       
+        if(problemName === noReductionsMessage){
+            return noReductionsMessage;
+        }
+        // if(problemName !== '' && problemName !== null && problemName !== noReductionsMessage)
+    
        return name;
     }
 }

@@ -61,12 +61,15 @@ function AccordionSingleInputNestedButton(props) {
 
   const handleSolve = () => {
     console.log("SOLVE REQUEST BUTTON")
-    requestSolvedInstance(props.accordion.INPUTURL.url, chosenSolver, problemInstance).then(data => {
-      console.log(data)
-      setSolvedInstance(data);
-    }).catch((error) => {
-      console.log("SOLVE REQUEST INSTANCE FAILED")
-    })
+    if (chosenSolver !== null && chosenSolver !== '') {
+      requestSolvedInstance(props.accordion.INPUTURL.url, chosenSolver, problemInstance).then(data => {
+        console.log(data)
+        setSolvedInstance(data);
+      }).catch((error) => {
+        console.log("SOLVE REQUEST INSTANCE FAILED")
+      })
+    }
+ 
   }
 
   return (

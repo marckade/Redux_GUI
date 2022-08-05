@@ -8,6 +8,13 @@ export default function TestAuto(props) {
 
   // const [problemName, setProblemName] = useState('');
   var defaultProblem = 'SAT3';
+  const map =  new Map()
+
+  map.set('ST', "3SAT")
+  map.set('DT', "Clique")
+  map.set('FT', "Vertexcover")
+  map.set('SAT3', "SAT")
+
   var problemList = ['ST', 'DT', 'FT'];
   // const list =  []
   const [noReductions, setReductions] = useState(true);
@@ -24,11 +31,11 @@ export default function TestAuto(props) {
 
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
-          setProblemName(
+          setTestName(
             newValue
           );
           //setDefaultProblemName(newValue)
-          props.setTestName(newValue);
+          // props.setTestName(newValue);
         } 
 
         console.log("new problem chosen test: "+problem)
@@ -39,11 +46,11 @@ export default function TestAuto(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return option;
+          return map.get(option);
         }
        
         // Regular option
-        return option;
+        return map.get(option);
       }}
       
 

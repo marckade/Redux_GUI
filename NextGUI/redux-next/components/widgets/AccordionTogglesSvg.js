@@ -20,7 +20,7 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses} from '@mui/material'
+import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses } from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 //import Graphvisualization from "../Visualization/Graphvisualization";
@@ -37,9 +37,9 @@ import VisualizationLogic from './VisualizationLogic';
 
 
 
-function ContextAwareToggle({ accordionState,setAccordionState, children, eventKey, callback, colors }) {
-  
-  
+function ContextAwareToggle({ accordionState, setAccordionState, children, eventKey, callback, colors }) {
+
+
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -47,7 +47,7 @@ function ContextAwareToggle({ accordionState,setAccordionState, children, eventK
     () => {
       testFunc();
       callback && callback(eventKey)
-    
+
     },
   );
   function testFunc() {
@@ -57,10 +57,10 @@ function ContextAwareToggle({ accordionState,setAccordionState, children, eventK
 
   return (
     <Button
-      color = 'white'
-      className = "float-end"
+      color='white'
+      className="float-end"
       type="button"
-      sx={{ height:54, width: 64 }}
+      sx={{ height: 54, width: 64 }}
       style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
     >
@@ -80,75 +80,77 @@ function AccordionTogglesSvg(props) {
 
   const defaultSat3VisualizationArr = [
     [
-        "x1",
-        "!x2",
-        "x3"
+      "x1",
+      "!x2",
+      "x3"
     ],
     [
-        "!x1",
-        "x3",
-        "x1"
+      "!x1",
+      "x3",
+      "x1"
     ],
     [
-        "x2",
-        "!x3",
-        "x1"
+      "x2",
+      "!x3",
+      "x1"
     ],
   ]
 
   const defaultSat3SolutionArr = ["x1"]
-  
-  
-  var defaultCLIQUEVisualizationArr =  [
+
+
+  var defaultCLIQUEVisualizationArr = [
     {
-        "name": "x1",
-        "cluster": "0"
+      "name": "x1",
+      "cluster": "0"
     },
     {
-        "name": "!x2",
-        "cluster": "0"
+      "name": "!x2",
+      "cluster": "0"
     },
     {
-        "name": "x3",
-        "cluster": "0"
+      "name": "x3",
+      "cluster": "0"
     },
     {
-        "name": "!x1",
-        "cluster": "1"
+      "name": "!x1",
+      "cluster": "1"
     },
     {
-        "name": "x3",
-        "cluster": "1"
+      "name": "x3",
+      "cluster": "1"
     },
     {
-        "name": "x1",
-        "cluster": "1"
+      "name": "x1",
+      "cluster": "1"
     },
     {
-        "name": "x2",
-        "cluster": "2"
+      "name": "x2",
+      "cluster": "2"
     },
     {
-        "name": "!x3",
-        "cluster": "2"
+      "name": "!x3",
+      "cluster": "2"
     },
     {
-        "name": "x1",
-        "cluster": "2"
+      "name": "x1",
+      "cluster": "2"
     },
 
   ];
-  
+
   const refreshButtonStyle = {
     position: 'absolute',
     left: '10%',
     backgroundColor: '#43a047'
   }
-  const { problemName, problemInstance, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
+  const { problemName, problemInstance, chosenReduceTo, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
   // const [reduction, setReductionInstance] = useState(graphDotTest2);
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
-  const [showReduction, setShowReduction] = useState(true);
+  const isSat3ToClique = (problemName == 'SAT3' && chosenReduceTo == 'CLIQUE') ? true : false
+  const [showReduction, setShowReduction] = useState(false);
+  console.log("show reduction switch " + showReduction + " problemName: " + problemName + " reduceTO: " + chosenReduceTo)
   //defaultSat3VisualizationArr
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
@@ -157,10 +159,10 @@ function AccordionTogglesSvg(props) {
   const [accordionOpened, setAccordionOpened] = useState(false);
   const [svgIsLoading, setSvgIsLoading] = useState(false);
 
-  let apiCompatibleInstance =problemInstance.replaceAll('&',"%26").replaceAll(' ','');
+  let apiCompatibleInstance = problemInstance.replaceAll('&', "%26").replaceAll(' ', '');
 
 
-  
+
 
   useEffect(() => {
     if (svgIsLoading) {
@@ -169,30 +171,38 @@ function AccordionTogglesSvg(props) {
   }, [svgIsLoading])
 
 
+
+
   useEffect(() => {
-    apiCompatibleInstance = problemInstance.replaceAll('&',"%26").replaceAll(' ','');
+    (problemName === 'SAT3' && chosenReduceTo === 'CLIQUE') ? setShowReduction(true) : setShowReduction(false)
+  }, [problemName, chosenReduceTo])
+
+  
+  useEffect(() => {
+    apiCompatibleInstance = problemInstance.replaceAll('&', "%26").replaceAll(' ', '');
     if (problemName === "SAT3") {
+    
       getProblemVisualizationData(props.accordion.INPUTURL.url, problemName, apiCompatibleInstance).then(data => {
         //console.log(data);
         setProblemVisualizationData(data.clauses);
-      }).catch((error)=>{console.log(error)});
+      }).catch((error) => { console.log(error) });
       getReducedVisualizationData(props.accordion.INPUTURL.url, chosenReductionType, apiCompatibleInstance).then(data => {
         setReducedVisualizationData(data.reductionTo.clusterNodes)
         // console.log(data.reductionTo.clusterNodes)
-      }).catch((error)=>{console.log(error)})
-      
+      }).catch((error) => { console.log(error) })
+
     }
-    
 
-  },[problemInstance])
 
- 
+  }, [problemInstance])
+
+
   function handleSwitch1Change(e) { // solution switch
-  //  console.log("Switch 1   " + e.target.checked);
+    //  console.log("Switch 1   " + e.target.checked);
     setShowSolution(e.target.checked);
     setProblemSolutionData(defaultSat3SolutionArr);
     setShowGadgets(false);
-   // console.log("Switch 1   " + e.target.checked);
+    // console.log("Switch 1   " + e.target.checked);
   }
 
   function handleSwitch2Change(e) { //gadget switch.
@@ -209,7 +219,7 @@ function AccordionTogglesSvg(props) {
       //triggerRerender();
     }
     console.log("Switch 3 Reduction  " + e.target.checked);
-  
+
   }
 
   function handleRefreshButton(e) {
@@ -218,7 +228,7 @@ function AccordionTogglesSvg(props) {
     setShowGadgets(false);
     setShowReduction(false);
   }
-   function getProblemVisualizationData(url, name, instance) {
+  function getProblemVisualizationData(url, name, instance) {
     var fullUrl = `${url}${name}Generic/instance?problemInstance=${instance}`;
     return fetch(fullUrl).then(resp => {
       if (resp.ok) {
@@ -228,48 +238,48 @@ function AccordionTogglesSvg(props) {
   }
   function getReducedVisualizationData(url, reduction, instance) {
 
-    if(reduction !== null || reduction !== ''){
+    if (reduction !== null || reduction !== '') {
       var fullUrl = `${url}${reduction}/reduce?problemInstance=${instance}`;
-    console.log(fullUrl);
-    return fetch(fullUrl).then(resp => {
-      if (resp.ok) {
-        return resp.json()
-      }
-    });
+      console.log(fullUrl);
+      return fetch(fullUrl).then(resp => {
+        if (resp.ok) {
+          return resp.json()
+        }
+      });
 
     }
-    
+
   }
 
-  
+
   const logicProps = {
     solverOn: showSolution,
     reductionOn: showReduction,
     gadgetsOn: showGadgets,
   }
   return (
-   
+
 
     <div>
       <Accordion className="accordion" defaultActiveKey="0">
         <Card>
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
-            <Stack className="float-end" direction="horizontal" gap={3} 
+            <Stack className="float-end" direction="horizontal" gap={3}
             >
-              
+
               <Button style={refreshButtonStyle}
                 variant="outlined"
                 startIcon={<RefreshIcon />}
                 onClick={handleRefreshButton}
               >
-               Refresh
+                Refresh
               </Button>
-              <FormControlLabel checked={showSolution} control={<Switch id={"showSolution"}/>} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
+              <FormControlLabel checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
               <FormControlLabel checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
-              <FormControlLabel checked={ showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
+              <FormControlLabel checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
-              <ContextAwareToggle accordionState={accordionOpened} setAccordionState={setAccordionOpened} className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{height:'60px'} }>▼</ContextAwareToggle>
+              <ContextAwareToggle accordionState={accordionOpened} setAccordionState={setAccordionOpened} className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{ height: '60px' }}>▼</ContextAwareToggle>
 
             </Stack>
 
@@ -278,12 +288,12 @@ function AccordionTogglesSvg(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              <VisualizationBox 
+              <VisualizationBox
                 loading={svgIsLoading}
                 // reduceToggled={showReduction}
                 //We are using the logicProps(visualizationState to handle this)
                 // solveToggled={showSolution}
-                apiInstance ={apiCompatibleInstance}
+                apiInstance={apiCompatibleInstance}
                 problemVisualizationData={problemVisualizationData}
                 reducedVisualizationData={reducedVisualizationData}
                 problemSolutionData={defaultSat3SolutionArr}
@@ -295,7 +305,7 @@ function AccordionTogglesSvg(props) {
                props={logicProps}>
               </VisualizationLogic> */}
 
-               {/* <VisualizationLogic
+              {/* <VisualizationLogic
                 problemName={problemName}
                 problemInstance={problemInstance}
                 reductionName={chosenReductionType}

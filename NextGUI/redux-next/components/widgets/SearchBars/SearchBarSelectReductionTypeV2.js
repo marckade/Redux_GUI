@@ -17,7 +17,7 @@ import message from './SearchBarSelectReduceToV2';
 // import requestReducedInstance from  '../AccordionDualInputNestedButton'
 const filter = createFilterOptions();
 export const noReductionsTypeMessage =
-  'No reductions available. Click on the create button to add a new reduction solver method';
+  'No reduction method available. Please choose a reduce-to';
 var problemJson = [];
 
 
