@@ -16,11 +16,10 @@ import { ProblemParser } from '../../../Tools/ProblemParser';
 
 const filter = createFilterOptions();
 export const noReductionsMessage =
-  'No reductions available. Click on the create button to add a new reduction method';
+  'No reductions available. Click on the add button to add a new reduction method';
 //our problems to be shown
 var problemJson = [];
 const problemParser = new ProblemParser()
-
 
 
 
@@ -28,9 +27,9 @@ export default function SearchBarSelectReduceToV2(props) {
   //props.setData and props.data should be passed down.
 
   // const [defaultProblemName, setDefaultProblemName] = useState('');
-  const [reductionProblem, setReduceTo] = useState('');
+  const [reductionProblem, setReduceTo] = useState(noReductionsMessage);
   const { problemName, setReducedInstance } = useContext(ProblemContext);
-  const [noReductions, setNoReductions] = useState(false);
+  const [noReductions, setNoReductions] = useState(true);
   
 
   // let stateVal = undefined;
@@ -42,6 +41,10 @@ export default function SearchBarSelectReduceToV2(props) {
       setReduceTo("");
       props.setData("");
       initializeList(fullUrl);
+      if(problemName !== '' || problemName !== null){
+        setNoReductions(true);
+        setReduceTo(noReductionsMessage);
+      }
     }, [problemName])
   
   
@@ -93,16 +96,17 @@ export default function SearchBarSelectReduceToV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-        
-          return option;
+             return problemParser.getWikiName(option)
+       // wikiName.get(option);
         }
        
         // Regular option
-        return option;
+        return ''
+        // wikiName.get(option);
 
       }}      // return wiki_name here
 
-      renderOption={(props, option) => <li {...props}>{option}</li>}
+      //renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -127,6 +131,9 @@ export default function SearchBarSelectReduceToV2(props) {
     setNoReductions(true);
     setReduceTo(noReductionsMessage);
     props.setData('');
+   }else{
+    setNoReductions(false);
+    setReduceTo('');
    }
 
   // problemJson = [];
