@@ -6,7 +6,7 @@ import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-function ForceGraph({ w, h, charge,apiCall,problemInstance,highlightNode,setHighlightNode }) {
+function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 
 
     const margin = {top: 200, right: 30, bottom: 30, left: 200},
@@ -51,21 +51,17 @@ const node = svg
   .style("fill", function (d) {
       //return "#FFC300";
       //"#00e676"
-        if (d.name === highlightNode) {
-                return "#FFC300"
-        }
-        else {
+
             return "#FFC300"
-        }
+        
     })
     .on("mouseover", function (d) {
-      console.log("HOVERING OVER A NODE", d.target.__data__.name)
-      console.log(d.target.__data__.name);
-      svg.selectAll(`.${"node_" + d.target.__data__.name}`).style('fill', "#ff1744") //note node prefix
-      setHighlightNode(d.target.__data__.name);
+      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+      //console.log(d.target.__data__.name);
+      d3.selectAll(`.${"node_" + d.target.__data__.name}`).style('fill', "#ff1744") //note node prefix
     })
     .on("mouseout", function (d) {                  
-            svg.selectAll(`.${"node_"+d.target.__data__.name}`).style('fill', "#abc")
+            d3.selectAll(`.${"node_"+d.target.__data__.name}`).style('fill', "#abc")
         
     })
  
@@ -159,7 +155,7 @@ export default function CliqueSvgReactV2(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} highlightNode={props.highlightNode} setHighlightNode={props.setHighlightNode} />
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance}  />
     </Container>
   );
 }
