@@ -10,10 +10,10 @@
 
 
 import React from 'react'
-import { useContext,useEffect,useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Accordion, Card, AccordionContext, FormControl, Col, Row, Container } from 'react-bootstrap'
-import {Stack,Button,Box} from '@mui/material'
+import { Stack, Button, Box } from '@mui/material'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 
@@ -22,7 +22,7 @@ import SearchBarSelectReduceToV2 from './SearchBars/SearchBarSelectReduceToV2';
 import SearchBarSelectReductionTypeV2 from './SearchBars/SearchBarSelectReductionTypeV2';
 
 
-function ContextAwareToggle({ children, eventKey, callback,colors }) {
+function ContextAwareToggle({ children, eventKey, callback, colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
@@ -33,9 +33,9 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
   const isCurrentEventKey = activeEventKey === eventKey;
   return (
     <Button
-      sx={{ height:54, width: 64 }}
-      color = 'white'
-      className = "float-end"
+      sx={{ height: 54, width: 64 }}
+      color='white'
+      className="float-end"
       type="button"
       style={{ backgroundColor: isCurrentEventKey ? colors.orange : colors.grey }}
       onClick={decoratedOnClick}
@@ -47,83 +47,103 @@ function ContextAwareToggle({ children, eventKey, callback,colors }) {
 
 function AccordionDualInputNestedButton(props) {
   console.log("STATE CHANGE REDUCEBOX")
-  
+
   var REDUCETOOPTIONSURL = props.accordion.INPUTURL.url;
   var REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url;
-  const { problemName,problemInstance, problemType, chosenReduceTo, setChosenReduceTo, chosenReductionType, setChosenReductionType,reducedInstance,setReducedInstance } = useContext(ProblemContext)
-  const [reducedInstanceLocal, setReducedInstanceLocal] = useState("Reduced Instance goes here");
-   REDUCETOOPTIONSURL= props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
-   REDUCTIONTYPEOPTIONSURL= props.accordion.INPUTURL.url+ 'Navigation/PossibleReductionsRefactor/'+'?reducingFrom='+problemName+'&reducingTo='+chosenReduceTo+'&problemType='+problemType
-   //console.log(reducedInstance)
-   //console.log(problemName)
+  const { problemName, problemInstance, problemType, chosenReduceTo, setChosenReduceTo, chosenReductionType, setChosenReductionType, reducedInstance, setReducedInstance } = useContext(ProblemContext)
+
+  const [reducedInstanceLocal, setReducedInstanceLocal] = useState();
+
+
+
+  REDUCETOOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
+  REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/PossibleReductionsRefactor/' + '?reducingFrom=' + problemName + '&reducingTo=' + chosenReduceTo + '&problemType=' + problemType
+  //console.log(reducedInstance)
+  //console.log(problemName)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
   const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
 
   const reduceRequest = () => {
     console.log("Problem Instance at time of reduce req: ", problemInstance);
-    
-    requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
- 
-      setReducedInstance(data.reductionTo.instance);
-      setReducedInstanceLocal(data.reductionTo.instance);
-    }).catch((error)=>console.log("REDUCTION FAILED, one or more properties was invalid"))
+
+    if(chosenReductionType !== '' && chosenReductionType !== null){
+      requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
+
+        setReducedInstance(data.reductionTo.instance);
+        setReducedInstanceLocal(data.reductionTo.instance);
+      }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
+     
+    }
+
   }
+
+
+
 
   //TOOLTIP LEFT
   useEffect(() => {
     REDUCETOOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
     requestProblemData(props.accordion.INPUTURL.url, chosenReduceTo).then(data => {
-      setToolTip({header:chosenReduceTo,formalDef:data.formalDefinition,info:data.problemDefinition}) //updates TOOLTIP
-
-      // clear reduce instance 
-      setReducedInstance('');
-      setReducedInstanceLocal('');
+      setToolTip({ header: chosenReduceTo, formalDef: data.formalDefinition, info: data.problemDefinition }) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+
+  
+    setReducedInstance('');
+    setReducedInstanceLocal('');
   }, [chosenReduceTo])
 
 
   //TOOLTIP RIGHT
   useEffect(() => {
     requestReductionData(props.accordion.INPUTURL.url, chosenReductionType).then(data => {
-      console.log("REDUCTION TYPE: ",chosenReductionType)
-      setToolTip2({header:chosenReductionType,formalDef:data.reductionDefinition,info:data.source}) //updates TOOLTIP
-       // clear reduce instance 
-       setReducedInstance('');
-       setReducedInstanceLocal('');
-    }).catch((error)=>console.log("TOOLTIP SET ERROR API CALL",error))
+      console.log("REDUCTION TYPE: ", chosenReductionType)
+      setToolTip2({ header: chosenReductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
+  
+     
+    }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+
+   
+    setReducedInstance('');
+    setReducedInstanceLocal('');
   }, [chosenReductionType])
 
 
- 
+
   return (
+    
     <div>
 
-      <Accordion className="accordion" defaultActiveKey="1">
+      
+
+      <Accordion className="accordion" defaultActiveKey="0">
         <Card>
           <Card.Header>
 
             <Stack direction="horizontal" justifyContent="right" gap={2}>
               <Box
-              sx={{width:'22%'}}
+                sx={{ width: '22%' }}
               >
-              {props.accordion.CARD.cardHeaderText}
+                {props.accordion.CARD.cardHeaderText}
               </Box>
               <SearchBarSelectReduceToV2
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
                 url={REDUCETOOPTIONSURL}
                 setData={setChosenReduceTo}
+                setInstance={setReducedInstance}
                 data={testData}
               /> {/**Search bar left (form control 1) */}
 
-            <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>  
+              <PopoverTooltipClick toolTip={toolTip}></PopoverTooltipClick>
 
               <SearchBarSelectReductionTypeV2
                 placeholder={props.accordion.ACCORDION_FORM_TWO.placeHolder}
                 url={REDUCTIONTYPEOPTIONSURL}
                 setData={setChosenReductionType}
                 data={chosenReduceTo}
-                
+                instanceURL={props.accordion.INPUTURL.url}
+                // setInstance={setReducedInstance}
+
 
               />
               <PopoverTooltipClick toolTip={toolTip2}></PopoverTooltipClick>
@@ -141,7 +161,7 @@ function AccordionDualInputNestedButton(props) {
                 <Button
                   size='large'
                   color='white'
-                   style={{ backgroundColor: props.accordion.THEME.colors.grey }}
+                  style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={reduceRequest}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
@@ -152,29 +172,35 @@ function AccordionDualInputNestedButton(props) {
       </Accordion>
 
     </div>
-      );
+  );
+
+
 }
 
 async function requestProblemData(url, name) {
   //console.log(name)
   //$`{url}{name}Generic`
-  return await fetch(url+name+"Generic").then(resp => resp.json());
+  return await fetch(url + name + "Generic").then(resp => resp.json());
 }
 
-async function requestReductionData(url,reductionName) {
-    //$`{url}{reductionName}/info`
+async function requestReductionData(url, reductionName) {
+  //$`{url}{reductionName}/info`
   return await fetch(url + reductionName + '/info').then(resp => resp.json());
 }
 
-async function requestReducedInstance(url, reductionName, reduceFrom) {
-  var parsedInstance = reduceFrom.replaceAll('&','%26');
 
-  return await fetch(url + reductionName + '/reduce?' + "problemInstance=" + parsedInstance).then(resp =>
-  {
+
+export async function requestReducedInstance(url, reductionName, reduceFrom) {
+  var parsedInstance = reduceFrom.replaceAll('&', '%26');
+
+  return await fetch(url + reductionName + '/reduce?' + "problemInstance=" + parsedInstance).then(resp => {
     if (resp.ok) {
+
       return resp.json();
     }
-    })
+  })
 }
+
+
 
 export default AccordionDualInputNestedButton

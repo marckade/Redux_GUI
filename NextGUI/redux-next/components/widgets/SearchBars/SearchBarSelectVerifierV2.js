@@ -17,7 +17,7 @@ const filter = createFilterOptions();
 //our problems to be shown
 
 export const noProblemChosenMessage =
-  'No Verifier available. Please select a problem';
+  'No verifier available. Please select a problem';
 
 
 var problemJson = [

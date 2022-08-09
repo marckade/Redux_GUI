@@ -1,6 +1,7 @@
 //This is a react compatible vertexcover visualization built in d3.
 
 
+import { Container } from "@mui/material";
 import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -19,14 +20,14 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
        // set the dimensions and margins of the graph
 
 // append the svg object to the body of the page
-const svg = d3.select(ref.current)
-  .append("svg")
-  .attr("preserveAspectRatio", "xMinYMin meet")
-  .attr("viewBox", "0 0 600 400")
+      const svg = d3.select(ref.current)
+        .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 600 400")
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
-      const problemUrl = apiCall;
+      const problemUrl = apiCall + '?problemInstance=' + problemInstance;
 d3.json(problemUrl).then( function( data) {
   console.log(data);
   console.log(problemUrl)
@@ -48,16 +49,14 @@ const node = svg
     // .attr("class", function (d) { return d.cover; })
     .attr("r", 20)
   .style("fill", function (d) {
-        if (d.attribute1 === "true") {
-          return "#00e676"
-        }
-        else if (d.attribute1 === "false") {
-          return "#ff1744"
-
-        }
-        else {
-          return "#D5DBDB"
-        }
+      return "#FFC300";
+      //"#00e676"
+        // if (d.cover === "true") {
+        //         return "#00e676"
+        // }
+        // else {
+        //     return "#ff1744"
+        // }
     })
     // .on("mouseover", function (d) {
     //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)
@@ -84,14 +83,15 @@ const text = svg.selectAll("text") //Append Text on top of nodes.
 
 // Let's list the force we wanna apply on the network
 const simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-    .force("link", d3.forceLink().distance(charge*-1.5)                               // This force provides links between nodes
+    .force("link", d3.forceLink(data.links).distance(charge*-0.75)                               // This force provides links between nodes
           .id(function(d) { return d.name; })                     // This provide  the id of a node
           .links(data.links)                                    // and this the list of links
     )
-    .force("charge", d3.forceManyBody().strength(charge*4)) // This adds repulsion between nodes 
+    .force("charge", d3.forceManyBody().strength(charge*4))
+    // This adds repulsion between nodes. Play with the charge for the repulsion strength
     .force("x", d3.forceX()) //centers disconnected subgraphs
   .force("y", d3.forceY())
-  .force("collide", d3.forceCollide().radius(d => d.r * 2).iterations(10)) //collision detection
+  .force("collide", d3.forceCollide().radius(d => d.r + 1).iterations(10))
     .on("tick", ticked);
 
 
@@ -129,44 +129,31 @@ function ticked() {
 });
  
       }, [])
-  return (
+      return (
           <svg 
               width={width}
               height={height}
-      ref={ref}
-      style={{
-        display: "inline-block",
-        position: "relative",
-        height: "100%",
-        width: "100%",
+          ref={ref}
+          style={{
+            display: "inline-block",
+            position: "relative",
+            height: "100%",
+            width: "100%",
         marginRight: "0px",
         marginLeft: "0px",
-  }}
+      }}
         />
       )
 }
 
 
-export default function VertexCoverSvgReact(props) {
-  const [charge, setCharge] = useState(-50);
+export default function CliqueSvgReactV2(props) {
+  const [charge, setCharge] = useState(-150);
   
-  // create nodes with unique ids
-  // radius: 5px
-  const nodes = [
-    {"id": "Alice"},
-    {"id": "Bob"},
-    {"id": "Carol"}
-  ];
-  
-  const links = [
-    {"source": "Alice", "target": "Bob"},
-    {"source": "Bob", "target": "Carol"}
-  ];
 
-  
   return (
-    <>
-    
+    <Container>
+   
       {/* <input
         type="range"
         min="-500"
@@ -175,8 +162,8 @@ export default function VertexCoverSvgReact(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance = {props.instance} />
-    </>
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
+    </Container>
   );
 }
 

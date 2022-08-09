@@ -13,7 +13,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
 import React, { useContext, useEffect, useState } from 'react';
 const filter = createFilterOptions();
-const noSolverMessage = ' No solvers available. Click on the create button to add a new solver';
+const noSolverMessage = ' No solvers available. Please select a problem';
 
 //our problems to be shown
 var problemJson = [];

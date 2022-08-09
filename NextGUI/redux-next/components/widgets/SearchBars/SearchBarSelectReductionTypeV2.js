@@ -14,9 +14,10 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
 import React, { useContext, useEffect, useState } from 'react';
 import message from './SearchBarSelectReduceToV2';
+// import requestReducedInstance from  '../AccordionDualInputNestedButton'
 const filter = createFilterOptions();
 export const noReductionsTypeMessage =
-  'No reductions available. Click on the create button to add a new reduction solver method';
+  'No reduction method available. Please choose a reduce-to';
 var problemJson = [];
 
 
@@ -26,7 +27,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
 
   const [reductionType, setReduceToType] = useState('');
-  const { chosenReduceTo } = useContext(ProblemContext);
+  const { problemInstance, chosenReduceTo, setReducedInstance } = useContext(ProblemContext);
   const [noReductionsType, setNoReductionsType] = useState(false);
   //chosenReduceTo
 
@@ -46,7 +47,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
       value={reductionType}
       onChange={(event, newValue) => {
 
-   
+
         if (typeof newValue === 'string') {
           setReduceToType(
             newValue
@@ -58,7 +59,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
           props.setData(newValue);
           // stateVal = newValue;
         }
-      
+
       }}
       filterOptions={(options, params) => {
         const filtered = filter(options, params);
@@ -89,7 +90,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
       freeSolo
       renderInput={(params) => (
         <TextField {...params} label={props.placeholder}
-        InputProps={ noReductionsType ? { ...params.InputProps, style: { fontSize: 12 } } : {...params.InputProps}}
+          InputProps={noReductionsType ? { ...params.InputProps, style: { fontSize: 12 } } : { ...params.InputProps }}
         />
       )}
     />
@@ -99,15 +100,15 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
     // problemJson = [];
-      while (problemJson.length) { 
-        problemJson.pop(); 
+    while (problemJson.length) {
+      problemJson.pop();
     }
-
-    if (!arr.length) { 
+     // check if reduceTo is selected
+    if (!arr.length) {
       setNoReductionsType(true);
       setReduceToType(noReductionsTypeMessage);
       props.setData('');
-     }
+    }
 
     arr.map(function (element, index, array) {
       // problemJson = [];
@@ -117,10 +118,15 @@ export default function SearchBarSelectReductionTypeV2(props) {
         if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
           props.setData(element);
           setReduceToType(element);
+          requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
+
+            // props.setInstance(data.reductionTo.instance);
+            setReducedInstance(data.reductionTo.instance);
+          }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
 
         }
         problemJson.push(element);
-       
+
       }
 
     }, 80);
@@ -139,23 +145,34 @@ export default function SearchBarSelectReductionTypeV2(props) {
     console.log(message.noReductionsMessage)
     console.log(chosenReduceTo)
 
-    if(chosenReduceTo !== ''){
-    
+    if (chosenReduceTo !== '') {
+
       const req = getRequest(url);
       req.then(data => {
-  
+
         initializeProblemJson(data)
         console.log(data)
       })
         .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SELECT REDUCTION TYPE"));
 
-    } else{
+    } else {
       setNoReductionsType(true);
       setReduceToType(noReductionsTypeMessage);
     }
 
-   
+
   }
+  async function requestReducedInstance(url, reductionName, reduceFrom) {
+    var parsedInstance = reduceFrom.replaceAll('&', '%26');
+
+    return await fetch(url + reductionName + '/reduce?' + "problemInstance=" + parsedInstance).then(resp => {
+      if (resp.ok) {
+
+        return resp.json();
+      }
+    })
+  }
+
 
 
 

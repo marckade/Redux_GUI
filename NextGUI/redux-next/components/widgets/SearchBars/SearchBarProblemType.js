@@ -25,6 +25,7 @@ const filter = createFilterOptions();
 var problemJson = [];
 
 
+
 const problemParser = new ProblemParser()
 
 export default function SearchBarProblemType(props) {
@@ -92,13 +93,16 @@ export default function SearchBarProblemType(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return option;
-        }
-       
-        // Regular option
-        return option;
-      }}
-      renderOption={(props, option) => <li {...props}>{option}</li>}
+          return problemParser.getWikiName(option)
+         // wikiName.get(option);
+          }
+         
+          // Regular option
+          return ''
+          // wikiName.get(option);
+  
+        }} 
+     // renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (

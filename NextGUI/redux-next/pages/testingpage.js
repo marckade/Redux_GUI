@@ -9,12 +9,16 @@ import BookData from "./Data.json";
 // import AutoComplete from '../components/widgets/SearchBar';
 
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
-import { Button, createTheme, ThemeProvider, Typograph } from "@mui/material"
+import { Box, Button, createTheme, FormControlLabel, Input, Switch, ThemeProvider, Typograph } from "@mui/material"
 import { orange } from "@mui/material/colors"
 import { useState, useEffect } from 'react';
 import TEST_SVG_REACT from '../components/Visualization/svgs/TEST_SVG_REACT';
 import VertexCoverSvgReact from '../components/Visualization/svgs/VertexCover_SVG_React';
-
+import VisualizationLogic from '../components/widgets/VisualizationLogic';
+import CLIQUE_SVG_REACT from '../components/Visualization/svgs/CLIQUE_SVG_REACT';
+import CliqueSvgReactV2 from '../components/Visualization/svgs/Clique_SVG_REACT_V2';
+import Container from '@mui/material';
+import Split from 'react-split';
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
 const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
@@ -45,83 +49,77 @@ function HomePage() {
       }
     }
   });
-
-
   
-  const [seconds, setSeconds] = useState(0);
-  const [isActive, setActive] = useState(false);
-  const [button2Count, setButton2Count] = useState(0);
-
-  
-  useEffect(() => {
-    let timer = null;
-    if (isActive) {
-      timer = setInterval(() => {
-        setSeconds(seconds + 1);
-        console.log("TIMER")
-        console.log(seconds);
-        //console.log(state)
-        if (seconds % 5 === 0) {
-          console.log("Fifth")
-          //console.log(button2Count);
-          
-        }
-        if (seconds % 10 === 0) {
-          console.log("TEN HIT")
-          console.log("Button 2 count: "+button2Count)
-          setActive(false);
-        }
-      }, 1000);
-    }
-    else {
-      clearInterval(timer)
-    }
-    // clearing interval
-    return () => clearInterval(timer);
-  });
-
-    
-  const handleButtonClick = () => {
-    setActive(!isActive)
+  const [text, setText] = useState("");
+  const [solutionSwitch, setSolutionSwitch] = useState(false);
+  const [leftSize, setLeftSize]= useState(50);
+  const [rightSize, setRightSize] = useState(50);
+  const handleTextBox = (event) => {
+    setText(event.target.value)
+    console.log(event.target.value)
   }
-  const handleButtonClick2 = () => {
-    if (isActive === false) {
-      setActive(true);
-    }
-    setButton2Count((button2Count) => button2Count + 1)
-    //setSeconds(0)
+
+  const handleSolveSwitch = (event) => {
+    setSolutionSwitch(event.target.checked);
   }
+
+  const handleBar = (sizes) => {
+    console.log(sizes);
+    setLeftSize(sizes[0])
+    setRightSize(sizes[1])
+}
+  const logicProps = {
+    solverOn: false,
+    reductionOn: false,
+    gadgetsOn: false,
+    problemName: "VERTEXCOVER",
+    problemInstance: "{{a,b,c,d,e,f,g},{{a,b},{a,c},{c,d},{c,e},{d,f},{e,f},{e,g}},3}",
+    problemSolution: "{e,f,c,d,a,b}"
+  }
+  const apiCallDef = `http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=${logicProps.problemInstance}`;
+  const apiCallSolved = `http://localhost:27000/VCSolver/visualize?problemInstance=${logicProps.problemInstance}&solutionString=${logicProps.problemSolution}`
+
+  const visData = undefined;
+  let visualization;
+  let reducedVisualization
+  let apiCall;
+
+              let apiCall1 = "http://localhost:27000/CLIQUEGeneric/visualize"
+                visualization =
+                        <CliqueSvgReactV2 apiCall={apiCall1} instance={logicProps.problemInstance}> </CliqueSvgReactV2>                    
+                apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + logicProps.problemInstance;
+                reducedVisualization =
+                    
+                  <VertexCoverSvgReact size={rightSize} apiCall={apiCall} instance={logicProps.problemInstance}></VertexCoverSvgReact>
 
   return (
     
     <>
     <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
-      {"HELLO"}
-        <TEST_SVG_REACT></TEST_SVG_REACT>
-        <VertexCoverSvgReact></VertexCoverSvgReact>
+            <>
+             <Split
+            class="wrap"      
+            direction="horizontal"
+            style={{ height: 'inherit' }}
+            onDragEnd={handleBar}
+                    
+          >
+            <Box>
+              {"hellow"}
+              {visualization}
 
+            </Box>
+            <Box>
+              {"hellow2"}
+              {reducedVisualization}
+            </Box>
+            
+                </Split>
+        </>
+        
     </ThemeProvider>
     </>
-
-    
-    // <div className="TextBox">
-    //   <div className = "TextBoxInner">
-    //     <TextBoxInstance textbox={DEFAULTTEXTBOX} />
-    //     </div>
-    //   <div className = "TextBoxInner">
-    //     <TextBoxInstance textbox={ALTTEXTBOX} />
-    //   </div>
-    //   <div className="TextBoxInner">
-    //     {/* <SearchBar placeholder={searchbarPlaceHolder} data={NPC_Problems}/> */}
-    //     {/* <AutoComplete url = {baseUrl+"navigation/NPC_Problems/"}></AutoComplete> */}
-    //   </div>
-    //   <div className="TextBoxInner">
-    //     </div>
-    // </div>
-
-
-    
   )
 }
 
