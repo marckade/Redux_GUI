@@ -60,6 +60,7 @@ function AccordionVerifier(props) {
     SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
     requestVerifyData(props.accordion.INPUTURL.url, chosenVerifier).then(data => {
       setToolTip({ header: data.verifierName, formalDef: data.verifierDefinition, info: data.source }) //updates TOOLTIP
+      setVerifiedInstance(data.certificate)
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
   }, [chosenVerifier]);
 
@@ -67,9 +68,9 @@ function AccordionVerifier(props) {
 
 
 
-  useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow
-    setVerifiedInstance(solvedInstance)
-  }, [solvedInstance])
+  // useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow
+  //   setVerifiedInstance(solvedInstance)
+  // }, [solvedInstance])
 
 
   const handleVerify = () => {

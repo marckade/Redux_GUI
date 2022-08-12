@@ -30,7 +30,7 @@ function Sat3SvgReact(props) {
     const ref = useRef(null);
     const {problemInstance} = useContext(ProblemContext);
     const defaultSolution = ["x1"];
-    const [solutionData, setSolutionData] = useState(defaultSolution);
+    const [solutionData, setSolutionData] = useState([]);
     useEffect(() => {
         getSat3(ref.current, props.data);
         if(props.showSolution){
@@ -52,6 +52,7 @@ function Sat3SvgReact(props) {
         
         else if (!props.showSolution) { //ALEX NOTE: Code in here causes a rerender of sat3 that gets rid of the solution.
           console.log("Show NORMAL DATA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          setSolutionData([]);
           fullClear();
 
 
@@ -59,7 +60,12 @@ function Sat3SvgReact(props) {
 
     }, [problemInstance, props.showSolution])
     showSolution(solutionData); //Data fed to this triggers a instance render with solution
-
+   
+  // useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow
+  //  if(!props.showSolution){
+  //   setSolutionData([])
+  //  }
+  // }, [props.showSolution])
 
     return (
         <svg ref={ref}

@@ -52,8 +52,8 @@ export default function VisualizationLogic(props) {
     //3SAT
     else if (problemName === "SAT3") {
 
-        if (visualizationState.reductionOn) {
-            if (reductionName === "CLIQUE" && !visualizationState.solverOn) {
+        if (props.visualizationState.reductionOn) {
+            if (reductionName === "CLIQUE" && !props.visualizationState.solverOn) {
 
                 visualization =
                     <div>
@@ -75,7 +75,7 @@ export default function VisualizationLogic(props) {
                             url={props.url}
                             reductionType={reductionType}
                             problemInstance={props.problemInstance}
-                            solveSwitch={visualizationState.solverOn}>
+                            solveSwitch={props.visualizationState.solverOn}>
                         </CLIQUE_SVG_REACT>
                     </>
             }
@@ -86,7 +86,7 @@ export default function VisualizationLogic(props) {
                         {/* {"SOLVER ON SPLIT VIZ SAT"} */}
                         <SAT3_SVG_React
                             data={props.problemVisualizationData}
-                            solution={props.problemSolutionData}
+                            // solution={props.problemSolutionData}
                             showSolution={props.visualizationState.solverOn}
                             url={props.url}
                         ></SAT3_SVG_React>
@@ -109,12 +109,7 @@ export default function VisualizationLogic(props) {
 
             }
 
-
-        }
-        else if (visualizationState.gadgetsOn) {
-
-        }
-        else {
+        }  else {
 
             visualization =
                 <div>
