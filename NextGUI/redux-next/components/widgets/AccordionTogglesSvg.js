@@ -177,15 +177,11 @@ function AccordionTogglesSvg(props) {
     (problemName !== '' && problemName !== null) ? setDisableSolution(false) : setDisableSolution(true);
     (chosenReduceTo !== '' && chosenReduceTo !== null) ? setDisableReduction(false) : setDisableReduction(true);
     (problemName === 'SAT3' && chosenReduceTo === 'CLIQUE') ? setShowReduction(true) : setShowReduction(false);
-    // console.log("show reduction for gadgets "+showReduction)
-  //   (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
-  //  console.log("Value: "+ showReduction)
-
   }, [problemName, chosenReduceTo]);
 
   useEffect(() => {
     (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
-    console.log("Value: "+ showReduction)
+   
   }, [showReduction])
 
   useEffect(() => {
