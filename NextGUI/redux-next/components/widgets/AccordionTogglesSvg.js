@@ -148,7 +148,9 @@ function AccordionTogglesSvg(props) {
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
-  const [disabledGadget, setDisabledGadget] = useState(true);
+  const [disableGadget, setDisableGadget] = useState(true);
+  const [disableSolution, setDisableSolution] = useState(true);
+  const [disableReduction, setDisableReduction] = useState(true);
 
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
@@ -172,17 +174,19 @@ function AccordionTogglesSvg(props) {
 
 
   useEffect(() => {
+    (problemName !== '' && problemName !== null) ? setDisableSolution(false) : setDisableSolution(true);
+    (chosenReduceTo !== '' && chosenReduceTo !== null) ? setDisableReduction(false) : setDisableReduction(true);
     (problemName === 'SAT3' && chosenReduceTo === 'CLIQUE') ? setShowReduction(true) : setShowReduction(false);
-    (showReduction === true) ? setDisabledGadget(false) : setDisabledGadget(true);
-    // if (showReduction) {
-    //   console.log("SHOW GADGET")
-    //   setDisabledGadget(false);
-    // } 
-    // else {
-    //   setDisabledGadget(false);
-    // }
+    // console.log("show reduction for gadgets "+showReduction)
+  //   (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
+  //  console.log("Value: "+ showReduction)
+
   }, [problemName, chosenReduceTo]);
 
+  useEffect(() => {
+    (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
+    console.log("Value: "+ showReduction)
+  }, [showReduction])
 
   useEffect(() => {
     apiCompatibleInstance = problemInstance.replaceAll('&', "%26").replaceAll(' ', '');
@@ -224,10 +228,10 @@ function AccordionTogglesSvg(props) {
 
 
     if (!e.target.checked) {
-      setDisabledGadget(true);
+      setDisableGadget(true);
       //triggerRerender();
     } else {
-      setDisabledGadget(false);
+      setDisableGadget(false);
     }
     console.log("Switch 3 Reduction  " + e.target.checked);
 
@@ -286,9 +290,9 @@ function AccordionTogglesSvg(props) {
               >
                 Refresh
               </Button>
-              <FormControlLabel checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
-              <FormControlLabel disabled={disabledGadget ? true : false} checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
-              <FormControlLabel checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
+              <FormControlLabel disabled={disableSolution ? true : false} checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
+              <FormControlLabel disabled={disableGadget ? true : false} checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel disabled={disableReduction ? true : false} checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
               <ContextAwareToggle accordionState={accordionOpened} setAccordionState={setAccordionOpened} className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{ height: '60px' }}>▼</ContextAwareToggle>
 
