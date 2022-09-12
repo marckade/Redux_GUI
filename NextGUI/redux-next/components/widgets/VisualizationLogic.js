@@ -126,7 +126,12 @@ export default function VisualizationLogic(props) {
     } else if (problemName === "CLIQUE") {
 
         if (visualizationState.solverOn) {
-
+            let apiCall1 = "http://localhost:27000/CLIQUEGeneric/solvedVisualization"
+                visualization =
+                    <Container>
+                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
+                    </Container>
+                console.log("clique solver on",props.problemInstance);
         }
         else if (visualizationState.reductionOn) {
 

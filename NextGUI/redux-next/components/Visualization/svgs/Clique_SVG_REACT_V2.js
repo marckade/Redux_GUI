@@ -51,8 +51,13 @@ const node = svg
   .style("fill", function (d) {
       //return "#FFC300";
       //"#00e676"
+    if (d.attribute2 == "True") {
+      return "#FFC300"
+    }
+    else {
+      return "#abc"
+    }
 
-            return "#FFC300"
         
     })
     .on("mouseover", function (d) {
