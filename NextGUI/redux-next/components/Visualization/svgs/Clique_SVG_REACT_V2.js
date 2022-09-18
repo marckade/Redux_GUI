@@ -28,7 +28,9 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
       const problemUrl = apiCall + '?problemInstance=' + problemInstance;
-d3.json(problemUrl).then( function( data) {
+      d3.json(problemUrl).then(function (data) {
+
+        
   console.log(data);
   console.log(problemUrl)
 // Initialize the links
@@ -46,7 +48,11 @@ const node = svg
   .selectAll("circle")
   .data(data.nodes)
     .join("circle")
-    .attr("class", function (d) { return "node_"+d.name; }) //node prefix added to class name to allow for int names by user.
+  .attr("class", function (d) {
+      let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
+      
+      return "node_" + dName;
+    }) //node prefix added to class name to allow for int names by user.
     .attr("r", 20)
   .style("fill", function (d) {
       //return "#FFC300";
@@ -60,13 +66,16 @@ const node = svg
 
         
     })
-    .on("mouseover", function (d) {
+  .on("mouseover", function (d) {
+      let dName = d.target.__data__.name.replaceAll('!','NOT')
       //console.log("HOVERING OVER A NODE", d.target.__data__.name)
       //console.log(d.target.__data__.name);
-      d3.selectAll(`.${"node_" + d.target.__data__.name}`).style('fill', "#ff1744") //note node prefix
+      d3.selectAll(`.${"node_" +dName}`).style('fill', "#ff1744") //note node prefix
     })
-    .on("mouseout", function (d) {                  
-            d3.selectAll(`.${"node_"+d.target.__data__.name}`).style('fill', "#abc")
+  .on("mouseout", function (d) {    
+      let dName = d.target.__data__.name.replaceAll('!','NOT')
+
+            d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
         
     })
  
@@ -106,7 +115,7 @@ function ticked() {
     node
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function (d) { return d.y; })
-        .attr("searchId", function (d) { return d.name; });
+      .attr("searchId", function (d) { return "node_"+d.name.replaceAll('!','NOT'); });
     
     text
     .text(function(d) {
