@@ -21,6 +21,7 @@ export default function VisualizationLogic(props) {
     let reducedInstance = props.reducedInstance;
     let visualizationState = props.visualizationState
     let loading = props.loading
+    let url = props.url;
 
     const handleBar = (sizes) => {
         //console.log(sizes);
@@ -40,7 +41,7 @@ export default function VisualizationLogic(props) {
 
         }
         else {
-            apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
+            apiCall = props.url +"/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
             visualization = <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>;
 
@@ -126,7 +127,7 @@ export default function VisualizationLogic(props) {
     } else if (problemName === "CLIQUE") {
 
         if (visualizationState.solverOn) {
-            let apiCall1 = "http://localhost:27000/CLIQUEGeneric/solvedVisualization"
+            let apiCall1 = props.url+"/CLIQUEGeneric/solvedVisualization"
                 visualization =
                     <Container>
                         <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
@@ -139,14 +140,14 @@ export default function VisualizationLogic(props) {
 
             if (reductionName === "VertexCover") {
 
-                let apiCall1 = "http://localhost:27000/CLIQUEGeneric/visualize"
+                let apiCall1 = props.url+"/CLIQUEGeneric/visualize"
                 visualization =
                     <Container>
                         <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
                     </Container>
                 console.log(props.problemInstance);
                 
-                let apiCall2 = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                let apiCall2 = props.url+"/VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
                 reducedVisualization =<>
                     <Container>
                         <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance}></VertexCoverSvgReact>
@@ -160,7 +161,7 @@ export default function VisualizationLogic(props) {
         }
         else {
 
-            apiCall = "http://localhost:27000/CLIQUEGeneric/visualize"
+            apiCall = props.url+"/CLIQUEGeneric/visualize"
             visualization =
                 <>
                     {/* {"CLIQUE V2 Viz"} */}
