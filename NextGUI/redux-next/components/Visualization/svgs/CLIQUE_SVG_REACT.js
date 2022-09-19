@@ -66,14 +66,68 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
 
         }
     ]
+
+    const data2 =[
+        {
+          "solutionState": "True",
+          "cluster": "0",
+          "name": "x1"
+        },
+        {
+          "solutionState": "",
+          "cluster": "0",
+          "name": "!x2"
+        },
+        {
+          "solutionState": "",
+          "cluster": "0",
+          "name": "x3"
+        },
+        {
+          "solutionState": "",
+          "cluster": "1",
+          "name": "!x1"
+        },
+        {
+          "solutionState": "",
+          "cluster": "1",
+          "name": "x3_1"
+        },
+        {
+          "solutionState": "True",
+          "cluster": "1",
+          "name": "x1_1"
+        },
+        {
+          "solutionState": "",
+          "cluster": "2",
+          "name": "x2"
+        },
+        {
+          "solutionState": "",
+          "cluster": "2",
+          "name": "!x3"
+        },
+        {
+          "solutionState": "True",
+          "cluster": "2",
+          "name": "x1_2"
+        }
+      ]
     let ref = useRef(null);
     // const { problemInstance } = useContext(ProblemContext)
     const [jsonData, setJsonData] = useState(defaultArr);
     useEffect(() => {
         if (props.solveSwitch) {
-            //console.log("solved Visualization",props.solveSwitch);
+            console.log("solved Visualization",props.solveSwitch);
             getReducedVisualizationData(props.url, props.reductionType, "solvedVisualization", props.problemInstance).then(data => {
                 setJsonData(data)
+                console.log("This is the data "+ data)
+                if (typeof data  === 'undefined') {
+                    console.log('IT IS UNDEFINED')
+                    setJsonData(data2)
+                  }
+               
             })
         }
         else if (!props.solveSwitch) {

@@ -3,7 +3,7 @@
 
 import * as d3 from "d3";
 import { text } from "d3";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState} from "react";
 
 function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
     const [animatedNodes, setAnimatedNodes] = useState([]);
@@ -45,33 +45,32 @@ const node = svg
   .selectAll("circle")
   .data(data.nodes)
     .join("circle")
-    // .attr("class", function (d) { return d.cover; })
+  .attr("class", function (d) {
+    let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
+      
+      return "node_" + dName;
+  }) //node prefix added to class name to allow for int names by user.
     .attr("r", 20)
-  .style("fill", function (d) {
-        if (d.attribute1 === "true") {
-          return "#00e676"
-        }
-        else if (d.attribute1 === "false") {
-          return "#ff1744"
-
-        }
-        else {
-          return "#D5DBDB"
-        }
+    .style("fill", function (d) {
+      //return "#FFC300";
+      //"#00e676"
+        
+          return "#FFC300"
+        
     })
-    // .on("mouseover", function (d) {
-    //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-    //     svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#abc")
-    // })
-    // .on("mouseout", function (d) {
-    //     if (d.target.__data__.cover === "true") {
-    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ffea00")
-    //     }
-    //     else {
-    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ff1744")
+    .on("mouseover", function (d) {
+      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+      //console.log(d.target.__data__.name);
+      let dName = d.target.__data__.name.replaceAll('!','NOT')
 
-    //     }
-    // })
+      d3.selectAll(`.${"node_" + dName}`).style('fill', "#ff1744") //note node prefix
+    })
+  .on("mouseout", function (d) {  
+    let dName = d.target.__data__.name.replaceAll('!','NOT')
+
+            d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
+        
+    })
  
     
 const text = svg.selectAll("text") //Append Text on top of nodes.
@@ -175,7 +174,7 @@ export default function VertexCoverSvgReact(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance = {props.instance} />
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance = {props.instance}  />
     </>
   );
 }

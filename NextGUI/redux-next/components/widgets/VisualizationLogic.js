@@ -3,8 +3,7 @@
 
 import Split from 'react-split'
 import { Container } from '@mui/material';
-
-
+import { useState } from 'react';
 import VertexCoverSvgReact from "../Visualization/svgs/VertexCover_SVG_React";
 import SAT3_SVG_React from "../Visualization/svgs/SAT3_SVG_React";
 import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
@@ -52,8 +51,8 @@ export default function VisualizationLogic(props) {
     //3SAT
     else if (problemName === "SAT3") {
 
-        if (visualizationState.reductionOn) {
-            if (reductionName === "CLIQUE" && !visualizationState.solverOn) {
+        if (props.visualizationState.reductionOn) {
+            if (reductionName === "CLIQUE" && !props.visualizationState.solverOn) {
 
                 visualization =
                     <div>
@@ -75,7 +74,7 @@ export default function VisualizationLogic(props) {
                             url={props.url}
                             reductionType={reductionType}
                             problemInstance={props.problemInstance}
-                            solveSwitch={visualizationState.solverOn}>
+                            solveSwitch={props.visualizationState.solverOn}>
                         </CLIQUE_SVG_REACT>
                     </>
             }
@@ -86,7 +85,7 @@ export default function VisualizationLogic(props) {
                         {/* {"SOLVER ON SPLIT VIZ SAT"} */}
                         <SAT3_SVG_React
                             data={props.problemVisualizationData}
-                            solution={props.problemSolutionData}
+                            // solution={props.problemSolutionData}
                             showSolution={props.visualizationState.solverOn}
                             url={props.url}
                         ></SAT3_SVG_React>
@@ -109,12 +108,7 @@ export default function VisualizationLogic(props) {
 
             }
 
-
-        }
-        else if (visualizationState.gadgetsOn) {
-
-        }
-        else {
+        }  else {
 
             visualization =
                 <div>
@@ -132,7 +126,12 @@ export default function VisualizationLogic(props) {
     } else if (problemName === "CLIQUE") {
 
         if (visualizationState.solverOn) {
-
+            let apiCall1 = "http://localhost:27000/CLIQUEGeneric/solvedVisualization"
+                visualization =
+                    <Container>
+                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
+                    </Container>
+                console.log("clique solver on",props.problemInstance);
         }
         else if (visualizationState.reductionOn) {
 
@@ -165,7 +164,7 @@ export default function VisualizationLogic(props) {
             visualization =
                 <>
                     {/* {"CLIQUE V2 Viz"} */}
-                    <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance}> </CliqueSvgReactV2>
+                    <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance} > </CliqueSvgReactV2>
                 </>
         }
     }

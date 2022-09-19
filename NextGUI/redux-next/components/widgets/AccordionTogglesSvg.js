@@ -20,7 +20,7 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses } from '@mui/material'
+import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses, touchRippleClasses } from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 //import Graphvisualization from "../Visualization/Graphvisualization";
@@ -145,13 +145,13 @@ function AccordionTogglesSvg(props) {
     backgroundColor: '#43a047'
   }
   const { problemName, problemInstance, chosenReduceTo, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
-  // const [reduction, setReductionInstance] = useState(graphDotTest2);
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
-  const isSat3ToClique = (problemName == 'SAT3' && chosenReduceTo == 'CLIQUE') ? true : false
   const [showReduction, setShowReduction] = useState(false);
-  console.log("show reduction switch " + showReduction + " problemName: " + problemName + " reduceTO: " + chosenReduceTo)
-  //defaultSat3VisualizationArr
+  const [disableGadget, setDisableGadget] = useState(true);
+  const [disableSolution, setDisableSolution] = useState(true);
+  const [disableReduction, setDisableReduction] = useState(true);
+
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
   const [problemSolutionData, setProblemSolutionData] = useState(null);
@@ -174,14 +174,20 @@ function AccordionTogglesSvg(props) {
 
 
   useEffect(() => {
-    (problemName === 'SAT3' && chosenReduceTo === 'CLIQUE') ? setShowReduction(true) : setShowReduction(false)
-  }, [problemName, chosenReduceTo])
+    (problemName !== '' && problemName !== null) ? setDisableSolution(false) : setDisableSolution(true);
+    (chosenReduceTo !== '' && chosenReduceTo !== null) ? setDisableReduction(false) : setDisableReduction(true);
+    (problemName === 'SAT3' && chosenReduceTo === 'CLIQUE') ? setShowReduction(true) : setShowReduction(false);
+  }, [problemName, chosenReduceTo]);
 
-  
+  useEffect(() => {
+    (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
+   
+  }, [showReduction])
+
   useEffect(() => {
     apiCompatibleInstance = problemInstance.replaceAll('&', "%26").replaceAll(' ', '');
     if (problemName === "SAT3") {
-    
+
       getProblemVisualizationData(props.accordion.INPUTURL.url, problemName, apiCompatibleInstance).then(data => {
         //console.log(data);
         setProblemVisualizationData(data.clauses);
@@ -194,7 +200,7 @@ function AccordionTogglesSvg(props) {
     }
 
 
-  }, [problemInstance])
+  }, [problemInstance]);
 
 
   function handleSwitch1Change(e) { // solution switch
@@ -206,8 +212,8 @@ function AccordionTogglesSvg(props) {
   }
 
   function handleSwitch2Change(e) { //gadget switch.
-    setShowGadgets(true);
-    setShowGadgets(false);
+    // setShowGadgets(true);
+    // setShowGadgets(false);
     setShowGadgets(e.target.checked);
     setShowSolution(false);
     console.log("Switch 2 Gadgets  " + e.target.checked);
@@ -215,8 +221,13 @@ function AccordionTogglesSvg(props) {
 
   function handleSwitch3Change(e) { //Reduction Switch
     setShowReduction(e.target.checked);
+
+
     if (!e.target.checked) {
+      setDisableGadget(true);
       //triggerRerender();
+    } else {
+      setDisableGadget(false);
     }
     console.log("Switch 3 Reduction  " + e.target.checked);
 
@@ -275,9 +286,9 @@ function AccordionTogglesSvg(props) {
               >
                 Refresh
               </Button>
-              <FormControlLabel checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
-              <FormControlLabel checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
-              <FormControlLabel checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
+              <FormControlLabel disabled={disableSolution ? true : false} checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
+              <FormControlLabel disabled={disableGadget ? true : false} checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel disabled={disableReduction ? true : false} checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
 
               <ContextAwareToggle accordionState={accordionOpened} setAccordionState={setAccordionOpened} className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{ height: '60px' }}>▼</ContextAwareToggle>
 

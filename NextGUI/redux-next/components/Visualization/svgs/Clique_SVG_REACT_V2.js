@@ -7,8 +7,8 @@ import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
-    const [animatedNodes, setAnimatedNodes] = useState([]);
-    const [animatedLinks, setAnimatedLinks] = useState([]);
+
+
     const margin = {top: 200, right: 30, bottom: 30, left: 200},
     width = w - margin.left - margin.right,
     height = h - margin.top - margin.bottom;
@@ -28,7 +28,9 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
       const problemUrl = apiCall + '?problemInstance=' + problemInstance;
-d3.json(problemUrl).then( function( data) {
+      d3.json(problemUrl).then(function (data) {
+
+        
   console.log(data);
   console.log(problemUrl)
 // Initialize the links
@@ -46,31 +48,36 @@ const node = svg
   .selectAll("circle")
   .data(data.nodes)
     .join("circle")
-    // .attr("class", function (d) { return d.cover; })
+  .attr("class", function (d) {
+      let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
+      
+      return "node_" + dName;
+    }) //node prefix added to class name to allow for int names by user.
     .attr("r", 20)
   .style("fill", function (d) {
-      return "#FFC300";
+      //return "#FFC300";
       //"#00e676"
-        // if (d.cover === "true") {
-        //         return "#00e676"
-        // }
-        // else {
-        //     return "#ff1744"
-        // }
-    })
-    // .on("mouseover", function (d) {
-    //     //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-    //     svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#abc")
-    // })
-    // .on("mouseout", function (d) {
-    //     if (d.target.__data__.cover === "true") {
-    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ffea00")
-    //     }
-    //     else {
-    //         svg.selectAll(`.${d.target.__data__.cover}`).style('fill', "#ff1744")
+    if (d.attribute2 == "True") {
+      return "#FFC300"
+    }
+    else {
+      return "#abc"
+    }
 
-    //     }
-    // })
+        
+    })
+  .on("mouseover", function (d) {
+      let dName = d.target.__data__.name.replaceAll('!','NOT')
+      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+      //console.log(d.target.__data__.name);
+      d3.selectAll(`.${"node_" +dName}`).style('fill', "#ff1744") //note node prefix
+    })
+  .on("mouseout", function (d) {    
+      let dName = d.target.__data__.name.replaceAll('!','NOT')
+
+            d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
+        
+    })
  
     
 const text = svg.selectAll("text") //Append Text on top of nodes.
@@ -108,7 +115,7 @@ function ticked() {
     node
         .attr("cx", function (d) { return d.x; })
         .attr("cy", function (d) { return d.y; })
-        .attr("searchId", function (d) { return d.name; });
+      .attr("searchId", function (d) { return "node_"+d.name.replaceAll('!','NOT'); });
     
     text
     .text(function(d) {
@@ -149,7 +156,7 @@ function ticked() {
 
 export default function CliqueSvgReactV2(props) {
   const [charge, setCharge] = useState(-150);
-  
+  console.log(props)
 
   return (
     <Container>
@@ -162,7 +169,7 @@ export default function CliqueSvgReactV2(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance} />
+     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance ={props.instance}  />
     </Container>
   );
 }
