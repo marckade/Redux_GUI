@@ -41,7 +41,7 @@ export default function VisualizationLogic(props) {
 
         }
         else {
-            apiCall = props.url +"/VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
+            apiCall = props.url +"VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
             visualization = <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>;
 
@@ -127,7 +127,7 @@ export default function VisualizationLogic(props) {
     } else if (problemName === "CLIQUE") {
 
         if (visualizationState.solverOn) {
-            let apiCall1 = props.url+"/CLIQUEGeneric/solvedVisualization"
+            let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization"
                 visualization =
                     <Container>
                         <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
@@ -140,14 +140,14 @@ export default function VisualizationLogic(props) {
 
             if (reductionName === "VertexCover") {
 
-                let apiCall1 = props.url+"/CLIQUEGeneric/visualize"
+                let apiCall1 = props.url+"CLIQUEGeneric/visualize"
                 visualization =
                     <Container>
                         <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
                     </Container>
                 console.log(props.problemInstance);
                 
-                let apiCall2 = props.url+"/VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
                 reducedVisualization =<>
                     <Container>
                         <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance}></VertexCoverSvgReact>
@@ -161,7 +161,7 @@ export default function VisualizationLogic(props) {
         }
         else {
 
-            apiCall = props.url+"/CLIQUEGeneric/visualize"
+            apiCall = props.url+"CLIQUEGeneric/visualize"
             visualization =
                 <>
                     {/* {"CLIQUE V2 Viz"} */}
