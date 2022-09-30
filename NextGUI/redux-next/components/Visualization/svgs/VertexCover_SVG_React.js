@@ -40,6 +40,7 @@ const link = svg
 
 
 // Initialize the nodes
+// Here is where the color editing is for the Reduction side of the graph.
     
 const node = svg
   .selectAll("circle")
@@ -55,21 +56,22 @@ const node = svg
       //return "#FFC300";
       //"#00e676"
         
-          return "#FFC300"
+          return "#abc"
         
     })
-    .on("mouseover", function (d) {
+      .on("mouseover", function (d) {
       //console.log("HOVERING OVER A NODE", d.target.__data__.name)
       //console.log(d.target.__data__.name);
       let dName = d.target.__data__.name.replaceAll('!','NOT')
-
-      d3.selectAll(`.${"node_" + dName}`).style('fill', "#ff1744") //note node prefix
+      if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
+        d3.selectAll(`.${"node_" + dName}`).style('fill', "#F69240") //note node prefix
+      }
     })
   .on("mouseout", function (d) {  
     let dName = d.target.__data__.name.replaceAll('!','NOT')
-
-            d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
-        
+    if (d3.select("#highlightGadgets").property("checked")){
+      d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
+    }
     })
  
     

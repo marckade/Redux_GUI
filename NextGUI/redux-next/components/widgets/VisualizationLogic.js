@@ -9,6 +9,7 @@ import SAT3_SVG_React from "../Visualization/svgs/SAT3_SVG_React";
 import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
 import CliqueSvgReactV2 from "../Visualization/svgs/Clique_SVG_REACT_V2";
 import { tsvFormatValue } from 'd3';
+import Refresh from '@mui/icons-material/Refresh';
 
 export default function VisualizationLogic(props) {
 
@@ -51,7 +52,6 @@ export default function VisualizationLogic(props) {
 
     //3SAT
     else if (problemName === "SAT3") {
-
         if (props.visualizationState.reductionOn) {
             if (reductionName === "CLIQUE" && !props.visualizationState.solverOn) {
 
@@ -101,7 +101,7 @@ export default function VisualizationLogic(props) {
                             data={props.reducedVisualizationData}
                             url={props.url}
                             reductionType={reductionType}
-                            problemInstance={props.problemInstance}
+                            //problemInstance={props.problemInstance}
                             solveSwitch={visualizationState.solverOn}
                         ></CLIQUE_SVG_REACT>
                     </>
@@ -115,7 +115,8 @@ export default function VisualizationLogic(props) {
                 <div>
 
                     {/* {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"} */}
-                    <SAT3_SVG_React data={props.problemVisualizationData}
+                    <SAT3_SVG_React 
+                        data={props.problemVisualizationData}
                         showSolution={props.visualizationState.solverOn}
                         url={props.url}
                     >
@@ -123,59 +124,85 @@ export default function VisualizationLogic(props) {
                 </div>
         }
 
+        /*solverOn = "highlight solution"
+        reductionOn = "Show Reduction"
+        gadgetsOn = "Highlight gadgests"*/
+
         // Clique problem
     } else if (problemName === "CLIQUE") {
-
+        // Solution is on
         if (visualizationState.solverOn) {
-            let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization"
-                visualization =
+            let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization" // Solved base problem
+            visualization =
                     <Container>
-                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
+                        <CliqueSvgReactV2 
+                            apiCall={apiCall1}
+                            instance={props.problemInstance}
+                            showSolution={props.visualizationState.solverOn}>
+                        </CliqueSvgReactV2>
                     </Container>
-                console.log("clique solver on",props.problemInstance);
-        }
-        else if (visualizationState.reductionOn) {
-
-            //Reductions 
-
-            if (reductionName === "VertexCover") {
-
-                let apiCall1 = props.url+"CLIQUEGeneric/visualize"
-                visualization =
-                    <Container>
-                        <CliqueSvgReactV2 apiCall={apiCall1} instance={props.problemInstance}> </CliqueSvgReactV2>
-                    </Container>
-                console.log(props.problemInstance);
                 
+            // Both reduction and solutions are on.
+            if (visualizationState.reductionOn && reductionName === "VertexCover"){
+                // Solved base problem
+                visualization =
+                <CliqueSvgReactV2 
+                    apiCall={apiCall1}
+                    instance={props.problemInstance}
+                    showSolution={props.visualizationState.solverOn}>
+                </CliqueSvgReactV2>
+
+                //Unsolved reduction (Should be solved when we make a solution.)
                 let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
-                reducedVisualization =<>
-                    <Container>
-                        <VertexCoverSvgReact apiCall={apiCall2} instance={props.reducedInstance}></VertexCoverSvgReact>
-                    </Container>
-                    </>
+                reducedVisualization =
+                    <VertexCoverSvgReact 
+                        apiCall={apiCall2} 
+                        instance={props.reducedInstance}
+                        solveSwitch={props.visualizationState.solverOn}>
+                    </VertexCoverSvgReact>   
             }
-
         }
-        else if (visualizationState.gadgetsOn) {
 
+        // Reduction is on and the solution is OFF
+        else if (visualizationState.reductionOn && !visualizationState.solverOn) {
+            if (reductionName === "VertexCover") {
+                let apiCall1 = props.url+"CLIQUEGeneric/visualize" // Unsolved base problem
+                visualization =
+                    <Container>
+                        <CliqueSvgReactV2 
+                            apiCall={apiCall1} 
+                            instance={props.problemInstance}
+                            showSolution={props.visualizationState.solverOn}> 
+                        </CliqueSvgReactV2>
+                    </Container>
+
+                // Unsolved reduction
+                let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                reducedVisualization =
+                        <Container>
+                            <VertexCoverSvgReact 
+                                apiCall={apiCall2} 
+                                instance={props.reducedInstance}
+                                solveSwitch={props.visualizationState.solverOn}>
+                            </VertexCoverSvgReact>
+                        </Container>
+            }
         }
+        
+        else if (visualizationState.gadgetsOn) {}
+        // Nothing is selected
         else {
-
             apiCall = props.url+"CLIQUEGeneric/visualize"
             visualization =
                 <>
                     {/* {"CLIQUE V2 Viz"} */}
-                    <CliqueSvgReactV2 apiCall={apiCall} instance={props.problemInstance} > </CliqueSvgReactV2>
+                    <CliqueSvgReactV2 
+                        apiCall={apiCall} 
+                        instance={props.problemInstance}> 
+                    </CliqueSvgReactV2>
                 </>
         }
     }
-
-
-
-
-
-
-
 
 
 

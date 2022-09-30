@@ -58,25 +58,26 @@ const node = svg
       //return "#FFC300";
       //"#00e676"
     if (d.attribute2 == "True") {
-      return "#FFC300"
+      return "#00E676" //Highlight solutions color: green 
     }
     else {
-      return "#abc"
+      return "#abc" // Non-Solution color: grey
     }
 
-        
     })
   .on("mouseover", function (d) {
       let dName = d.target.__data__.name.replaceAll('!','NOT')
       //console.log("HOVERING OVER A NODE", d.target.__data__.name)
       //console.log(d.target.__data__.name);
-      d3.selectAll(`.${"node_" +dName}`).style('fill', "#ff1744") //note node prefix
+      if (d3.select("#highlightGadgets").property("checked")){  // Mouseover is only on if the toggle switch is on
+        d3.selectAll(`.${"node_" +dName}`).style('fill', "#F69240") //note node prefix, color orange
+      }
     })
   .on("mouseout", function (d) {    
       let dName = d.target.__data__.name.replaceAll('!','NOT')
-
-            d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
-        
+      if (d3.select("#highlightGadgets").property("checked")){
+        d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc") //FFC300 grey abc
+      }
     })
  
     
