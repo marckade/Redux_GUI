@@ -2,7 +2,6 @@
 import React from 'react'
 import { useContext, useState, useEffect } from 'react';
 import SAT3_SVG_React from '../Visualization/svgs/SAT3_SVG_React';
-import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { getClique } from '../Visualization/svgs/Sat3ToCliqueReduction';
 import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
 import CLIQUE_SVG_REACT from '../Visualization/svgs/CLIQUE_SVG_REACT';
