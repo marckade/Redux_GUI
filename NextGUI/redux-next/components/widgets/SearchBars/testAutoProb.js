@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import TextField from '@mui/material/TextField';
 import { Autocomplete } from "@mui/material";
 import dynamic from "next/dynamic";
+import * as d3 from 'd3'
 import { ProblemParser } from '../../../Tools/ProblemParser';
 const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
 const tempGraph = {
@@ -48,10 +49,11 @@ const tempGraph = {
   }
 }
 const tempUrl  = 'http://localhost:27000/Navigation/NPC_NavGraph/info';
-
+let nodes = []
+let edges = []
 
 export default function TestAuto(props) {
-  const problemParser = new ProblemParser()
+ // const problemParser = new ProblemParser()
 
   const [dot, setDotString] = useState('');
   const [graphObject, setObject] = useState(null);
@@ -61,17 +63,20 @@ export default function TestAuto(props) {
 
   useEffect(() => {
     parseResponse()
+  
   }, [])
 
   async function parseResponse(){
  
-    const responseObject = await getRequest(tempUrl);
+    // const responseObject = await getRequest(tempUrl);
+    const responseObject  = tempGraph
     setObject(responseObject)
     const nodes = Object.keys(responseObject);
     let graph = "digraph NPProblems { \n"
     for (const node of nodes){
      
       graph += `${node}[id=${node}] \n`
+      nodes.push(node)
     
       if(responseObject[node]){
         const nodeTo = Object.keys(responseObject[node])
