@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import TextField from '@mui/material/TextField';
-import { Autocomplete } from "@mui/material";
 import dynamic from "next/dynamic";
-import * as d3 from 'd3'
 import { ProblemParser } from '../../../Tools/ProblemParser';
 const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
 const tempGraph = {
@@ -49,10 +46,10 @@ const tempGraph = {
   }
 }
 const tempUrl  = 'http://localhost:27000/Navigation/NPC_NavGraph/info';
-let nodes = []
-let edges = []
+let nodesList = []
+let edgeList = []
 
-export default function TestAuto(props) {
+export default function Graph(props) {
  // const problemParser = new ProblemParser()
 
   const [dot, setDotString] = useState('');
@@ -62,8 +59,7 @@ export default function TestAuto(props) {
   
 
   useEffect(() => {
-    parseResponse()
-  
+    parseResponse();
   }, [])
 
   async function parseResponse(){
@@ -72,28 +68,33 @@ export default function TestAuto(props) {
     const responseObject  = tempGraph
     setObject(responseObject)
     const nodes = Object.keys(responseObject);
+    nodesList = nodes
     let graph = "digraph NPProblems { \n"
     for (const node of nodes){
      
       graph += `${node}[id=${node}] \n`
-      nodes.push(node)
-    
+      console.log(graph)
+     
+  
       if(responseObject[node]){
         const nodeTo = Object.keys(responseObject[node])
         for( const elem of nodeTo) { 
           // pick the first reduction method
           const array = responseObject[node][elem][0].split('.')
-          graph += `${node} -> ${elem}[label=${array[0]}] \n`
+          const edge = `${node.replaceAll("01", "").replaceAll("3", "")}_${elem.replaceAll("01", "").replaceAll("3", "")}`;
+          //, id=${edge}
+          graph += `${node} -> ${elem}[label=${array[0]}, id=${edge}] \n`
+          console.log(graph)
+          edgeList.push(edge)
         }
       }
     
     }
+    console.log(edgeList)
   
-    graph += '}'
-    console.log(graph)
+    graph += '}';
+    setDotString(graph);
 
-    setDotString(graph)
-   
   }
   
   
@@ -109,9 +110,12 @@ export default function TestAuto(props) {
   return (
 
   <>
-   <Graphviz dot={dot}  />
+   <Graphviz dot={dot} 
+    />
   </>
   )
 
 }
+
+export {nodesList, edgeList};
 
