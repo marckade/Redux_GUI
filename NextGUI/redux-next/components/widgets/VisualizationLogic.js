@@ -80,7 +80,6 @@ export default function VisualizationLogic(props) {
                     </>
             }
             else if (reductionName === "CLIQUE" && visualizationState.solverOn) {
-
                 visualization =
                     <div>
                         {/* {"SOLVER ON SPLIT VIZ SAT"} */}
@@ -101,7 +100,7 @@ export default function VisualizationLogic(props) {
                             data={props.reducedVisualizationData}
                             url={props.url}
                             reductionType={reductionType}
-                            //problemInstance={props.problemInstance}
+                            problemInstance={props.problemInstance}
                             solveSwitch={visualizationState.solverOn}
                         ></CLIQUE_SVG_REACT>
                     </>
