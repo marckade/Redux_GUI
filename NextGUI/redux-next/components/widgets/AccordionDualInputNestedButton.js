@@ -65,13 +65,19 @@ function AccordionDualInputNestedButton(props) {
   const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
 
   const reduceRequest = () => {
-    console.log("Problem Instance at time of reduce req: ", problemInstance);
+    console.log("Problem Instance at time of reduce req: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+ problemInstance);
 
     if(chosenReductionType !== '' && chosenReductionType !== null){
       requestReducedInstance(props.accordion.INPUTURL.url, chosenReductionType, problemInstance).then(data => {
 
         setReducedInstance(data.reductionTo.instance);
         setReducedInstanceLocal(data.reductionTo.instance);
+
+        //var reducedInstance = data.reductionTo.instance;
+        // Gets the list of nodes in the raw expression
+        //const prettyFormat = createPrettyFormat(reducedInstance);
+        //console.log("\n\n\n\n\n\n\n"+prettyFormat);
+
       }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
      
     }
@@ -156,7 +162,8 @@ function AccordionDualInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-              {reducedInstance}
+            <Card.Text>{createPrettyFormat(reducedInstance)}</Card.Text>
+            
               <div className="submitButton">
                 <Button
                   size='large'
@@ -175,6 +182,33 @@ function AccordionDualInputNestedButton(props) {
   );
 
 
+}
+
+function createPrettyFormat(rawInstance){
+  const prettyNodesRegex = rawInstance.match('((?<={)[ -~]+)(?=,{{)');
+  // var prettyNode = prettyNodesRegex[0];
+
+  // Checks if this is actually a node / edge format. If not, show the original form.
+  if (prettyNodesRegex === null){
+    return (
+      <>{rawInstance}</>
+    );
+  }
+
+  // Gets the list of all the edges in the raw expression
+  const prettyEdgesRegex = rawInstance.match('((?<=,{)[ -~]+)(?=},)');    // Works but duplicates it's result septerated by a , for some reason
+
+  // prettyNodesRegex returns an array with 2 elements that are the same, so we just choose the first one [0].
+  return (
+    <>
+      <p><b>Nodes:</b></p>
+      <p>{prettyNodesRegex[0]}</p>
+      <p><b>Edges:</b></p>
+      <p>{prettyEdgesRegex[0]}</p> 
+      <p><b>Original form:</b></p>
+      <p>{rawInstance}</p>
+    </>
+  );
 }
 
 async function requestProblemData(url, name) {
