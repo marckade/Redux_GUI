@@ -185,7 +185,9 @@ function AccordionDualInputNestedButton(props) {
 }
 
 function createPrettyFormat(rawInstance){
-  const prettyNodesRegex = rawInstance.match('((?<={)[ -~]+)(?=,{{)');
+  //const prettyNodesRegex = rawInstance.match('((?<={{)[ -~]+)(?=},{{)'); //((?<={{)[ -~]+)(?=},{{)  ((?<={)[ -~]+)(?=,{{)
+  const spacedInstance = rawInstance.replace(/,/g, ', ');
+  const prettyNodesRegex = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
   // var prettyNode = prettyNodesRegex[0];
 
   // Checks if this is actually a node / edge format. If not, show the original form.
@@ -196,7 +198,7 @@ function createPrettyFormat(rawInstance){
   }
 
   // Gets the list of all the edges in the raw expression
-  const prettyEdgesRegex = rawInstance.match('((?<=,{)[ -~]+)(?=},)');    // Works but duplicates it's result septerated by a , for some reason
+  const prettyEdgesRegex = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )'); // ((?<=}, {)[ -~]+)(?=}, )
 
   // prettyNodesRegex returns an array with 2 elements that are the same, so we just choose the first one [0].
   return (
