@@ -1,71 +1,121 @@
 import { useEffect, useState } from "react";
-import TextField from '@mui/material/TextField';
-import { Autocomplete } from "@mui/material";
+import dynamic from "next/dynamic";
+import { ProblemParser } from '../../../Tools/ProblemParser';
+const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
+const tempGraph = {
+  "arcset": {},
+  "clique": {
+    "vertexcover": [
+      "sipserReduceToVC.cs"
+    ]
+  },
+  "dm3": {},
+  "exactcover": {},
+  "graphcoloring": {
+    "sat": [
+      "KarpReduceSAT.cs"
+    ]
+  },
+  "intprogramming01": {},
+  "knapsack": {},
+  "sat": {},
+  "sat3": {
+    "clique": [
+      "SipserReduceToCliqueStandard.cs"
+    ],
+    "dm3": [
+      "GareyJohnson.cs"
+    ],
+    "graphcoloring": [
+      "KarpReduceGRAPHCOLORING.cs"
+    ],
+    "intprogramming01": [
+      "KarpIntProgStandard.cs"
+    ]
+  },
+  "subsetsum": {
+    "knapsack": [
+      "Feng.cs"
+    ]
+  },
+  "tsp": {},
+  "vertexcover": {
+    "arcset": [
+      "LawlerKarp.cs"
+    ]
+  }
+}
+const tempUrl  = 'http://localhost:27000/Navigation/NPC_NavGraph/info';
+let nodesList = []
+let edgeList = []
+
+export default function Graph(props) {
+ // const problemParser = new ProblemParser()
+
+  const [dot, setDotString] = useState('');
+  const [graphObject, setObject] = useState(null);
 
 
+  
 
-export default function TestAuto(props) {
+  useEffect(() => {
+    parseResponse();
+  }, [])
 
-  // const [problemName, setProblemName] = useState('');
-  var defaultProblem = 'SAT3';
-  const map =  new Map()
+  async function parseResponse(){
+ 
+    // const responseObject = await getRequest(tempUrl);
+    const responseObject  = tempGraph
+    setObject(responseObject)
+    const nodes = Object.keys(responseObject);
+    nodesList = nodes
+    let graph = "digraph NPProblems { \n"
+    for (const node of nodes){
+     
+      graph += `${node}[id=${node}] \n`
+      console.log(graph)
+     
+  
+      if(responseObject[node]){
+        const nodeTo = Object.keys(responseObject[node])
+        for( const elem of nodeTo) { 
+          // pick the first reduction method
+          const array = responseObject[node][elem][0].split('.')
+          const edge = `${node.replaceAll("01", "").replaceAll("3", "")}_${elem.replaceAll("01", "").replaceAll("3", "")}`;
+          //, id=${edge}
+          graph += `${node} -> ${elem}[label=${array[0]}, id=${edge}] \n`
+          console.log(graph)
+          edgeList.push(edge)
+        }
+      }
+    
+    }
+    console.log(edgeList)
+  
+    graph += '}';
+    setDotString(graph);
 
-  map.set('ST', "3SAT")
-  map.set('DT', "Clique")
-  map.set('FT', "Vertexcover")
-  map.set('SAT3', "SAT")
-
-  var problemList = ['ST', 'DT', 'FT'];
-  // const list =  []
-  const [noReductions, setReductions] = useState(true);
-  const [problem, setTestName] = useState(defaultProblem);
-
-  // setReductions(true)
+  }
+  
+  
+  async function getRequest(url) {
+    const promise = await fetch(url)
+    const data = await promise.json() 
+    return data
+  }
+  
+  
 
 
   return (
 
-    <Autocomplete
-      selectOnFocus
-      value={problem}
-
-      onChange={(event, newValue) => {
-        if (typeof newValue === 'string') {
-          setTestName(
-            newValue
-          );
-          //setDefaultProblemName(newValue)
-          // props.setTestName(newValue);
-        } 
-
-        console.log("new problem chosen test: "+problem)
-      }}
-
-
-      options={problemList}
-      getOptionLabel={(option) => {
-        // Value selected with enter, right from the input
-        if (typeof option === 'string') {
-          return map.get(option);
-        }
-       
-        // Regular option
-        return map.get(option);
-      }}
-      
-
-      
-
-
-      renderInput={(params) => (
-        <TextField 
-        {...params} 
-        InputProps={ noReductions ? { ...params.InputProps, style: { fontSize: 40 } } : {...params.InputProps}}
-        />
-      )}
-
-
+  <>
+   <Graphviz dot={dot} 
     />
+  </>
   )
 
 }
+
+export {nodesList, edgeList};
+

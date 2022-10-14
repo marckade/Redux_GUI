@@ -23,8 +23,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses, touchRippleClasses } from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
-//import Graphvisualization from "../Visualization/Graphvisualization";
-//import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
 // import { getClique } from '../Visualization/svgs/Sat3ToCliqueReduction';
 // import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
