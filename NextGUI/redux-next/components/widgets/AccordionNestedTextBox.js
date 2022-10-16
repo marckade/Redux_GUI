@@ -18,6 +18,8 @@ import PopoverTooltipClick from './PopoverTooltipClick';
 import SearchBarProblemType from './SearchBars/SearchBarProblemType';
 import { ProblemContext } from '../contexts/ProblemProvider'
 import { Stack, Button, Box } from '@mui/material'
+import TextField from '@mui/material/TextField';
+import ProblemInstanceParser from '../../Tools/ProblemInstanceParser';
 
 /**
  * This represents the button that triggers the accordion component opening or closing
@@ -71,9 +73,18 @@ function AccordionNestedTextBox(props) {
 
   const [testName, setTestName] = useState('DEFAULT ACCORDION NAME') //This may only actually cause a re-render event. But removing it means no rerender.
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP);
-
-
   const [problemLocalInstance, setProblemLocalInstance] = useState("")
+  const defaultInstanceParsed = {
+                test: true,
+                input: "No Input, Default String",
+                regex: "There is no regex string for this problem, parsing is likely not enabled",
+                type: "No input, default string",
+                exampleStr: "No input, default string"
+                
+  }
+
+
+  const [instanceParsed, setInstanceParsed] = useState(defaultInstanceParsed);
   const [seconds, setSeconds] = useState(1);
   const [timerIsActive, setTimerActive] = useState(false);
 
@@ -87,11 +98,15 @@ function AccordionNestedTextBox(props) {
         console.log("TIMER")
         console.log(seconds);
         if (seconds % 2 === 0) {
-          console.log("Two HIT, Instance updating globally"
-          )
-          console.log(problemLocalInstance);
+          console.log("Two HIT, Instance updating globally")
+          console.log(problemLocalInstance,problemName);
           const cleanedInstance = problemLocalInstance.replaceAll(' ', '')
           console.log(cleanedInstance);
+          const parser = new ProblemInstanceParser();
+          if (!problemInstance === '') { //Dont try to parse an empty string because it will fail and we dont want textbox to be red on empty input
+            const parsedOutput = parser.parse(problemName, cleanedInstance)
+            setInstanceParsed(parsedOutput)
+          }
           setProblemInstance(cleanedInstance);
           setTimerActive(false);
           setSeconds(1);
@@ -176,7 +191,19 @@ function AccordionNestedTextBox(props) {
             <Card.Body>
               <Stack direction="horizontal" gap={1}>
                 {props.accordion.CARD.cardBodyText}
-                <FormControl as="textarea" value={problemLocalInstance} onChange={handleChangeInstance} ></FormControl> {/**FORM CONTROL 2 (dropdown) */}
+                {/* <FormControl as="textarea" value={problemLocalInstance} onChange={handleChangeInstance} ></FormControl> *FORM CONTROL 2 (dropdown) */}
+                <TextField
+                  error={!instanceParsed.test}
+                  id="outlined-error"
+                  label={!instanceParsed.test? "Incorrect Format":"Problem Instance"}
+                  sx={{width:'100%'}}
+                  value={problemLocalInstance}
+                  onChange={handleChangeInstance}
+                  helperText={"problem failed? try: " +instanceParsed.exampleStr}
+                >
+                </TextField>
+                
+
               </Stack>
             </Card.Body>
           </Accordion.Collapse>
