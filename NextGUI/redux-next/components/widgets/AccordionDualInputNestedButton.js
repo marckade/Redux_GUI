@@ -185,6 +185,9 @@ function AccordionDualInputNestedButton(props) {
 }
 
 function createPrettyFormat(rawInstance){
+  if (rawInstance === undefined){
+    return null;
+  }
   //const prettyNodesRegex = rawInstance.match('((?<={{)[ -~]+)(?=},{{)'); //((?<={{)[ -~]+)(?=},{{)  ((?<={)[ -~]+)(?=,{{)
   const spacedInstance = rawInstance.replace(/,/g, ', ');
   const prettyNodesRegex = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
