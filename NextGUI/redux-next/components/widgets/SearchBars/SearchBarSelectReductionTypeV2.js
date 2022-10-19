@@ -109,28 +109,36 @@ export default function SearchBarSelectReductionTypeV2(props) {
       setReduceToType(noReductionsTypeMessage);
       props.setData('');
     }
+    
+    if(arr.length == 1){
+      arr = arr[0]
+      arr.map(function (element, index, array) {
+        // problemJson = [];
+        setNoReductionsType(false);
+        if (!problemJson.includes(element)) {
+          if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
+            props.setData(element);
+            setReduceToType(element);
+            requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
 
-    arr.map(function (element, index, array) {
-      // problemJson = [];
-      setNoReductionsType(false);
+              // propNo reduction method available. Please choose a reduce-tos.setInstance(data.reductionTo.instance);
+              setReducedInstance(data.reductionTo.instance);
+            }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
 
-      if (!problemJson.includes(element)) {
-        if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
-          props.setData(element);
-          setReduceToType(element);
-          requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
-
-            // props.setInstance(data.reductionTo.instance);
-            setReducedInstance(data.reductionTo.instance);
-          }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
+          }
+          problemJson.push(element);
 
         }
-        problemJson.push(element);
-
-      }
-
-    }, 80);
-    //console.log(problemJson);
+      }, 80);
+    }
+    else{
+      let path = ""
+      arr.map((reduction)=>{
+        path += reduction[0]+"-"
+      })
+      problemJson.push(path.slice(0,-1))
+    }
+    console.log(problemJson);
   }
   async function getRequest(url) {
     const promise = await fetch(url).then(result => {
@@ -149,9 +157,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
       const req = getRequest(url);
       req.then(data => {
-
-        initializeProblemJson(data)
-        console.log(data)
+        initializeProblemJson(data);
       })
         .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR SELECT REDUCTION TYPE"));
 
