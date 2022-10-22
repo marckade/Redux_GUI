@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { ProblemParser } from '../../../Tools/ProblemParser';
+// import { ProblemParser } from '../../../Tools/ProblemParser';
+import PopoverTooltipClick from '../PopoverTooltipClick';
+
 const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
 const tempGraph = {
   "arcset": {},
@@ -48,6 +50,7 @@ const tempGraph = {
 const tempUrl  = 'http://localhost:27000/Navigation/NPC_NavGraph/info';
 let nodesList = []
 let edgeList = []
+
 
 export default function Graph(props) {
  // const problemParser = new ProblemParser()
@@ -109,10 +112,11 @@ export default function Graph(props) {
 
   return (
 
-  <>
+  <div>
    <Graphviz dot={dot} 
     />
-  </>
+   
+  </div>
   )
 
 }
