@@ -140,8 +140,14 @@ export default function SearchBarSelectReduceToV2(props) {
   arr.map(function (element, index, array) {
     setNoReductions(false);
     if (!problemJson.includes(element)) {
-      if(element ===  'CLIQUE'&& problemName === 'SAT3'){
+      if(element ===  'CLIQUE' && problemName === 'SAT3'){
         // stateVal = element;
+        props.setData(element);
+        setReduceTo(element);
+      }
+
+      else if(problemName === 'CLIQUE'){
+        element === 'VERTEXCOVER'
         props.setData(element);
         setReduceTo(element);
       }
