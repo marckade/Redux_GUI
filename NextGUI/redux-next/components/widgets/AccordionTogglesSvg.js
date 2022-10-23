@@ -23,8 +23,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses, touchRippleClasses } from '@mui/material'
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
-//import Graphvisualization from "../Visualization/Graphvisualization";
-//import ReducedVisualizations from "../Visualization/ReducedVisualization";
 import { ProblemContext } from '../contexts/ProblemProvider';
 // import { getClique } from '../Visualization/svgs/Sat3ToCliqueReduction';
 // import { getSat3 } from '../Visualization/svgs/Sat3ToCliqueInstance'
@@ -139,11 +137,7 @@ function AccordionTogglesSvg(props) {
 
   ];
 
-  const refreshButtonStyle = {
-    position: 'absolute',
-    left: '10%',
-    backgroundColor: '#43a047'
-  }
+
   const { problemName, problemInstance, chosenReduceTo, chosenReductionType, reduceToInstance } = useContext(ProblemContext);
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
@@ -268,24 +262,33 @@ function AccordionTogglesSvg(props) {
     reductionOn: showReduction,
     gadgetsOn: showGadgets,
   }
+
+  const refreshButtonStyle = {
+    position: 'relative',
+    left: '2%',
+    top: '10%',
+    backgroundColor: '#43a047',
+    padding: ''
+  }
+
   return (
 
 
     <div>
       <Accordion className="accordion" defaultActiveKey="0">
-        <Card>
+        <Card className="text-left">
           <Card.Header>
             {props.accordion.CARD.cardHeaderText}
-            <Stack className="float-end" direction="horizontal" gap={3}
-            >
-
-              <Button style={refreshButtonStyle}
+                          
+            <Button style={refreshButtonStyle}
                 variant="outlined"
-                startIcon={<RefreshIcon />}
+                startIcon={<RefreshIcon/>}
                 onClick={handleRefreshButton}
               >
                 Refresh
               </Button>
+
+            <Stack className="float-end" direction="horizontal" gap={3}>
               <FormControlLabel disabled={disableSolution ? true : false} checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
               <FormControlLabel disabled={disableGadget ? true : false} checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
               <FormControlLabel disabled={disableReduction ? true : false} checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />

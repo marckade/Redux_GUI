@@ -6,19 +6,19 @@ let noReductionsMessage = 'No reductions available. Click on the add button to a
 
 
 const wikiName = new Map()
-wikiName.set('SAT3', '3SAT');
-wikiName.set('SAT', 'SAT');
-wikiName.set('ARCSET', 'Feedback arc set problem');
-wikiName.set('CLIQUE', 'Clique');
-wikiName.set('SUBSETSUM', 'Subset sum');
-wikiName.set('DM3', '3-dimensional matching');
-wikiName.set('KNAPSACK', 'Knapsack');
-wikiName.set('TSP', 'Traveling Salesperson Problem');
-wikiName.set('INTPROGRAMMING01', '0–1 integer programming');
-wikiName.set('VERTEXCOVER','Vertex cover');
-wikiName.set('GRAPHCOLORING', 'Graph Coloring');
-wikiName.set('ExactCover', 'Exact cover')
-wikiName.set('VertexCover', 'Vertex cover')
+wikiName.set('sat3', '3SAT');
+wikiName.set('sat', 'SAT');
+wikiName.set('arcset', 'Feedback arc set problem');
+wikiName.set('clique', 'Clique');
+wikiName.set('subsetsum', 'Subset sum');
+wikiName.set('dm3', '3-dimensional matching');
+wikiName.set('knapsack', 'Knapsack');
+wikiName.set('tsp', 'Traveling Salesperson Problem');
+wikiName.set('intprogramming01', '0–1 integer programming');
+// wikiName.set('VERTEXCOVER','Vertex cover');
+wikiName.set('graphcoloring', 'Graph Coloring');
+wikiName.set('exactcover', 'Exact cover')
+wikiName.set('vertexcover', 'Vertex cover')
 
 
 
@@ -31,12 +31,12 @@ export class ProblemParser {
 
 
     getWikiName(problemName){
-        let name = ''
-
+        let name = problemName.toLowerCase()
+    
         console.log("problem name "+problemName )
-
-        if(wikiName.has(problemName)){
-            return wikiName.get(problemName);
+    
+        if(wikiName.has(name)){
+            return wikiName.get(name);
         }
        
         if(problemName === noReductionsMessage){
@@ -44,6 +44,6 @@ export class ProblemParser {
         }
         // if(problemName !== '' && problemName !== null && problemName !== noReductionsMessage)
     
-       return name;
+       return '';
     }
 }

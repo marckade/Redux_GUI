@@ -122,41 +122,33 @@ export default function SearchBarSelectReduceToV2(props) {
   function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
     while (problemJson.length) { 
       problemJson.pop(); 
-  }
-
-
- 
-
-  if (!arr.length) { 
-    setNoReductions(true);
-    setReduceTo(noReductionsMessage);
-    props.setData('');
-   }else{
-    setNoReductions(false);
-    setReduceTo('');
-   }
-
-  // problemJson = [];
-  arr.map(function (element, index, array) {
-    setNoReductions(false);
-    if (!problemJson.includes(element)) {
-      if(element ===  'CLIQUE'&& problemName === 'SAT3'){
-        // stateVal = element;
-        props.setData(element);
-        setReduceTo(element);
-      }
-      problemJson.push(element)
+    }
+    if (!arr.length) { 
+      setNoReductions(true);
+      setReduceTo(noReductionsMessage);
+      props.setData('');
+    }else{
+      setNoReductions(false);
+      setReduceTo('');
     }
 
-  
+    // problemJson = [];
+    arr.map(function (element, index, array) {
+      setNoReductions(false);
+      if (!problemJson.includes(element)) {
+        if(element ===  'CLIQUE'&& problemName === 'SAT3'){
+          // stateVal = element;
+          props.setData(element);
+          setReduceTo(element);
+        }
+        problemJson.push(element)
+      }
 
-  }
-  , 80);
+    
 
-
-  
-
+    }, 80);
 }
+
 async function getRequest(url) {
     const promise = await fetch(url).then(result => {
       return result.json()
@@ -169,9 +161,8 @@ function initializeList(url) {
 
   const req = getRequest(url);
   req.then(data => {
-   
     initializeProblemJson(data)
-    //console.log(problemJson)
+    
   })
     .catch((error) => console.log("GET REQUEST FAILED SELECT REDUCE TO"));
     
