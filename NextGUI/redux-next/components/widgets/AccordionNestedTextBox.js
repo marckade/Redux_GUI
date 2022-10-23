@@ -101,13 +101,17 @@ function AccordionNestedTextBox(props) {
           console.log("Two HIT, Instance updating globally")
           console.log(problemLocalInstance,problemName);
           const cleanedInstance = problemLocalInstance.replaceAll(' ', '')
-          console.log(cleanedInstance);
-          const parser = new ProblemInstanceParser();
-          if (!problemInstance === '') { //Dont try to parse an empty string because it will fail and we dont want textbox to be red on empty input
+          console.log("cleanedInstance:",cleanedInstance);
+          if (!cleanedInstance == '') { //Dont try to parse an empty string because it will fail and we dont want textbox to be red on empty input
+            console.log("hit cleaned if")
+            const parser = new ProblemInstanceParser();
             const parsedOutput = parser.parse(problemName, cleanedInstance)
             setInstanceParsed(parsedOutput)
+            console.log("regex parsed on change")
+            if (parsedOutput === true) {
+              setProblemInstance(cleanedInstance);
+            }
           }
-          setProblemInstance(cleanedInstance);
           setTimerActive(false);
           setSeconds(1);
         }
