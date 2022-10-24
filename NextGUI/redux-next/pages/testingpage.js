@@ -104,12 +104,11 @@ function HomePage() {
     <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
         <>
-          {
-          }
+        
 
 
-             /* <Split
-            class="wrap"      
+              <Split
+            className="wrap"      
             direction="horizontal"
             style={{ height: 'inherit' }}
             onDragEnd={handleBar}
