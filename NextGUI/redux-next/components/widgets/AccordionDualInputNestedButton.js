@@ -184,36 +184,79 @@ function AccordionDualInputNestedButton(props) {
 
 }
 
+// Returns a "pretty" version of the reduction string if possible.
 function createPrettyFormat(rawInstance){
   if (rawInstance === undefined){
     return null;
   }
-  //const prettyNodesRegex = rawInstance.match('((?<={{)[ -~]+)(?=},{{)'); //((?<={{)[ -~]+)(?=},{{)  ((?<={)[ -~]+)(?=,{{)
-  const spacedInstance = rawInstance.replace(/,/g, ', ');
-  const prettyNodesRegex = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
-  // var prettyNode = prettyNodesRegex[0];
+
+  const prettyInstace = checkProblemType(rawInstance);
 
   // Checks if this is actually a node / edge format. If not, show the original form.
-  if (prettyNodesRegex === null){
+  if (prettyInstace === null){
     return (
       <>{rawInstance}</>
     );
   }
+  if (prettyInstace[0] === "GRAPH"){
+    return (
+      <>
+        <p><b>Nodes:</b></p>
+        <p>{prettyInstace[1]}</p>
+        <p><b>Edges:</b></p>
+        <p>{prettyInstace[2]}</p> 
+        <p><b>Original form:</b></p>
+        <p>{rawInstance}</p>
+      </>
+    );}
+    
 
-  // Gets the list of all the edges in the raw expression
-  const prettyEdgesRegex = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )'); // ((?<=}, {)[ -~]+)(?=}, )
+    if(prettyInstace[0] === "SAT"){
+      return (
+        <>
+          <p><b>Organized form:</b></p>
+          <p>{prettyInstace[1]}</p> 
+          <p><b>Original form:</b></p>
+          <p>{rawInstance}</p>
+        </>
+      );}  
 
-  // prettyNodesRegex returns an array with 2 elements that are the same, so we just choose the first one [0].
-  return (
-    <>
-      <p><b>Nodes:</b></p>
-      <p>{prettyNodesRegex[0]}</p>
-      <p><b>Edges:</b></p>
-      <p>{prettyEdgesRegex[0]}</p> 
-      <p><b>Original form:</b></p>
-      <p>{rawInstance}</p>
-    </>
-  );
+      else{
+        return (
+          <>{rawInstance}</>
+        );}
+}
+
+/*Takes a raw instance and tried to parse it diffrent ways with regex. 
+If any of them match it return both a "pretty" version of the instance in a array [0] defines the type(Boolean, graph etc.).
+In the case of a graph nodes and edges are returned in [1] and [2] respectively.
+SAT or boolean form is only the "pretty" form in [1] and [2] is an empty string.*/
+function checkProblemType(stringInstance){
+  const spacedInstance = stringInstance.replace(/,/g, ', ');
+
+  // Regex for undirected graph
+  const prettyUndirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
+  const prettyUndirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
+  if (prettyUndirectedNodes != null){
+    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0]];
+  }
+
+  // Regex for directed graph. Consequently the edge regex is the same for both directed and undireced. Shouldn't be a problem, but good to note.
+  const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
+  const prettyDirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
+  if(prettyDirectedNodes != null){
+    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0]];
+  }
+
+  // Adds spaces before and after every '|' and '&'. Want to orginize the output in the future as well. 
+  const prettySATBars = stringInstance.replace(/[|]+/g, ' | ');
+  const prettySAT = prettySATBars.replace(/[&]+/g, ' & ');
+  if(prettySATBars != ""){
+    return ["SAT", prettySAT, ""];
+  }
+
+  // Nothing matches return nothing.
+  return null;
 }
 
 async function requestProblemData(url, name) {
