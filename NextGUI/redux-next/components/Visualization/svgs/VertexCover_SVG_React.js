@@ -50,30 +50,39 @@ const node = svg
     let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
       
       return "node_" + dName;
+  })
+  .attr("id", function (d) {
+    let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
+      
+      return "_" + dName;
   }) //node prefix added to class name to allow for int names by user.
-    .attr("r", 20)
-    .style("fill", function (d) {
-      //return "#FFC300";
-      //"#00e676"
-        
-          return "#abc"
-        
-    })
-      .on("mouseover", function (d) {
-      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-      //console.log(d.target.__data__.name);
-      let dName = d.target.__data__.name.replaceAll('!','NOT')
-      if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
-        d3.selectAll(`.${"node_" + dName}`).style('fill', "#F69240") //note node prefix
-      }
-    })
+  .attr("r", 20)
+  .attr("fill", function (d) {
+    //return "#FFC300";
+    //"#00e676"
+      
+        return "#abc"
+      
+  })
+  .on("mouseover", function (d) {
+    //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+    //console.log(d.target.__data__.name);
+    let dName = d.target.__data__.name.replaceAll('!','NOT')
+    if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
+      d3.selectAll(`.${"node_" + dName}`).attr('fill', "#F69240") //note node prefix
+      d3.selectAll(`#${"_" + dName}`).attr('fill', "#F69240")
+      d3.selectAll(`#${"_" + dName}`).attr('stroke', "#F69240")
+    }
+  })
   .on("mouseout", function (d) {  
     let dName = d.target.__data__.name.replaceAll('!','NOT')
     if (d3.select("#highlightGadgets").property("checked")){
-      d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
+      d3.selectAll(`.${"node_"+dName}`).attr('fill', "#abc")
+      d3.selectAll(`#${"_" + dName}`).attr('fill', "#abc")
+      d3.selectAll(`#${"_" + dName}`).attr('stroke', "#abc")
     }
-    })
- 
+  })
+
     
 const text = svg.selectAll("text") //Append Text on top of nodes.
         .data(data.nodes)

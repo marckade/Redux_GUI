@@ -43,25 +43,25 @@ function getSat3(ref, data, parentState) {
     let y = 100;
     
 
-        for (let i = 0; i < data.length; i++){
-            let c = new clause(i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15);
-            c.show();
-            x += c.width + 8;
-            if (i < data.length-1){
-                svg.append("text")
-                .attr("x", x)
-                .attr("y", y)
-                .attr("text-anchor", "left")
-                .attr("dominant-baseline", "middle")
-                .attr("font-size", "15px")
-                .attr("font-family", "'Courier New', Courier, monospace")
-                .text("\u2227");
-                x += 16;
-            }
-            if (x >= width - c.width) {
-                x = 20;
-                y += 50
-            }
+    for (let i = 0; i < data.length; i++){
+        let c = new clause(data, i, svg, x, y, [data[i][0], data[i][1], data[i][2]], 15);
+        c.show();
+        x += c.width + 8;
+        if (i < data.length-1){
+            svg.append("text")
+            .attr("x", x)
+            .attr("y", y)
+            .attr("text-anchor", "left")
+            .attr("dominant-baseline", "middle")
+            .attr("font-size", "15px")
+            .attr("font-family", "'Courier New', Courier, monospace")
+            .text("\u2227");
+            x += 16;
+        }
+        if (x >= width - c.width) {
+            x = 20;
+            y += 50
+        }
         
 
     }
@@ -111,7 +111,7 @@ function fullClear(){
 
 class literal{
     constructor(id, className, name, svg, x, y, size = 25){
-        this.id = "_"+id.replace("!","not")
+        this.id = "_"+id.replace("!","NOT")
         this.className = className;
         this.name = name;
         this.svg = svg;
@@ -158,7 +158,7 @@ class literal{
 }
 
 class clause{
-    constructor(className,svg,x,y,literals,size = 20,solution=[["x1"]]){
+    constructor(data,className,svg,x,y,literals,size = 20,solution=[["x1"]]){
         this.className = className;
         this.svg = svg;
         this.x = x;
@@ -166,8 +166,31 @@ class clause{
         this.size = size;
         this.literalsIDs = [];
         this.solution = solution;
-        for (let i=0; i<literals.length; i++){
-            this.literalsIDs[i] = literals[i] + "_"+(i + className*3); //ALEX NOTE: I don't understand this math but it has to do with underscores in names
+        // for (let i=0; i<literals.length; i++){
+        //     this.literalsIDs[i] = literals[i] + "_"+(i + className*3); //ALEX NOTE: I don't understand this math but it has to do with underscores in names
+        // }
+        for(let i=0; i<literals.length; i++){
+            let count = 0;
+            for(let j=0; j<className; j++){
+                data[j].forEach(element => {
+                    if(element == literals[i]){
+                        count += 1;
+                    }
+                });
+                
+            }
+            for(let j=0; j<i; j++){
+                if(literals[j] == literals[i]){
+                    count +=1;
+                }
+            }
+            if(count > 0){
+                this.literalsIDs[i] = literals[i] + "_"+(count);
+            }
+            else{
+                this.literalsIDs[i] = literals[i];
+            }
+            // console.log("caleb",literals[i])
         }
         this.literalsSolutions = [];
         for (let i=0; i<literals.length; i++){

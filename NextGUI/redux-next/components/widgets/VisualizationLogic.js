@@ -106,7 +106,54 @@ export default function VisualizationLogic(props) {
                     </>
 
 
+            } 
+            //Sat and vertex cover reduction
+            else if (reductionName === "VERTEXCOVER" && !props.visualizationState.solverOn) {
+
+                visualization =
+                    <div>
+                        {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
+                        <SAT3_SVG_React
+                            data={props.problemVisualizationData}
+                            solution={props.problemSolutionData}
+                            showSolution={props.visualizationState.solverOn}
+                            url={props.url}
+                        ></SAT3_SVG_React>
+                    </div>
+                let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                reducedVisualization =
+                    <Container>
+                        <VertexCoverSvgReact 
+                            apiCall={apiCall2} 
+                            instance={props.reducedInstance}
+                            solveSwitch={props.visualizationState.solverOn}>
+                        </VertexCoverSvgReact>
+                    </Container>
             }
+            else if (reductionName === "VERTEXCOVER" && visualizationState.solverOn) {
+                visualization =
+                    <div>
+                        {/* {"SOLVER ON SPLIT VIZ SAT"} */}
+                        <SAT3_SVG_React
+                            data={props.problemVisualizationData}
+                            // solution={props.problemSolutionData}
+                            showSolution={props.visualizationState.solverOn}
+                            url={props.url}
+                        ></SAT3_SVG_React>
+                    </div>
+                //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
+                let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                reducedVisualization =
+                    <Container>
+                        <VertexCoverSvgReact 
+                            apiCall={apiCall2} 
+                            instance={props.reducedInstance}
+                            solveSwitch={props.visualizationState.solverOn}>
+                        </VertexCoverSvgReact>
+                    </Container>
+
+
+            } 
 
         }  else {
 
