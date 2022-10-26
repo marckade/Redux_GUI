@@ -108,7 +108,7 @@ function AccordionNestedTextBox(props) {
             const parsedOutput = parser.parse(problemName, cleanedInstance)
             setInstanceParsed(parsedOutput)
             console.log("regex parsed on change")
-            if (parsedOutput === true) {
+            if (parsedOutput.test === true) {
               setProblemInstance(cleanedInstance);
             }
           }
