@@ -121,18 +121,18 @@ class node {
         this.solutionState = solutionState;
         this.variable = name.replace("!", "");
         this.id = "_" + id.replace("!", "NOT");
-        this.color = "white"
+        this.color = VisColors.Background
 
         if (solutionState === "") {
             //console.log(this.solutionState)
-            this.color = "white"
+            this.color = VisColors.Background
         }
         else if (solutionState === "True") {
-            this.color = "#00E676";//green
+            this.color = VisColors.Solution//green
         }
         else {
             //console.log("solution state node:",this.solutionState)
-            this.color = "#E600E3";//purple 
+            this.color = VisColors.SolutionAlt//purple 
         }
 
     }
