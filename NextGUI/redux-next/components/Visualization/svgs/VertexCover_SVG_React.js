@@ -4,38 +4,41 @@
 import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState} from "react";
+import VisColors from '../constants/VisColors';
+
 
 function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
-    const [animatedNodes, setAnimatedNodes] = useState([]);
-    const [animatedLinks, setAnimatedLinks] = useState([]);
-    const margin = {top: 200, right: 30, bottom: 30, left: 200},
-    width = w - margin.left - margin.right,
-    height = h - margin.top - margin.bottom;
-    
-    const ref = useRef(null);
-    // re-create animation every time nodes change
+  const [animatedNodes, setAnimatedNodes] = useState([]);
+  const [animatedLinks, setAnimatedLinks] = useState([]);
+  const margin = {top: 200, right: 30, bottom: 30, left: 200},
+  width = w - margin.left - margin.right,
+  height = h - margin.top - margin.bottom;
   
-    useEffect(() => {
-       // set the dimensions and margins of the graph
+  const ref = useRef(null);
+  // re-create animation every time nodes change
 
-// append the svg object to the body of the page
-const svg = d3.select(ref.current)
-  .append("svg")
-  .attr("preserveAspectRatio", "xMinYMin meet")
-  .attr("viewBox", "0 0 600 400")
-.append("g")
-.attr("transform",
-      `translate(${margin.left}, ${margin.top})`);
-      const problemUrl = apiCall;
-d3.json(problemUrl).then( function( data) {
-  console.log(data);
-  console.log(problemUrl)
-// Initialize the links
-const link = svg
-  .selectAll("line")
-  .data(data.links)
-  .join("line")
-    .style("stroke", "#aaa")
+  useEffect(() => {
+      // set the dimensions and margins of the graph
+
+  // append the svg object to the body of the page
+  const svg = d3.select(ref.current)
+    .append("svg")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 600 400")
+    .append("g")
+    .attr("transform",
+        `translate(${margin.left}, ${margin.top})`);
+
+  const problemUrl = apiCall;
+  d3.json(problemUrl).then( function( data) {
+    console.log(data);
+    console.log(problemUrl)
+    // Initialize the links
+    const link = svg
+      .selectAll("line")
+      .data(data.links)
+      .join("line")
+      .style("stroke", "#aaa")
 
 
 
@@ -45,35 +48,44 @@ const link = svg
 const node = svg
   .selectAll("circle")
   .data(data.nodes)
-    .join("circle")
+  .join("circle")
   .attr("class", function (d) {
     let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
       
-      return "node_" + dName;
+      return "node_" + dName +" gadget";
+  })
+  .attr("id", function (d) {
+    let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
+      
+      return "_" + dName;
   }) //node prefix added to class name to allow for int names by user.
-    .attr("r", 20)
-    .style("fill", function (d) {
-      //return "#FFC300";
-      //"#00e676"
-        
-          return "#abc"
-        
-    })
-      .on("mouseover", function (d) {
-      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-      //console.log(d.target.__data__.name);
-      let dName = d.target.__data__.name.replaceAll('!','NOT')
-      if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
-        d3.selectAll(`.${"node_" + dName}`).style('fill', "#F69240") //note node prefix
-      }
-    })
+  .attr("r", 20)
+  .attr("fill", function (d) {
+    //return "#FFC300";
+    //"#00e676"
+      
+        return VisColors.Background
+      
+  })
+  .on("mouseover", function (d) {
+    //console.log("HOVERING OVER A NODE", d.target.__data__.name)
+    //console.log(d.target.__data__.name);
+    let dName = d.target.__data__.name.replaceAll('!','NOT')
+    if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
+      d3.selectAll(`.${"node_" + dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix
+      d3.selectAll(`#${"_" + dName}`).attr('fill', VisColors.ElementHighlight)
+      d3.selectAll(`#${"_" + dName}`).attr('stroke', VisColors.ElementHighlight)
+    }
+  })
   .on("mouseout", function (d) {  
     let dName = d.target.__data__.name.replaceAll('!','NOT')
     if (d3.select("#highlightGadgets").property("checked")){
-      d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc")
+      d3.selectAll(`.${"node_"+dName}`).attr('fill', VisColors.Background)
+      d3.selectAll(`#${"_" + dName}`).attr('fill', VisColors.Background)
+      d3.selectAll(`#${"_" + dName}`).attr('stroke', VisColors.Background)
     }
-    })
- 
+  })
+
     
 const text = svg.selectAll("text") //Append Text on top of nodes.
         .data(data.nodes)
@@ -91,8 +103,8 @@ const simulation = d3.forceSimulation(data.nodes)                 // Force algor
     )
     .force("charge", d3.forceManyBody().strength(charge*4)) // This adds repulsion between nodes 
     .force("x", d3.forceX()) //centers disconnected subgraphs
-  .force("y", d3.forceY())
-  .force("collide", d3.forceCollide().radius(d => d.r * 2).iterations(10)) //collision detection
+    .force("y", d3.forceY())
+    .force("collide", d3.forceCollide().radius(d => d.r * 2).iterations(10)) //collision detection
     .on("tick", ticked);
 
 
@@ -101,17 +113,17 @@ const simulation = d3.forceSimulation(data.nodes)                 // Force algor
 // This function is run at each iteration of the force algorithm, updating the nodes position.
 function ticked() {
   link
-      .attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
+    .attr("x1", function(d) { return d.source.x; })
+    .attr("y1", function(d) { return d.source.y; })
+    .attr("x2", function(d) { return d.target.x; })
+    .attr("y2", function(d) { return d.target.y; });
 
-    node
-        .attr("cx", function (d) { return d.x; })
-        .attr("cy", function (d) { return d.y; })
-        .attr("searchId", function (d) { return d.name; });
-    
-    text
+  node
+    .attr("cx", function (d) { return d.x; })
+    .attr("cy", function (d) { return d.y; })
+    .attr("searchId", function (d) { return d.name; });
+  
+  text
     .text(function(d) {
         //console.log(d.name);
         return d.name;
@@ -131,18 +143,18 @@ function ticked() {
  
       }, [])
   return (
-          <svg 
-              width={width}
-              height={height}
-      ref={ref}
-      style={{
-        display: "inline-block",
-        position: "relative",
-        height: "100%",
-        width: "100%",
-        marginRight: "0px",
-        marginLeft: "0px",
-  }}
+    <svg 
+        width={width}
+        height={height}
+        ref={ref}
+        style={{
+          display: "inline-block",
+          position: "relative",
+          height: "100%",
+          width: "100%",
+          marginRight: "0px",
+          marginLeft: "0px",
+          }}
         />
       )
 }
