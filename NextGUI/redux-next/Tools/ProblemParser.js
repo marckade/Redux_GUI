@@ -43,9 +43,9 @@ export class ProblemParser {
     
         if(wikiName.has(name)){
             name = wikiName.get(name);
-            if(isTransitive){
-                name = name +"*";
-            }
+            // if(isTransitive){               //Note: Caleb - unhighlight when issues with * are resolved in visualization
+            //     name = name +"*";
+            // }
             return name;
         }
        
