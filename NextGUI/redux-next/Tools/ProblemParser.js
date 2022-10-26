@@ -32,11 +32,21 @@ export class ProblemParser {
 
     getWikiName(problemName){
         let name = problemName.toLowerCase()
+        let isTransitive = false;
+        if(name.includes("*")){
+            isTransitive = true;
+            name = name.replace("*","");
+        }
     
         console.log("problem name "+problemName )
+
     
         if(wikiName.has(name)){
-            return wikiName.get(name);
+            name = wikiName.get(name);
+            if(isTransitive){
+                name = name +"*";
+            }
+            return name;
         }
        
         if(problemName === noReductionsMessage){
