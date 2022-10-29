@@ -31,6 +31,8 @@ export default function Test(props) {
   const [nodeTarget, setTarget] = useState();
   const [show, setShow] = useState(false);
   const ref = useRef(null);
+  // let popoverList = {}
+  const popoverList = new Map()
 
 
   useEffect(() => {
@@ -69,6 +71,7 @@ export default function Test(props) {
           let target = (e.target);
           console.log("Target name :: "+target.tagName);
           console.log("Node name :: "+ nodeId)
+          setToolTip(popoverList.get(nodeId))
           // if (target.tagName === 'ellipse') {
           requestProblemData('http://localhost:27000/', nodeId).then(data => {
             if (!(typeof data === "undefined")) {
@@ -85,6 +88,14 @@ export default function Test(props) {
           //   setShow(false);
           // }
         })
+
+        requestProblemData('http://localhost:27000/', elem).then(data => {
+          if (!(typeof data === "undefined")) {
+            //console.log(data);
+            popoverList.set(elem,  setToolTip({ header: elem, formalDef: data.formalDefinition, info: data.problemDefinition + data.source }) )
+          }
+        }).catch(console.log("Problem not defined"));
+
 
       }
 
