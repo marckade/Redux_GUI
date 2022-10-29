@@ -19,6 +19,8 @@ import CLIQUE_SVG_REACT from '../components/Visualization/svgs/CLIQUE_SVG_REACT'
 import CliqueSvgReactV2 from '../components/Visualization/svgs/Clique_SVG_REACT_V2';
 import Container from '@mui/material';
 import Split from 'react-split';
+import Constants from '../Tools/Constants';
+import ProblemInstanceParser from '../Tools/ProblemInstanceParser';
 
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
 const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
@@ -90,16 +92,23 @@ function HomePage() {
                 apiCall = "http://localhost:27000/VERTEXCOVERGeneric/visualize?problemInstance=" + logicProps.problemInstance;
                 reducedVisualization =
                     
-                  <VertexCoverSvgReact size={rightSize} apiCall={apiCall} instance={logicProps.problemInstance}></VertexCoverSvgReact>
+    <VertexCoverSvgReact size={rightSize} apiCall={apiCall} instance={logicProps.problemInstance}></VertexCoverSvgReact>
+  const testG = "{{1,2,3,4},{{4,1},{1,2},{4,3},{3,2},{2,4}},3}"
+  const type = "CLIQUE"
+  let parser = new ProblemInstanceParser()
+  parser.parse(type, testG)
 
   return (
     
     <>
     <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
-            <>
-             <Split
-            class="wrap"      
+        <>
+        
+
+
+              <Split
+            className="wrap"      
             direction="horizontal"
             style={{ height: 'inherit' }}
             onDragEnd={handleBar}
@@ -115,7 +124,7 @@ function HomePage() {
               {reducedVisualization}
             </Box>
             
-                </Split>
+                </Split> 
         </>
         
     </ThemeProvider>

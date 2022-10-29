@@ -48,18 +48,18 @@ function getClique(ref, data) {
             if (i % 4 === 0) { continue; }
             //constructor(id, cluster, name, solutionState,svg, position = {"x":10,"y":10}, size = 15)
             let nodeName = data[dataCount].name;
-            let idTest;
-            if (nodeName.lastIndexOf('_')!=-1) {
-               idTest = nodeName.substr(0, nodeName.lastIndexOf('_')) + "_" + dataCount;
-            }
-            else {
-                idTest = nodeName + '_' + dataCount;
-            }
+            // let idTest;
+            // if (nodeName.lastIndexOf('_')!=-1) {
+            //    idTest = nodeName.substr(0, nodeName.lastIndexOf('_')) + "_" + dataCount;
+            // }
+            // else {
+            //     idTest = nodeName + '_' + dataCount;
+            // }
 
             
-            let nodeId = nodeName + '_' + dataCount;
+            // let nodeId = nodeName + '_' + dataCount;
             //console.log([idTest, nodeName, nodeId]);
-            nodes[dataCount] = new node(idTest, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
+            nodes[dataCount] = new node(nodeName, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
             dataCount++;
         }
 
@@ -120,19 +120,19 @@ class node {
         this.cluster = cluster;
         this.solutionState = solutionState;
         this.variable = name.replace("!", "");
-        this.id = "_" + id.replace("!", "not");
-        this.color = "white"
+        this.id = "_" + id.replace("!", "NOT");
+        this.color = VisColors.Background
 
         if (solutionState === "") {
             //console.log(this.solutionState)
-            this.color = "white"
+            this.color = VisColors.Background
         }
         else if (solutionState === "True") {
-            this.color = "#00E676";//green
+            this.color = VisColors.Solution//green
         }
         else {
             //console.log("solution state node:",this.solutionState)
-            this.color = "#E600E3";//purple 
+            this.color = VisColors.SolutionAlt//purple 
         }
 
     }
