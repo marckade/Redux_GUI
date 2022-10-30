@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 // import { ProblemParser } from '../../../Tools/ProblemParser';
 import PopoverTooltipClick from '../PopoverTooltipClick';
+import { height } from "@mui/system";
 
 const Graphviz = dynamic(() => import("graphviz-react"), { ssr: false });
 const tempGraph = {
@@ -76,7 +77,7 @@ export default function Graph(props) {
     for (const node of nodes){
      
       graph += `${node}[id=${node}] \n`
-      console.log(graph)
+      // console.log(graph)
      
   
       if(responseObject[node]){
@@ -87,13 +88,13 @@ export default function Graph(props) {
           const edge = `${node.replaceAll("01", "").replaceAll("3", "")}_${elem.replaceAll("01", "").replaceAll("3", "")}`;
           //, id=${edge}
           graph += `${node} -> ${elem}[label=${array[0]}, id=${edge}] \n`
-          console.log(graph)
+          // console.log(graph)
           edgeList.push(edge)
         }
       }
     
     }
-    console.log(edgeList)
+    // console.log(edgeList)
   
     graph += '}';
     setDotString(graph);
@@ -113,7 +114,7 @@ export default function Graph(props) {
   return (
 
   <div>
-   <Graphviz dot={dot} 
+   <Graphviz dot={dot} options={{fit:true, height:1000, width:800, zoom:false}}
     />
    
   </div>

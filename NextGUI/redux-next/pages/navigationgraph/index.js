@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Box, createTheme, ThemeProvider } from '@mui/material';
 
 
+//OverlayViewF
+
 /**
  * 
  * @param {*} url the base url of the application 
@@ -47,6 +49,9 @@ export default function Test(props) {
     });
 
     useEffect(() => {
+        setTarget(null)
+        setShow(false);
+        setToolTip({})
 
         setTimeout(() => {
             for (let elem of nodesList) {
@@ -61,38 +66,6 @@ export default function Test(props) {
                     ellipseArray[0].setAttribute("fill", "none")
                 })
 
-                // node.addEventListener('click', function (e) {
-                //   console.log("This is node = ")
-                //   console.log(node)
-                //   let nodeId = node.id;
-                //   let target = (e.target);
-                //   console.log("Target name :: "+target.tagName);
-                //   console.log("Node name :: "+ nodeId)
-                //   setToolTip(popoverList.get(nodeId))
-                //   // if (target.tagName === 'ellipse') {
-                //   requestProblemData('http://localhost:27000/', nodeId).then(data => {
-                //     if (!(typeof data === "undefined")) {
-                //       //console.log(data);
-                //       setToolTip({ header: nodeId, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
-                //     }
-                //   }).catch(console.log("Problem not defined"));
-
-                //   setTarget(node);
-                //   // setToolTip(toolTip);
-                //   setShow(true);
-
-                //   // }else{
-                //   //   setShow(false);
-                //   // }
-                // })
-
-                requestProblemData('http://localhost:27000/', elem).then(data => {
-                    if (!(typeof data === "undefined")) {
-                        //console.log(data);
-                        popoverList.set(elem, setToolTip({ header: elem, formalDef: data.formalDefinition, info: data.problemDefinition + data.source }))
-                    }
-                }).catch(console.log("Problem not defined"));
-
 
             }
         }, 2000);
@@ -101,57 +74,93 @@ export default function Test(props) {
 
 
 
+    const handleClick = event => {
+        // 👇️ refers to the div element
+        console.log("This is ref: "+ref)
+        console.log(ref)
+        // console.log(event.target);
+        const element = event.target;
+        console.log(element.closest('g'));
+        const problemGroup = element.closest('g');
+        if (problemGroup !== null) {
+            const problemName = problemGroup.id
+            console.log(problemName)
+        
+            if (nodesList.includes(problemName)) {
+                requestProblemData('http://localhost:27000/', problemName).then(data => {
+                    if (!(typeof data === "undefined")) {
+                        //console.log(data);
+                        ref.current = problemGroup;
+                        console.log(ref)
+                        setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
+                        setTarget(problemGroup);
+                        setShow(true);
+                    }
+                }).catch(console.log("Problem not defined"));
+
+
+
+            } else {
+                setTarget(null)
+                setShow(false);
+                setToolTip({})
+            }
+        }
+    };
+
+
+
     return (
-
-
+        <>
 
             <ThemeProvider theme={theme}>
                 <ResponsiveAppBar></ResponsiveAppBar>
 
-                
-        <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            minHeight="10vh">
 
+                <Container
+                    display="flex"
 
-                <div ref={ref}>
-                    <NavGraph />
-                    {/* <Button onClick={handleClick}>Holy guacamole!</Button> */}
+                >
 
-                    <Overlay
-                        rootClose={true}
-                        show={show}
-                        target={nodeTarget}
-                        placement="bottom"
-                        container={ref}
-                        containerPadding={20}
-                    >
-                        <Popover id="popover-basic" className="tooltip">
+                    <div ref={ref} onClick={handleClick} >
 
-                            <Popover.Header as="h3">
-                                {tool.header}
-                            </Popover.Header>
+                        <NavGraph />
+                        {/* <Button onClick={handleClick}>Holy guacamole!</Button> */}
 
-                            <Popover.Body>
-                                {tool.formalDef}
-                                <br></br>
-                                <br></br>
-                                {tool.info}
-                                <br></br>
-                                <br></br>
-                                {tool.source}
-                                <br></br><br></br>
-                                {tool.credit}
-                            </Popover.Body>
+                        <Overlay
+                           rootClose={true}
+                            show={show}
+                            target={nodeTarget }
+                            placement="bottom"
+                            container={ref}
+                            containerPadding={20}
+                        >
+                            <Popover id="popover-basic" className="tooltip">
 
-                        </Popover>
-                    </Overlay>
-                </div>
-                </Box>
+                                <Popover.Header as="h3">
+                                    {tool.header}
+                                </Popover.Header>
+
+                                <Popover.Body>
+                                    {tool.formalDef}
+                                    <br></br>
+                                    <br></br>
+                                    {tool.info}
+                                    <br></br>
+                                    <br></br>
+                                    {tool.source}
+                                    <br></br><br></br>
+                                    {tool.credit}
+                                </Popover.Body>
+
+                            </Popover>
+                        </Overlay>
+                    </div>
+                </Container>
             </ThemeProvider>
-     
+        </>
+
+
 
     );
 
