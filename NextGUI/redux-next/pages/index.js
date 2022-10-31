@@ -26,6 +26,7 @@ import ProblemProvider from '../components/contexts/ProblemProvider'
 import ResponsiveAppBar from '../components/widgets/ResponsiveAppBar'
 import { Box, createTheme, Grid, ThemeProvider, Typograph } from "@mui/material"
 import { Container } from 'react-bootstrap'
+import Tutorial from '../components/contexts/Tutuorial'
 
 //const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
 const reduxBaseUrl = process.env.NEXT_PUBLIC_REDUX_BASE_URL; //redux url. Note the trailing slash
@@ -73,9 +74,11 @@ function MainPageContent() {
 
       <div className="container my-5 ">{ /** This is an artifact from the old bootstrap code, may be deprecated */}
 
-
+        {/**Modal */}
+        <Tutorial />
       
         <ProblemProvider>
+
 
           <div className="d-flex flex-column">
 
