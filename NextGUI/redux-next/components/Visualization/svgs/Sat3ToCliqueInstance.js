@@ -190,7 +190,6 @@ class clause{
             else{
                 this.literalsIDs[i] = literals[i];
             }
-            // console.log("caleb",literals[i])
         }
         this.literalsSolutions = [];
         for (let i=0; i<literals.length; i++){

@@ -30,7 +30,6 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,redu
  //Find solution
   useEffect(() =>{
     if(reduceFrom == "SAT3"){
-      console.log("caleb","apiCall")
       // let apiCompatibleInstance = reduceFromInstance.replaceAll('&', "%26");
       getProblemSolutionData(url, "SkeletonSolver", reduceFromInstance).then(data => {
         //console.log(data);
