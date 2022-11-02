@@ -5,19 +5,64 @@ import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState} from "react";
 import VisColors from '../constants/VisColors';
+import { showSolution } from "./Sat3ToCliqueInstance";
 
+function getProblemSolutionData(url, solver, instance) {
+  var fullUrl = `${url}${solver}/solve?problemInstance=${instance}`;
+  return fetch(fullUrl).then(resp => {
+    if (resp.ok) {
+      // console.log(resp.json());
+      return resp.json()
+    }
+  });
+}
 
-function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
+function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,reduceFromInstance,url,reduceFromData }) {
   const [animatedNodes, setAnimatedNodes] = useState([]);
   const [animatedLinks, setAnimatedLinks] = useState([]);
+  const [solutionData, setSolutionData] = useState([]);
+  const [orgSolutionData, setOrgSolutionData] = useState([]);
   const margin = {top: 200, right: 30, bottom: 30, left: 200},
   width = w - margin.left - margin.right,
   height = h - margin.top - margin.bottom;
   
-  const ref = useRef(null);
-  // re-create animation every time nodes change
+  let ref = useRef(null);
+ //Find solution
+  useEffect(() =>{
+    if(reduceFrom == "SAT3"){
+      console.log("caleb","apiCall")
+      // let apiCompatibleInstance = reduceFromInstance.replaceAll('&', "%26");
+      getProblemSolutionData(url, "SkeletonSolver", reduceFromInstance).then(data => {
+        //console.log(data);
+        let stringArr = data.replace('(', '').replace(')', ''); //turns (x1:True) int x1:True
+        stringArr = stringArr.split(','); //turns x1:True,x2:True into [x1:True,x2:True]
+        let finalArr = [];
+        for (const str of stringArr) {
+          finalArr.push(str.split(':')[0]); //turns x1:true into x1
+        }
+        setOrgSolutionData(finalArr);
+      }).catch((error)=>{console.log(error)});
+      
+    }
+  },[solve])
+  useEffect(() =>{
+    if(reduceFrom == "SAT3"){
+      let solution = [];
+      for(let clause of reduceFromData){
+        for(let element of clause){
+          if(!orgSolutionData.includes(element)){
+            solution.push(element);
+          }
+        }
+      }
+      setSolutionData(solution);
+    }
+  },[orgSolutionData,solve])
 
+   // re-create animation every time nodes change
   useEffect(() => {
+    d3.select(ref.current).selectChildren().remove();
+    
       // set the dimensions and margins of the graph
 
   // append the svg object to the body of the page
@@ -61,6 +106,10 @@ const node = svg
   }) //node prefix added to class name to allow for int names by user.
   .attr("r", 20)
   .attr("fill", function (d) {
+    if(solve && reduceFrom == "SAT3"){
+      let tempName = d.name.split("_")[0]
+      if(solutionData.includes(tempName)) return VisColors.Solution;
+    }
     //return "#FFC300";
     //"#00e676"
       
@@ -141,7 +190,7 @@ function ticked() {
     
 });
  
-      }, [])
+      }, [solutionData,solve])
   return (
     <svg 
         width={width}
@@ -188,7 +237,18 @@ export default function VertexCoverSvgReact(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-     <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance = {props.instance}  />
+    <ForceGraph 
+      w={700} 
+      h={700} 
+      charge={charge} 
+      apiCall={props.apiCall} 
+      problemInstance = {props.instance}
+      solve = {props.solveSwitch}
+      reduceFrom = {props.reduceFrom}
+      reduceFromInstance = {props.reduceFromInstance}
+      reduceFromData = {props.reduceFromData}
+      url = {props.url}
+      />
     </>
   );
 }

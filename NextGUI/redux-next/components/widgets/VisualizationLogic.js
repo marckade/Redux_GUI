@@ -124,13 +124,13 @@ export default function VisualizationLogic(props) {
                 reducedVisualization =
                     <Container>
                         <VertexCoverSvgReact 
-                            apiCall={apiCall2} 
+                            apiCall={apiCall2}
                             instance={props.reducedInstance}
                             solveSwitch={props.visualizationState.solverOn}>
                         </VertexCoverSvgReact>
                     </Container>
             }
-            else if (reductionName === "VERTEXCOVER" && visualizationState.solverOn) {
+            else if (reductionName === "VERTEXCOVER" && props.visualizationState.solverOn) {
                 visualization =
                     <div>
                         {/* {"SOLVER ON SPLIT VIZ SAT"} */}
@@ -141,14 +141,18 @@ export default function VisualizationLogic(props) {
                             url={props.url}
                         ></SAT3_SVG_React>
                     </div>
-                //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
                 let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
                 reducedVisualization =
                     <Container>
                         <VertexCoverSvgReact 
                             apiCall={apiCall2} 
+                            reduceFrom={problemName}
+                            reduceFromInstance={props.problemInstance}
+                            reduceFromData={props.problemVisualizationData}
                             instance={props.reducedInstance}
-                            solveSwitch={props.visualizationState.solverOn}>
+                            solveSwitch={props.visualizationState.solverOn}
+                            url = {props.url}
+                        >
                         </VertexCoverSvgReact>
                     </Container>
 
