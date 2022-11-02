@@ -112,9 +112,10 @@ function AccordionDualInputNestedButton(props) {
 
   //TOOLTIP RIGHT
   useEffect(() => {
-    requestReductionData(props.accordion.INPUTURL.url, chosenReductionType).then(data => {
-      console.log("REDUCTION TYPE: ", chosenReductionType)
-      setToolTip2({ header: chosenReductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
+    let reductionType = chosenReductionType.split("-")[0];
+    requestReductionData(props.accordion.INPUTURL.url, reductionType).then(data => {
+      console.log("REDUCTION TYPE: ", reductionType)
+      setToolTip2({ header: reductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
   
      
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
