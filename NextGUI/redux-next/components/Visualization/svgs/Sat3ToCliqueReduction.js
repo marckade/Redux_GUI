@@ -9,8 +9,7 @@ import { ProblemContext } from '../../contexts/ProblemProvider';
 var width = 400;
 var height = 350;
 
-let nodes = [];
-let edges = [];
+
 
 
 const degrees = (value) => value * (Math.PI / 180);
@@ -25,6 +24,8 @@ const positionByDegree = (degree, r, w, h) => {
 }
 
 function getClique(ref, data) {
+    let nodes = [];
+    let edges = [];
     let svg = new d3.select(ref).append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", `0 0 ${width} ${height}`)
