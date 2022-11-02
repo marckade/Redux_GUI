@@ -63,11 +63,17 @@ function getClique(ref, data) {
             nodes[dataCount] = new node(nodeName, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
             dataCount++;
         }
-
+        console.log("caleb",data);
         for (var i = 0; i < nodes.length; i++) {
             for (var j = 0; j < nodes.length; j++) {
                 if (nodes[i].Cluster() !== nodes[j].Cluster()) {
-                    if ((nodes[i].Name() === nodes[j].Name() && nodes[i].Variable() === nodes[j].Variable()) || nodes[i].Variable() !== nodes[j].Variable()) {
+                    let iVariable = nodes[i].Variable().split("_")[0]
+                    let jVariable = nodes[j].Variable().split("_")[0]
+                    let iName = nodes[i].Name().split("_")[0]
+                    let jName = nodes[j].Name().split("_")[0]
+                    console.log("caleb",iVariable, jVariable)
+                    console.log("caleb",(iName == jName && iVariable == jVariable))
+                    if ((iName == jName && iVariable == jVariable) || iVariable !== jVariable) {
                         new edge(svg, nodes[i], nodes[j]);
                     }
                 }
