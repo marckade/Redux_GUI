@@ -9,8 +9,7 @@ import { ProblemContext } from '../../contexts/ProblemProvider';
 var width = 400;
 var height = 350;
 
-let nodes = [];
-let edges = [];
+
 
 
 const degrees = (value) => value * (Math.PI / 180);
@@ -25,6 +24,8 @@ const positionByDegree = (degree, r, w, h) => {
 }
 
 function getClique(ref, data) {
+    let nodes = [];
+    let edges = [];
     let svg = new d3.select(ref).append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", `0 0 ${width} ${height}`)
@@ -48,25 +49,31 @@ function getClique(ref, data) {
             if (i % 4 === 0) { continue; }
             //constructor(id, cluster, name, solutionState,svg, position = {"x":10,"y":10}, size = 15)
             let nodeName = data[dataCount].name;
-            let idTest;
-            if (nodeName.lastIndexOf('_')!=-1) {
-               idTest = nodeName.substr(0, nodeName.lastIndexOf('_')) + "_" + dataCount;
-            }
-            else {
-                idTest = nodeName + '_' + dataCount;
-            }
+            // let idTest;
+            // if (nodeName.lastIndexOf('_')!=-1) {
+            //    idTest = nodeName.substr(0, nodeName.lastIndexOf('_')) + "_" + dataCount;
+            // }
+            // else {
+            //     idTest = nodeName + '_' + dataCount;
+            // }
 
             
-            let nodeId = nodeName + '_' + dataCount;
+            // let nodeId = nodeName + '_' + dataCount;
             //console.log([idTest, nodeName, nodeId]);
-            nodes[dataCount] = new node(idTest, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
+            nodes[dataCount] = new node(nodeName, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
             dataCount++;
         }
-
+        console.log("caleb",data);
         for (var i = 0; i < nodes.length; i++) {
             for (var j = 0; j < nodes.length; j++) {
                 if (nodes[i].Cluster() !== nodes[j].Cluster()) {
-                    if ((nodes[i].Name() === nodes[j].Name() && nodes[i].Variable() === nodes[j].Variable()) || nodes[i].Variable() !== nodes[j].Variable()) {
+                    let iVariable = nodes[i].Variable().split("_")[0]
+                    let jVariable = nodes[j].Variable().split("_")[0]
+                    let iName = nodes[i].Name().split("_")[0]
+                    let jName = nodes[j].Name().split("_")[0]
+                    console.log("caleb",iVariable, jVariable)
+                    console.log("caleb",(iName == jName && iVariable == jVariable))
+                    if ((iName == jName && iVariable == jVariable) || iVariable !== jVariable) {
                         new edge(svg, nodes[i], nodes[j]);
                     }
                 }
@@ -120,19 +127,19 @@ class node {
         this.cluster = cluster;
         this.solutionState = solutionState;
         this.variable = name.replace("!", "");
-        this.id = "_" + id.replace("!", "not");
-        this.color = "white"
+        this.id = "_" + id.replace("!", "NOT");
+        this.color = VisColors.Background
 
         if (solutionState === "") {
             //console.log(this.solutionState)
-            this.color = "white"
+            this.color = VisColors.Background
         }
         else if (solutionState === "True") {
-            this.color = "#00E676";//green
+            this.color = VisColors.Solution//green
         }
         else {
             //console.log("solution state node:",this.solutionState)
-            this.color = "#E600E3";//purple 
+            this.color = VisColors.SolutionAlt//purple 
         }
 
     }
