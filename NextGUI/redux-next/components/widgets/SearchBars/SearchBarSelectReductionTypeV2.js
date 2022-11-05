@@ -14,6 +14,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { ProblemContext } from '../../contexts/ProblemProvider';
 import React, { useContext, useEffect, useState } from 'react';
 import message from './SearchBarSelectReduceToV2';
+import AccordionTogglesSvg from '../AccordionTogglesSvg';
 // import requestReducedInstance from  '../AccordionDualInputNestedButton'
 const filter = createFilterOptions();
 export const noReductionsTypeMessage =
@@ -126,6 +127,19 @@ export default function SearchBarSelectReductionTypeV2(props) {
             }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
 
           }
+
+         // Auto populate "select reduction" field with sipserReduceToVC when reducing from Clique to Vertex Cover
+         else if(element === "sipserReduceToVC" && chosenReduceTo === 'VertexCover'){
+          element === "sipserReduceToVC";
+          props.setData(element);
+          setReduceToType(element);
+          requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
+
+          // props.setInstance(data.reductionTo.instance);
+          setReducedInstance(data.reductionTo.instance);
+          }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
+        }
+
           problemJson.push(element);
 
         }

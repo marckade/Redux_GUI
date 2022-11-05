@@ -118,6 +118,10 @@ export default function SearchBarSelectSolverV2(props) {
           props.setData(element);
           setDefaultSolver(element);
         }
+        else if (element === 'CliqueBruteForce' && problemName === 'CLIQUE'){
+          props.setData(element);
+          setDefaultSolver(element);
+        }
         problemJson.push(element);
       }
 

@@ -43,10 +43,16 @@ function Sat3SvgReact(props) {
               stringArr = stringArr.split(','); //turns x1:True,x2:True into [x1:True,x2:True]
               let finalArr = [];
               for (const str of stringArr) {
-                finalArr.push(str.split(':')[0]); //turns x1:true into x1
-             }
-                setSolutionData(finalArr);
-              }).catch((error)=>{console.log(error)});
+                let temp = str.split(':');
+                if(temp[1] === "False"){
+                  finalArr.push("NOT"+temp[0]);
+                }
+                else{
+                  finalArr.push(temp[0]); //turns x1:true into x1
+                }
+              }
+              setSolutionData(finalArr);
+            }).catch((error)=>{console.log(error)});
             //console.log(solutionData);
         }
         

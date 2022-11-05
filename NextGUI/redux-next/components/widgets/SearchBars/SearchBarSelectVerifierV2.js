@@ -125,6 +125,10 @@ export default function SearchBarSelectVerifierV2(props) {
           props.setData(element);
           setDefaultVerifier(element);
         }
+        else if (element === 'CliqueVerifier' && problemName === 'CLIQUE'){
+          props.setData(element);
+          setDefaultVerifier(element);
+        }
         problemJson.push(element)
       }
     }, 80);

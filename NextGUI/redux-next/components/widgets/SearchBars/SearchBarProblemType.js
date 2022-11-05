@@ -122,7 +122,8 @@ function initializeProblemJson(arr) {
   arr.map(function (element, index, array) {
     //console.log(element)
     if (!problemJson.includes(element)) {
-     
+
+  
       if(element ===  'SAT3'){
         //setDefaultProblemName(element);
         setProblemName(element);
