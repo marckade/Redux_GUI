@@ -70,13 +70,14 @@ export default function Test(props) {
             }
         }, 2000);
 
+
     }, [])
 
 
 
     const handleClick = event => {
         // 👇️ refers to the div element
-        console.log("This is ref: "+ref)
+        console.log("This is ref: " + ref)
         console.log(ref)
         // console.log(event.target);
         const element = event.target;
@@ -85,7 +86,7 @@ export default function Test(props) {
         if (problemGroup !== null) {
             const problemName = problemGroup.id
             console.log(problemName)
-        
+
             if (nodesList.includes(problemName)) {
                 requestProblemData('http://localhost:27000/', problemName).then(data => {
                     if (!(typeof data === "undefined")) {
@@ -116,11 +117,17 @@ export default function Test(props) {
             <ThemeProvider theme={theme}>
                 <ResponsiveAppBar></ResponsiveAppBar>
 
-
+                {/* 
                 <Container
                     display="flex"
 
-                >
+                > */}
+                <Box
+
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="10vh">
 
                     <div ref={ref} onClick={handleClick} >
 
@@ -128,9 +135,9 @@ export default function Test(props) {
                         {/* <Button onClick={handleClick}>Holy guacamole!</Button> */}
 
                         <Overlay
-                           rootClose={true}
+                            rootClose={true}
                             show={show}
-                            target={nodeTarget }
+                            target={nodeTarget}
                             placement="bottom"
                             container={ref}
                             containerPadding={20}
@@ -156,7 +163,8 @@ export default function Test(props) {
                             </Popover>
                         </Overlay>
                     </div>
-                </Container>
+                    {/* </Container> */}
+                </Box>
             </ThemeProvider>
         </>
 

@@ -38,14 +38,14 @@ export default function Test(props) {
   useEffect(() => {
     setToolTip({})
     
-    document.addEventListener("click", function (e) {
-      setToolTip({})
-      let target = (e.target);
-      console.log(target.tagName);
-      if (target.tagName !== 'ellipse') {
-        setShow(false);
-      }
-    })
+    // document.addEventListener("click", function (e) {
+    //   setToolTip({})
+    //   let target = (e.target);
+    //   console.log(target.tagName);
+    //   if (target.tagName !== 'ellipse') {
+    //     setShow(false);
+    //   }
+    // })
 
     setTimeout(() => {
 
@@ -65,13 +65,13 @@ export default function Test(props) {
         })
 
         node.addEventListener('click', function (e) {
-          console.log("This is node = ")
-          console.log(node)
+          // console.log("This is node = ")
+          // console.log(node)
           let nodeId = node.id;
           let target = (e.target);
           console.log("Target name :: "+target.tagName);
-          console.log("Node name :: "+ nodeId)
-          setToolTip(popoverList.get(nodeId))
+          // console.log("Node name :: "+ nodeId)
+          // setToolTip(popoverList.get(nodeId))
           // if (target.tagName === 'ellipse') {
           requestProblemData('http://localhost:27000/', nodeId).then(data => {
             if (!(typeof data === "undefined")) {
@@ -89,12 +89,12 @@ export default function Test(props) {
           // }
         })
 
-        requestProblemData('http://localhost:27000/', elem).then(data => {
-          if (!(typeof data === "undefined")) {
-            //console.log(data);
-            popoverList.set(elem,  setToolTip({ header: elem, formalDef: data.formalDefinition, info: data.problemDefinition + data.source }) )
-          }
-        }).catch(console.log("Problem not defined"));
+        // requestProblemData('http://localhost:27000/', elem).then(data => {
+        //   if (!(typeof data === "undefined")) {
+        //     //console.log(data);
+        //     popoverList.set(elem,  setToolTip({ header: elem, formalDef: data.formalDefinition, info: data.problemDefinition + data.source }) )
+        //   }
+        // }).catch(console.log("Problem not defined"));
 
 
       }

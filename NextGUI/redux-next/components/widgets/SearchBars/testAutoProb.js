@@ -113,11 +113,10 @@ export default function Graph(props) {
 
   return (
 
-  <div>
+
    <Graphviz dot={dot} options={{fit:true, height:1000, width:800, zoom:false}}
     />
    
-  </div>
   )
 
 }
