@@ -66,6 +66,7 @@ function AccordionDualInputNestedButton(props) {
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
   const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
+  const [disableButton, setActive] = useState(false) // keeps track of button
 
   const reduceRequest = async () => {
     console.log("Problem Instance at time of reduce req: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+ problemInstance);
@@ -104,6 +105,12 @@ function AccordionDualInputNestedButton(props) {
     requestProblemData(props.accordion.INPUTURL.url, chosenReduceTo).then(data => {
       setToolTip({ header: chosenReduceTo, formalDef: data.formalDefinition, info: data.problemDefinition }) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+
+    if(!chosenReduceTo){
+      setActive(true);
+    }else{
+      setActive(false);
+    }
 
   
     setReducedInstance('');;
@@ -180,6 +187,7 @@ function AccordionDualInputNestedButton(props) {
                   color='white'
                   style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={reduceRequest}
+                  disabled= {disableButton}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>
