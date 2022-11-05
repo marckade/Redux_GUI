@@ -33,11 +33,18 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,redu
       // let apiCompatibleInstance = reduceFromInstance.replaceAll('&', "%26");
       getProblemSolutionData(url, "SkeletonSolver", reduceFromInstance).then(data => {
         //console.log(data);
-        let stringArr = data.replace('(', '').replace(')', ''); //turns (x1:True) int x1:True
-        stringArr = stringArr.split(','); //turns x1:True,x2:True into [x1:True,x2:True]
+        let stringArr = data.replace('(', '').replace(')', '').replaceAll(':True',''); //turns (x1:True) int x1
+        stringArr = stringArr.split(','); //turns x1,x2 into [x1,x2]
         let finalArr = [];
-        for (const str of stringArr) {
-          finalArr.push(str.split(':')[0]); //turns x1:true into x1
+        for (let variable of stringArr){
+          if(variable.includes(":False")){
+            variable = "!"+variable.replace(":False","")
+          }
+          finalArr.push(variable);
+          let count = reduceFromData.flat().filter((literal) => literal == variable).length;
+          for(let i=1; i<count; i++){
+            finalArr.push(variable+"_"+i);
+          }
         }
         setOrgSolutionData(finalArr);
       }).catch((error)=>{console.log(error)});
@@ -48,9 +55,11 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,redu
     if(reduceFrom == "SAT3"){
       let solution = [];
       for(let clause of reduceFromData){
-        for(let element of clause){
-          if(!orgSolutionData.includes(element)){
+        for(let element of orgSolutionData){
+          let strippedElement = element.split("_")[0];
+          if(clause.includes(strippedElement) && !solution.includes(element)){
             solution.push(element);
+            break;
           }
         }
       }
@@ -106,8 +115,8 @@ const node = svg
   .attr("r", 20)
   .attr("fill", function (d) {
     if(solve && reduceFrom == "SAT3"){
-      let tempName = d.name.split("_")[0]
-      if(solutionData.includes(tempName)) return VisColors.Solution;
+      // let tempName = d.name.split("_")[0]
+      if(!solutionData.includes(d.name)) return VisColors.Solution;
     }
     //return "#FFC300";
     //"#00e676"

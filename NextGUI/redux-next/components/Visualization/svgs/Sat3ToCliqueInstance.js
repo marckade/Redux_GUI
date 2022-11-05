@@ -127,7 +127,7 @@ class literal{
             .attr("height", this.size)
             .attr("width", this.size*this.name.length-7)//subtracting 7 since the stroke length is 7.
             .attr("id", this.id)
-            .attr("class", "c_"+this.className+" gadget"+" "+this.name)
+            .attr("class", "c_"+this.className+" gadget"+" "+this.name.replace("!","NOT"))
             .attr("stroke-linejoin","round")
             .attr("stroke-width", "7px")
             .on("mouseover", function () {
