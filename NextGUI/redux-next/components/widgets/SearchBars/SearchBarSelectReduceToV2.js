@@ -141,6 +141,11 @@ export default function SearchBarSelectReduceToV2(props) {
           props.setData(element);
           setReduceTo(element);
         }
+        else if(problemName === 'CLIQUE'){
+          element === 'VERTEXCOVER'
+          props.setData(element);
+          setReduceTo(element);
+        }
         problemJson.push(element)
       }
 

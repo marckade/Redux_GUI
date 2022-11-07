@@ -25,6 +25,7 @@ import SearchBarSelectVerifierV2 from './SearchBars/SearchBarSelectVerifierV2';
 function ContextAwareToggle({ children, eventKey, callback, colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
+
   const decoratedOnClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey),
@@ -48,6 +49,7 @@ function AccordionVerifier(props) {
 
   const [verifiedInstance, setVerifiedInstance] = useState("");
   const [verifyResult, setVerifyResult] = useState("");
+  const [disableButton, setActive] = useState(false) // keeps track of button
 
   const { problemName, problemInstance, problemType, chosenVerifier, setChosenVerifier, solvedInstance } = useContext(ProblemContext)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
@@ -62,6 +64,14 @@ function AccordionVerifier(props) {
       setToolTip({ header: data.verifierName, formalDef: data.verifierDefinition, info: data.source }) //updates TOOLTIP
       setVerifiedInstance(data.certificate)
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+
+    
+    if(!chosenVerifier){
+      setActive(true);
+
+    }else{
+      setActive(false);
+    }
   }, [chosenVerifier]);
 
 
@@ -125,6 +135,7 @@ function AccordionVerifier(props) {
                   color='white'
                   style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={handleVerify}
+                  disabled = {disableButton}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>

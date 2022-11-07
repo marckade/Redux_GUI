@@ -26,6 +26,7 @@ import SearchBarSelectSolverV2 from './SearchBars/SearchBarSelectSolverV2';
 function ContextAwareToggle({ children, eventKey, callback, colors }) {
   const { activeEventKey } = useContext(AccordionContext);
 
+
   const decoratedOnClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey),
@@ -49,6 +50,9 @@ function ContextAwareToggle({ children, eventKey, callback, colors }) {
 function AccordionSingleInputNestedButton(props) {
   const { problemName, problemInstance, problemType, chosenSolver, setChosenSolver, solvedInstance, setSolvedInstance } = useContext(ProblemContext)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
+  const [disableButton, setActive] = useState(false) // keeps track of button
+
+  
   console.log("STATE CHANGE SOLVER")
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_SolversRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   useEffect(() => {
@@ -57,6 +61,14 @@ function AccordionSingleInputNestedButton(props) {
     requestSolverData(props.accordion.INPUTURL.url, chosenSolver).then(data => {
       setToolTip({ header: chosenSolver, formalDef: data.solverDefinition, info: data.source }) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+
+
+    if(!chosenSolver){
+      setActive(true);
+
+    }else{
+      setActive(false);
+    }
   }, [chosenSolver])
 
   const handleSolve = () => {
@@ -105,6 +117,7 @@ function AccordionSingleInputNestedButton(props) {
                   color='white'
                   style={{ backgroundColor: props.accordion.THEME.colors.grey }}
                   onClick={handleSolve}
+                  disabled= {disableButton}
                 >{props.accordion.BUTTON.buttonText}</Button>
               </div>
             </Card.Body>

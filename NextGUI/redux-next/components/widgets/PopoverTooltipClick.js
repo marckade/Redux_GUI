@@ -43,7 +43,7 @@ function PopoverTooltipClick(props) {
   
 
   return(
-    <OverlayTrigger rootClose={true} trigger="click" placement="bottom" overlay={popOver(props)}>
+    <OverlayTrigger rootClose={true} trigger="click" placement="bottom" overlay={popOver(props)} >
       <InfoOutlinedIcon>
         <Button variant="success">
         </Button>
