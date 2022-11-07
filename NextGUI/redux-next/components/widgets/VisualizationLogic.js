@@ -10,6 +10,7 @@ import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
 import CliqueSvgReactV2 from "../Visualization/svgs/Clique_SVG_REACT_V2";
 import { tsvFormatValue } from 'd3';
 import Refresh from '@mui/icons-material/Refresh';
+import No_Viz_Svg from '../Visualization/svgs/No_Viz_SVG';
 
 export default function VisualizationLogic(props) {
 
@@ -32,7 +33,7 @@ export default function VisualizationLogic(props) {
     if (problemName === "VERTEXCOVER") {
 
 
-        if (visualizationState.solverOn) {
+        if (visualizationState.solverOn && !visualizationState.reductionOn) {
 
             apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
@@ -46,14 +47,23 @@ export default function VisualizationLogic(props) {
                     </VertexCoverSvgReact>
                     </Container>
 
-
+            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
         }
-        else if (visualizationState.reductionOn) {
+        //No Arcset visualization implemented so no reduced visualizations possible.
 
+        else if (!visualizationState.solverOn && visualizationState.reductionOn) {
+            apiCall = props.url +"VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
+            let inlineProblemInstance = "{{a,b},{{a,b}},1}";
+            visualization = 
+                    <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
+            
+            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+        
         }
         else if (visualizationState.gadgetsOn) {
 
         }
+            //Neither solver or reduction On
         else {
             apiCall = props.url +"VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
@@ -61,6 +71,8 @@ export default function VisualizationLogic(props) {
                     <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
 
         }
+
+        
     }
 
 
@@ -172,6 +184,24 @@ export default function VisualizationLogic(props) {
 
             } 
 
+            //Reduction is on but nothing is implemented for it
+            else {
+                visualization =
+                    <div>
+                        {/* {"SOLVER ON SPLIT VIZ SAT"} */}
+                        <SAT3_SVG_React
+                            data={props.problemVisualizationData}
+                            // solution={props.problemSolutionData}
+                            showSolution={props.visualizationState.solverOn}
+                            url={props.url}
+                        ></SAT3_SVG_React>
+                    </div>
+                
+                reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                
+
+            }
+
         }  else {
 
             visualization =
@@ -229,30 +259,60 @@ export default function VisualizationLogic(props) {
                         </VertexCoverSvgReact>   
             }
 
+            //reduction is on, solution is on, reduction is not Vertexcover so no visualization
+            else if(visualization.reductionOn && reductionName !="VERTEXCOVER") {
+                
+
+
+                visualization =
+                <CliqueSvgReactV2 
+                    apiCall={apiCall1} 
+                    instance={props.problemInstance}
+                    showSolution={props.visualizationState.solverOn}> 
+                </CliqueSvgReactV2>
+                
+                reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+
+            }
+
         }
 
         // Reduction is on and the solution is OFF
         else if (visualizationState.reductionOn && !visualizationState.solverOn) {
+            let apiCall1 = props.url + "CLIQUEGeneric/visualize" // Unsolved base problem
+
             if (reductionName === "VERTEXCOVER") {
-                let apiCall1 = props.url+"CLIQUEGeneric/visualize" // Unsolved base problem
                 visualization =
-                        <CliqueSvgReactV2 
-                            apiCall={apiCall1} 
-                            instance={props.problemInstance}
-                            showSolution={props.visualizationState.solverOn}> 
-                        </CliqueSvgReactV2>
+                    <CliqueSvgReactV2
+                        apiCall={apiCall1}
+                        instance={props.problemInstance}
+                        showSolution={props.visualizationState.solverOn}>
+                    </CliqueSvgReactV2>
 
                 // Unsolved reduction
-                let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                let apiCall2 = props.url + "VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
                 reducedVisualization =
-                        <Container>
-                            <VertexCoverSvgReact 
-                                apiCall={apiCall2} 
-                                instance={props.reducedInstance}
-                                solveSwitch={props.visualizationState.solverOn}>
-                            </VertexCoverSvgReact>
-                        </Container>
+                    <Container>
+                        <VertexCoverSvgReact
+                            apiCall={apiCall2}
+                            instance={props.reducedInstance}
+                            solveSwitch={props.visualizationState.solverOn}>
+                        </VertexCoverSvgReact>
+                    </Container>
             }
+            
+            //reduction is on, solver is off, not a vcover reduction then no viz found
+            else {
+                    visualization =
+                        <CliqueSvgReactV2
+                            apiCall={apiCall1}
+                            instance={props.problemInstance}
+                            showSolution={props.visualizationState.solverOn}>
+                        </CliqueSvgReactV2>
+                
+                    reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                }
+            
         }
         
         else if (visualizationState.gadgetsOn) {}
@@ -270,9 +330,15 @@ export default function VisualizationLogic(props) {
         }
     }
 
-
-
     // GUI
+
+        
+        //Problem isnt 3SAT or Clique or VertexCover
+    else {
+        visualization = <No_Viz_Svg></No_Viz_Svg>
+        reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+    }
+
 
     if (!visualizationState.reductionOn && !loading) {
         // {console.log("reduction state: "+visualizationState.reductionOn)}

@@ -107,9 +107,10 @@ function HomePage() {
         <ResponsiveAppBar></ResponsiveAppBar>
         <>
           
-
-          <No_Viz_Svg></No_Viz_Svg>
-        
+        <Box>
+            <No_Viz_Svg></No_Viz_Svg>
+            
+          </Box>
 
 
               {/* <Split
