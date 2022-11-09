@@ -10,10 +10,10 @@
 // //OverlayViewF
 
 // /**
-//  * 
-//  * @param {*} url the base url of the application 
+//  *
+//  * @param {*} url the base url of the application
 //  * @param {*} name The name of the selected problem
-//  * @returns A promise from the passed in url. 
+//  * @returns A promise from the passed in url.
 //  */
 // async function requestProblemData(url, name) {
 //     console.log(name)
@@ -117,7 +117,7 @@
 //             <ThemeProvider theme={theme}>
 //                 <ResponsiveAppBar></ResponsiveAppBar>
 
-//                 {/* 
+//                 {/*
 //                 <Container
 //                     display="flex"
 
@@ -176,3 +176,11 @@
 
 
 // }
+
+
+
+function HomePage() {
+    return <div>BUILD ISSUE PATCH. TEMPORARY</div>
+  }
+  
+  export default HomePage
