@@ -44,6 +44,7 @@ function MainPageContent() {
       mode: "light",
       primary: {
         main: "#424242",
+        lGray: "#f3f3f3",
         contrastText: "#fff" //button text white instead of black
       },
       secondary: {

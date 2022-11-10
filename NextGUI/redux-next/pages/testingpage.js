@@ -22,6 +22,8 @@ import Split from 'react-split';
 import Constants from '../Tools/Constants';
 import ProblemInstanceParser from '../Tools/ProblemInstanceParser';
 
+import No_Viz_Svg from '../components/Visualization/svgs/No_Viz_SVG';
+
 //const baseUrl = 'http://redux.aws.cose.isu.edu:27000/';
 const reduxBaseUrl = 'http://localhost:27000/'; //redux url. Note the trailing slash
 const searchbarPlaceHolder = "Enter a Problem Name..."
@@ -104,10 +106,14 @@ function HomePage() {
     <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
         <>
-        
+          
+        <Box>
+            <No_Viz_Svg></No_Viz_Svg>
+            
+          </Box>
 
 
-              <Split
+              {/* <Split
             className="wrap"      
             direction="horizontal"
             style={{ height: 'inherit' }}
@@ -124,7 +130,7 @@ function HomePage() {
               {reducedVisualization}
             </Box>
             
-                </Split> 
+                </Split>  */}
         </>
         
     </ThemeProvider>

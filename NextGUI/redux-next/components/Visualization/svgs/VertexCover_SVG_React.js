@@ -121,7 +121,13 @@ const node = svg
     //return "#FFC300";
     //"#00e676"
       
-        return VisColors.Background
+    if (d.attribute2 == "True") {
+      return "#00E676" //Highlight solutions color: green 
+    }
+    else {
+      console.log(d.attribute2)
+      return VisColors.Background // Non-Solution color: grey
+    }
       
   })
   .on("mouseover", function (d) {

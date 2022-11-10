@@ -26,7 +26,7 @@ class ProblemInstanceParser {
             parsedOutput = this.parseDirectedGraph(problemInstance);
         }
         else {
-            consolee.log("problemType not found equal to any string, here was your problem type",problemType)
+            console.log("problemType not found equal to any string, here was your problem type",problemType)
             parsedOutput = {
                 test: true,
                 input: problemInstance,
