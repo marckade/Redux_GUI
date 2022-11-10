@@ -5,7 +5,8 @@ const Constants = {
         Clique: "CLIQUE",
         GraphColoring: "GRAPHCOLORING",
         VertexCover: "VERTEXCOVER",
-        Arcset: "ARCSET"
+        Arcset: "ARCSET",
+        Knapsack: "KNAPSACK"
     }
 
 

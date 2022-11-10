@@ -21,7 +21,7 @@ class ProblemInstanceParser {
             console.log(parsedOutput)
         }
             
-        else if (problemType === Constants.ProblemTypes.Arcset) {
+        else if (problemType === Constants.ProblemTypes.Arcset || problemType === Constants.ProblemTypes.Knapsack) {
             // console.log("HIT ARCSET PARSER")
             parsedOutput = this.parseDirectedGraph(problemInstance);
         }
