@@ -143,7 +143,7 @@ export default function VisualizationLogic(props) {
             //Sat and vertex cover reduction
             else if (reductionName === "VERTEXCOVER"){
                 console.log("Caleb", props.reductionType);
-                requestMappedSolutionTransitive(props.url, props.reductionType, props.problemInstance, solution).then(data => {
+                requestMappedSolutionTransitive(props.url, "SipserReduceToCliqueStandard-sipserReduceToVC", props.problemInstance, solution).then(data => {
                     setMappedSolution(data);
                     console.log("Caleb", data)
                 })
