@@ -33,11 +33,13 @@ export default function VisualizationLogic(props) {
 
     //VertexCover 
     if (problemName === "VERTEXCOVER") {
-
+        requestSolution(props.url,"VertexCoverBruteForce",props.problemInstance).then(data => {
+            setSolution(data)
+        })
 
         if (visualizationState.solverOn && !visualizationState.reductionOn) {
 
-            apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance;
+            apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
             
             visualization = 
@@ -140,8 +142,10 @@ export default function VisualizationLogic(props) {
             } 
             //Sat and vertex cover reduction
             else if (reductionName === "VERTEXCOVER"){
+                console.log("Caleb", props.reductionType);
                 requestMappedSolutionTransitive(props.url, props.reductionType, props.problemInstance, solution).then(data => {
                     setMappedSolution(data);
+                    console.log("Caleb", data)
                 })
                 if(!props.visualizationState.solverOn) {
 
