@@ -14,6 +14,8 @@ import No_Viz_Svg from '../Visualization/svgs/No_Viz_SVG';
 
 export default function VisualizationLogic(props) {
 
+    const [solution, setSolution] = useState();
+    const [mappedSolution, setMappedSolution] = useState();
     let apiCall = ""
     let visualization;
     let reducedVisualization;
@@ -40,12 +42,12 @@ export default function VisualizationLogic(props) {
             
             visualization = 
                 <Container>
-            <VertexCoverSvgReact 
-                apiCall={apiCall} 
-                instance={props.reducedInstance}
-                solveSwitch={props.visualizationState.solverOn}>
+                    <VertexCoverSvgReact 
+                        apiCall={apiCall} 
+                        instance={props.reducedInstance}
+                        solveSwitch={props.visualizationState.solverOn}>
                     </VertexCoverSvgReact>
-                    </Container>
+                </Container>
 
             reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
         }
@@ -78,6 +80,9 @@ export default function VisualizationLogic(props) {
 
     //3SAT
     else if (problemName === "SAT3") {
+        requestSolution(props.url,"SkeletonSolver",props.problemInstance).then(data => {
+            setSolution(data)
+        })
         if (props.visualizationState.reductionOn) {
             if (reductionName === "CLIQUE" && !props.visualizationState.solverOn) {
 
@@ -134,55 +139,60 @@ export default function VisualizationLogic(props) {
 
             } 
             //Sat and vertex cover reduction
-            else if (reductionName === "VERTEXCOVER" && !props.visualizationState.solverOn) {
+            else if (reductionName === "VERTEXCOVER"){
+                requestMappedSolutionTransitive(props.url, props.reductionType, props.problemInstance, solution).then(data => {
+                    setMappedSolution(data);
+                })
+                if(!props.visualizationState.solverOn) {
 
-                visualization =
-                    <div>
-                        {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
-                        <SAT3_SVG_React
-                            data={props.problemVisualizationData}
-                            solution={props.problemSolutionData}
-                            showSolution={props.visualizationState.solverOn}
-                            url={props.url}
-                        ></SAT3_SVG_React>
-                    </div>
-                let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
-                reducedVisualization =
-                    <Container>
-                        <VertexCoverSvgReact 
-                            apiCall={apiCall2}
-                            instance={props.reducedInstance}
-                            solveSwitch={props.visualizationState.solverOn}>
-                        </VertexCoverSvgReact>
-                    </Container>
+                    visualization =
+                        <div>
+                            {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
+                            <SAT3_SVG_React
+                                data={props.problemVisualizationData}
+                                solution={props.problemSolutionData}
+                                showSolution={props.visualizationState.solverOn}
+                                url={props.url}
+                            ></SAT3_SVG_React>
+                        </div>
+                    let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
+                    reducedVisualization =
+                        <Container>
+                            <VertexCoverSvgReact 
+                                apiCall={apiCall2}
+                                instance={props.reducedInstance}
+                                solveSwitch={props.visualizationState.solverOn}>
+                            </VertexCoverSvgReact>
+                        </Container>
+                }
+                else if (props.visualizationState.solverOn) {
+                    visualization =
+                        <div>
+                            {/* {"SOLVER ON SPLIT VIZ SAT"} */}
+                            <SAT3_SVG_React
+                                data={props.problemVisualizationData}
+                                // solution={props.problemSolutionData}
+                                showSolution={props.visualizationState.solverOn}
+                                url={props.url}
+                            ></SAT3_SVG_React>
+                        </div>
+                    //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
+                    let apiCall2 = props.url+"VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
+                    reducedVisualization =
+                            <VertexCoverSvgReact 
+                                apiCall={apiCall2} 
+                                reduceFrom={problemName}
+                                reduceFromInstance={props.problemInstance}
+                                reduceFromData={props.problemVisualizationData}
+                                instance={props.reducedInstance}
+                                solveSwitch={props.visualizationState.solverOn}
+                                url = {props.url}
+                            >
+                            </VertexCoverSvgReact>
+
+
+                } 
             }
-            else if (reductionName === "VERTEXCOVER" && props.visualizationState.solverOn) {
-                visualization =
-                    <div>
-                        {/* {"SOLVER ON SPLIT VIZ SAT"} */}
-                        <SAT3_SVG_React
-                            data={props.problemVisualizationData}
-                            // solution={props.problemSolutionData}
-                            showSolution={props.visualizationState.solverOn}
-                            url={props.url}
-                        ></SAT3_SVG_React>
-                    </div>
-                //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
-                let apiCall2 = props.url+"VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance;
-                reducedVisualization =
-                        <VertexCoverSvgReact 
-                            apiCall={apiCall2} 
-                            reduceFrom={problemName}
-                            reduceFromInstance={props.problemInstance}
-                            reduceFromData={props.problemVisualizationData}
-                            instance={props.reducedInstance}
-                            solveSwitch={props.visualizationState.solverOn}
-                            url = {props.url}
-                        >
-                        </VertexCoverSvgReact>
-
-
-            } 
 
             //Reduction is on but nothing is implemented for it
             else {
@@ -223,40 +233,48 @@ export default function VisualizationLogic(props) {
 
         // Clique problem
     } else if (problemName === "CLIQUE") {
+        requestSolution(props.url, "CliqueBruteForce", props.problemInstance).then(data=>{
+            setSolution(data);
+        })
         // Solution is on
         if (visualizationState.solverOn) {
-            let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization" // Solved base problem
+            let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution; // Solved base problem
             visualization =
-                    <Container>
-                        <CliqueSvgReactV2 
-                            apiCall={apiCall1}
-                            instance={props.problemInstance}
-                            showSolution={props.visualizationState.solverOn}>
-                        </CliqueSvgReactV2>
-                    </Container>
-                
-            // Both reduction and solutions are on.
-            if (visualizationState.reductionOn && reductionName === "VERTEXCOVER"){
-                // Solved base problem
-                visualization =
-                <Container>
+            <Container>
                 <CliqueSvgReactV2 
                     apiCall={apiCall1}
                     instance={props.problemInstance}
                     showSolution={props.visualizationState.solverOn}>
                 </CliqueSvgReactV2>
-                </Container>
+            </Container>
+            
+            // Both reduction and solutions are on.
+            if(reductionName == "VERTEXCOVER"){
+                requestMappedSolution(props.url, "sipserReduceToVC", props.problemInstance, props.reducedInstance, solution).then(data => {
+                    setMappedSolution(data);
+                })
+                if (visualizationState.reductionOn ){
+                    // Solved base problem
+                    visualization =
+                    <Container>
+                    <CliqueSvgReactV2 
+                        apiCall={apiCall1}
+                        instance={props.problemInstance}
+                        showSolution={props.visualizationState.solverOn}>
+                    </CliqueSvgReactV2>
+                    </Container>
 
-                //Unsolved reduction (Should be solved when we make a solution.)
-                let apiCall2 = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance;
-                console.log("VERTEXCOVER SOLVED",apiCall2)
-                reducedVisualization =
-                    
-                    <VertexCoverSvgReact 
-                        apiCall={apiCall2} 
-                        instance={props.reducedInstance}
-                        solveSwitch={props.visualizationState.solverOn}>
+                    //Unsolved reduction (Should be solved when we make a solution.)
+                    let apiCall2 = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
+                    console.log("VERTEXCOVER SOLVED",apiCall2)
+                    reducedVisualization =
+                        
+                        <VertexCoverSvgReact 
+                            apiCall={apiCall2} 
+                            instance={props.reducedInstance}
+                            solveSwitch={props.visualizationState.solverOn}>
                         </VertexCoverSvgReact>   
+                }
             }
 
             //reduction is on, solution is on, reduction is not Vertexcover so no visualization
@@ -279,7 +297,7 @@ export default function VisualizationLogic(props) {
 
         // Reduction is on and the solution is OFF
         else if (visualizationState.reductionOn && !visualizationState.solverOn) {
-            let apiCall1 = props.url + "CLIQUEGeneric/visualize" // Unsolved base problem
+            let apiCall1 = props.url + "CLIQUEGeneric/visualize?problemInstance=" + props.problemInstance; // Unsolved base problem
 
             if (reductionName === "VERTEXCOVER") {
                 visualization =
@@ -318,7 +336,7 @@ export default function VisualizationLogic(props) {
         else if (visualizationState.gadgetsOn) {}
         // Nothing is selected
         else {
-            apiCall = props.url+"CLIQUEGeneric/visualize"
+            apiCall = props.url+"CLIQUEGeneric/visualize?problemInstance=" + props.problemInstance;
             visualization =
                 <>
                     {/* {"CLIQUE V2 Viz"} */}
@@ -383,3 +401,52 @@ export default function VisualizationLogic(props) {
         </>
     )
 }
+
+export function requestSolution(url, solver, problemFrom ) {
+    let parsedInstance = problemFrom.replaceAll('&', '%26');
+  
+    return fetch(url + solver + '/solve?' + "problemInstance=" + parsedInstance).then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      }
+    }).catch((error) => console.log(error))
+}
+
+export function requestMappedSolution(url, reduction, problemFrom, problemTo, solution ) {
+    let parsedFrom = problemFrom.replaceAll('&', '%26');
+    let parsedTo = problemTo.replaceAll('&', '%26');
+  
+    return fetch(url + reduction + '/mapSolution?' + "problemFrom=" + parsedFrom + "&problemTo=" + parsedTo + "&problemFromSolution=" + solution).then(resp => {
+      if (resp.ok) {
+        return resp.json();
+      }
+    }).catch((error) => console.log(error))
+}
+
+export async function requestMappedSolutionTransitive(url, reduction, problemInstance, solution ) {
+    let problemFrom = problemInstance;
+    let mappedSolution = solution;
+    let problemTo;
+    let reductionList = reduction.split("-");
+    for(let i=0; i<reductionList.length; i++){
+        await requestReducedInstance(url, reductionList[i], problemFrom).then(data => {
+            problemTo = data.reductionTo.instance;
+        })
+        await requestMappedSolution(url, reductionList[i], problemFrom, problemTo, mappedSolution).then(data => {
+            mappedSolution = data;
+        })
+        problemFrom = problemTo;
+    }
+    return mappedSolution;
+}
+
+export async function requestReducedInstance(url, reductionName, reduceFrom) {
+    var parsedInstance = reduceFrom.replaceAll('&', '%26');
+  
+    return await fetch(url + reductionName + '/reduce?' + "problemInstance=" + parsedInstance).then(resp => {
+      if (resp.ok) {
+  
+        return resp.json();
+      }
+    })
+  }
