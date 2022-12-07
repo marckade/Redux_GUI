@@ -37,22 +37,20 @@ function Sat3SvgReact(props) {
             console.log("Show Solution !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             // let solutionData = getProblemSolution(props.url, "SkeletonSolver", problemInstance.replaceAll('&', "%26"));
             let apiCompatibleInstance = problemInstance.replaceAll('&', "%26");
-            getProblemSolutionData(props.url, "SkeletonSolver", apiCompatibleInstance).then(data => {
               //console.log(data);
-              let stringArr = data.replace('(', '').replace(')', ''); //turns (x1:True) int x1:True
-              stringArr = stringArr.split(','); //turns x1:True,x2:True into [x1:True,x2:True]
-              let finalArr = [];
-              for (const str of stringArr) {
-                let temp = str.split(':');
-                if(temp[1] === "False"){
-                  finalArr.push("NOT"+temp[0]);
-                }
-                else{
-                  finalArr.push(temp[0]); //turns x1:true into x1
-                }
+            let stringArr = props.solutionData.replace('(', '').replace(')', ''); //turns (x1:True) int x1:True
+            stringArr = stringArr.split(','); //turns x1:True,x2:True into [x1:True,x2:True]
+            let finalArr = [];
+            for (const str of stringArr) {
+              let temp = str.split(':');
+              if(temp[1] === "False"){
+                finalArr.push("NOT"+temp[0]);
               }
-              setSolutionData(finalArr);
-            }).catch((error)=>{console.log(error)});
+              else{
+                finalArr.push(temp[0]); //turns x1:true into x1
+              }
+            }
+            setSolutionData(finalArr);
             //console.log(solutionData);
         }
         
@@ -65,7 +63,9 @@ function Sat3SvgReact(props) {
         }
 
     }, [problemInstance, props.showSolution])
-    showSolution(solutionData); //Data fed to this triggers a instance render with solution
+    if(props.showSolution){
+      showSolution(solutionData); //Data fed to this triggers a instance render with solution
+    }
    
   // useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow
   //  if(!props.showSolution){
