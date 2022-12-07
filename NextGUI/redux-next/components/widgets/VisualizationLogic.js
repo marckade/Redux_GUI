@@ -83,69 +83,74 @@ export default function VisualizationLogic(props) {
     //3SAT
     else if (problemName === "SAT3") {
         requestSolution(props.url,"SkeletonSolver",props.problemInstance).then(data => {
-            setSolution(data)
+            setSolution(data) 
         })
         if (props.visualizationState.reductionOn) {
-            if (reductionName === "CLIQUE" && !props.visualizationState.solverOn) {
+            if(reductionName === "CLIQUE"){
+                requestMappedSolution(props.url, "SipserReduceToCliqueStandard", props.problemInstance, props.reducedInstance, solution).then(data => {
+                    setMappedSolution(data);
+                })
+                if (!props.visualizationState.solverOn) {
 
-                visualization =
-                    <div>
-                        {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
-                        <SAT3_SVG_React
-                            data={props.problemVisualizationData}
-                            solution={props.problemSolutionData}
-                            showSolution={props.visualizationState.solverOn}
-                            url={props.url}
-                        ></SAT3_SVG_React>
-                    </div>
-
-                reducedVisualization =
-                    <>
-                        {/* {"SOLVER OFF SPLIT VIZ CLIQUE"} */}
-
-                        <CLIQUE_SVG_REACT
-                            data={props.reducedVisualizationData}
-                            url={props.url}
-                            reductionType={reductionType}
-                            problemInstance={props.problemInstance}
-                            solveSwitch={props.visualizationState.solverOn}>
-                        </CLIQUE_SVG_REACT>
-                    </>
-            }
-            else if (reductionName === "CLIQUE" && visualizationState.solverOn) {
-                visualization =
-                    <div>
-                        {/* {"SOLVER ON SPLIT VIZ SAT"} */}
-                        <SAT3_SVG_React
-                            data={props.problemVisualizationData}
-                            // solution={props.problemSolutionData}
-                            showSolution={props.visualizationState.solverOn}
-                            url={props.url}
-                        ></SAT3_SVG_React>
-                    </div>
-                //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
-                reducedVisualization =
-                    <>
+                    visualization =
                         <div>
-                            {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
+                            {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
+                            <SAT3_SVG_React
+                                solutionData={solution}
+                                data={props.problemVisualizationData}
+                                showSolution={props.visualizationState.solverOn}
+                                url={props.url}
+                            ></SAT3_SVG_React>
                         </div>
-                        <CLIQUE_SVG_REACT
-                            data={props.reducedVisualizationData}
-                            url={props.url}
-                            reductionType={reductionType}
-                            problemInstance={props.problemInstance}
-                            solveSwitch={visualizationState.solverOn}
-                        ></CLIQUE_SVG_REACT>
-                    </>
+
+                    reducedVisualization =
+                        <>
+                            {/* {"SOLVER OFF SPLIT VIZ CLIQUE"} */}
+
+                            <CLIQUE_SVG_REACT
+                                solutionData={mappedSolution}
+                                data={props.reducedVisualizationData}
+                                url={props.url}
+                                reductionType={reductionType}
+                                problemInstance={props.problemInstance}
+                                solveSwitch={props.visualizationState.solverOn}>
+                            </CLIQUE_SVG_REACT>
+                        </>
+                }
+                else if (reductionName === "CLIQUE" && visualizationState.solverOn) {
+                    visualization =
+                        <div>
+                            {/* {"SOLVER ON SPLIT VIZ SAT"} */}
+                            <SAT3_SVG_React
+                                solutionData={solution}
+                                data={props.problemVisualizationData}
+                                showSolution={props.visualizationState.solverOn}
+                                url={props.url}
+                            ></SAT3_SVG_React>
+                        </div>
+                    //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
+                    reducedVisualization =
+                        <>
+                            <div>
+                                {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
+                            </div>
+                            <CLIQUE_SVG_REACT
+                                solutionData={solution}
+                                data={props.reducedVisualizationData}
+                                url={props.url}
+                                reductionType={reductionType}
+                                problemInstance={props.problemInstance}
+                                solveSwitch={visualizationState.solverOn}
+                            ></CLIQUE_SVG_REACT>
+                        </>
 
 
-            } 
+                } 
+            }
             //Sat and vertex cover reduction
             else if (reductionName === "VERTEXCOVER"){
-                console.log("Caleb", props.reductionType);
                 requestMappedSolutionTransitive(props.url, "SipserReduceToCliqueStandard-sipserReduceToVC", props.problemInstance, solution).then(data => {
                     setMappedSolution(data);
-                    console.log("Caleb", data)
                 })
                 if(!props.visualizationState.solverOn) {
 
@@ -153,8 +158,9 @@ export default function VisualizationLogic(props) {
                         <div>
                             {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
                             <SAT3_SVG_React
+                                solutionData={solution}
                                 data={props.problemVisualizationData}
-                                solution={props.problemSolutionData}
+                                solution={solution}
                                 showSolution={props.visualizationState.solverOn}
                                 url={props.url}
                             ></SAT3_SVG_React>
@@ -174,6 +180,7 @@ export default function VisualizationLogic(props) {
                         <div>
                             {/* {"SOLVER ON SPLIT VIZ SAT"} */}
                             <SAT3_SVG_React
+                                solutionData={solution}
                                 data={props.problemVisualizationData}
                                 // solution={props.problemSolutionData}
                                 showSolution={props.visualizationState.solverOn}
@@ -204,6 +211,7 @@ export default function VisualizationLogic(props) {
                     <div>
                         {/* {"SOLVER ON SPLIT VIZ SAT"} */}
                         <SAT3_SVG_React
+                            solutionData={solution}
                             data={props.problemVisualizationData}
                             // solution={props.problemSolutionData}
                             showSolution={props.visualizationState.solverOn}
@@ -223,6 +231,7 @@ export default function VisualizationLogic(props) {
 
                     {/* {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"} */}
                     <SAT3_SVG_React 
+                        solutionData={solution}
                         data={props.problemVisualizationData}
                         showSolution={props.visualizationState.solverOn}
                         url={props.url}

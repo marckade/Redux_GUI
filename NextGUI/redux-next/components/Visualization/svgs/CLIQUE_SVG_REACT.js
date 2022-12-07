@@ -120,7 +120,7 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
     useEffect(() => {
         if (props.solveSwitch) {
             console.log("solved Visualization",props.solveSwitch);
-            getReducedVisualizationData(props.url, props.reductionType, "solvedVisualization", props.problemInstance).then(data => {
+            getReducedVisualizationDataSolved(props.url, props.reductionType, "solvedVisualization", props.problemInstance,props.solutionData).then(data => {
                 setJsonData(data)
                 console.log("This is the data "+ data)
                 if (typeof data  === 'undefined') {
@@ -158,17 +158,29 @@ function getReducedVisualizationData(url, reduction, suffix, instance) {
 
     if(reduction !== null || reduction !== ''){
       var fullUrl = `${url}${reduction}/${suffix}?problemInstance=${instance}`;
-    console.log(fullUrl);
+      console.log(fullUrl);
         return fetch(fullUrl).then(resp => {
-            if (resp.ok) {
-                return resp.json()
-            }
-        });
+          if (resp.ok) {
+              return resp.json()
+          }
+      });
 
     }
     
   }
+function getReducedVisualizationDataSolved(url, reduction, suffix, instance, solution) {
 
+    if(reduction !== null || reduction !== ''){
+      var fullUrl = `${url}${reduction}/${suffix}?problemInstance=${instance}&solution=${solution}`;
+      return fetch(fullUrl).then(resp => {
+        if (resp.ok) {
+            return resp.json()
+        }
+      });
+
+    }
+    
+  }
 
 
 
