@@ -20,52 +20,11 @@ function getProblemSolutionData(url, solver, instance) {
 function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,reduceFromInstance,url,reduceFromData }) {
   const [animatedNodes, setAnimatedNodes] = useState([]);
   const [animatedLinks, setAnimatedLinks] = useState([]);
-  const [solutionData, setSolutionData] = useState([]);
-  const [orgSolutionData, setOrgSolutionData] = useState([]);
   const margin = {top: 200, right: 30, bottom: 30, left: 200},
   width = w - margin.left - margin.right,
   height = h - margin.top - margin.bottom;
   
   let ref = useRef(null);
- //Find solution
-  useEffect(() =>{
-    if(reduceFrom == "SAT3"){
-      // let apiCompatibleInstance = reduceFromInstance.replaceAll('&', "%26");
-      getProblemSolutionData(url, "SkeletonSolver", reduceFromInstance).then(data => {
-        //console.log(data);
-        let stringArr = data.replace('(', '').replace(')', '').replaceAll(':True',''); //turns (x1:True) int x1
-        stringArr = stringArr.split(','); //turns x1,x2 into [x1,x2]
-        let finalArr = [];
-        for (let variable of stringArr){
-          if(variable.includes(":False")){
-            variable = "!"+variable.replace(":False","")
-          }
-          finalArr.push(variable);
-          let count = reduceFromData.flat().filter((literal) => literal == variable).length;
-          for(let i=1; i<count; i++){
-            finalArr.push(variable+"_"+i);
-          }
-        }
-        setOrgSolutionData(finalArr);
-      }).catch((error)=>{console.log(error)});
-      
-    }
-  },[solve])
-  useEffect(() =>{
-    if(reduceFrom == "SAT3"){
-      let solution = [];
-      for(let clause of reduceFromData){
-        for(let element of orgSolutionData){
-          let strippedElement = element.split("_")[0];
-          if(clause.includes(strippedElement) && !solution.includes(element)){
-            solution.push(element);
-            break;
-          }
-        }
-      }
-      setSolutionData(solution);
-    }
-  },[orgSolutionData,solve])
 
    // re-create animation every time nodes change
   useEffect(() => {
@@ -114,10 +73,6 @@ const node = svg
   }) //node prefix added to class name to allow for int names by user.
   .attr("r", 20)
   .attr("fill", function (d) {
-    if(solve && reduceFrom == "SAT3"){
-      // let tempName = d.name.split("_")[0]
-      if(!solutionData.includes(d.name)) return VisColors.Solution;
-    }
     //return "#FFC300";
     //"#00e676"
       
@@ -135,17 +90,16 @@ const node = svg
     //console.log(d.target.__data__.name);
     let dName = d.target.__data__.name.replaceAll('!','NOT')
     if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
-      d3.selectAll(`.${"node_" + dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix
-      d3.selectAll(`#${"_" + dName}`).attr('fill', VisColors.ElementHighlight)
-      d3.selectAll(`#${"_" + dName}`).attr('stroke', VisColors.ElementHighlight)
+
+      d3.selectAll(`.${"node_" +dName}`).style('fill', "#F69240") //note node prefix, color orange
+
     }
   })
   .on("mouseout", function (d) {  
     let dName = d.target.__data__.name.replaceAll('!','NOT')
-    if (d3.select("#highlightGadgets").property("checked")){
-      d3.selectAll(`.${"node_"+dName}`).attr('fill', VisColors.Background)
-      d3.selectAll(`#${"_" + dName}`).attr('fill', VisColors.Background)
-      d3.selectAll(`#${"_" + dName}`).attr('stroke', VisColors.Background)
+    if (d3.select("#highlightGadgets").property("checked")) {
+      d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc") //FFC300 grey abc
+
     }
   })
 
@@ -204,7 +158,7 @@ function ticked() {
     
 });
  
-      }, [solutionData,solve])
+      }, [solve])
   return (
     <svg 
         width={width}

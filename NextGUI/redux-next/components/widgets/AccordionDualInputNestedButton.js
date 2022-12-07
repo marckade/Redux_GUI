@@ -229,11 +229,13 @@ function createPrettyFormat(rawInstance){
     );}
     
 
-    if(prettyInstace[0] === "SAT"){
+    if(prettyInstace[0] === "BOOLEAN"){
       return (
         <>
-          <p><b>Organized form:</b></p>
-          <p>{prettyInstace[1]}</p> 
+          <p><b>Literals:</b></p>
+          <p>{prettyInstace[1]}</p>
+          <p><b>Clauses:</b></p>
+          <p>{prettyInstace[2]}</p>  
           <p><b>Original form:</b></p>
           <p>{rawInstance}</p>
         </>
@@ -259,18 +261,30 @@ function checkProblemType(stringInstance){
     return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0]];
   }
 
-  // Regex for directed graph. Consequently the edge regex is the same for both directed and undireced. Shouldn't be a problem, but good to note.
+  // Regex for directed graph. Consequently the edge regex is the same for both directed and undirected. Shouldn't be a problem, but good to note.
   const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
   const prettyDirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
   if(prettyDirectedNodes != null){
     return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0]];
   }
 
-  // Adds spaces before and after every '|' and '&'. Want to orginize the output in the future as well. 
-  const prettySATBars = stringInstance.replace(/[|]+/g, ' | ');
-  const prettySAT = prettySATBars.replace(/[&]+/g, ' & ');
-  if(prettySATBars != ""){
-    return ["SAT", prettySAT, ""];
+  // Regex for Boolean problems.Getting rid of all the characters we don't need and spliting to get all the literals.
+  const literalArray = stringInstance.replaceAll("(", "")
+                           .replaceAll(")", "|") // Replace with a | for splitting
+                           .replaceAll("&", "")
+                           .split("|");
+  const uniqueLiterals = new Set (literalArray); // Getting rid of duplicate literals
+  var literalString = ""
+  uniqueLiterals.forEach((literal)=>{
+    literalString += literal + ", "
+  })
+  literalString = literalString.match('(?:.)+(?=, , )'); // Getting rid of trailing commas.
+
+  const clauses = stringInstance.replaceAll("|", " | ").replaceAll("&", ", ")
+
+  // Literals and clauses.
+  if(clauses != "" && literalString != ""){
+    return ["BOOLEAN", literalString, clauses];
   }
 
   // Nothing matches return nothing.

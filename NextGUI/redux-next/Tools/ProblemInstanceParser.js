@@ -21,12 +21,12 @@ class ProblemInstanceParser {
             console.log(parsedOutput)
         }
             
-        else if (problemType === Constants.ProblemTypes.Arcset) {
+        else if (problemType === Constants.ProblemTypes.Arcset || problemType === Constants.ProblemTypes.Knapsack) {
             // console.log("HIT ARCSET PARSER")
             parsedOutput = this.parseDirectedGraph(problemInstance);
         }
         else {
-            consolee.log("problemType not found equal to any string, here was your problem type",problemType)
+            console.log("problemType not found equal to any string, here was your problem type",problemType)
             parsedOutput = {
                 test: true,
                 input: problemInstance,

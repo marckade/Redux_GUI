@@ -27,7 +27,7 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 .append("g")
 .attr("transform",
       `translate(${margin.left}, ${margin.top})`);
-      const problemUrl = apiCall + '?problemInstance=' + problemInstance;
+      const problemUrl = apiCall;
       d3.json(problemUrl).then(function (data) {
 
         
@@ -134,7 +134,7 @@ function ticked() {
     })
 }
     
-});
+}).catch(error => {return error});
  
       }, [])
       return (
