@@ -88,9 +88,9 @@ function AccordionSingleInputNestedButton(props) {
             tempUrl = props.accordion.INPUTURL.url + `SipserReduceToCliqueStandard/reverseMappedSolution?problemFrom=${parsedInstanceSat}&problemTo=${parsedInstanceClique}&problemToSolution=${solution}`
             makeRequest(tempUrl).then(mappedSolution => {
               setSolvedInstance(mappedSolution);
-            })
-          })
-        })
+            }).catch((error) => console.log("TRANSITIVE SOLVE REQUEST FAILED"))
+          }).catch((error) => console.log("TRANSITIVE SOLVE REQUEST FAILED"))
+        }).catch((error) => console.log("TRANSITIVE SOLVE REQUEST FAILED"))
 
       }
       else{
