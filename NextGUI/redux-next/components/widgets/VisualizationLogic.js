@@ -82,7 +82,7 @@ export default function VisualizationLogic(props) {
 
     //3SAT
     else if (problemName === "SAT3") {
-        requestSolution(props.url,"SkeletonSolver",props.problemInstance).then(data => {
+        requestSolution(props.url,"Sat3BacktrackingSolver",props.problemInstance).then(data => {
             setSolution(data) 
         })
         if (props.visualizationState.reductionOn) {
