@@ -35,7 +35,7 @@ export default function VisualizationLogic(props) {
     if (problemName === "VERTEXCOVER") {
         requestSolution(props.url,"VertexCoverBruteForce",props.problemInstance).then(data => {
             setSolution(data)
-        })
+        }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
 
         if (visualizationState.solverOn && !visualizationState.reductionOn) {
 
@@ -82,14 +82,14 @@ export default function VisualizationLogic(props) {
 
     //3SAT
     else if (problemName === "SAT3") {
-        requestSolution(props.url,"SkeletonSolver",props.problemInstance).then(data => {
+        requestSolution(props.url,"Sat3BacktrackingSolver",props.problemInstance).then(data => {
             setSolution(data) 
-        })
+        }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
         if (props.visualizationState.reductionOn) {
             if(reductionName === "CLIQUE"){
                 requestMappedSolution(props.url, "SipserReduceToCliqueStandard", props.problemInstance, props.reducedInstance, solution).then(data => {
                     setMappedSolution(data);
-                })
+                }).catch((error) => console.log("SOLUTION MAPPING REQUEST FAILED"))
                 if (!props.visualizationState.solverOn) {
 
                     visualization =
@@ -151,7 +151,7 @@ export default function VisualizationLogic(props) {
             else if (reductionName === "VERTEXCOVER"){
                 requestMappedSolutionTransitive(props.url, "SipserReduceToCliqueStandard-sipserReduceToVC", props.problemInstance, solution).then(data => {
                     setMappedSolution(data);
-                })
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
                 if(!props.visualizationState.solverOn) {
 
                     visualization =
@@ -248,7 +248,7 @@ export default function VisualizationLogic(props) {
     } else if (problemName === "CLIQUE") {
         requestSolution(props.url, "CliqueBruteForce", props.problemInstance).then(data=>{
             setSolution(data);
-        })
+        }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
         // Solution is on
         if (visualizationState.solverOn) {
             let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution; // Solved base problem
@@ -265,7 +265,7 @@ export default function VisualizationLogic(props) {
             if(reductionName == "VERTEXCOVER"){
                 requestMappedSolution(props.url, "sipserReduceToVC", props.problemInstance, props.reducedInstance, solution).then(data => {
                     setMappedSolution(data);
-                })
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
                 if (visualizationState.reductionOn ){
                     // Solved base problem
                     visualization =
@@ -444,10 +444,10 @@ export async function requestMappedSolutionTransitive(url, reduction, problemIns
     for(let i=0; i<reductionList.length; i++){
         await requestReducedInstance(url, reductionList[i], problemFrom).then(data => {
             problemTo = data.reductionTo.instance;
-        })
+        }).catch((error) => console.log("REDUCTION FOR SOLUTION MAPPING REQUEST FAILED"))
         await requestMappedSolution(url, reductionList[i], problemFrom, problemTo, mappedSolution).then(data => {
             mappedSolution = data;
-        })
+        }).catch((error) => console.log("SOLUTION MAPPING REQUEST FAILED"))
         problemFrom = problemTo;
     }
     return mappedSolution;

@@ -35,7 +35,7 @@ function Sat3SvgReact(props) {
         getSat3(ref.current, props.data);
         if(props.showSolution){
             console.log("Show Solution !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            // let solutionData = getProblemSolution(props.url, "SkeletonSolver", problemInstance.replaceAll('&', "%26"));
+            // let solutionData = getProblemSolution(props.url, "Sat3BacktrackingSolver", problemInstance.replaceAll('&', "%26"));
             let apiCompatibleInstance = problemInstance.replaceAll('&', "%26");
               //console.log(data);
             let stringArr = props.solutionData.replace('(', '').replace(')', ''); //turns (x1:True) int x1:True

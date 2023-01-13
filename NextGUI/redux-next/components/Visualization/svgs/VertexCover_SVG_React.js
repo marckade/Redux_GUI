@@ -90,16 +90,15 @@ const node = svg
     //console.log(d.target.__data__.name);
     let dName = d.target.__data__.name.replaceAll('!','NOT')
     if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
-
-      d3.selectAll(`.${"node_" +dName}`).style('fill', "#F69240") //note node prefix, color orange
-
+      d3.selectAll(`#${"_" +dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
+      d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.ElementHighlight)
     }
   })
   .on("mouseout", function (d) {  
     let dName = d.target.__data__.name.replaceAll('!','NOT')
     if (d3.select("#highlightGadgets").property("checked")) {
-      d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc") //FFC300 grey abc
-
+      d3.selectAll(`#${"_"+dName}`).attr('fill', VisColors.Background) //FFC300 grey abc
+      d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.Background)
     }
   })
 

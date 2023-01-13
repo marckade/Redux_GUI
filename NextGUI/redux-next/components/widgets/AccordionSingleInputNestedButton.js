@@ -74,13 +74,34 @@ function AccordionSingleInputNestedButton(props) {
   const handleSolve = () => {
     console.log("SOLVE REQUEST BUTTON")
     if (chosenSolver !== null && chosenSolver !== '') {
-      requestSolvedInstance(props.accordion.INPUTURL.url, chosenSolver, problemInstance).then(data => {
-        console.log(data)
-        setSolvedInstance(data);
-      }).catch((error) => {
-        console.log("SOLVE REQUEST INSTANCE FAILED")
-      })
+      
+      // NOTE - Caleb - the following is a temporary solution to allow sat3 to be solved using the clique solver
+      // remove first if once this functionality is added for all problems, the else code block was the original
+      // functionality
+      if(chosenSolver == "CliqueBruteForce - via SipserReduceToCliqueStandard"){
+        var parsedInstanceSat = problemInstance.replaceAll('&', '%26');
+        var tempUrl = props.accordion.INPUTURL.url + `SipserReduceToCliqueStandard/reduce?problemInstance=${parsedInstanceSat}`
+
+        makeRequest(tempUrl).then(reduction => {
+          var parsedInstanceClique = reduction.reductionTo.instance.replaceAll('&', '%26')
+          requestSolvedInstance(props.accordion.INPUTURL.url,"CliqueBruteForce",reduction.reductionTo.instance).then(solution => {
+            tempUrl = props.accordion.INPUTURL.url + `SipserReduceToCliqueStandard/reverseMappedSolution?problemFrom=${parsedInstanceSat}&problemTo=${parsedInstanceClique}&problemToSolution=${solution}`
+            makeRequest(tempUrl).then(mappedSolution => {
+              setSolvedInstance(mappedSolution);
+            }).catch((error) => console.log("TRANSITIVE SOLVE REQUEST FAILED"))
+          }).catch((error) => console.log("TRANSITIVE SOLVE REQUEST FAILED"))
+        }).catch((error) => console.log("TRANSITIVE SOLVE REQUEST FAILED"))
+
+      }
+      else{
+        requestSolvedInstance(props.accordion.INPUTURL.url, chosenSolver, problemInstance).then(data => {
+          setSolvedInstance(data);
+        }).catch((error) => {
+          console.log("SOLVE REQUEST INSTANCE FAILED")
+        })
+      }
     }
+
  
   }
 
@@ -145,12 +166,25 @@ async function requestSolverData(url, solverName) {
 async function requestSolvedInstance(url, sName, instance) {
   var parsedInstance = instance.replaceAll('&', '%26');
 
-  const totalUrl = url + `${sName}/solve?problemInstance=${parsedInstance}`
+  let totalUrl = url + `${sName}/solve?problemInstance=${parsedInstance}`
   return await fetch(totalUrl).then(resp => {
     if (resp.ok) {
       return resp.json();
     }
   })
 }
+
+
+//NOTE - Caleb - temporary fix to allow sat3 to be solved with clique, should be 
+//removed once functionality is implemented for all problems.
+async function makeRequest(url){
+  return await fetch(url).then(resp => {
+    if (resp.ok) {
+      return resp.json()
+    }
+  })
+}
+
+
 
 export default AccordionSingleInputNestedButton

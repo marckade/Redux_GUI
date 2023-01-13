@@ -114,7 +114,7 @@ export default function SearchBarSelectSolverV2(props) {
       //setNoSolvers(false);
 
       if (!problemJson.includes(element)) {
-        if (element === 'SkeletonSolver' && problemName === 'SAT3') {
+        if (element === 'Sat3BacktrackingSolver' && problemName === 'SAT3') {
           props.setData(element);
           setDefaultSolver(element);
         }

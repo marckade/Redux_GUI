@@ -5,6 +5,8 @@ import { Container } from "@mui/material";
 import * as d3 from "d3";
 import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
+import VisColors from '../constants/VisColors';
+
 
 function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
 
@@ -47,14 +49,19 @@ const link = svg
 const node = svg
   .selectAll("circle")
   .data(data.nodes)
-    .join("circle")
+  .join("circle")
   .attr("class", function (d) {
       let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
       
       return "node_" + dName;
     }) //node prefix added to class name to allow for int names by user.
-    .attr("r", 20)
-  .style("fill", function (d) {
+  .attr("id", function (d) {
+    let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
+      
+      return "_" + dName;
+  })
+  .attr("r", 20)
+  .attr("fill", function (d) {
       //return "#FFC300";
       //"#00e676"
     if (d.attribute2 == "True") {
@@ -70,13 +77,15 @@ const node = svg
       //console.log("HOVERING OVER A NODE", d.target.__data__.name)
       //console.log(d.target.__data__.name);
       if (d3.select("#highlightGadgets").property("checked")){  // Mouseover is only on if the toggle switch is on
-        d3.selectAll(`.${"node_" +dName}`).style('fill', "#F69240") //note node prefix, color orange
+        d3.selectAll(`#${"_" +dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
+        d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.ElementHighlight)
       }
     })
   .on("mouseout", function (d) {    
       let dName = d.target.__data__.name.replaceAll('!','NOT')
       if (d3.select("#highlightGadgets").property("checked")){
-        d3.selectAll(`.${"node_"+dName}`).style('fill', "#abc") //FFC300 grey abc
+        d3.selectAll(`#${"_"+dName}`).attr('fill', VisColors.Background) //FFC300 grey abc
+        d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.Background)
       }
     })
  
