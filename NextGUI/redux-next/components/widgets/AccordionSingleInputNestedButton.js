@@ -58,10 +58,19 @@ function AccordionSingleInputNestedButton(props) {
   useEffect(() => {
     setSolvedInstance("");
     SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_SolversRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
-    requestSolverData(props.accordion.INPUTURL.url, chosenSolver).then(data => {
-      setToolTip({ header: chosenSolver, formalDef: data.solverDefinition, info: data.source }) //updates TOOLTIP
-    }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
-
+    // NOTE - Caleb - the following is a temporary solution to allow sat3 to be solved using the clique solver
+    // remove first if once this functionality is added for all problems, the else code block was the original
+    // functionality
+    if(chosenSolver == "CliqueBruteForce - via SipserReduceToCliqueStandard"){
+      requestSolverData(props.accordion.INPUTURL.url, "CliqueBruteForce").then(data => {
+        setToolTip({ header: chosenSolver, formalDef: data.solverDefinition, info: data.source }) //updates TOOLTIP
+      }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+    }
+    else{
+      requestSolverData(props.accordion.INPUTURL.url, chosenSolver).then(data => {
+        setToolTip({ header: chosenSolver, formalDef: data.solverDefinition, info: data.source }) //updates TOOLTIP
+      }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+    }
 
     if(!chosenSolver){
       setActive(true);
