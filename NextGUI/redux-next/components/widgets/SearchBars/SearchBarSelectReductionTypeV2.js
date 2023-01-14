@@ -170,6 +170,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
     if (chosenReduceTo !== '') {
 
       const req = getRequest(url);
+      console.log("caleb",url)
       req.then(data => {
         initializeProblemJson(data);
       })

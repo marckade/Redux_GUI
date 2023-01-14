@@ -31,7 +31,7 @@ export default function SearchBarSelectVerifierV2(props) {
 
   let stateVal = undefined;
   const [defaultVerifier, setDefaultVerifier] = useState('');
-  const { problemName } = useContext(ProblemContext);
+  const { problemName, verifierNameMap } = useContext(ProblemContext);
   const [noVerifier, setNoVerifiers] = useState(false);
 
 
@@ -93,13 +93,13 @@ export default function SearchBarSelectVerifierV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return option;
+          return verifierNameMap.get(option) ?? option;
         }
 
         // Regular option
         return option;
       }}
-      renderOption={(props, option) => <li {...props}>{option}</li>}
+      // renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -123,11 +123,11 @@ export default function SearchBarSelectVerifierV2(props) {
 
         if (element === 'KadensSimpleVerifier' && problemName === 'SAT3') {
           props.setData(element);
-          setDefaultVerifier(element);
+          setDefaultVerifier('Kaden Simple Verifier');
         }
         else if (element === 'CliqueVerifier' && problemName === 'CLIQUE'){
           props.setData(element);
-          setDefaultVerifier(element);
+          setDefaultVerifier('Generic Verifier');
         }
         problemJson.push(element)
       }

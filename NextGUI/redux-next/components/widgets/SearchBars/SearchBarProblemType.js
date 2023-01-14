@@ -29,7 +29,7 @@ var problemJson = [];
 const problemParser = new ProblemParser()
 
 export default function SearchBarProblemType(props) {
-  const { problem, problemName, setProblemName } = useContext(ProblemContext); //passed in context
+  const { problem, problemName, setProblemName, solverNameMap, setSolverNameMap, verifierNameMap, setVerifierNameMap } = useContext(ProblemContext); //passed in context
   // const [defaultProblemName, setDefaultProblemName] = useState('');
   
 // need to change the url to the live site
@@ -37,6 +37,16 @@ export default function SearchBarProblemType(props) {
   useEffect(() => {
     initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`);
   }, [])
+
+  useEffect(() => {
+    requestVerifierNameMap(props.url, problemName).then(verifierMap => {
+      setVerifierNameMap(verifierMap);
+    })
+    requestSolverNameMap(props.url, problemName).then(solverMap => {
+      setSolverNameMap(solverMap);      
+    })
+    
+  }, [problemName])
 
 
 
@@ -166,7 +176,55 @@ function initializeList(url) {
   // initialized = true;
 }
 
+//The following the functions are used to set the solver names
+async function requestSolverNameMap(url, problem){
+  let map = new Map();
+  await getAvailableSolvers(url, problem).then(data => {
+    data.forEach((s) => {
+      let solver = s.split(" ")[0];
+      getInfo(url,solver).then(info => {
+        map.set(s, info.solverName);
+      }).catch(error => console.log("SOLVER INFO REQUEST FAILED"))
+    })
+  }).catch(error => console.log("SOLUTIONS REQUEST FAILED"));
+  return map;
+}
+async function getAvailableSolvers(url, problem){
+  return await fetch(url + `Navigation/Problem_SolversRefactor/?chosenProblem=${problem}&problemType=NPC`).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
+async function getInfo(url, solver){
+  return await fetch(url + `${solver}/info`).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
+
+//The following the functions are used to set the verifier names
+async function requestVerifierNameMap(url, problem){
+  let map = new Map();
+  await getAvailableVerifiers(url, problem).then(data => {
+    data.forEach((v) => {
+      let verifier = v;
+      getInfo(url,verifier).then(info => {
+        map.set(verifier, info.verifierName);
+      }).catch(error => console.log("VERIFIER INFO REQUEST FAILED"))
+    })
+  }).catch(error => console.log("VERIFIER REQUEST FAILED"));
+  return map;
+}
+async function getAvailableVerifiers(url, problem){
+  return await fetch(url + `Navigation/Problem_VerifiersRefactor/?chosenProblem=${problem}&problemType=NPC`).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
 }
 
 
 
+}

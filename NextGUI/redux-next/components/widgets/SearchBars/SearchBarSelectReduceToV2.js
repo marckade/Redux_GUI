@@ -173,6 +173,34 @@ function initializeList(url) {
     
 }
 
+//The following the functions are used to set the reduction names
+// async function requestReductionNameMap(url, problemFrom, problemTo){
+//   let map = new Map();
+//   await getAvailableReductions(url, problemFrom, problemTo).then(data => {
+//     data.forEach((r) => {
+//       let reduction = r.split(" ")[0];
+//       getInfo(url,solver).then(info => {
+//         map.set(s, info.solverName);
+//       }).catch(error => console.log("SOLVER INFO REQUEST FAILED"))
+//     })
+//   }).catch(error => console.log("SOLUTIONS REQUEST FAILED"));
+//   return map;
+// }
+// async function getAvailableReductions(url, problemFrom, problemTo){
+//   // /http://localhost:27000/Navigation/NPC_NavGraph/reductionPath/?reducingFrom=SAT3&reducingTo=CLIQUE&problemType=NPC
+//   return await fetch(url + `Navigation/NPC_NavGraph/reductionPath/?reducingFrom=${problemFrom}&reducingTo=${problemTo}&problemType=NPC`).then(resp => {
+//     if(resp.ok){
+//       return resp.json();
+//     }
+//   })
+// }
+// async function getInfo(url, solver){
+//   return await fetch(url + `${solver}/info`).then(resp => {
+//     if(resp.ok){
+//       return resp.json();
+//     }
+//   })
+// }
 }
 
 

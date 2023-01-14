@@ -23,7 +23,7 @@ var problemJson = [];
 export default function SearchBarSelectSolverV2(props) {
   //props.setData and props.data should be passed down.
   const [defaultSolver, setDefaultSolver] = useState('');
-  const { problemName } = useContext(ProblemContext);
+  const { problemName, solverNameMap } = useContext(ProblemContext);
   const [noSolver, setNoSolvers] = useState(false);
 
 
@@ -82,13 +82,13 @@ export default function SearchBarSelectSolverV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return option;
+          return solverNameMap.get(option) ?? option;
         }
 
         // Regular option
         return option;
       }}
-      renderOption={(props, option) => <li {...props}>{option}</li>}
+      // renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -116,11 +116,11 @@ export default function SearchBarSelectSolverV2(props) {
       if (!problemJson.includes(element)) {
         if (element === 'Sat3BacktrackingSolver' && problemName === 'SAT3') {
           props.setData(element);
-          setDefaultSolver(element);
+          setDefaultSolver('Generic Solver');
         }
         else if (element === 'CliqueBruteForce' && problemName === 'CLIQUE'){
           props.setData(element);
-          setDefaultSolver(element);
+          setDefaultSolver('Clique Brute Force');
         }
         problemJson.push(element);
       }
