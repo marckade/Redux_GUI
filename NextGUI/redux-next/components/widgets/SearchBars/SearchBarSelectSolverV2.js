@@ -116,7 +116,7 @@ export default function SearchBarSelectSolverV2(props) {
       if (!problemJson.includes(element)) {
         if (element === 'Sat3BacktrackingSolver' && problemName === 'SAT3') {
           props.setData(element);
-          setDefaultSolver('Generic Solver');
+          setDefaultSolver('3SAT Backtracking Solver');
         }
         else if (element === 'CliqueBruteForce' && problemName === 'CLIQUE'){
           props.setData(element);
