@@ -13,7 +13,7 @@ import AccordionSingleInputNestedButton from '../widgets/AccordionSingleInputNes
 function SolveRowReact(props) { 
     const ACCORDION_FORM_ONE = { placeHolder: "Select Solver" }
     const BUTTON = { buttonText: "Solve" }
-    const CARD = { cardBodyText: "Solution:", cardHeaderText: "Solver" }
+    const CARD = { cardBodyText: "Solution:", cardHeaderText: "Solve" }
     const TOOLTIP = { header: "Solver Information", formalDef: "Choose a type of solver to see information about it", info: "" }
     const INPUTURL = { url: props.reduxBaseUrl }
     const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}
