@@ -119,16 +119,16 @@ function AccordionDualInputNestedButton(props) {
 
   //TOOLTIP RIGHT
   useEffect(() => {
-    let reductionType = chosenReductionType.split("-")[0];
-    requestReductionData(props.accordion.INPUTURL.url, reductionType).then(data => {
-      console.log("REDUCTION TYPE: ", reductionType)
-      setToolTip2({ header: reductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
-  
-     
-    }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+    if(chosenReductionType !== '' && chosenReductionType !== null){
+      let reductionType = chosenReductionType.split("-")[0];
+      requestReductionData(props.accordion.INPUTURL.url, reductionType).then(data => {
+        console.log("REDUCTION TYPE: ", reductionType)
+        setToolTip2({ header: reductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
+      }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
+    }
 
    
-    setReducedInstance('');;
+    setReducedInstance('');
   }, [chosenReductionType])
 
 
@@ -151,7 +151,7 @@ function AccordionDualInputNestedButton(props) {
               </Box>
               <SearchBarSelectReduceToV2
                 placeholder={props.accordion.ACCORDION_FORM_ONE.placeHolder}
-                url={REDUCETOOPTIONSURL}
+                url={props.accordion.INPUTURL.url}
                 setData={setChosenReduceTo}
                 setInstance={setReducedInstance}
                 data={testData}

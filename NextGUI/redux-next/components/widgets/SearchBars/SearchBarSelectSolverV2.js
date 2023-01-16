@@ -82,6 +82,9 @@ export default function SearchBarSelectSolverV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
+          if(option ==="CliqueBruteForce - via SipserReduceToCliqueStandard"){
+            return "Clique Brute Force - via Sipser Clique Reduction"
+          }
           return solverNameMap.get(option) ?? option;
         }
 

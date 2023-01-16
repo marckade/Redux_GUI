@@ -27,8 +27,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
   //our problems to be shown
 
 
-  const [reductionType, setReduceToType] = useState('');
-  const { problemInstance, chosenReduceTo, setReducedInstance } = useContext(ProblemContext);
+  const [reductionType, setReductionType] = useState('');
+  const { problemInstance, chosenReduceTo, setReducedInstance, reductionNameMap } = useContext(ProblemContext);
   const [noReductionsType, setNoReductionsType] = useState(false);
   //chosenReduceTo
 
@@ -36,7 +36,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
   console.log(fullUrl)
   useEffect(() => {
     problemJson = [];
-    setReduceToType("");
+    setReductionType("");
     initializeList(fullUrl);
   }, [chosenReduceTo]);
 
@@ -50,13 +50,13 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
 
         if (typeof newValue === 'string') {
-          setReduceToType(
+          setReductionType(
             newValue
           );
           props.setData(newValue);
           // stateVal = newValue
         } else {
-          setReduceToType(newValue);
+          setReductionType(newValue);
           props.setData(newValue);
           // stateVal = newValue;
         }
@@ -80,13 +80,17 @@ export default function SearchBarSelectReductionTypeV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return option;
+          let reductions = option.split("-");
+          reductions = reductions.map(r => {return reductionNameMap.get(r) ?? r})
+          let reductionName = "";
+          reductions.forEach(r => reductionName += r + " - ");
+          return reductionName.slice(0, reductionName.lastIndexOf(" - "));
         }
 
         // Regular option
         return option;
       }}
-      renderOption={(props, option) => <li {...props}>{option}</li>}
+      // renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
       freeSolo
       renderInput={(params) => (
@@ -107,7 +111,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
      // check if reduceTo is selected
     if (!arr.length) {
       setNoReductionsType(true);
-      setReduceToType(noReductionsTypeMessage);
+      setReductionType(noReductionsTypeMessage);
       props.setData('');
     }
     
@@ -119,7 +123,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
         if (!problemJson.includes(element)) {
           if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
             props.setData(element);
-            setReduceToType(element);
+            setReductionType("Sipser's Clique Reduction");
+
             requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
 
               // propNo reduction method available. Please choose a reduce-tos.setInstance(data.reductionTo.instance);
@@ -130,9 +135,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
          // Auto populate "select reduction" field with sipserReduceToVC when reducing from Clique to Vertex Cover
          else if(element === "sipserReduceToVC" && chosenReduceTo === 'VertexCover'){
-          element === "sipserReduceToVC";
           props.setData(element);
-          setReduceToType(element);
+          setReductionType("Sipser's Vertex Cover Reduction");
           requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
 
           // props.setInstance(data.reductionTo.instance);
@@ -170,7 +174,6 @@ export default function SearchBarSelectReductionTypeV2(props) {
     if (chosenReduceTo !== '') {
 
       const req = getRequest(url);
-      console.log("caleb",url)
       req.then(data => {
         initializeProblemJson(data);
       })
@@ -178,7 +181,7 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
     } else {
       setNoReductionsType(true);
-      setReduceToType(noReductionsTypeMessage);
+      setReductionType(noReductionsTypeMessage);
     }
 
 
