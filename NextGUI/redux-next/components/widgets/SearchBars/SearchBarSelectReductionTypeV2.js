@@ -114,12 +114,14 @@ export default function SearchBarSelectReductionTypeV2(props) {
       setReductionType(noReductionsTypeMessage);
       props.setData('');
     }
+    else{
+      setNoReductionsType(false);
+    }
     
     if(arr.length == 1){
       arr = arr[0]
       arr.map(function (element, index, array) {
         // problemJson = [];
-        setNoReductionsType(false);
         if (!problemJson.includes(element)) {
           if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
             props.setData(element);
