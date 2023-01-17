@@ -28,12 +28,12 @@ export default function SearchBarSelectReduceToV2(props) {
 
   // const [defaultProblemName, setDefaultProblemName] = useState('');
   const [reductionProblem, setReduceTo] = useState(noReductionsMessage);
-  const { problemName, setReducedInstance } = useContext(ProblemContext);
+  const { problemType, problemName, setReducedInstance, reductionNameMap, setReductionNameMap,problemNameMap } = useContext(ProblemContext);
   const [noReductions, setNoReductions] = useState(true);
   
 
   // let stateVal = undefined;
-  const fullUrl = props.url;
+  const fullUrl = props.url + 'Navigation/NPC_NavGraph/availableReductions/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   console.log(`URL is ${fullUrl}`)
    // initializeList(fullUrl);
 
@@ -46,6 +46,13 @@ export default function SearchBarSelectReduceToV2(props) {
         setReduceTo(noReductionsMessage);
       }
     }, [problemName])
+
+    useEffect(() => {
+      requestReductionNameMap(props.url, problemName, reductionProblem).then(reductionMap => {
+        setReductionNameMap(reductionMap);
+      });
+
+    }, [reductionProblem])
   
   
   
@@ -96,15 +103,14 @@ export default function SearchBarSelectReduceToV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-             return problemParser.getWikiName(option)
-       // wikiName.get(option);
-        }
-       
-        // Regular option
-        return ''
-        // wikiName.get(option);
-
-      }}      // return wiki_name here
+          return problemNameMap.get(option) ?? problemParser.getWikiName(option) ?? option;
+          }
+         
+          // Regular option
+          return ''
+          // wikiName.get(option);
+  
+        }}    // return wiki_name here
 
       //renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
@@ -141,8 +147,8 @@ export default function SearchBarSelectReduceToV2(props) {
           props.setData(element);
           setReduceTo(element);
         }
-        else if(problemName === 'CLIQUE'){
-          element === 'VERTEXCOVER'
+        else if(problemName === 'CLIQUE' && element === 'VERTEXCOVER'){
+          
           props.setData(element);
           setReduceTo(element);
         }
@@ -163,7 +169,6 @@ async function getRequest(url) {
 }
 
 function initializeList(url) {
-
   const req = getRequest(url);
   req.then(data => {
     initializeProblemJson(data)
@@ -173,6 +178,35 @@ function initializeList(url) {
     
 }
 
+// The following the functions are used to set the reduction names
+async function requestReductionNameMap(url, problemFrom, problemTo){
+  let map = new Map();
+  await getAvailableReductions(url, problemFrom, problemTo).then(data => {
+    data.forEach((r) => {
+      r.forEach(reduction => {
+        getInfo(url,reduction).then(info => {
+          map.set(reduction, info.reductionName);
+        }).catch(error => console.log("SOLVER INFO REQUEST FAILED"))
+      });
+    })
+  }).catch(error => console.log("SOLUTIONS REQUEST FAILED"));
+  return map;
+}
+async function getAvailableReductions(url, problemFrom, problemTo){
+  let tempUrl =`http://localhost:27000/Navigation/NPC_NavGraph/reductionPath/?reducingFrom=${problemFrom}&reducingTo=${problemTo}&problemType=NPC`
+  return await fetch(tempUrl).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
+async function getInfo(url, reduction){
+  return await fetch(url + `${reduction}/info`).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
 }
 
 

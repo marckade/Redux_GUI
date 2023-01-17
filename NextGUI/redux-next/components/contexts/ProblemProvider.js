@@ -42,7 +42,10 @@ class ProblemProvider extends Component {
         chosenSolver: "",
         verifierOptions: [""],
         solvedInstance: "",
-
+        problemNameMap: new Map(),
+        solverNameMap: new Map(),
+        verifierNameMap : new Map(),
+        reductionNameMap : new Map()
     }
 
 
@@ -111,6 +114,22 @@ class ProblemProvider extends Component {
         this.setState({ solvedInstance: newInstance })
         console.log("new solved instance set")
     }
+    setProblemNameMap = (problemNameMap) => {
+        this.setState({problemNameMap: problemNameMap})
+        console.log("new problem name map set")
+    }
+    setSolverNameMap = (solverNameMap) => {
+        this.setState({solverNameMap: solverNameMap})
+        console.log("new solver name map set")
+    }
+    setVerifierNameMap = (verifierNameMap) => {
+        this.setState({verifierNameMap: verifierNameMap})
+        console.log("new verifier name map set")
+    }
+    setReductionNameMap = (reductionNameMap) => {
+        this.setState({reductionNameMap: reductionNameMap})
+        console.log("new reduction name map set")
+    }
 
     render() {
         return (
@@ -128,7 +147,11 @@ class ProblemProvider extends Component {
                 setReducedInstance: this.setReducedInstance,
                 setChosenSolver: this.setChosenSolver,
                 setChosenVerifier: this.setChosenVerifier,
-                setSolvedInstance: this.setSolvedInstance
+                setSolvedInstance: this.setSolvedInstance,
+                setProblemNameMap: this.setProblemNameMap,
+                setSolverNameMap: this.setSolverNameMap,
+                setVerifierNameMap: this.setVerifierNameMap,
+                setReductionNameMap: this.setReductionNameMap
             }}>
                 {this.props.children}
             </ProblemContext.Provider>

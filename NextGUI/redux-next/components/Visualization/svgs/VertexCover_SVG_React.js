@@ -155,7 +155,7 @@ function ticked() {
     })
 }
     
-});
+}).catch(error => console.log("VERTEX COVER VISUALIZATION FAILED"));
  
       }, [solve])
   return (

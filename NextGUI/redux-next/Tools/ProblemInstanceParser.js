@@ -45,7 +45,10 @@ class ProblemInstanceParser {
 
 
         const type = "Sat3BooleanExp"
-        const sat3Format = /^(\((!)*\w+\|(!)*\w+\|(!)*\w+\))((&)(\((!)*\w+\|(!)*\w+\|(!)*\w+\)))*$/g
+        // const sat3Format = /^(\((!)*\w+\|(!)*\w+\|(!)*\w+\))((&)(\((!)*\w+\|(!)*\w+\|(!)*\w+\)))*$/g
+        const sat3Format = /^(\((!)*[^\W_]+\|(!)*[^\W_]+\|(!)*[^\W_]+\))((&)(\((!)*[^\W_]+\|(!)*[^\W_]+\|(!)*[^\W_]+\)))*$/g
+
+        //[^\W_]
         const satRegex = new RegExp(sat3Format)
         const bool = satRegex.test(instance);
         return {test:bool,input:instance,regex:sat3Format,type:type,exampleStr:"(x1|!x2|x3)&(!x1|x3|x1)&(x2|!x3|x1)"}

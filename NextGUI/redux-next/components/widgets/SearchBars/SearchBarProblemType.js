@@ -29,7 +29,7 @@ var problemJson = [];
 const problemParser = new ProblemParser()
 
 export default function SearchBarProblemType(props) {
-  const { problem, problemName, setProblemName } = useContext(ProblemContext); //passed in context
+  const { problem, problemName, setProblemName, solverNameMap, setSolverNameMap, verifierNameMap, setVerifierNameMap,problemNameMap, setProblemNameMap } = useContext(ProblemContext); //passed in context
   // const [defaultProblemName, setDefaultProblemName] = useState('');
   
 // need to change the url to the live site
@@ -37,6 +37,16 @@ export default function SearchBarProblemType(props) {
   useEffect(() => {
     initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`);
   }, [])
+
+  useEffect(() => {
+    requestVerifierNameMap(props.url, problemName).then(verifierMap => {
+      setVerifierNameMap(verifierMap);
+    })
+    requestSolverNameMap(props.url, problemName).then(solverMap => {
+      setSolverNameMap(solverMap);      
+    })
+    
+  }, [problemName])
 
 
 
@@ -93,8 +103,7 @@ export default function SearchBarProblemType(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return problemParser.getWikiName(option)
-         // wikiName.get(option);
+          return problemNameMap.get(option) ?? problemParser.getWikiName(option) ?? option;
           }
          
           // Regular option
@@ -157,7 +166,10 @@ function initializeList(url) {
     const req = getRequest(url);
     req.then(data => {
       initializeProblemJson(data)
-      //console.log(problemJson)
+      requestProblemNameMap(props.url,data).then(problemNames => {
+        setProblemNameMap(problemNames);
+      })
+      
     })
       .catch((error) => console.log("GET REQUEST FAILED",error));
 
@@ -166,7 +178,75 @@ function initializeList(url) {
   // initialized = true;
 }
 
+//The requestProblemNameMap sets the problem names
+async function requestProblemNameMap(url, problems){
+  let map = new Map();
+  problems.forEach(problem => {
+    getProblemInfo(url, problem+"Generic").then(info => {
+      map.set(problem, info.problemName)
+    }).catch(error => console.log("PROBLEM IFO REQUEST FAILED"))
+  })
+  return map;
+}
+async function getProblemInfo(url, problem){
+  return await fetch(url + `${problem}`).then(resp => {
+
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
+
+//The following the functions are used to set the solver names
+async function requestSolverNameMap(url, problem){
+  let map = new Map();
+  await getAvailableSolvers(url, problem).then(data => {
+    data.forEach((s) => {
+      let solver = s.split(" ")[0];
+      getInfo(url,solver).then(info => {
+        map.set(s, info.solverName);
+      }).catch(error => console.log("SOLVER INFO REQUEST FAILED"))
+    })
+  }).catch(error => console.log("SOLUTIONS REQUEST FAILED"));
+  return map;
+}
+async function getAvailableSolvers(url, problem){
+  return await fetch(url + `Navigation/Problem_SolversRefactor/?chosenProblem=${problem}&problemType=NPC`).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
+async function getInfo(url, apiCall){
+  return await fetch(url + `${apiCall}/info`).then(resp => {
+
+    if(resp.ok){
+      return resp.json();
+    }
+  })
+}
+
+//The following the functions are used to set the verifier names
+async function requestVerifierNameMap(url, problem){
+  let map = new Map();
+  await getAvailableVerifiers(url, problem).then(data => {
+    data.forEach((v) => {
+      let verifier = v;
+      getInfo(url,verifier).then(info => {
+        map.set(verifier, info.verifierName);
+      }).catch(error => console.log("VERIFIER INFO REQUEST FAILED"))
+    })
+  }).catch(error => console.log("VERIFIER REQUEST FAILED"));
+  return map;
+}
+async function getAvailableVerifiers(url, problem){
+  return await fetch(url + `Navigation/Problem_VerifiersRefactor/?chosenProblem=${problem}&problemType=NPC`).then(resp => {
+    if(resp.ok){
+      return resp.json();
+    }
+  })
 }
 
 
 
+}
