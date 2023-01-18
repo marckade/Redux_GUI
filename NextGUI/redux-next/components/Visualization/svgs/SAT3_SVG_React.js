@@ -32,6 +32,7 @@ function Sat3SvgReact(props) {
     const defaultSolution = ["x1"];
     const [solutionData, setSolutionData] = useState([]);
     useEffect(() => {
+      try{
         getSat3(ref.current, props.data);
         if(props.showSolution){
             console.log("Show Solution !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -61,6 +62,8 @@ function Sat3SvgReact(props) {
 
 
         }
+      }
+      catch(error){console.log("VISUALIZATION FAILED")};
 
     }, [problemInstance, props.showSolution])
     if(props.showSolution){
