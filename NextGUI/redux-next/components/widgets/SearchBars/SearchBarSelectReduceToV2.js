@@ -193,8 +193,7 @@ async function requestReductionNameMap(url, problemFrom, problemTo){
   return map;
 }
 async function getAvailableReductions(url, problemFrom, problemTo){
-  let tempUrl =`http://localhost:27000/Navigation/NPC_NavGraph/reductionPath/?reducingFrom=${problemFrom}&reducingTo=${problemTo}&problemType=NPC`
-  return await fetch(tempUrl).then(resp => {
+  return await fetch(url + `Navigation/NPC_NavGraph/reductionPath/?reducingFrom=${problemFrom}&reducingTo=${problemTo}&problemType=NPC`).then(resp => {
     if(resp.ok){
       return resp.json();
     }
