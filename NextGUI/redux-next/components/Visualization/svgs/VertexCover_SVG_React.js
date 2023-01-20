@@ -111,7 +111,7 @@ const simulation = d3.forceSimulation(data.nodes)                 // Force algor
           .id(function(d) { return d.name; })                     // This provide  the id of a node
           .links(data.links)                                    // and this the list of links
     )
-    .force("charge", d3.forceManyBody().strength(charge*4)) // This adds repulsion between nodes 
+    .force("charge", d3.forceManyBody().strength(charge*8)) // This adds repulsion between nodes 
     .force("x", d3.forceX()) //centers disconnected subgraphs
     .force("y", d3.forceY())
     .force("collide", d3.forceCollide().radius(d => d.r * 2).iterations(10)) //collision detection

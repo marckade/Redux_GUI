@@ -134,7 +134,7 @@ export default function VisualizationLogic(props) {
                                 {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
                             </div>
                             <CLIQUE_SVG_REACT
-                                solutionData={solution}
+                                solutionData={mappedSolution}
                                 data={props.reducedVisualizationData}
                                 url={props.url}
                                 reductionType={reductionType}
