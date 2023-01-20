@@ -70,7 +70,6 @@ function ContextAwareToggle({ accordionState, setAccordionState, children, event
 
 
 function AccordionTogglesSvg(props) {
-  //console.log(props)
   var visualization;
 
 
@@ -183,12 +182,10 @@ function AccordionTogglesSvg(props) {
     if (problemName === "SAT3") {
 
       getProblemVisualizationData(props.accordion.INPUTURL.url, problemName, apiCompatibleInstance).then(data => {
-        //console.log(data);
         setProblemVisualizationData(data.clauses);
       }).catch((error) => { console.log(error) });
       getReducedVisualizationData(props.accordion.INPUTURL.url, chosenReductionType, apiCompatibleInstance).then(data => {
         setReducedVisualizationData(data.reductionTo.clusterNodes)
-        // console.log(data.reductionTo.clusterNodes)
       }).catch((error) => { console.log(error) })
 
     }
@@ -198,11 +195,9 @@ function AccordionTogglesSvg(props) {
 
 
   function handleSwitch1Change(e) { // solution switch
-    //  console.log("Switch 1   " + e.target.checked);
     setShowSolution(e.target.checked);
     setProblemSolutionData(defaultSat3SolutionArr);
     setShowGadgets(false);
-    // console.log("Switch 1   " + e.target.checked);
   }
 
   function handleSwitch2Change(e) { //gadget switch.
@@ -210,7 +205,6 @@ function AccordionTogglesSvg(props) {
     // setShowGadgets(false);
     setShowGadgets(e.target.checked);
     setShowSolution(false);
-    console.log("Switch 2 Gadgets  " + e.target.checked);
   }
 
   function handleSwitch3Change(e) { //Reduction Switch
@@ -223,7 +217,6 @@ function AccordionTogglesSvg(props) {
     } else {
       setDisableGadget(false);
     }
-    console.log("Switch 3 Reduction  " + e.target.checked);
 
   }
 
@@ -245,7 +238,6 @@ function AccordionTogglesSvg(props) {
 
     if (reduction !== null || reduction !== '') {
       var fullUrl = `${url}${reduction}/reduce?problemInstance=${instance}`;
-      console.log(fullUrl);
       return fetch(fullUrl).then(resp => {
         if (resp.ok) {
           return resp.json()

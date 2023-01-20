@@ -29,7 +29,6 @@ import { Container } from 'react-bootstrap'
 
 //const reduxBaseUrl = 'http://redux.aws.cose.isu.edu:27000/';
 const reduxBaseUrl = process.env.NEXT_PUBLIC_REDUX_BASE_URL; //redux url. Note the trailing slash
-console.log("Instance URL is: ",reduxBaseUrl);
 /**
  * Generates the actual page contents
  * 

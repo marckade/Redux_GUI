@@ -46,7 +46,6 @@ function ContextAwareToggle({ children, eventKey, callback, colors }) {
 }
 
 function AccordionDualInputNestedButton(props) {
-  console.log("STATE CHANGE REDUCEBOX")
 
   var REDUCETOOPTIONSURL = props.accordion.INPUTURL.url;
   var REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url;
@@ -61,15 +60,13 @@ function AccordionDualInputNestedButton(props) {
       
   // REDUCETOOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   // REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/PossibleReductionsRefactor/' + '?reducingFrom=' + problemName + '&reducingTo=' + chosenReduceTo + '&problemType=' + problemType
-  //console.log(reducedInstance)
-  //console.log(problemName)
+
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
   const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
   const [disableButton, setActive] = useState(false) // keeps track of button
 
   const reduceRequest = async () => {
-    console.log("Problem Instance at time of reduce req: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+ problemInstance);
 
     if(chosenReductionType !== '' && chosenReductionType !== null){
       let reductionPath = chosenReductionType.split("-")
@@ -89,7 +86,6 @@ function AccordionDualInputNestedButton(props) {
         //var reducedInstance = data.reductionTo.instance;
         // Gets the list of nodes in the raw expression
         //const prettyFormat = createPrettyFormat(reducedInstance);
-        //console.log("\n\n\n\n\n\n\n"+prettyFormat);
 
       }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
     }
@@ -122,7 +118,6 @@ function AccordionDualInputNestedButton(props) {
     if(chosenReductionType !== '' && chosenReductionType !== null){
       let reductionType = chosenReductionType.split("-")[0];
       requestReductionData(props.accordion.INPUTURL.url, reductionType).then(data => {
-        console.log("REDUCTION TYPE: ", reductionType)
         setToolTip2({ header: reductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
       }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
     }
@@ -292,7 +287,6 @@ function checkProblemType(stringInstance){
 }
 
 async function requestProblemData(url, name) {
-  //console.log(name)
   //$`{url}{name}Generic`
   return await fetch(url + name + "Generic").then(resp => resp.json());
 }

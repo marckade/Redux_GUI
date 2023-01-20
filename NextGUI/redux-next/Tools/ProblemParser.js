@@ -38,7 +38,6 @@ export class ProblemParser {
             name = name.replace("*","");
         }
     
-        console.log("problem name "+problemName )
 
     
         if(wikiName.has(name)){

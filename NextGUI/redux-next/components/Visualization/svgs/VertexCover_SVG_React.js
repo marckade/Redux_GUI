@@ -11,7 +11,6 @@ function getProblemSolutionData(url, solver, instance) {
   var fullUrl = `${url}${solver}/solve?problemInstance=${instance}`;
   return fetch(fullUrl).then(resp => {
     if (resp.ok) {
-      // console.log(resp.json());
       return resp.json()
     }
   });
@@ -43,8 +42,6 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,redu
 
   const problemUrl = apiCall;
   d3.json(problemUrl).then( function( data) {
-    console.log(data);
-    console.log(problemUrl)
     // Initialize the links
     const link = svg
       .selectAll("line")
@@ -80,14 +77,11 @@ const node = svg
       return "#00E676" //Highlight solutions color: green 
     }
     else {
-      console.log(d.attribute2)
       return VisColors.Background // Non-Solution color: grey
     }
       
   })
   .on("mouseover", function (d) {
-    //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-    //console.log(d.target.__data__.name);
     let dName = d.target.__data__.name.replaceAll('!','NOT')
     if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
       d3.selectAll(`#${"_" +dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
@@ -141,7 +135,6 @@ function ticked() {
   
   text
     .text(function(d) {
-        //console.log(d.name);
         return d.name;
     })
     .attr('x', function(d) {

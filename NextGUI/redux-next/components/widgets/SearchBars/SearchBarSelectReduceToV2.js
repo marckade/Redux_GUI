@@ -34,7 +34,6 @@ export default function SearchBarSelectReduceToV2(props) {
 
   // let stateVal = undefined;
   const fullUrl = props.url + 'Navigation/NPC_NavGraph/availableReductions/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
-  console.log(`URL is ${fullUrl}`)
    // initializeList(fullUrl);
 
     useEffect(() => {
