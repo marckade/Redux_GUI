@@ -174,7 +174,7 @@ function AccordionDualInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-            <Card.Text>{createPrettyFormat(reducedInstance)}</Card.Text>
+            <Card.Text>{createPrettyFormat(reducedInstance,chosenReduceTo)}</Card.Text>
             
               <div className="submitButton">
                 <Button
@@ -198,12 +198,13 @@ function AccordionDualInputNestedButton(props) {
 }
 
 // Returns a "pretty" version of the reduction string if possible.
-function createPrettyFormat(rawInstance){
+function createPrettyFormat(rawInstance, chosenReduceTo){
   if (rawInstance === undefined){
     return null;
   }
 
-  const prettyInstace = checkProblemType(rawInstance);
+    const prettyInstace = checkProblemType(rawInstance, chosenReduceTo);
+
 
   // Checks if this is actually a node / edge format. If not, show the original form.
   if (prettyInstace === null){
@@ -246,20 +247,20 @@ function createPrettyFormat(rawInstance){
 If any of them match it return both a "pretty" version of the instance in a array [0] defines the type(Boolean, graph etc.).
 In the case of a graph nodes and edges are returned in [1] and [2] respectively.
 SAT or boolean form is only the "pretty" form in [1] and [2] is an empty string.*/
-function checkProblemType(stringInstance){
+function checkProblemType(stringInstance, chosenReduceTo){
   const spacedInstance = stringInstance.replace(/,/g, ', ');
 
   // Regex for undirected graph
   const prettyUndirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
   const prettyUndirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
-  if (prettyUndirectedNodes != null){
+  if (prettyUndirectedNodes != null && (chosenReduceTo == "CLIQUE" || chosenReduceTo == "VERTEXCOVER" || chosenReduceTo == "GRAPHCOLORING")){
     return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0]];
   }
 
   // Regex for directed graph. Consequently the edge regex is the same for both directed and undirected. Shouldn't be a problem, but good to note.
   const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
   const prettyDirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
-  if(prettyDirectedNodes != null){
+  if(prettyDirectedNodes != null && (chosenReduceTo == "ARCSET" || chosenReduceTo == "TSP")){
     return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0]];
   }
 
@@ -278,7 +279,7 @@ function checkProblemType(stringInstance){
   const clauses = stringInstance.replaceAll("|", " | ").replaceAll("&", ", ")
 
   // Literals and clauses.
-  if(clauses != "" && literalString != ""){
+  if(clauses != "" && literalString != "" && (chosenReduceTo == "SAT" || chosenReduceTo == "3SAT")){
     return ["BOOLEAN", literalString, clauses];
   }
 
