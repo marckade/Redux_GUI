@@ -65,7 +65,7 @@ function Sat3SvgReact(props) {
         showSolution(solutionData); //Data fed to this triggers a instance render with solution
       }
     }
-    catch(error){console.log("caleb VISUALIZATION FAILED")}
+    catch(error){console.log("VISUALIZATION FAILED")}
    
   // useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow
   //  if(!props.showSolution){
