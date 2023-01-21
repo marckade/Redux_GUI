@@ -31,7 +31,6 @@ function getSat3(ref, data, parentState) {
     
    // var element = d3.select("#" + divID);
     //var width = element.node().getBoundingClientRect().width;
-    //console.log(width);
     //var parentWidth = element.getBoundingClientRect().width;
     //width = parentWidth;   
     let svg = new d3.select(ref).append("svg")
@@ -75,7 +74,6 @@ function getSat3(ref, data, parentState) {
 }
 
 function showSolution(solution) {
-    console.log(solution);
     for(let i=0; i<solution.length; i++){
         d3.selectAll("."+solution[i])
             .attr("fill",VisColors.Solution)
@@ -193,7 +191,6 @@ class clause{
         }
         this.literalsSolutions = [];
         for (let i=0; i<literals.length; i++){
-            //console.log(this.solution[0],literals[i])
             if (this.solution[0].includes(literals[i])){
                 this.literalsSolutions[i] = true;
             }

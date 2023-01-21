@@ -90,7 +90,6 @@ function getClique(ref, data) {
 
             
             // let nodeId = nodeName + '_' + dataCount;
-            //console.log([idTest, nodeName, nodeId]);
             nodes[dataCount] = new node(nodeName, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
             dataCount++;
         }
@@ -114,9 +113,7 @@ function getClique(ref, data) {
 
         d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
     }
-    catch (error) {
-        console.log("SAT3ToCliqueReuction Data Sort Error, BAD DATA")
-    }
+    catch (error) {console.log("SAT3ToCliqueReuction Data Sort Error, BAD DATA")}
 }
 
 function showCluster(cluster) {
@@ -129,7 +126,6 @@ function showCluster(cluster) {
 //Element comes in as an exact id. Ie. x1, x2_1 ... !x3_2, etc.
 function showElement(element) {
     let parsedElement = element;
-   // console.log(parsedElement);
     if (d3.select("#highlightGadgets").property("checked")) {
         d3.selectAll("#" + element) 
             .attr("fill", VisColors.ElementHighlight)
@@ -159,14 +155,12 @@ class node {
         this.color = VisColors.Background
 
         if (solutionState === "") {
-            //console.log(this.solutionState)
             this.color = VisColors.Background
         }
         else if (solutionState === "True") {
             this.color = VisColors.Solution//green
         }
         else {
-            //console.log("solution state node:",this.solutionState)
             this.color = VisColors.SolutionAlt//purple 
         }
 

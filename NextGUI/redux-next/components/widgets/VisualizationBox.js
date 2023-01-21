@@ -18,10 +18,8 @@ import VisualizationLogic from './VisualizationLogic';
 
 export default function VisualizationBox({ reduceToggled, solveToggled, loading, problemVisualizationData, reducedVisualizationData, problemSolutionData, visualizationState, url,apiInstance }) {
 
-    //console.log(reduceToggled,loading)
     const { problemName, chosenReduceTo,chosenReductionType, reducedInstance } = useContext(ProblemContext);
 
-    console.log(apiInstance);
 
     // if (visualizationState.reductionOn && !loading) {
 

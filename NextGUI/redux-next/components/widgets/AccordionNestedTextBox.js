@@ -60,7 +60,6 @@ function ContextAwareToggle({ children, eventKey, callback, colors }) {
  */
 function AccordionNestedTextBox(props) {
 
-  //console.log(props)
   const {
     problemName,
     problemType,
@@ -95,19 +94,12 @@ function AccordionNestedTextBox(props) {
     if (timerIsActive) {
       timer = setInterval(() => {
         setSeconds(seconds + 1);
-        console.log("TIMER")
-        console.log(seconds);
         if (seconds % 2 === 0) {
-          console.log("Two HIT, Instance updating globally")
-          console.log(problemLocalInstance,problemName);
           const cleanedInstance = problemLocalInstance.replaceAll(' ', '')
-          console.log("cleanedInstance:",cleanedInstance);
           if (!cleanedInstance == '') { //Dont try to parse an empty string because it will fail and we dont want textbox to be red on empty input
-            console.log("hit cleaned if")
             const parser = new ProblemInstanceParser();
             const parsedOutput = parser.parse(problemName, cleanedInstance)
             setInstanceParsed(parsedOutput)
-            console.log("regex parsed on change")
             if (parsedOutput.test === true) {
               setProblemInstance(cleanedInstance);
             }
@@ -127,11 +119,8 @@ function AccordionNestedTextBox(props) {
   //Updates the problem instance on problem name change to be the default instance of the new problem. also updates tooltips with that information.
   useEffect(() => {
     try {
-      //console.log(props.accordion.INPUTURL.url)
       requestProblemData(props.accordion.INPUTURL.url, problemName, problemType).then(data => {
         if (!(typeof data === "undefined")) {
-          //console.log(data);
-          //console.log(data.defaultInstance)
           setProblemLocalInstance(data.defaultInstance);
           setProblemInstance(data.defaultInstance);
           setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
@@ -146,18 +135,14 @@ function AccordionNestedTextBox(props) {
 
       }).catch(console.log("Problem not defined"));
     }
-    catch {
-      console.log("problem name is empty")
-    }
+    catch {console.log("problem name is empty")}
   }, [problemName])
 
   //Local state that handles problem instance change without triggering mass refreshing.
   const handleChangeInstance = (event) => {
     try {
     }
-    catch (error) {
-      console.log("Couldn't clean problem instance: ", error);
-    }
+    catch (error) {console.log("Couldn't clean problem instance: ", error);}
     setProblemLocalInstance(event.target.value)
     if (!timerIsActive) {
       setTimerActive(true);
@@ -227,7 +212,6 @@ function AccordionNestedTextBox(props) {
  * @returns A promise from the passed in url. 
  */
 async function requestProblemData(url, name) {
-  console.log(name)
   return await fetch(url + name + "Generic").then(resp => {
     if (resp.ok) {
       return resp.json()

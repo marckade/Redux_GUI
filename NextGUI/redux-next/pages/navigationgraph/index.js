@@ -16,7 +16,6 @@
 //  * @returns A promise from the passed in url.
 //  */
 // async function requestProblemData(url, name) {
-//     console.log(name)
 //     return await fetch(url + name + "Generic").then(resp => {
 //         if (resp.ok) {
 //             return resp.json()
@@ -55,7 +54,6 @@
 
 //         setTimeout(() => {
 //             for (let elem of nodesList) {
-//                 // console.log(elem)
 //                 let node = document.getElementById(elem)
 //                 const ellipseArray = node.getElementsByTagName('ellipse');
 //                 node.addEventListener('mouseover', function () {
@@ -77,22 +75,15 @@
 
 //     const handleClick = event => {
 //         // 👇️ refers to the div element
-//         console.log("This is ref: " + ref)
-//         console.log(ref)
-//         // console.log(event.target);
 //         const element = event.target;
-//         console.log(element.closest('g'));
 //         const problemGroup = element.closest('g');
 //         if (problemGroup !== null) {
 //             const problemName = problemGroup.id
-//             console.log(problemName)
 
 //             if (nodesList.includes(problemName)) {
 //                 requestProblemData('http://localhost:27000/', problemName).then(data => {
 //                     if (!(typeof data === "undefined")) {
-//                         //console.log(data);
 //                         ref.current = problemGroup;
-//                         console.log(ref)
 //                         setToolTip({ header: problemName, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
 //                         setTarget(problemGroup);
 //                         setShow(true);

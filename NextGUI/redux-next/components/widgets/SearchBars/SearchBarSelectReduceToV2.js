@@ -28,13 +28,12 @@ export default function SearchBarSelectReduceToV2(props) {
 
   // const [defaultProblemName, setDefaultProblemName] = useState('');
   const [reductionProblem, setReduceTo] = useState(noReductionsMessage);
-  const { problemType, problemName, setReducedInstance, reductionNameMap, setReductionNameMap } = useContext(ProblemContext);
+  const { problemType, problemName, setReducedInstance, reductionNameMap, setReductionNameMap,problemNameMap } = useContext(ProblemContext);
   const [noReductions, setNoReductions] = useState(true);
   
 
   // let stateVal = undefined;
   const fullUrl = props.url + 'Navigation/NPC_NavGraph/availableReductions/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
-  console.log(`URL is ${fullUrl}`)
    // initializeList(fullUrl);
 
     useEffect(() => {
@@ -103,15 +102,14 @@ export default function SearchBarSelectReduceToV2(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-             return problemParser.getWikiName(option)
-       // wikiName.get(option);
-        }
-       
-        // Regular option
-        return ''
-        // wikiName.get(option);
-
-      }}      // return wiki_name here
+          return problemNameMap.get(option) ?? problemParser.getWikiName(option) ?? option;
+          }
+         
+          // Regular option
+          return ''
+          // wikiName.get(option);
+  
+        }}    // return wiki_name here
 
       //renderOption={(props, option) => <li {...props}>{option}</li>}
       sx={{ width: 300 }}
@@ -148,8 +146,8 @@ export default function SearchBarSelectReduceToV2(props) {
           props.setData(element);
           setReduceTo(element);
         }
-        else if(problemName === 'CLIQUE'){
-          element === 'VERTEXCOVER'
+        else if(problemName === 'CLIQUE' && element === 'VERTEXCOVER'){
+          
           props.setData(element);
           setReduceTo(element);
         }
@@ -194,8 +192,7 @@ async function requestReductionNameMap(url, problemFrom, problemTo){
   return map;
 }
 async function getAvailableReductions(url, problemFrom, problemTo){
-  let tempUrl =`http://localhost:27000/Navigation/NPC_NavGraph/reductionPath/?reducingFrom=${problemFrom}&reducingTo=${problemTo}&problemType=NPC`
-  return await fetch(tempUrl).then(resp => {
+  return await fetch(url + `Navigation/NPC_NavGraph/reductionPath/?reducingFrom=${problemFrom}&reducingTo=${problemTo}&problemType=NPC`).then(resp => {
     if(resp.ok){
       return resp.json();
     }

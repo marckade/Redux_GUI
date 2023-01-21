@@ -42,6 +42,7 @@ class ProblemProvider extends Component {
         chosenSolver: "",
         verifierOptions: [""],
         solvedInstance: "",
+        problemNameMap: new Map(),
         solverNameMap: new Map(),
         verifierNameMap : new Map(),
         reductionNameMap : new Map()
@@ -52,22 +53,16 @@ class ProblemProvider extends Component {
 
 
     setProblemName = (newName) => {
-        //console.log(newName);
         if (!(newName === null)) { //checks if the user x's out input, doesn't change until a new value is selected
             this.setState({ problemName: newName })
-            //console.log(this.state.problemName)
         }
     }
     setProblemInstance = (newInstance) => {
-        console.log(newInstance)
         this.setState({ problemInstance: newInstance })
-        console.log("SET INSTANCE PROVIDER")
-        console.log(this.state.problemInstance)
     }
 
     setProblemJson = (newProblem) => {
         this.setState({ problemJson: newProblem })
-        console.log(newProblem)
     }
 
     setProblemDescription = (newDescription) => {
@@ -76,7 +71,6 @@ class ProblemProvider extends Component {
 
     setProblemReduceToOptions = (options) => {
         this.setState({ reduceToOptions: options })
-        console.log(options)
     }
 
     setProblemReductionTypeOptions = (options) => {
@@ -84,46 +78,40 @@ class ProblemProvider extends Component {
     }
     setChosenReductionType = (newChoice) => {
         this.setState({ chosenReductionType: newChoice })
-        //console.log(newChoice)
     }
     setSolverOptions = (options) => {
         this.setState({ solverOptions: options })
     }
     setChosenSolver = (newChoice) => {
         this.setState({ chosenSolver: newChoice })
-        console.log("solver chosen")
     }
     setVerifierOptions = (options) => {
         this.setState({ verifierOptions: options })
     }
     setChosenVerifier = (newChoice) => {
         this.setState({ chosenVerifier: newChoice })
-        console.log("verifier chosen")
     }
 
     setChosenReduceTo = (newChoice) => {
         this.setState({ chosenReduceTo: newChoice });
-        console.log("reduction problem chosen")
     }
     setReducedInstance = (newInstance) => {
         this.setState({ reducedInstance: newInstance })
-        console.log("new reduced instance set")
     }
     setSolvedInstance = (newInstance) => {
         this.setState({ solvedInstance: newInstance })
-        console.log("new solved instance set")
+    }
+    setProblemNameMap = (problemNameMap) => {
+        this.setState({problemNameMap: problemNameMap})
     }
     setSolverNameMap = (solverNameMap) => {
         this.setState({solverNameMap: solverNameMap})
-        console.log("new solver name map set")
     }
     setVerifierNameMap = (verifierNameMap) => {
         this.setState({verifierNameMap: verifierNameMap})
-        console.log("new verifier name map set")
     }
     setReductionNameMap = (reductionNameMap) => {
         this.setState({reductionNameMap: reductionNameMap})
-        console.log("new reduction name map set")
     }
 
     render() {
@@ -143,6 +131,7 @@ class ProblemProvider extends Component {
                 setChosenSolver: this.setChosenSolver,
                 setChosenVerifier: this.setChosenVerifier,
                 setSolvedInstance: this.setSolvedInstance,
+                setProblemNameMap: this.setProblemNameMap,
                 setSolverNameMap: this.setSolverNameMap,
                 setVerifierNameMap: this.setVerifierNameMap,
                 setReductionNameMap: this.setReductionNameMap

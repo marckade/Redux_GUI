@@ -119,23 +119,18 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
     const [jsonData, setJsonData] = useState(defaultArr);
     useEffect(() => {
         if (props.solveSwitch) {
-            console.log("solved Visualization",props.solveSwitch);
             getReducedVisualizationDataSolved(props.url, props.reductionType, "solvedVisualization", props.problemInstance,props.solutionData).then(data => {
-              setJsonData(data)
+                setJsonData(data)
                 if (typeof data  === 'undefined') {
-                    console.log('IT IS UNDEFINED')
                     setJsonData(data2)
                   }
                
             })
         }
         else if (!props.solveSwitch) {
-            //console.log("solved Visualization", props.solveSwitch);
             getReducedVisualizationData(props.url, props.reductionType, "reduce", props.problemInstance).then(data => {
                 setJsonData(data.reductionTo.clusterNodes)
-            }).catch((error) => {
-                console.log("CLIQUE_SVG_REACT solver switch off switch faled to fetch data")
-            })
+            }).catch((error) => {console.log("CLIQUE_SVG_REACT solver switch off switch faled to fetch data")})
         }
         
     }, [props.problemInstance,props.solveSwitch])
@@ -156,7 +151,6 @@ function getReducedVisualizationData(url, reduction, suffix, instance) {
 
     if(reduction !== null || reduction !== ''){
       var fullUrl = `${url}${reduction}/${suffix}?problemInstance=${instance}`;
-      console.log(fullUrl);
         return fetch(fullUrl).then(resp => {
           if (resp.ok) {
               return resp.json()

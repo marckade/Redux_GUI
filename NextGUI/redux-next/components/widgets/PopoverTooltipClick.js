@@ -17,7 +17,6 @@ import { ProblemContext } from '../contexts/ProblemProvider';
 import { getThemeProps } from '@mui/system';
 
 function popOver(props) {
-  //console.log(props)
   return(
   <Popover id="popover-basic" className="tooltip">
       <Popover.Header as="h3">

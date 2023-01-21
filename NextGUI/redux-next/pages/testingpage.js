@@ -60,7 +60,6 @@ function HomePage() {
   const [rightSize, setRightSize] = useState(50);
   const handleTextBox = (event) => {
     setText(event.target.value)
-    console.log(event.target.value)
   }
 
   const handleSolveSwitch = (event) => {
@@ -68,7 +67,6 @@ function HomePage() {
   }
 
   const handleBar = (sizes) => {
-    console.log(sizes);
     setLeftSize(sizes[0])
     setRightSize(sizes[1])
 }

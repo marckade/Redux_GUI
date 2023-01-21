@@ -29,7 +29,7 @@ var problemJson = [];
 const problemParser = new ProblemParser()
 
 export default function SearchBarProblemType(props) {
-  const { problem, problemName, setProblemName, solverNameMap, setSolverNameMap, verifierNameMap, setVerifierNameMap } = useContext(ProblemContext); //passed in context
+  const { problem, problemName, setProblemName, solverNameMap, setSolverNameMap, verifierNameMap, setVerifierNameMap,problemNameMap, setProblemNameMap } = useContext(ProblemContext); //passed in context
   // const [defaultProblemName, setDefaultProblemName] = useState('');
   
 // need to change the url to the live site
@@ -52,11 +52,9 @@ export default function SearchBarProblemType(props) {
 
   
 
-  //console.log(props.url)
   // if (!initialized) {
   //   initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`) //
   //   initialized = true;
-  //   console.log('Problem Json list \n') 
 
   // }
   //const [value, setValue] = React.useState(null); //state manager.
@@ -103,8 +101,7 @@ export default function SearchBarProblemType(props) {
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {
-          return problemParser.getWikiName(option)
-         // wikiName.get(option);
+          return problemNameMap.get(option) ?? problemParser.getWikiName(option) ?? option;
           }
          
           // Regular option
@@ -130,7 +127,6 @@ export default function SearchBarProblemType(props) {
 function initializeProblemJson(arr) { 
   
   arr.map(function (element, index, array) {
-    //console.log(element)
     if (!problemJson.includes(element)) {
 
   
@@ -143,7 +139,6 @@ function initializeProblemJson(arr) {
       problemJson.push(element)
     }
   }, 80);
-  //console.log(problemJson);
 }
 
 /**
@@ -167,13 +162,35 @@ function initializeList(url) {
     const req = getRequest(url);
     req.then(data => {
       initializeProblemJson(data)
-      //console.log(problemJson)
+      requestProblemNameMap(props.url,data).then(problemNames => {
+        setProblemNameMap(problemNames);
+      })
+      
     })
       .catch((error) => console.log("GET REQUEST FAILED",error));
 
   }
  
   // initialized = true;
+}
+
+//The requestProblemNameMap sets the problem names
+async function requestProblemNameMap(url, problems){
+  let map = new Map();
+  problems.forEach(problem => {
+    getProblemInfo(url, problem+"Generic").then(info => {
+      map.set(problem, info.problemName)
+    }).catch(error => console.log("PROBLEM IFO REQUEST FAILED"))
+  })
+  return map;
+}
+async function getProblemInfo(url, problem){
+  return await fetch(url + `${problem}`).then(resp => {
+
+    if(resp.ok){
+      return resp.json();
+    }
+  })
 }
 
 //The following the functions are used to set the solver names
@@ -196,8 +213,9 @@ async function getAvailableSolvers(url, problem){
     }
   })
 }
-async function getInfo(url, solver){
-  return await fetch(url + `${solver}/info`).then(resp => {
+async function getInfo(url, apiCall){
+  return await fetch(url + `${apiCall}/info`).then(resp => {
+
     if(resp.ok){
       return resp.json();
     }

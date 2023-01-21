@@ -23,8 +23,6 @@ class TextBoxInstance extends React.Component {
     }
 
     async getRequest(url, endRoute) {
-        console.log(url)
-        console.log(endRoute)
         const res = await fetch(url +endRoute)
         const data = await res.json();
         return data;

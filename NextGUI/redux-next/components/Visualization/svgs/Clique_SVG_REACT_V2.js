@@ -32,9 +32,6 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
       const problemUrl = apiCall;
       d3.json(problemUrl).then(function (data) {
 
-        
-  console.log(data);
-  console.log(problemUrl)
 // Initialize the links
 const link = svg
   .selectAll("line")
@@ -74,8 +71,6 @@ const node = svg
     })
   .on("mouseover", function (d) {
       let dName = d.target.__data__.name.replaceAll('!','NOT')
-      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-      //console.log(d.target.__data__.name);
       if (d3.select("#highlightGadgets").property("checked")){  // Mouseover is only on if the toggle switch is on
         d3.selectAll(`#${"_" +dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
         d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.ElementHighlight)
@@ -129,7 +124,6 @@ function ticked() {
     
     text
     .text(function(d) {
-        //console.log(d.name);
         return d.name;
     })
     .attr('x', function(d) {
@@ -166,7 +160,6 @@ function ticked() {
 
 export default function CliqueSvgReactV2(props) {
   const [charge, setCharge] = useState(-150);
-  console.log(props)
 
   return (
     <Container>

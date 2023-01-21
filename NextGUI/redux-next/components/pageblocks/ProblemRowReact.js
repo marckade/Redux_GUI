@@ -23,7 +23,6 @@ var CARD = { cardBodyText: "Instance", cardHeaderText: "Problem",problemInstance
 const TOOLTIP = { header: "Problem Information", formalDef: "Choose a problem to see information about it", info: "" }
 
 function ProblemRowReact(props) {
-    console.log(props.reduxBaseUrl)
     const INPUTURL = { url: props.reduxBaseUrl }
     const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}
     const ACCORDION = { ACCORDION_FORM_ONE, ACCORDION_FORM_TWO, CARD, TOOLTIP, INPUTURL,THEME }

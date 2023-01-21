@@ -80,7 +80,6 @@ function initializeProblemJson(arr) { //converts asynchronous fetch request into
       problemJson.push(element)
     }
   }, 80);
-  //console.log(problemJson);
 }
 async function getRequest(url) {
     const promise = await fetch(url).then(result => {
@@ -96,7 +95,6 @@ function initializeList(url) {
   req.then(data => {
    
     initializeProblemJson(data)
-    //console.log(problemJson)
   })
     .catch((error) => console.log("GET REQUEST FAILED",error));
 }

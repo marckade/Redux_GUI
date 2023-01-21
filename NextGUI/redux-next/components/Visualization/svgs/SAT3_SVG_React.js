@@ -10,17 +10,14 @@ function getProblemSolutionData(url, solver, instance) {
     var fullUrl = `${url}${solver}/solve?problemInstance=${instance}`;
     return fetch(fullUrl).then(resp => {
       if (resp.ok) {
-        //console.log(resp.json());
         return resp.json()
       }
     });
 }
 function getNormalProblemData(url, problemName, instance) {
   var fullUrl = `${url}${problemName}Generic/instance?problemInstance=${instance}`;
-  console.log(fullUrl)
   return fetch(fullUrl).then(resp => {
     if (resp.ok) {
-      //console.log(resp.json());
       return resp.json()
     }
   });
@@ -32,12 +29,11 @@ function Sat3SvgReact(props) {
     const defaultSolution = ["x1"];
     const [solutionData, setSolutionData] = useState([]);
     useEffect(() => {
+      try{
         getSat3(ref.current, props.data);
         if(props.showSolution){
-            console.log("Show Solution !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             // let solutionData = getProblemSolution(props.url, "Sat3BacktrackingSolver", problemInstance.replaceAll('&', "%26"));
             let apiCompatibleInstance = problemInstance.replaceAll('&', "%26");
-              //console.log(data);
             let stringArr = props.solutionData.replace('(', '').replace(')', ''); //turns (x1:True) int x1:True
             stringArr = stringArr.split(','); //turns x1:True,x2:True into [x1:True,x2:True]
             let finalArr = [];
@@ -51,21 +47,25 @@ function Sat3SvgReact(props) {
               }
             }
             setSolutionData(finalArr);
-            //console.log(solutionData);
         }
         
         else if (!props.showSolution) { //ALEX NOTE: Code in here causes a rerender of sat3 that gets rid of the solution.
-          console.log("Show NORMAL DATA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
           setSolutionData([]);
           fullClear();
 
 
         }
+      }
+      catch(error){console.log("VISUALIZATION FAILED")};
 
     }, [problemInstance, props.showSolution])
-    if(props.showSolution){
-      showSolution(solutionData); //Data fed to this triggers a instance render with solution
+
+    try{
+      if(props.showSolution){
+        showSolution(solutionData); //Data fed to this triggers a instance render with solution
+      }
     }
+    catch(error){console.log("VISUALIZATION FAILED")}
    
   // useEffect(() => { //This updated the cerificate text with a solution value when a user hits the solution button in SolvedRow
   //  if(!props.showSolution){

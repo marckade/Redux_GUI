@@ -33,7 +33,6 @@ export default function SearchBarSelectReductionTypeV2(props) {
   //chosenReduceTo
 
   const fullUrl = props.url;
-  console.log(fullUrl)
   useEffect(() => {
     problemJson = [];
     setReductionType("");
@@ -114,12 +113,14 @@ export default function SearchBarSelectReductionTypeV2(props) {
       setReductionType(noReductionsTypeMessage);
       props.setData('');
     }
+    else{
+      setNoReductionsType(false);
+    }
     
     if(arr.length == 1){
       arr = arr[0]
       arr.map(function (element, index, array) {
         // problemJson = [];
-        setNoReductionsType(false);
         if (!problemJson.includes(element)) {
           if (element === "SipserReduceToCliqueStandard" && chosenReduceTo === 'CLIQUE') {
             props.setData(element);
@@ -156,7 +157,6 @@ export default function SearchBarSelectReductionTypeV2(props) {
       })
       problemJson.push(path.slice(0,-1))
     }
-    console.log(problemJson);
   }
   async function getRequest(url) {
     const promise = await fetch(url).then(result => {
@@ -167,9 +167,6 @@ export default function SearchBarSelectReductionTypeV2(props) {
   }
 
   function initializeList(url) {
-
-    console.log(message.noReductionsMessage)
-    console.log(chosenReduceTo)
 
     if (chosenReduceTo !== '') {
 
