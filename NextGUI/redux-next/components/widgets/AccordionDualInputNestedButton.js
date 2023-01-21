@@ -270,9 +270,9 @@ function checkProblemType(stringInstance){
 
   // Regex for Boolean problems.Getting rid of all the characters we don't need and spliting to get all the literals.
   const literalArray = stringInstance.replaceAll("(", "")
-                           .replaceAll(")", "|") // Replace with a | for splitting
-                           .replaceAll("&", "")
-                           .split("|");
+                                      .replaceAll(")", "|") // Replace with a | for splitting
+                                      .replaceAll("&", "")
+                                      .split("|");
   const uniqueLiterals = new Set (literalArray); // Getting rid of duplicate literals
   var literalString = ""
   uniqueLiterals.forEach((literal)=>{

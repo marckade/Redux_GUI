@@ -121,8 +121,7 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
         if (props.solveSwitch) {
             console.log("solved Visualization",props.solveSwitch);
             getReducedVisualizationDataSolved(props.url, props.reductionType, "solvedVisualization", props.problemInstance,props.solutionData).then(data => {
-                setJsonData(data)
-                console.log("This is the data "+ data)
+              setJsonData(data)
                 if (typeof data  === 'undefined') {
                     console.log('IT IS UNDEFINED')
                     setJsonData(data2)
@@ -141,7 +140,6 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
         
     }, [props.problemInstance,props.solveSwitch])
     getClique(ref.current, jsonData);
-    //console.log(jsonData);
     return (
         <svg ref={ref}
             style={{

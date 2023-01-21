@@ -176,7 +176,7 @@ class clause{
                     if(element == literals[i]){
                         count += 1;
                     }
-                });
+                }); 
                 
             }
             for(let j=0; j<i; j++){
