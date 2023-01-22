@@ -254,20 +254,20 @@ In the case of a graph nodes and edges are returned in [1] and [2] respectively.
 SAT or boolean form is only the "pretty" form in [1] and [2] is an empty string.*/
 function checkProblemType(stringInstance, chosenReduceTo){
   const spacedInstance = stringInstance.replace(/,/g, ', ');
-  const kValue = String(stringInstance).charAt(stringInstance.length - 2) // Gets the K value from the string.
+  const kValue = stringInstance.match('(\\d+)(?!.*\\d)'); // Gets the K value from the string.
 
   // Regex for undirected graph
   const prettyUndirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
   const prettyUndirectedEdges = getEdges(spacedInstance);
   if (prettyUndirectedNodes != null && (chosenReduceTo == "CLIQUE" || chosenReduceTo == "VERTEXCOVER" || chosenReduceTo == "GRAPHCOLORING")){
-    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0], kValue];
+    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0], kValue[0]];
   }
 
   // Regex for directed graph. Consequently the edge regex is the same for both directed and undirected. Shouldn't be a problem, but good to note.
   const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
   const prettyDirectedEdges = getEdges(spacedInstance);
   if(prettyDirectedNodes != null && (chosenReduceTo == "ARCSET" || chosenReduceTo == "TSP")){
-    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0], kValue];
+    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0], kValue[0]];
   }
 
   // Regex for Boolean problems.Getting rid of all the characters we don't need and spliting to get all the literals.
