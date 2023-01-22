@@ -45,7 +45,6 @@ function getClique(ref, data) {
             }
             const cliqueSolutionString =  cliqueSolution.name.trim()
             const BaseLiteralNameString = String(baseLiteralName)
-            console.log("BASE LITERAL NAME IS: "+baseLiteralName + "\n cliqSolution : baseLiteralName")
             // Add the node to the list of solutions
             if (cliqueSolutionString === BaseLiteralNameString){
                 data[currentLiteralIndex].solutionState = "True"

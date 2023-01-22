@@ -217,8 +217,13 @@ function createPrettyFormat(rawInstance, chosenReduceTo){
       <>
         <p><b>Nodes:</b></p>
         <p>{prettyInstace[1]}</p>
+        
         <p><b>Edges:</b></p>
-        <p>{prettyInstace[2]}</p> 
+        <p>{prettyInstace[2]}</p>
+
+        <p><b>K value:</b></p>
+        <p>{prettyInstace[3]}</p>
+        
         <p><b>Original form:</b></p>
         <p>{rawInstance}</p>
       </>
@@ -249,19 +254,20 @@ In the case of a graph nodes and edges are returned in [1] and [2] respectively.
 SAT or boolean form is only the "pretty" form in [1] and [2] is an empty string.*/
 function checkProblemType(stringInstance, chosenReduceTo){
   const spacedInstance = stringInstance.replace(/,/g, ', ');
+  const kValue = String(stringInstance).charAt(stringInstance.length - 2) // Gets the K value from the string.
 
   // Regex for undirected graph
   const prettyUndirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
-  const prettyUndirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
+  const prettyUndirectedEdges = getEdges(spacedInstance);
   if (prettyUndirectedNodes != null && (chosenReduceTo == "CLIQUE" || chosenReduceTo == "VERTEXCOVER" || chosenReduceTo == "GRAPHCOLORING")){
-    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0]];
+    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0], kValue];
   }
 
   // Regex for directed graph. Consequently the edge regex is the same for both directed and undirected. Shouldn't be a problem, but good to note.
   const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
-  const prettyDirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
+  const prettyDirectedEdges = getEdges(spacedInstance);
   if(prettyDirectedNodes != null && (chosenReduceTo == "ARCSET" || chosenReduceTo == "TSP")){
-    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0]];
+    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0], kValue];
   }
 
   // Regex for Boolean problems.Getting rid of all the characters we don't need and spliting to get all the literals.
@@ -285,6 +291,11 @@ function checkProblemType(stringInstance, chosenReduceTo){
 
   // Nothing matches return nothing.
   return null;
+}
+
+// Parses the edges from the graph
+function getEdges(stringInstance){
+  return stringInstance.match('((?<=}, {)[ -~]+)(?=}, )');
 }
 
 async function requestProblemData(url, name) {
