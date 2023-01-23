@@ -24,95 +24,77 @@ const positionByDegree = (degree, r, w, h) => {
 }
 
 function getClique(ref, data) {
+    try{
 
-    // Creating a list of the "known" literals that are true so we can also make it's _2, _3 etc. also also true.
-    var knownSolutions = [];
-    for (var j = 0; j < data.length; j++){
-        if (!data[j].solutionState == '' && 
-            !data[j].name.match('_')){
-            knownSolutions.push(data[j]);
-        }
-    }
-
-    var fullSolutionList = []
-    // comparing all the literals we know are part of the solution, with all the other literals to make the same literals true as well.
-    knownSolutions.forEach(cliqueSolution => {
-        for (let currentLiteralIndex = 0; currentLiteralIndex < data.length; currentLiteralIndex++){
-            //Getting the base name of the literal (stripping the _1, _2 etc.)
-            let baseLiteralName = data[currentLiteralIndex].name.match('\\S+(?=_[0-9])');
-            if (!baseLiteralName){
-                baseLiteralName = data[currentLiteralIndex].name
+        // Creating a list of the "known" literals that are true so we can also make it's _2, _3 etc. also also true.
+        var knownSolutions = [];
+        for (var j = 0; j < data.length; j++){
+            if (!data[j].solutionState == '' ){
+                knownSolutions.push(data[j]);
             }
-            const cliqueSolutionString =  cliqueSolution.name.trim()
-            const BaseLiteralNameString = String(baseLiteralName)
-            // Add the node to the list of solutions
-            if (cliqueSolutionString === BaseLiteralNameString){
-                data[currentLiteralIndex].solutionState = "True"
-                fullSolutionList.push(data[currentLiteralIndex]);
+        }
+
+
+        let nodes = [];
+        let edges = [];
+        let svg = new d3.select(ref).append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("class", "all");
+
+        let centerX = width / 2;
+        let centerY = height / 3;
+        let r = centerX / 2;
+        let center = { "x": centerX, "y": centerY }
+        // new node("X","C", svg, center).show();
+
+        try {
+            data.sort((a, b) => (a.cluster > b.cluster) ? 1 : ((b.cluster > a.cluster) ? -1 : 0));
+
+
+            let n = data.length;
+            let m = n + n / 3;
+
+            let dataCount = 0;
+            for (var i = 0; i < m; i++) {
+                if (i % 4 === 0) { continue; }
+                //constructor(id, cluster, name, solutionState,svg, position = {"x":10,"y":10}, size = 15)
+                let nodeName = data[dataCount].name;
+                // let idTest;
+                // if (nodeName.lastIndexOf('_')!=-1) {
+                //    idTest = nodeName.substr(0, nodeName.lastIndexOf('_')) + "_" + dataCount;
+                // }
+                // else {
+                //     idTest = nodeName + '_' + dataCount;
+                // }
+
+                
+                // let nodeId = nodeName + '_' + dataCount;
+                nodes[dataCount] = new node(nodeName, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
+                dataCount++;
             }
 
-        }
-    });
-
-    let nodes = [];
-    let edges = [];
-    let svg = new d3.select(ref).append("svg")
-        .attr("preserveAspectRatio", "xMinYMin meet")
-        .attr("viewBox", `0 0 ${width} ${height}`)
-        .attr("class", "all");
-
-    let centerX = width / 2;
-    let centerY = height / 3;
-    let r = centerX / 2;
-    let center = { "x": centerX, "y": centerY }
-    // new node("X","C", svg, center).show();
-
-    try {
-        data.sort((a, b) => (a.cluster > b.cluster) ? 1 : ((b.cluster > a.cluster) ? -1 : 0));
-
-
-        let n = data.length;
-        let m = n + n / 3;
-
-        let dataCount = 0;
-        for (var i = 0; i < m; i++) {
-            if (i % 4 === 0) { continue; }
-            //constructor(id, cluster, name, solutionState,svg, position = {"x":10,"y":10}, size = 15)
-            let nodeName = data[dataCount].name;
-            // let idTest;
-            // if (nodeName.lastIndexOf('_')!=-1) {
-            //    idTest = nodeName.substr(0, nodeName.lastIndexOf('_')) + "_" + dataCount;
-            // }
-            // else {
-            //     idTest = nodeName + '_' + dataCount;
-            // }
-
-            
-            // let nodeId = nodeName + '_' + dataCount;
-            nodes[dataCount] = new node(nodeName, data[dataCount].cluster, nodeName, data[dataCount].solutionState, svg, positionByDegree(i * 360 / m, r, centerX, centerY));
-            dataCount++;
-        }
-
-        // Creating edges between nodes
-        for (var i = 0; i < nodes.length; i++) {
-            for (var j = 0; j < nodes.length; j++) {
-                if (nodes[i].Cluster() !== nodes[j].Cluster()) {
-                    let iVariable = nodes[i].Variable().split("_")[0]
-                    let jVariable = nodes[j].Variable().split("_")[0]
-                    let iName = nodes[i].Name().split("_")[0]
-                    let jName = nodes[j].Name().split("_")[0]
-                    if ((iName == jName && iVariable == jVariable) || iVariable !== jVariable) {
-                        new edge(svg, nodes[i], nodes[j]);
+            // Creating edges between nodes
+            for (var i = 0; i < nodes.length; i++) {
+                for (var j = 0; j < nodes.length; j++) {
+                    if (nodes[i].Cluster() !== nodes[j].Cluster()) {
+                        let iVariable = nodes[i].Variable().split("_")[0]
+                        let jVariable = nodes[j].Variable().split("_")[0]
+                        let iName = nodes[i].Name().split("_")[0]
+                        let jName = nodes[j].Name().split("_")[0]
+                        if ((iName == jName && iVariable == jVariable) || iVariable !== jVariable) {
+                            new edge(svg, nodes[i], nodes[j]);
+                        }
                     }
                 }
             }
+
+            nodes.forEach(node => node.show());
+
+            d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
         }
-
-        nodes.forEach(node => node.show());
-
-        d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
-    }
-    catch (error) {console.log("SAT3ToCliqueReuction Data Sort Error, BAD DATA")}
+        catch (error) {console.log("SAT3ToCliqueReuction Data Sort Error, BAD DATA")}
+    } catch (error) {console.log("NO VISUALIZATION DATA")}
 }
 
 function showCluster(cluster) {
