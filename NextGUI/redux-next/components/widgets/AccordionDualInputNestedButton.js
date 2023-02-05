@@ -204,6 +204,9 @@ function createPrettyFormat(rawInstance, chosenReduceTo){
   }
 
     const prettyInstace = checkProblemType(rawInstance, chosenReduceTo);
+    // Just turning the uppercase name the the chosen reduction to lowercase with a captial first letter(CLIQUE --> Clique)
+    var reductionToName = chosenReduceTo.toLowerCase();
+    var lowercaseName = reductionToName.charAt(0).toUpperCase() + reductionToName.slice(1);
 
 
   // Checks if this is actually a node / edge format. If not, show the original form.
@@ -215,17 +218,19 @@ function createPrettyFormat(rawInstance, chosenReduceTo){
   if (prettyInstace[0] === "GRAPH"){
     return (
       <>
+        <p style={{fontSize: 20}}>
+          <b>Reduced {lowercaseName} Instance:</b>
+        </p>
+        
+        <p>{rawInstance}</p>
+
         <p><b>Nodes:</b></p>
         <p>{prettyInstace[1]}</p>
         
         <p><b>Edges:</b></p>
-        <p>{prettyInstace[2]}</p>
-
-        <p><b>K value:</b></p>
-        <p>{prettyInstace[3]}</p>
-        
-        <p><b>Original form:</b></p>
-        <p>{rawInstance}</p>
+        <p style={{wordBreak: 'breakWord', color: 'red'}}>
+          {prettyInstace[2]}</p>
+        <p><b>K value:</b> {prettyInstace[3]}</p>
       </>
     );}
     

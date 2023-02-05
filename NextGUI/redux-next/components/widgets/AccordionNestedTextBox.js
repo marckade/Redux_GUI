@@ -78,7 +78,7 @@ function AccordionNestedTextBox(props) {
                 input: "No Input, Default String",
                 regex: "There is no regex string for this problem, parsing is likely not enabled",
                 type: "No input, default string",
-                exampleStr: "No input, default string"
+                exampleStr: "" // No input, default string
                 
   }
 
@@ -144,6 +144,9 @@ function AccordionNestedTextBox(props) {
     }
     catch (error) {console.log("Couldn't clean problem instance: ", error);}
     setProblemLocalInstance(event.target.value)
+    if (!instanceParsed.test){
+      defaultInstanceParsed.exampleStr = "";
+    }
     if (!timerIsActive) {
       setTimerActive(true);
     }
@@ -188,7 +191,7 @@ function AccordionNestedTextBox(props) {
                   sx={{width:'100%'}}
                   value={problemLocalInstance}
                   onChange={handleChangeInstance}
-                  helperText={"problem failed? try: " +instanceParsed.exampleStr}
+                  helperText={!instanceParsed.test? "Problem failed? Try: " + instanceParsed.exampleStr:""} // Only displays the "Incorrect format" stuff when the input is activly wrong
                 >
                 </TextField>
                 
