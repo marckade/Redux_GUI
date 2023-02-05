@@ -64,7 +64,7 @@ function AccordionDualInputNestedButton(props) {
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
   const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
-  const [disableButton, setActive] = useState(false) // keeps track of button
+  const [disableButton, setDisableButton] = useState(false) // keeps track of button
 
   const reduceRequest = async () => {
 
@@ -102,13 +102,6 @@ function AccordionDualInputNestedButton(props) {
       setToolTip({ header: chosenReduceTo, formalDef: data.formalDefinition, info: data.problemDefinition }) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
 
-    if(!chosenReduceTo){
-      setActive(true);
-    }else{
-      setActive(false);
-    }
-
-  
     setReducedInstance('');;
   }, [chosenReduceTo])
 
@@ -122,9 +115,15 @@ function AccordionDualInputNestedButton(props) {
       }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
     }
 
+    if(!chosenReductionType){
+      setDisableButton(true);
+    }else{
+      setDisableButton(false);
+    }
+
    
     setReducedInstance('');
-  }, [chosenReductionType])
+  }, [chosenReductionType,chosenReduceTo])
 
 
 
