@@ -227,7 +227,7 @@ function createPrettyFormat(rawInstance, chosenReduceTo){
         <p>{prettyInstace[1]}</p>
         
         <p><b>Edges:</b></p>
-        <p style={{wordBreak: 'breakWord', color: 'red'}}>
+        <p /*style={{wordBreak: 'breakWord', color: 'red'}}> */>
           {prettyInstace[2]}</p>
         <p><b>K value:</b> {prettyInstace[3]}</p>
       </>
