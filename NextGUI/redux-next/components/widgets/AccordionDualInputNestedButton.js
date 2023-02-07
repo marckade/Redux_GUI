@@ -46,7 +46,6 @@ function ContextAwareToggle({ children, eventKey, callback, colors }) {
 }
 
 function AccordionDualInputNestedButton(props) {
-  console.log("STATE CHANGE REDUCEBOX")
 
   var REDUCETOOPTIONSURL = props.accordion.INPUTURL.url;
   var REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url;
@@ -61,15 +60,13 @@ function AccordionDualInputNestedButton(props) {
       
   // REDUCETOOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_ReductionsRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   // REDUCTIONTYPEOPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/PossibleReductionsRefactor/' + '?reducingFrom=' + problemName + '&reducingTo=' + chosenReduceTo + '&problemType=' + problemType
-  //console.log(reducedInstance)
-  //console.log(problemName)
+
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP1); //Keeps track of tooltip state (left)
   const [toolTip2, setToolTip2] = useState(props.accordion.TOOLTIP2) //keeps track of tooltip state (right)
   const [testData, setTestData] = useState("TEST DATA REDUCE") //keeps track of reduce to text
-  const [disableButton, setActive] = useState(false) // keeps track of button
+  const [disableButton, setDisableButton] = useState(false) // keeps track of button
 
   const reduceRequest = async () => {
-    console.log("Problem Instance at time of reduce req: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+ problemInstance);
 
     if(chosenReductionType !== '' && chosenReductionType !== null){
       let reductionPath = chosenReductionType.split("-")
@@ -89,7 +86,6 @@ function AccordionDualInputNestedButton(props) {
         //var reducedInstance = data.reductionTo.instance;
         // Gets the list of nodes in the raw expression
         //const prettyFormat = createPrettyFormat(reducedInstance);
-        //console.log("\n\n\n\n\n\n\n"+prettyFormat);
 
       }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
     }
@@ -106,13 +102,6 @@ function AccordionDualInputNestedButton(props) {
       setToolTip({ header: chosenReduceTo, formalDef: data.formalDefinition, info: data.problemDefinition }) //updates TOOLTIP
     }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
 
-    if(!chosenReduceTo){
-      setActive(true);
-    }else{
-      setActive(false);
-    }
-
-  
     setReducedInstance('');;
   }, [chosenReduceTo])
 
@@ -122,14 +111,19 @@ function AccordionDualInputNestedButton(props) {
     if(chosenReductionType !== '' && chosenReductionType !== null){
       let reductionType = chosenReductionType.split("-")[0];
       requestReductionData(props.accordion.INPUTURL.url, reductionType).then(data => {
-        console.log("REDUCTION TYPE: ", reductionType)
         setToolTip2({ header: reductionType, formalDef: data.reductionDefinition, info: data.source }) //updates TOOLTIP
       }).catch((error) => console.log("TOOLTIP SET ERROR API CALL", error))
     }
 
+    if(!chosenReductionType){
+      setDisableButton(true);
+    }else{
+      setDisableButton(false);
+    }
+
    
     setReducedInstance('');
-  }, [chosenReductionType])
+  }, [chosenReductionType,chosenReduceTo])
 
 
 
@@ -179,7 +173,7 @@ function AccordionDualInputNestedButton(props) {
           <Accordion.Collapse eventKey="0">
             <Card.Body>
 
-            <Card.Text>{createPrettyFormat(reducedInstance)}</Card.Text>
+            <Card.Text>{createPrettyFormat(reducedInstance,chosenReduceTo)}</Card.Text>
             
               <div className="submitButton">
                 <Button
@@ -203,12 +197,16 @@ function AccordionDualInputNestedButton(props) {
 }
 
 // Returns a "pretty" version of the reduction string if possible.
-function createPrettyFormat(rawInstance){
+function createPrettyFormat(rawInstance, chosenReduceTo){
   if (rawInstance === undefined){
     return null;
   }
 
-  const prettyInstace = checkProblemType(rawInstance);
+    const prettyInstace = checkProblemType(rawInstance, chosenReduceTo);
+    // Just turning the uppercase name the the chosen reduction to lowercase with a captial first letter(CLIQUE --> Clique)
+    var reductionToName = chosenReduceTo.toLowerCase();
+    var lowercaseName = reductionToName.charAt(0).toUpperCase() + reductionToName.slice(1);
+
 
   // Checks if this is actually a node / edge format. If not, show the original form.
   if (prettyInstace === null){
@@ -219,12 +217,19 @@ function createPrettyFormat(rawInstance){
   if (prettyInstace[0] === "GRAPH"){
     return (
       <>
+        <p style={{fontSize: 20}}>
+          <b>Reduced {lowercaseName} Instance:</b>
+        </p>
+        
+        <p>{rawInstance}</p>
+
         <p><b>Nodes:</b></p>
         <p>{prettyInstace[1]}</p>
+        
         <p><b>Edges:</b></p>
-        <p>{prettyInstace[2]}</p> 
-        <p><b>Original form:</b></p>
-        <p>{rawInstance}</p>
+        <p /*style={{wordBreak: 'breakWord', color: 'red'}}> */>
+          {prettyInstace[2]}</p>
+        <p><b>K value:</b> {prettyInstace[3]}</p>
       </>
     );}
     
@@ -251,28 +256,29 @@ function createPrettyFormat(rawInstance){
 If any of them match it return both a "pretty" version of the instance in a array [0] defines the type(Boolean, graph etc.).
 In the case of a graph nodes and edges are returned in [1] and [2] respectively.
 SAT or boolean form is only the "pretty" form in [1] and [2] is an empty string.*/
-function checkProblemType(stringInstance){
+function checkProblemType(stringInstance, chosenReduceTo){
   const spacedInstance = stringInstance.replace(/,/g, ', ');
+  const kValue = stringInstance.match('(\\d+)(?!.*\\d)'); // Gets the K value from the string.
 
   // Regex for undirected graph
   const prettyUndirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
-  const prettyUndirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
-  if (prettyUndirectedNodes != null){
-    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0]];
+  const prettyUndirectedEdges = getEdges(spacedInstance);
+  if (prettyUndirectedNodes != null && (chosenReduceTo == "CLIQUE" || chosenReduceTo == "VERTEXCOVER" || chosenReduceTo == "GRAPHCOLORING")){
+    return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0], kValue[0]];
   }
 
   // Regex for directed graph. Consequently the edge regex is the same for both directed and undirected. Shouldn't be a problem, but good to note.
   const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
-  const prettyDirectedEdges = spacedInstance.match('((?<=}, {)[ -~]+)(?=}, )');
-  if(prettyDirectedNodes != null){
-    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0]];
+  const prettyDirectedEdges = getEdges(spacedInstance);
+  if(prettyDirectedNodes != null && (chosenReduceTo == "ARCSET" || chosenReduceTo == "TSP")){
+    return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0], kValue[0]];
   }
 
   // Regex for Boolean problems.Getting rid of all the characters we don't need and spliting to get all the literals.
   const literalArray = stringInstance.replaceAll("(", "")
-                           .replaceAll(")", "|") // Replace with a | for splitting
-                           .replaceAll("&", "")
-                           .split("|");
+                                      .replaceAll(")", "|") // Replace with a | for splitting
+                                      .replaceAll("&", "")
+                                      .split("|");
   const uniqueLiterals = new Set (literalArray); // Getting rid of duplicate literals
   var literalString = ""
   uniqueLiterals.forEach((literal)=>{
@@ -283,7 +289,7 @@ function checkProblemType(stringInstance){
   const clauses = stringInstance.replaceAll("|", " | ").replaceAll("&", ", ")
 
   // Literals and clauses.
-  if(clauses != "" && literalString != ""){
+  if(clauses != "" && literalString != "" && (chosenReduceTo == "SAT" || chosenReduceTo == "3SAT")){
     return ["BOOLEAN", literalString, clauses];
   }
 
@@ -291,8 +297,12 @@ function checkProblemType(stringInstance){
   return null;
 }
 
+// Parses the edges from the graph
+function getEdges(stringInstance){
+  return stringInstance.match('((?<=}, {)[ -~]+)(?=}, )');
+}
+
 async function requestProblemData(url, name) {
-  //console.log(name)
   //$`{url}{name}Generic`
   return await fetch(url + name + "Generic").then(resp => resp.json());
 }

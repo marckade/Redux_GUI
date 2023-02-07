@@ -19,7 +19,7 @@ function VerifyRowReact(props) {
     const ACCORDION_FORM_ONE = { placeHolder: "Select verifier" }
     const ACCORDION_FORM_TWO = { placeHolder: "PlaceHolder Text Two" }
     const BUTTON = { buttonText: "Verify" }
-    const CARD = { cardBodyText: "Enter a certificate:", cardHeaderText: "Verifier" }
+    const CARD = { cardBodyText: "Enter a certificate:", cardHeaderText: "Verify" }
     const INPUTURL = { url: props.reduxBaseUrl }
     const TOOLTIP = { header: "Problem Verifier", formalDef: "Choose a verifier to see information about it", info: "" }
     const THEME = {colors:{grey:"#424242",orange:"#d4441c"}}

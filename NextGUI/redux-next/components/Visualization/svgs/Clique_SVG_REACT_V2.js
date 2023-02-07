@@ -19,6 +19,8 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
     // re-create animation every time nodes change
   
     useEffect(() => {
+      d3.select(ref.current).selectChildren().remove();
+
        // set the dimensions and margins of the graph
 
 // append the svg object to the body of the page
@@ -26,21 +28,17 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance }) {
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin meet")
         .attr("viewBox", "0 0 600 400")
-.append("g")
-.attr("transform",
-      `translate(${margin.left}, ${margin.top})`);
+        .append("g")
+        .attr("transform",`translate(${margin.left}, ${margin.top})`);
       const problemUrl = apiCall;
       d3.json(problemUrl).then(function (data) {
 
-        
-  console.log(data);
-  console.log(problemUrl)
 // Initialize the links
-const link = svg
-  .selectAll("line")
-  .data(data.links)
-  .join("line")
-    .style("stroke", "#aaa")
+      const link = svg
+        .selectAll("line")
+        .data(data.links)
+        .join("line")
+          .style("stroke", "#aaa")
 
 
 
@@ -65,17 +63,15 @@ const node = svg
       //return "#FFC300";
       //"#00e676"
     if (d.attribute2 == "True") {
-      return "#00E676" //Highlight solutions color: green 
+      return VisColors.Solution //Highlight solutions color: green 
     }
     else {
-      return "#abc" // Non-Solution color: grey
+      return VisColors.Background // Non-Solution color: grey
     }
 
     })
   .on("mouseover", function (d) {
       let dName = d.target.__data__.name.replaceAll('!','NOT')
-      //console.log("HOVERING OVER A NODE", d.target.__data__.name)
-      //console.log(d.target.__data__.name);
       if (d3.select("#highlightGadgets").property("checked")){  // Mouseover is only on if the toggle switch is on
         d3.selectAll(`#${"_" +dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
         d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.ElementHighlight)
@@ -129,7 +125,6 @@ function ticked() {
     
     text
     .text(function(d) {
-        //console.log(d.name);
         return d.name;
     })
     .attr('x', function(d) {
@@ -166,7 +161,6 @@ function ticked() {
 
 export default function CliqueSvgReactV2(props) {
   const [charge, setCharge] = useState(-150);
-  console.log(props)
 
   return (
     <Container>

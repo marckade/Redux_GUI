@@ -53,7 +53,6 @@ function AccordionVerifier(props) {
 
   const { problemName, problemInstance, problemType, chosenVerifier, setChosenVerifier, solvedInstance } = useContext(ProblemContext)
   const [toolTip, setToolTip] = useState(props.accordion.TOOLTIP); //Keeps track of tooltip state (left)
-  console.log("STATE CHANGE VERIFIER")
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_VerifiersRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType;
 
   useEffect(() => {
@@ -96,7 +95,6 @@ function AccordionVerifier(props) {
 
   //Local state that handles problem instance change without triggering mass refreshing.
   const handleChangeCertificate = (event) => {
-    console.log(event.target.value);
     setVerifiedInstance(event.target.value)
   }
 

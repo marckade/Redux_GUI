@@ -53,7 +53,6 @@ function AccordionSingleInputNestedButton(props) {
   const [disableButton, setActive] = useState(false) // keeps track of button
 
   
-  console.log("STATE CHANGE SOLVER")
   var SOLVEROPTIONSURL = props.accordion.INPUTURL.url + 'Navigation/Problem_SolversRefactor/' + '?chosenProblem=' + problemName + '&problemType=' + problemType
   useEffect(() => {
     setSolvedInstance("");
@@ -81,7 +80,6 @@ function AccordionSingleInputNestedButton(props) {
   }, [chosenSolver])
 
   const handleSolve = () => {
-    console.log("SOLVE REQUEST BUTTON")
     if (chosenSolver !== null && chosenSolver !== '') {
       
       // NOTE - Caleb - the following is a temporary solution to allow sat3 to be solved using the clique solver
@@ -105,9 +103,7 @@ function AccordionSingleInputNestedButton(props) {
       else{
         requestSolvedInstance(props.accordion.INPUTURL.url, chosenSolver, problemInstance).then(data => {
           setSolvedInstance(data);
-        }).catch((error) => {
-          console.log("SOLVE REQUEST INSTANCE FAILED")
-        })
+        }).catch((error) => {console.log("SOLVE REQUEST INSTANCE FAILED")})
       }
     }
 

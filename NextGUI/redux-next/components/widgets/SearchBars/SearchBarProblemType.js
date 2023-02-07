@@ -52,11 +52,9 @@ export default function SearchBarProblemType(props) {
 
   
 
-  //console.log(props.url)
   // if (!initialized) {
   //   initializeList(`${props.url}navigation/NPC_ProblemsRefactor/`) //
   //   initialized = true;
-  //   console.log('Problem Json list \n') 
 
   // }
   //const [value, setValue] = React.useState(null); //state manager.
@@ -129,7 +127,6 @@ export default function SearchBarProblemType(props) {
 function initializeProblemJson(arr) { 
   
   arr.map(function (element, index, array) {
-    //console.log(element)
     if (!problemJson.includes(element)) {
 
   
@@ -142,7 +139,6 @@ function initializeProblemJson(arr) {
       problemJson.push(element)
     }
   }, 80);
-  //console.log(problemJson);
 }
 
 /**

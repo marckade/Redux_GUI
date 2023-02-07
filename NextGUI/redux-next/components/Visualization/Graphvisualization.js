@@ -42,11 +42,9 @@ const graphTest = `graph GRAPHCOLORING {
 
 function Page(props) {
   let viz = "";
-  //console.log(props.DOT);
   // const graphTest = props.dot;
   //const [visualization, setVisualization]= useState('')
 
-  console.log(props.dot);
 
   return (
     <Graphviz dot={props.dot} options={props.options} />

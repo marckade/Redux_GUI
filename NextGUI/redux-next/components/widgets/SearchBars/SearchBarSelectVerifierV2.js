@@ -132,7 +132,6 @@ export default function SearchBarSelectVerifierV2(props) {
         problemJson.push(element)
       }
     }, 80);
-    //console.log(problemJson);
   }
   async function getRequest(url) {
     const promise = await fetch(url).then(result => {
@@ -149,7 +148,6 @@ export default function SearchBarSelectVerifierV2(props) {
     req.then(data => {
 
       initializeProblemJson(data)
-      //console.log(problemJson)
     })
       .catch((error) => console.log("GET REQUEST FAILED SEARCHBAR VERIFIER"));
 

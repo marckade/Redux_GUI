@@ -8,7 +8,6 @@ import {useRef,useEffect,useState} from 'react'
 
 function TestSvgReact(props) {
     const ref = useRef(null);
-    console.log("TEST SVG", props.data)
     const dimensions = { width: 400, height: 400, margin: { top: 30, right: 30, bottom: 30, left: 60 } }
 
     const generateDataset = () => (

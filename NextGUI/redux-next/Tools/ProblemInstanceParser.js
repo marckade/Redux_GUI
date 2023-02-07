@@ -9,24 +9,19 @@ class ProblemInstanceParser {
     
     //Breaks parsing logic up by problem type, calls function based on type.
     parse(problemType, problemInstance) {
-        console.log("PROBLEM INSTANCE PARSER:",problemType)
         let parsedOutput = {}
 
         if (problemType === Constants.ProblemTypes.Clique || problemType === Constants.ProblemTypes.VertexCover || problemType === Constants.ProblemTypes.GraphColoring) {
             parsedOutput = this.parseUndirectedGraph(problemInstance);
         }
         else if (problemType === Constants.ProblemTypes.Sat3) {
-            // console.log("hit sat3")
             parsedOutput = this.parseSat3(problemInstance);
-            console.log(parsedOutput)
         }
             
         else if (problemType === Constants.ProblemTypes.Arcset || problemType === Constants.ProblemTypes.Knapsack) {
-            // console.log("HIT ARCSET PARSER")
             parsedOutput = this.parseDirectedGraph(problemInstance);
         }
         else {
-            console.log("problemType not found equal to any string, here was your problem type",problemType)
             parsedOutput = {
                 test: true,
                 input: problemInstance,

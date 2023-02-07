@@ -9,13 +9,9 @@ export default function SearchBarSelectReduction(props) {
     //props.setTestName should be passed down.
 
   useEffect(() => {
-    //console.log("reload searchbar reduce") 
   },[problemName])
-  //console.log(props.url)
 
-    //console.log(props.url)
     const fullUrl = props.url + 'Navigation/PossibleReductionsRefactor/' + '?reducingFrom=' + problemName + '&reducingTo='+chosenReduceTo+'&problemType=' + problemType
-    //console.log(fullUrl)
     initializeList(fullUrl) 
   
   //const [value, setValue] = React.useState(null); //state manager.
@@ -74,7 +70,6 @@ var problemJson = [
 ];
 
 function initializeProblemJson(arr) { //converts asynchronous fetch request into synchronous call that sets the dropdown labels
-  console.log(problemJson)
     while (problemJson.length) { 
       problemJson.pop(); 
   }
@@ -84,10 +79,8 @@ function initializeProblemJson(arr) { //converts asynchronous fetch request into
       problemJson.push(element)
     }
   }, 80);
-  //console.log(problemJson);
 }
 async function getRequest(url) {
-  console.log(url)
     const promise = await fetch(url).then(result => {
       return result.json()
   })
@@ -96,13 +89,11 @@ async function getRequest(url) {
 }
 
 function initializeList(url) {
-  console.log(url)
 
   const req = getRequest(url);
   req.then(data => {
    
     initializeProblemJson(data)
-    //console.log(problemJson)
   })
     .catch((error) => console.log("GET REQUEST FAILED",error));
 }

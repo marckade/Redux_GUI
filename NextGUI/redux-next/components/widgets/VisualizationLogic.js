@@ -28,7 +28,6 @@ export default function VisualizationLogic(props) {
     let url = props.url;
 
     const handleBar = (sizes) => {
-        //console.log(sizes);
     }
 
     //VertexCover 
@@ -135,7 +134,7 @@ export default function VisualizationLogic(props) {
                                 {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
                             </div>
                             <CLIQUE_SVG_REACT
-                                solutionData={solution}
+                                solutionData={mappedSolution}
                                 data={props.reducedVisualizationData}
                                 url={props.url}
                                 reductionType={reductionType}
@@ -279,7 +278,6 @@ export default function VisualizationLogic(props) {
 
                     //Unsolved reduction (Should be solved when we make a solution.)
                     let apiCall2 = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
-                    console.log("VERTEXCOVER SOLVED",apiCall2)
                     reducedVisualization =
                         
                         <VertexCoverSvgReact 
@@ -372,7 +370,6 @@ export default function VisualizationLogic(props) {
 
 
     if (!visualizationState.reductionOn && !loading) {
-        // {console.log("reduction state: "+visualizationState.reductionOn)}
         return (
             <>
                 <Container>
@@ -382,7 +379,6 @@ export default function VisualizationLogic(props) {
         )
     }
     else if (visualizationState.reductionOn && !loading) {
-        // {console.log("reduction state: "+visualizationState.reductionOn)}
 
 
 

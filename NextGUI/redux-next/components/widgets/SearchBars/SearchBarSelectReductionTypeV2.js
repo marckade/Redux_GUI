@@ -28,15 +28,15 @@ export default function SearchBarSelectReductionTypeV2(props) {
 
 
   const [reductionType, setReductionType] = useState('');
-  const { problemInstance, chosenReduceTo, setReducedInstance, reductionNameMap } = useContext(ProblemContext);
+  const { problemInstance, chosenReduceTo, setReducedInstance, reductionNameMap,chosenReductionType,setChosenReductionType } = useContext(ProblemContext);
   const [noReductionsType, setNoReductionsType] = useState(false);
   //chosenReduceTo
 
   const fullUrl = props.url;
-  console.log(fullUrl)
   useEffect(() => {
     problemJson = [];
-    setReductionType("");
+    setChosenReductionType(null);
+    setReductionType('');
     initializeList(fullUrl);
   }, [chosenReduceTo]);
 
@@ -134,9 +134,10 @@ export default function SearchBarSelectReductionTypeV2(props) {
             }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
 
           }
+          
 
          // Auto populate "select reduction" field with sipserReduceToVC when reducing from Clique to Vertex Cover
-         else if(element === "sipserReduceToVC" && chosenReduceTo === 'VertexCover'){
+         else if(element === "sipserReduceToVC" && chosenReduceTo === 'VERTEXCOVER'){
           props.setData(element);
           setReductionType("Sipser's Vertex Cover Reduction");
           requestReducedInstance(props.instanceURL, element, problemInstance).then(data => {
@@ -156,9 +157,12 @@ export default function SearchBarSelectReductionTypeV2(props) {
       arr.map((reduction)=>{
         path += reduction[0]+"-"
       })
+      if (path === "SipserReduceToCliqueStandard-sipserReduceToVC-" && chosenReduceTo === 'VERTEXCOVER') {
+        props.setData(path.slice(0,-1));
+        setReductionType("Sipser's Clique Reduction - Sipser's Vertex Cover Reduction");
+      }
       problemJson.push(path.slice(0,-1))
     }
-    console.log(problemJson);
   }
   async function getRequest(url) {
     const promise = await fetch(url).then(result => {
@@ -169,9 +173,6 @@ export default function SearchBarSelectReductionTypeV2(props) {
   }
 
   function initializeList(url) {
-
-    console.log(message.noReductionsMessage)
-    console.log(chosenReduceTo)
 
     if (chosenReduceTo !== '') {
 

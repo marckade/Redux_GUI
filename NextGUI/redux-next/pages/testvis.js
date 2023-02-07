@@ -14,7 +14,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
  * @returns A promise from the passed in url. 
  */
 async function requestProblemData(url, name) {
-  console.log(name)
   return await fetch(url + name + "Generic").then(resp => {
     if (resp.ok) {
       return resp.json()
@@ -41,7 +40,6 @@ export default function Test(props) {
     // document.addEventListener("click", function (e) {
     //   setToolTip({})
     //   let target = (e.target);
-    //   console.log(target.tagName);
     //   if (target.tagName !== 'ellipse') {
     //     setShow(false);
     //   }
@@ -53,7 +51,6 @@ export default function Test(props) {
 
 
       for (let elem of nodesList) {
-        // console.log(elem)
         let node = document.getElementById(elem)
         const ellipseArray = node.getElementsByTagName('ellipse');
         node.addEventListener('mouseover', function () {
@@ -65,17 +62,12 @@ export default function Test(props) {
         })
 
         node.addEventListener('click', function (e) {
-          // console.log("This is node = ")
-          // console.log(node)
           let nodeId = node.id;
           let target = (e.target);
-          console.log("Target name :: "+target.tagName);
-          // console.log("Node name :: "+ nodeId)
           // setToolTip(popoverList.get(nodeId))
           // if (target.tagName === 'ellipse') {
           requestProblemData('http://localhost:27000/', nodeId).then(data => {
             if (!(typeof data === "undefined")) {
-              //console.log(data);
               setToolTip({ header: nodeId, formalDef: data.formalDefinition, info: data.problemDefinition + data.source })
             }
           }).catch(console.log("Problem not defined"));
@@ -91,7 +83,6 @@ export default function Test(props) {
 
         // requestProblemData('http://localhost:27000/', elem).then(data => {
         //   if (!(typeof data === "undefined")) {
-        //     //console.log(data);
         //     popoverList.set(elem,  setToolTip({ header: elem, formalDef: data.formalDefinition, info: data.problemDefinition + data.source }) )
         //   }
         // }).catch(console.log("Problem not defined"));
