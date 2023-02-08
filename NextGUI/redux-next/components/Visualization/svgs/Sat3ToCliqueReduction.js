@@ -25,33 +25,30 @@ const positionByDegree = (degree, r, w, h) => {
 
 function getClique(ref, data) {
     try{
-
         // Creating a list of the "known" literals that are true so we can also make it's _2, _3 etc. also also true.
-        var knownSolutions = [];
+        // Makes a set of strings of the known literals; e.g x1, x3 etc.
+        const knownSolutions = new Set();
         for (var j = 0; j < data.length; j++){
             if (!data[j].solutionState == '' ){
-                knownSolutions.push(data[j]);
+                const baseName = data[j].name.split('_')[0]
+                knownSolutions.add(baseName)
+                //knownSolutions.push(data[j]);
             }
         }
-
-
 
     var fullSolutionList = []
     // comparing all the literals we know are part of the solution, with all the other literals to make the same literals true as well.
     knownSolutions.forEach(cliqueSolution => {
         for (let currentLiteralIndex = 0; currentLiteralIndex < data.length; currentLiteralIndex++){
             //Getting the base name of the literal (stripping the _1, _2 etc.)
-            let baseLiteralName = data[currentLiteralIndex].name.match('\\S+(?=_[0-9])');
+            let baseLiteralName = data[currentLiteralIndex].name.split('_')[0]
             if (!baseLiteralName){
                 baseLiteralName = data[currentLiteralIndex].name
             }
-            const cliqueSolutionString =  cliqueSolution.name.trim()
-            const BaseLiteralNameString = String(baseLiteralName)
-            console.log("BASE LITERAL NAME IS: "+baseLiteralName + "\n cliqSolution : baseLiteralName")
-            // Add the node to the list of solutions
-            if (cliqueSolutionString === BaseLiteralNameString){
+            // Make that literal true and add it to the list for visulization.
+            if (baseLiteralName === cliqueSolution){
                 data[currentLiteralIndex].solutionState = "True"
-                fullSolutionList.push(data[currentLiteralIndex]);
+                fullSolutionList.push(data[currentLiteralIndex])
             }
 
         }
