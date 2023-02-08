@@ -35,6 +35,28 @@ function getClique(ref, data) {
         }
 
 
+
+    var fullSolutionList = []
+    // comparing all the literals we know are part of the solution, with all the other literals to make the same literals true as well.
+    knownSolutions.forEach(cliqueSolution => {
+        for (let currentLiteralIndex = 0; currentLiteralIndex < data.length; currentLiteralIndex++){
+            //Getting the base name of the literal (stripping the _1, _2 etc.)
+            let baseLiteralName = data[currentLiteralIndex].name.match('\\S+(?=_[0-9])');
+            if (!baseLiteralName){
+                baseLiteralName = data[currentLiteralIndex].name
+            }
+            const cliqueSolutionString =  cliqueSolution.name.trim()
+            const BaseLiteralNameString = String(baseLiteralName)
+            console.log("BASE LITERAL NAME IS: "+baseLiteralName + "\n cliqSolution : baseLiteralName")
+            // Add the node to the list of solutions
+            if (cliqueSolutionString === BaseLiteralNameString){
+                data[currentLiteralIndex].solutionState = "True"
+                fullSolutionList.push(data[currentLiteralIndex]);
+            }
+
+        }
+    });
+
         let nodes = [];
         let edges = [];
         let svg = new d3.select(ref).append("svg")
