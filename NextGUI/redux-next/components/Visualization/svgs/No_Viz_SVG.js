@@ -40,7 +40,7 @@ const No_Viz_Svg = () => {
             {/* <h1 style={{color: "orange"}}> No visualization is Currently implemented!</h1>
                 <p>No visualization is Currently Implemented!</p> */}
             <Typography variant="h4" component="h4" style={{ color: 'black',fontWeight:'normal', textAlign: 'center'}} >
-                {niceProblemName} visualization unavailable
+                The {niceProblemName} visualization has not been implemented yet
         </Typography>
         </Card>
             
