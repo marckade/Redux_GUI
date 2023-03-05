@@ -83,13 +83,15 @@ function AccordionVerifier(props) {
 
 
   const handleVerify = () => {
-
-    if (chosenVerifier !== null && chosenVerifier !== '') {
+    const bool = parseUserInput(verifiedInstance)
+    if (chosenVerifier !== null && chosenVerifier !== '' && bool == true) {
       requestVerifiedInstance(props.accordion.INPUTURL.url, chosenVerifier, problemInstance, verifiedInstance).then(data => {
         setVerifyResult(data);
       })
     }
-
+    else{
+      setVerifyResult('invalid input')
+    }
 
   }
 
@@ -97,6 +99,46 @@ function AccordionVerifier(props) {
   const handleChangeCertificate = (event) => {
     setVerifiedInstance(event.target.value)
   }
+
+// Input validation
+function parseUserInput(userInput){
+  var validUserInput = false;
+  var cleanInput = userInput.replace(new RegExp(/[( )]/g), '')// Strips spaces and ()
+  cleanInput = cleanInput.replaceAll(':', '=');
+
+  var regexFormat = /[^,=:!\w]/ // Checks for special characters not including ,=:!
+  
+  if (regexFormat.test(cleanInput) == true){ // Invalid characters found, warn user.
+    return false
+  }
+
+  else{
+    var clauses = cleanInput.split(',')
+    const regex = /[^!\w]/ // Only allow alphanumber and !
+    const notBooleanRegex = /[^true$|^True$|^t$|^T$|^false$|^False$|^F$|^f$]/
+    clauses.forEach(clause => {
+      const singleClause = clause.split('=')
+      
+      if(singleClause.length !== 2 || regex.test(singleClause[0] == true)){ // No boolean assigned to variable.
+        validUserInput = false
+        return false
+      }
+
+      if(notBooleanRegex.test(singleClause[1] == true)){ // boolean is not in the form True/true/T/F...
+        validUserInput = false
+        return false
+      }
+      else{ // Replace True/true/t with T and False/false/f with F
+        singleClause[1] = singleClause[1].replace(new RegExp(/^false$|^False$|^f$/g), 'F')
+        singleClause[1] = singleClause[1].replace(new RegExp(/^True$|^true$|^t$/g), 'T')
+        validUserInput = true // valid input
+      }
+    });
+
+     return validUserInput
+  }
+
+}
 
   return (
     <div>
