@@ -36,7 +36,7 @@ export default function VisualizationLogic(props) {
             setSolution(data)
         }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
 
-        if (visualizationState.solverOn && !visualizationState.reductionOn) {
+        if (visualizationState.solverOn) {
 
             apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
@@ -51,6 +51,10 @@ export default function VisualizationLogic(props) {
                 </Container>
 
             reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+
+        if (visualizationState.reductionOn){
+            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+        }
         }
         //No Arcset visualization implemented so no reduced visualizations possible.
 
@@ -63,6 +67,7 @@ export default function VisualizationLogic(props) {
             reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
         
         }
+
         else if (visualizationState.gadgetsOn) {
 
         }
