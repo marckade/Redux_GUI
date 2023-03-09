@@ -141,9 +141,9 @@ function AccordionTogglesSvg(props) {
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
-  const [disableGadget, setDisableGadget] = useState(true);
+  const [disableGadget, setDisableGadget] = useState(false);
   const [disableSolution, setDisableSolution] = useState(true);
-  const [disableReduction, setDisableReduction] = useState(true);
+  const [disableReduction, setDisableReduction] = useState(chosenReductionType);
 
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
@@ -173,7 +173,17 @@ function AccordionTogglesSvg(props) {
   }, [problemName, chosenReduceTo]);
 
   useEffect(() => {
-    (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
+
+    if(!chosenReductionType){
+      setDisableReduction(true);
+      setShowReduction(false);
+    }
+    else{setDisableReduction(false);}
+    
+  }, [chosenReductionType])
+
+  useEffect(() => {
+    // (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
    
   }, [showReduction])
 
@@ -211,12 +221,12 @@ function AccordionTogglesSvg(props) {
     setShowReduction(e.target.checked);
 
 
-    if (!e.target.checked) {
-      setDisableGadget(true);
-      //triggerRerender();
-    } else {
-      setDisableGadget(false);
-    }
+    // if (!e.target.checked) {
+    //   setDisableGadget(true);
+    //   //triggerRerender();
+    // } else {
+    //   setDisableGadget(false);
+    // }
 
   }
 

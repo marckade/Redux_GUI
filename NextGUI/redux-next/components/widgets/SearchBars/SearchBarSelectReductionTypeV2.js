@@ -146,7 +146,8 @@ export default function SearchBarSelectReductionTypeV2(props) {
           setReducedInstance(data.reductionTo.instance);
           }).catch((error) => console.log("REDUCTION FAILED, one or more properties was invalid"))
         }
-
+          props.setData(element);
+          setReductionType(element);
           problemJson.push(element);
 
         }
