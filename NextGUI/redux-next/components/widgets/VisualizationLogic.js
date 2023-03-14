@@ -439,8 +439,8 @@ export function requestSolution(url, solver, problemFrom ) {
 export function requestMappedSolution(url, reduction, problemFrom, problemTo, solution ) {
     let parsedFrom = problemFrom.replaceAll('&', '%26');
     let parsedTo = problemTo.replaceAll('&', '%26');
-  
-    return fetch(url + reduction + '/mapSolution?' + "problemFrom=" + parsedFrom + "&problemTo=" + parsedTo + "&problemFromSolution=" + solution).then(resp => {
+    let fullUrl = url + reduction + '/mapSolution?' + "problemFrom=" + parsedFrom + "&problemTo=" + parsedTo + "&problemFromSolution=" + solution
+    return fetch(fullUrl).then(resp => {
       if (resp.ok) {
         return resp.json();
       }
