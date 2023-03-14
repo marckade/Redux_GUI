@@ -155,7 +155,6 @@ export default function SearchBarSelectReduceToV2(props) {
           elementChosen = true;
         }
         if(!elementChosen){
-          console.log("caleb",element)
           props.setData(element);
           setReduceTo(element);
         }
