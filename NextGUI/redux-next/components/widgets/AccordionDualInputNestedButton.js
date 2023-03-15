@@ -96,7 +96,7 @@ function AccordionDualInputNestedButton(props) {
   // This makes it so it's less input from the user but also makes the "Reduce" button effectly useless. 
   useEffect(() => {
     reduceRequest();
-  }, [chosenReductionType]);
+  }, [chosenReductionType, problemInstance]);
   
 
 
