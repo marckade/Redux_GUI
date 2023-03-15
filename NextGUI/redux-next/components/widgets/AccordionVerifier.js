@@ -84,6 +84,7 @@ function AccordionVerifier(props) {
 
   const handleVerify = () => {
     const bool = parseUserInput(verifiedInstance)
+    console.log("caleb", bool, verifiedInstance)
     if (chosenVerifier !== null && chosenVerifier !== '' && bool == true) {
       requestVerifiedInstance(props.accordion.INPUTURL.url, chosenVerifier, problemInstance, verifiedInstance).then(data => {
         setVerifyResult(data);
@@ -105,14 +106,13 @@ function parseUserInput(userInput){
   var validUserInput = false;
   var cleanInput = userInput.replace(new RegExp(/[( )]/g), '')// Strips spaces and ()
   cleanInput = cleanInput.replaceAll(':', '=');
-
-  var regexFormat = /[^,=:!\w]/ // Checks for special characters not including ,=:!
-  
+  var regexFormat = /[^,=:!{}\w]/ // Checks for special characters not including ,=:!{}
   if (regexFormat.test(cleanInput) == true){ // Invalid characters found, warn user.
     return false
   }
 
   else{
+    if(problemName == "SAT" || problemName == "SAT3"){
     var clauses = cleanInput.split(',')
     const regex = /[^!\w]/ // Only allow alphanumber and !
     const notBooleanRegex = /[^true$|^True$|^t$|^T$|^false$|^False$|^F$|^f$]/
@@ -134,7 +134,8 @@ function parseUserInput(userInput){
         validUserInput = true // valid input
       }
     });
-
+  }
+    
      return validUserInput
   }
 
