@@ -135,7 +135,8 @@ function ticked() {
     })
     .attr('dy', function(d) {
         return 5
-    })
+    })    
+    .attr('text-anchor', "middle")
 }
     
 }).catch(error => {return error});
