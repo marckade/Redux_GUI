@@ -10,7 +10,7 @@ import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
 import CliqueSvgReactV2 from "../Visualization/svgs/Clique_SVG_REACT_V2";
 import { tsvFormatValue } from 'd3';
 import Refresh from '@mui/icons-material/Refresh';
-import No_Viz_Svg from '../Visualization/svgs/No_Viz_SVG';
+import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG';
 
 export default function VisualizationLogic(props) {
 
@@ -32,11 +32,13 @@ export default function VisualizationLogic(props) {
 
     //VertexCover 
     if (problemName === "VERTEXCOVER") {
-        requestSolution(props.url,"VertexCoverBruteForce",props.problemInstance).then(data => {
-            setSolution(data)
-        }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"VertexCoverBruteForce",props.problemInstance).then(data => {
+                setSolution(data)
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
 
-        if (visualizationState.solverOn && !visualizationState.reductionOn) {
+        if (visualizationState.solverOn) {
 
             apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution;
             let inlineProblemInstance = "{{a,b},{{a,b}},1}";
@@ -50,7 +52,11 @@ export default function VisualizationLogic(props) {
                     </VertexCoverSvgReact>
                 </Container>
 
-            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
+
+        if (visualizationState.reductionOn){
+            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
+        }
         }
         //No Arcset visualization implemented so no reduced visualizations possible.
 
@@ -63,6 +69,7 @@ export default function VisualizationLogic(props) {
             reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
         
         }
+
         else if (visualizationState.gadgetsOn) {
 
         }
@@ -81,14 +88,18 @@ export default function VisualizationLogic(props) {
 
     //3SAT
     else if (problemName === "SAT3") {
-        requestSolution(props.url,"Sat3BacktrackingSolver",props.problemInstance).then(data => {
-            setSolution(data) 
-        }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"Sat3BacktrackingSolver",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
         if (props.visualizationState.reductionOn) {
             if(reductionName === "CLIQUE"){
-                requestMappedSolution(props.url, "SipserReduceToCliqueStandard", props.problemInstance, props.reducedInstance, solution).then(data => {
-                    setMappedSolution(data);
-                }).catch((error) => console.log("SOLUTION MAPPING REQUEST FAILED"))
+                if(props.url && props.problemInstance && props.reducedInstance && solution){
+                    requestMappedSolution(props.url, "SipserReduceToCliqueStandard", props.problemInstance, props.reducedInstance, solution).then(data => {
+                        setMappedSolution(data);
+                    }).catch((error) => console.log("SOLUTION MAPPING REQUEST FAILED"))
+                }
                 if (!props.visualizationState.solverOn) {
 
                     visualization =
@@ -218,7 +229,7 @@ export default function VisualizationLogic(props) {
                         ></SAT3_SVG_React>
                     </div>
                 
-                reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
                 
 
             }
@@ -245,9 +256,11 @@ export default function VisualizationLogic(props) {
 
         // Clique problem
     } else if (problemName === "CLIQUE") {
-        requestSolution(props.url, "CliqueBruteForce", props.problemInstance).then(data=>{
-            setSolution(data);
-        }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        if(props.url && props.problemInstance){
+            requestSolution(props.url, "CliqueBruteForce", props.problemInstance).then(data=>{
+                setSolution(data);
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
         // Solution is on
         if (visualizationState.solverOn) {
             let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution; // Solved base problem
@@ -262,9 +275,11 @@ export default function VisualizationLogic(props) {
             
             // Both reduction and solutions are on.
             if(reductionName == "VERTEXCOVER"){
-                requestMappedSolution(props.url, "sipserReduceToVC", props.problemInstance, props.reducedInstance, solution).then(data => {
-                    setMappedSolution(data);
-                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
+                if(props.url && props.problemInstance && props.reducedInstance && solution){
+                    requestMappedSolution(props.url, "sipserReduceToVC", props.problemInstance, props.reducedInstance, solution).then(data => {
+                        setMappedSolution(data);
+                    }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
+                }
                 if (visualizationState.reductionOn ){
                     // Solved base problem
                     visualization =
@@ -300,7 +315,7 @@ export default function VisualizationLogic(props) {
                     showSolution={props.visualizationState.solverOn}> 
                 </CliqueSvgReactV2>
                 
-                reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
 
             }
 
@@ -339,7 +354,7 @@ export default function VisualizationLogic(props) {
                             showSolution={props.visualizationState.solverOn}>
                         </CliqueSvgReactV2>
                 
-                    reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                    reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
                 }
             
         }
@@ -414,18 +429,18 @@ export default function VisualizationLogic(props) {
 export function requestSolution(url, solver, problemFrom ) {
     let parsedInstance = problemFrom.replaceAll('&', '%26');
   
-    return fetch(url + solver + '/solve?' + "problemInstance=" + parsedInstance).then(resp => {
-      if (resp.ok) {
-        return resp.json();
-      }
-    }).catch((error) => console.log(error))
+        return fetch(url + solver + '/solve?' + "problemInstance=" + parsedInstance).then(resp => {
+        if (resp.ok) {
+            return resp.json();
+        }
+        }).catch((error) => console.log(error)) 
 }
 
 export function requestMappedSolution(url, reduction, problemFrom, problemTo, solution ) {
     let parsedFrom = problemFrom.replaceAll('&', '%26');
     let parsedTo = problemTo.replaceAll('&', '%26');
-  
-    return fetch(url + reduction + '/mapSolution?' + "problemFrom=" + parsedFrom + "&problemTo=" + parsedTo + "&problemFromSolution=" + solution).then(resp => {
+    let fullUrl = url + reduction + '/mapSolution?' + "problemFrom=" + parsedFrom + "&problemTo=" + parsedTo + "&problemFromSolution=" + solution
+    return fetch(fullUrl).then(resp => {
       if (resp.ok) {
         return resp.json();
       }

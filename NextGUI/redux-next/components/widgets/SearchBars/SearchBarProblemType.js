@@ -39,12 +39,14 @@ export default function SearchBarProblemType(props) {
   }, [])
 
   useEffect(() => {
-    requestVerifierNameMap(props.url, problemName).then(verifierMap => {
-      setVerifierNameMap(verifierMap);
-    })
-    requestSolverNameMap(props.url, problemName).then(solverMap => {
-      setSolverNameMap(solverMap);      
-    })
+    if(props.url && problemName){
+      requestVerifierNameMap(props.url, problemName).then(verifierMap => {
+        setVerifierNameMap(verifierMap);
+      })
+      requestSolverNameMap(props.url, problemName).then(solverMap => {
+        setSolverNameMap(solverMap);      
+      })
+    }
     
   }, [problemName])
 

@@ -146,6 +146,7 @@ function ticked() {
     .attr('dy', function(d) {
         return 5
     })
+    .attr('text-anchor', "middle")
 }
     
 }).catch(error => console.log("VERTEX COVER VISUALIZATION FAILED"));

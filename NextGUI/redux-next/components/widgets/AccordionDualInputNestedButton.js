@@ -92,7 +92,12 @@ function AccordionDualInputNestedButton(props) {
 
   }
 
-
+  // Automatically reduces the instance one the reduction type is chosen. 
+  // This makes it so it's less input from the user but also makes the "Reduce" button effectly useless. 
+  useEffect(() => {
+    reduceRequest();
+  }, [chosenReductionType, problemInstance]);
+  
 
 
   //TOOLTIP LEFT

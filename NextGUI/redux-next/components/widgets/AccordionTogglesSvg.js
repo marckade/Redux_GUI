@@ -15,12 +15,13 @@
 import React from 'react'
 import { useContext, useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { Accordion, Card, AccordionContext, Stack } from 'react-bootstrap'
+import { Accordion, Card, AccordionContext, Stack, OverlayTrigger, Popover } from 'react-bootstrap'
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import PopoverTooltipClick from './PopoverTooltipClick';
 // import FormControl from '../components/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Button, Switch, Container, Grid, getNativeSelectUtilityClasses, touchRippleClasses } from '@mui/material'
+
 // import FormControl from '../components/FormControl'
 // import Page from "../components/widgets/graph";
 import { ProblemContext } from '../contexts/ProblemProvider';
@@ -141,9 +142,9 @@ function AccordionTogglesSvg(props) {
   const [showSolution, setShowSolution] = useState(false);
   const [showGadgets, setShowGadgets] = useState(false);
   const [showReduction, setShowReduction] = useState(false);
-  const [disableGadget, setDisableGadget] = useState(true);
+  const [disableGadget, setDisableGadget] = useState(false);
   const [disableSolution, setDisableSolution] = useState(true);
-  const [disableReduction, setDisableReduction] = useState(true);
+  const [disableReduction, setDisableReduction] = useState(chosenReductionType);
 
   const [problemVisualizationData, setProblemVisualizationData] = useState(defaultSat3VisualizationArr);
   const [reducedVisualizationData, setReducedVisualizationData] = useState(defaultCLIQUEVisualizationArr);
@@ -173,7 +174,17 @@ function AccordionTogglesSvg(props) {
   }, [problemName, chosenReduceTo]);
 
   useEffect(() => {
-    (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
+
+    if(!chosenReductionType){
+      setDisableReduction(true);
+      setShowReduction(false);
+    }
+    else{setDisableReduction(false);}
+    
+  }, [chosenReductionType])
+
+  useEffect(() => {
+    // (showReduction === true) ? setDisableGadget(false) : setDisableGadget(true);
    
   }, [showReduction])
 
@@ -211,12 +222,12 @@ function AccordionTogglesSvg(props) {
     setShowReduction(e.target.checked);
 
 
-    if (!e.target.checked) {
-      setDisableGadget(true);
-      //triggerRerender();
-    } else {
-      setDisableGadget(false);
-    }
+    // if (!e.target.checked) {
+    //   setDisableGadget(true);
+    //   //triggerRerender();
+    // } else {
+    //   setDisableGadget(false);
+    // }
 
   }
 
@@ -282,8 +293,25 @@ function AccordionTogglesSvg(props) {
 
             <Stack className="float-end" direction="horizontal" gap={3}>
               <FormControlLabel disabled={disableSolution ? true : false} checked={showSolution} control={<Switch id={"showSolution"} />} label={props.accordion.SWITCHES.switch1} onChange={handleSwitch1Change} />
-              <FormControlLabel disabled={disableGadget ? true : false} checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />
+              <FormControlLabel disabled={disableGadget ? true : false} checked={showGadgets} control={<Switch id={"highlightGadgets"} />} label={props.accordion.SWITCHES.switch2} onChange={handleSwitch2Change} />         
+            {
+              disableReduction 
+              ?
+                <OverlayTrigger
+                  placement="bottom"
+                  triggers={["hover"]}
+                  overlay={
+                    <Popover id="popover-basic" className="tooltip">
+                        <Popover.Body>
+                          {"Please select a reduction"}
+                      </Popover.Body>
+                    </Popover>}
+                  >
+                    <FormControlLabel disabled={disableReduction ? true : false} checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
+                </OverlayTrigger>
+              :
               <FormControlLabel disabled={disableReduction ? true : false} checked={showReduction} control={<Switch />} label={props.accordion.SWITCHES.switch3} onChange={handleSwitch3Change} />
+            }
 
               <ContextAwareToggle accordionState={accordionOpened} setAccordionState={setAccordionOpened} className="float-end" eventKey="0" colors={props.accordion.THEME.colors} style={{ height: '60px' }}>▼</ContextAwareToggle>
 

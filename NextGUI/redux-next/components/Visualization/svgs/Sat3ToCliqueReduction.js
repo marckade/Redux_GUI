@@ -25,16 +25,36 @@ const positionByDegree = (degree, r, w, h) => {
 
 function getClique(ref, data) {
     try{
-
         // Creating a list of the "known" literals that are true so we can also make it's _2, _3 etc. also also true.
-        var knownSolutions = [];
-        for (var j = 0; j < data.length; j++){
-            if (!data[j].solutionState == '' ){
-                knownSolutions.push(data[j]);
-            }
-        }
+        // Makes a set of strings of the known literals; e.g x1, x3 etc.
 
+        //NOTE: This is now being done in the backend, but I'm leaving if here in case there are future problems.
 
+        // const knownSolutions = new Set();
+        // for (var j = 0; j < data.length; j++){
+        //     if (!data[j].solutionState == '' ){
+        //         const baseName = data[j].name.split('_')[0]
+        //         knownSolutions.add(baseName)
+        //         //knownSolutions.push(data[j]);
+        //     }
+        // }
+
+        // var fullSolutionList = []
+        // // comparing all the literals we know are part of the solution, with all the other literals to make the same literals true as well.
+        // knownSolutions.forEach(cliqueSolution => {
+        //     for (let currentLiteralIndex = 0; currentLiteralIndex < data.length; currentLiteralIndex++){
+        //         //Getting the base name of the literal (stripping the _1, _2 etc.)
+        //         let baseLiteralName = data[currentLiteralIndex].name.split('_')[0]
+        //         if (!baseLiteralName){
+        //             baseLiteralName = data[currentLiteralIndex].name
+        //         }
+        //         // Make that literal true and add it to the list for visulization.
+        //         if (baseLiteralName === cliqueSolution){
+        //             data[currentLiteralIndex].solutionState = "True"
+        //             fullSolutionList.push(data[currentLiteralIndex])
+        //         }
+        //     }
+        // });
         let nodes = [];
         let edges = [];
         let svg = new d3.select(ref).append("svg")

@@ -138,6 +138,7 @@ export default function SearchBarSelectReduceToV2(props) {
     }
 
     // problemJson = [];
+    var elementChosen = false;
     arr.map(function (element, index, array) {
       setNoReductions(false);
       if (!problemJson.includes(element)) {
@@ -145,9 +146,15 @@ export default function SearchBarSelectReduceToV2(props) {
           // stateVal = element;
           props.setData(element);
           setReduceTo(element);
+          elementChosen = true;
         }
         else if(problemName === 'CLIQUE' && element === 'VERTEXCOVER'){
           
+          props.setData(element);
+          setReduceTo(element);
+          elementChosen = true;
+        }
+        if(!elementChosen){
           props.setData(element);
           setReduceTo(element);
         }
