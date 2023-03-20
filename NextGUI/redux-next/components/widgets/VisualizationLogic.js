@@ -10,7 +10,7 @@ import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
 import CliqueSvgReactV2 from "../Visualization/svgs/Clique_SVG_REACT_V2";
 import { tsvFormatValue } from 'd3';
 import Refresh from '@mui/icons-material/Refresh';
-import No_Viz_Svg from '../Visualization/svgs/No_Viz_SVG';
+import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG';
 
 export default function VisualizationLogic(props) {
 
@@ -52,10 +52,10 @@ export default function VisualizationLogic(props) {
                     </VertexCoverSvgReact>
                 </Container>
 
-            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
 
         if (visualizationState.reductionOn){
-            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
         }
         }
         //No Arcset visualization implemented so no reduced visualizations possible.
@@ -229,7 +229,7 @@ export default function VisualizationLogic(props) {
                         ></SAT3_SVG_React>
                     </div>
                 
-                reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
                 
 
             }
@@ -315,7 +315,7 @@ export default function VisualizationLogic(props) {
                     showSolution={props.visualizationState.solverOn}> 
                 </CliqueSvgReactV2>
                 
-                reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
 
             }
 
@@ -354,7 +354,7 @@ export default function VisualizationLogic(props) {
                             showSolution={props.visualizationState.solverOn}>
                         </CliqueSvgReactV2>
                 
-                    reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+                    reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
                 }
             
         }

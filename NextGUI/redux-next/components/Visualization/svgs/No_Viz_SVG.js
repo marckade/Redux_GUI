@@ -11,7 +11,7 @@ import { ProblemContext } from '../../contexts/ProblemProvider';
 import { ProblemParser } from '../../../Tools/ProblemParser';
 
 
-const No_Viz_Svg = () => {
+export const No_Viz_Svg = () => {
     
     const {problemName} = useContext(ProblemContext)
     const problemParser =  new ProblemParser()
@@ -21,7 +21,7 @@ const No_Viz_Svg = () => {
         
         <Box
         >
-            
+
             <Card variant="outlined"
                 sx={{
              bgcolor: 'primary.lGray',
@@ -48,4 +48,39 @@ const No_Viz_Svg = () => {
     )
 }
 
-export default No_Viz_Svg;
+
+
+export const No_Reduction_Viz_Svg = () => {
+    
+    const {chosenReductionType,reductionNameMap} = useContext(ProblemContext)
+    // const problemParser =  new ProblemParser()
+    const niceReductionName = reductionNameMap.get(chosenReductionType)
+    
+    return (
+        
+        <Box>    
+            <Card variant="outlined"
+                sx={{
+                    bgcolor: 'primary.lGray',
+                    boxShadow: 1,
+                    borderRadius: 2,
+                    p: 2,
+                    minWidth: 300
+                }}
+            >
+            <ErrorOutlineIcon fontSize="large"></ErrorOutlineIcon>
+            <Typography 
+                variant="h4" 
+                component="h4" 
+                style={{ 
+                    color: 'black',
+                    fontWeight:'normal',
+                    textAlign: 'center'
+                }} 
+                >The {niceReductionName ?? "chosen reduction"} visualization has not been implemented yet</Typography>
+        </Card>
+    </Box>
+    )
+}
+
+
