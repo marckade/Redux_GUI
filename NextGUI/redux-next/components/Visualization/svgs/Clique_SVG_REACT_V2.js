@@ -141,7 +141,7 @@ function ticked() {
     
 }).catch(error => {return error});
  
-      }, [])
+      }, [apiCall])
       return (
           <svg 
               width={width}
