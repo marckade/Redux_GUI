@@ -5,8 +5,9 @@ import * as d3 from "d3";
 import { useEffect, useMemo, useRef, useState} from "react";
 import VisColors from '../constants/VisColors';
 
-const initDefinitions = (svg) =>
+const initDefinitions = (svg) => {
   svg.append('defs')
+  //default marker
     .append('marker')
     .attr('id','triangle')
     .attr('viewBox','-0 -5 10 10')
@@ -17,10 +18,25 @@ const initDefinitions = (svg) =>
     .attr('markerHeight',7)
     .append('svg:path')
     .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-    .attr('fill', '#aaa')
+    .attr('fill', VisColors.Edges)
+    .style('stroke','none')
+    // solved marker
+  svg.append('defs')
+    .append('marker')
+    .attr('id','solvedTriangle')
+    .attr('viewBox','-0 -5 10 10')
+    .attr('refX',38)
+    .attr('refY',0)
+    .attr('orient','auto')
+    .attr('markerWidth',7)
+    .attr('markerHeight',7)
+    .append('svg:path')
+    .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
+    .attr('fill', VisColors.Solution)
     .style('stroke','none');
+}
 
-function DirectedForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,reduceFromInstance,url,reduceFromData }) {
+function DirectedForceGraph({ w, h, charge,apiCall,solve,reductionType }) {
   const [animatedNodes, setAnimatedNodes] = useState([]);
   const [animatedLinks, setAnimatedLinks] = useState([]);
   const margin = {top: 200, right: 30, bottom: 30, left: 200},
@@ -52,8 +68,22 @@ function DirectedForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceF
       .selectAll("line")
       .data(data.links)
       .join("line")
-      .style("stroke", "#aaa")
-      .attr('marker-end','url(#triangle)')
+      .style("stroke",function (d) {
+        if (d.attribute1 == "True") {
+          return VisColors.Solution //Highlight solutions color: green 
+        }
+        else {
+          return VisColors.Edges // Non-Solution color: grey
+        }
+      })
+      .attr('marker-end',function (d) {
+        if (d.attribute1 == "True") {
+          return "url(#solvedTriangle)" //Highlight solutions color: green 
+        }
+        else {
+          return "url(#triangle)" // Non-Solution color: grey
+        }
+      })
 
 
 
@@ -67,29 +97,25 @@ const node = svg
   .join("circle")
   .attr("class", function (d) {
     let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
-      
+    if(reductionType == "LawlerKarp"){
+      if (dName.slice(-1) == "0" || dName.slice(-1) == "1"){dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+    }
       return "node_" + dName +" gadget";
   })
   .attr("id", function (d) {
     let dName = d.name.replaceAll('!','NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
-      
+    if(reductionType == "LawlerKarp"){
+      if (dName.slice(-1) == "0" || dName.slice(-1) == "1"){dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+    }
       return "_" + dName;
   }) //node prefix added to class name to allow for int names by user.
   .attr("r", 20)
-  .attr("fill", function (d) {
-    //return "#FFC300";
-    //"#00e676"
-      
-    if (d.attribute2 == "True") {
-      return "#00E676" //Highlight solutions color: green 
-    }
-    else {
-      return VisColors.Background // Non-Solution color: grey
-    }
-      
-  })
+  .attr("fill", VisColors.Background)
   .on("mouseover", function (d) {
     let dName = d.target.__data__.name.replaceAll('!','NOT')
+    if(reductionType == "LawlerKarp"){
+      if (dName.slice(-1) == "0" || dName.slice(-1) == "1"){dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+    }
     if (d3.select("#highlightGadgets").property("checked")){ // Mouseover is only on if the toggle switch is on
       d3.selectAll(`#${"_" +dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
       d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.ElementHighlight)
@@ -97,6 +123,9 @@ const node = svg
   })
   .on("mouseout", function (d) {  
     let dName = d.target.__data__.name.replaceAll('!','NOT')
+    if(reductionType == "LawlerKarp"){
+      if (dName.slice(-1) == "0" || dName.slice(-1) == "1"){dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+    }
     if (d3.select("#highlightGadgets").property("checked")) {
       d3.selectAll(`#${"_"+dName}`).attr('fill', VisColors.Background) //FFC300 grey abc
       d3.selectAll(`#${"_" +dName}`).attr('stroke', VisColors.Background)
@@ -210,12 +239,8 @@ export default function ArcSetSvgReact(props) {
       h={700} 
       charge={charge} 
       apiCall={props.apiCall} 
-      problemInstance = {props.instance}
       solve = {props.solveSwitch}
-      reduceFrom = {props.reduceFrom}
-      reduceFromInstance = {props.reduceFromInstance}
-      reduceFromData = {props.reduceFromData}
-      url = {props.url}
+      reductionType={props.reductionType}
       />
     </>
   );

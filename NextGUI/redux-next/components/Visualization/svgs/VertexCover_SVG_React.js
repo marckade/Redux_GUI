@@ -47,7 +47,7 @@ function ForceGraph({ w, h, charge,apiCall,problemInstance,solve,reduceFrom,redu
       .selectAll("line")
       .data(data.links)
       .join("line")
-      .style("stroke", "#aaa")
+      .style("stroke", VisColors.Edges)
 
 
 
@@ -74,7 +74,7 @@ const node = svg
     //"#00e676"
       
     if (d.attribute2 == "True") {
-      return "#00E676" //Highlight solutions color: green 
+      return VisColors.Solution //Highlight solutions color: green 
     }
     else {
       return VisColors.Background // Non-Solution color: grey

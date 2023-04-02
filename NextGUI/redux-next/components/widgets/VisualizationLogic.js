@@ -3,7 +3,7 @@
 
 import Split from 'react-split'
 import { Container } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VertexCoverSvgReact from "../Visualization/svgs/VertexCover_SVG_React";
 import SAT3_SVG_React from "../Visualization/svgs/SAT3_SVG_React";
 import CLIQUE_SVG_REACT from "../Visualization/svgs/CLIQUE_SVG_REACT";
@@ -38,54 +38,53 @@ export default function VisualizationLogic(props) {
                 setSolution(data)
             }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
         }
-
-        if (visualizationState.solverOn) {
-
-            apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution;
-            let inlineProblemInstance = "{{a,b},{{a,b}},1}";
-            
-            visualization = 
-                <Container>
-                    <VertexCoverSvgReact 
-                        apiCall={apiCall} 
+    
+        if(props.visualizationState.reductionOn){
+            let apiCall2
+            if(reductionName === "ARCSET"){
+                if(props.url && props.problemInstance && props.reducedInstance && solution){
+                    requestMappedSolution(props.url, "LawlerKarp", props.problemInstance, props.reducedInstance, solution).then(data => {
+                        setMappedSolution(data);
+                    }).catch((error) => console.log("SOLUTION MAPPING REQUEST FAILED"))
+                }
+                // Solver on
+                if(props.visualizationState.solverOn){
+                    apiCall2 = props.url +"ARCSETGeneric/solvedVisualization?problemInstance="+ props.reducedInstance+ "&solution=" + mappedSolution;
+                }
+                //Solver off
+                else{
+                    apiCall2 = props.url +"ARCSETGeneric/visualize?problemInstance="+ props.reducedInstance;
+                }
+                reducedVisualization = 
+                    <ArcSetSvgReact 
+                        apiCall={apiCall2} 
                         instance={props.reducedInstance}
-                        solveSwitch={props.visualizationState.solverOn}>
-                    </VertexCoverSvgReact>
-                </Container>
-
-            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
-
-        if (visualizationState.reductionOn){
-            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
+                        reductionType={props.reductionType}
+                    ></ArcSetSvgReact>
+                }
+            else{
+                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg> 
+            }
         }
-        }
-        //No Arcset visualization implemented so no reduced visualizations possible.
-
-        else if (!visualizationState.solverOn && visualizationState.reductionOn) {
-            apiCall = props.url +"VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
-            let inlineProblemInstance = "{{a,b},{{a,b}},1}";
-            visualization = 
-                    <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
-            
-            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
         
+        if(props.visualizationState.solverOn){
+            apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution;
         }
-
-        else if (visualizationState.gadgetsOn) {
-
-        }
-            //Neither solver or reduction On
-        else {
+        else{
             apiCall = props.url +"VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
-            let inlineProblemInstance = "{{a,b},{{a,b}},1}";
-            visualization = 
-                    <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
-
         }
+        visualization = 
+            <Container>
+                <VertexCoverSvgReact 
+                    apiCall={apiCall} 
+                    instance={props.problemInstance}
+                    solveSwitch={props.visualizationState.solverOn}>
+                </VertexCoverSvgReact>
+            </Container>
 
-        
     }
-
+    
+    
 
     //3SAT
     else if (problemName === "SAT3") {
@@ -376,8 +375,20 @@ export default function VisualizationLogic(props) {
     }
 
     else if (problemName == "ARCSET"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"ArcSetBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
         
-        apiCall = props.url +"ARCSETGeneric/visualize?problemInstance="+ props.problemInstance;
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"ARCSETGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"ARCSETGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
         visualization = 
             <ArcSetSvgReact 
             apiCall={apiCall} 
