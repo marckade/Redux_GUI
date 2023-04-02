@@ -11,6 +11,7 @@ import CliqueSvgReactV2 from "../Visualization/svgs/Clique_SVG_REACT_V2";
 import { tsvFormatValue } from 'd3';
 import Refresh from '@mui/icons-material/Refresh';
 import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG';
+import ArcSetSvgReact from '../Visualization/svgs/ArcSet_SVG_React';
 
 export default function VisualizationLogic(props) {
 
@@ -66,7 +67,7 @@ export default function VisualizationLogic(props) {
             visualization = 
                     <VertexCoverSvgReact apiCall={apiCall} instance={props.problemInstance}></VertexCoverSvgReact>
             
-            reducedVisualization = <No_Viz_Svg></No_Viz_Svg>
+            reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
         
         }
 
@@ -372,6 +373,18 @@ export default function VisualizationLogic(props) {
                     </CliqueSvgReactV2>
                 </>
         }
+    }
+
+    else if (problemName == "ARCSET"){
+        
+        apiCall = props.url +"ARCSETGeneric/visualize?problemInstance="+ props.problemInstance;
+        visualization = 
+            <ArcSetSvgReact 
+            apiCall={apiCall} 
+            instance={props.problemInstance}
+            ></ArcSetSvgReact>
+
+        
     }
 
     // GUI
