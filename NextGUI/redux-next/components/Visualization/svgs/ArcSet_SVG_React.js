@@ -36,12 +36,14 @@ const initDefinitions = (svg) => {
     .style('stroke','none');
 }
 
-function DirectedForceGraph({ w, h, charge,apiCall,solve,reductionType }) {
+function DirectedForceGraph({ w, h, charge,apiCall,solve,reductionType="" }) {
   const [animatedNodes, setAnimatedNodes] = useState([]);
   const [animatedLinks, setAnimatedLinks] = useState([]);
   const margin = {top: 200, right: 30, bottom: 30, left: 200},
   width = w - margin.left - margin.right,
   height = h - margin.top - margin.bottom;
+
+  if(reductionType.includes("-")) reductionType = reductionType.split("-").at(-1)
   
   let ref = useRef(null);
 

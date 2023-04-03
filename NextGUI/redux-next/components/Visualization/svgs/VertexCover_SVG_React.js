@@ -103,6 +103,7 @@ const text = svg.selectAll("text") //Append Text on top of nodes.
         .append("text")
         .attr("fill", "black")
         .attr("font-size", "12px")
+        .attr('text-anchor', "middle")
         .text(function(d) { return d["name"]; });
 
 // Let's list the force we wanna apply on the network
@@ -146,7 +147,7 @@ function ticked() {
     .attr('dy', function(d) {
         return 5
     })
-    .attr('text-anchor', "middle")
+    
 }
     
 }).catch(error => console.log("VERTEX COVER VISUALIZATION FAILED"));

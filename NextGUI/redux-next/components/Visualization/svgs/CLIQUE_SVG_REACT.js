@@ -133,7 +133,7 @@ function CliqueSvgReact(props) { //props.url, props.reductionName, props.problem
             }).catch((error) => {console.log("CLIQUE_SVG_REACT solver switch off switch faled to fetch data")})
         }
         
-    }, [props.problemInstance,props.solveSwitch])
+    }, [props.problemInstance,props.solveSwitch, props.solutionData])
     getClique(ref.current, jsonData);
     return (
         <svg ref={ref}

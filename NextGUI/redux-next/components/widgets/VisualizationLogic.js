@@ -18,6 +18,7 @@ export default function VisualizationLogic(props) {
     const [solution, setSolution] = useState();
     const [mappedSolution, setMappedSolution] = useState();
     let apiCall = ""
+    let apiCall2 = ""
     let visualization;
     let reducedVisualization;
     let problemName = props.problemName
@@ -54,33 +55,23 @@ export default function VisualizationLogic(props) {
                 //Solver off
                 else{
                     apiCall2 = props.url +"ARCSETGeneric/visualize?problemInstance="+ props.reducedInstance;
-                }
-                reducedVisualization = 
+                }reducedVisualization = 
                     <ArcSetSvgReact 
                         apiCall={apiCall2} 
-                        instance={props.reducedInstance}
                         reductionType={props.reductionType}
                     ></ArcSetSvgReact>
-                }
-            else{
-                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg> 
-            }
+            }else reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg> 
+            
         }
         
         if(props.visualizationState.solverOn){
             apiCall = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution;
-        }
-        else{
+        }else{
             apiCall = props.url +"VERTEXCOVERGeneric/visualize?problemInstance=" + props.problemInstance;
-        }
-        visualization = 
-            <Container>
-                <VertexCoverSvgReact 
-                    apiCall={apiCall} 
-                    instance={props.problemInstance}
-                    solveSwitch={props.visualizationState.solverOn}>
-                </VertexCoverSvgReact>
-            </Container>
+        }visualization = 
+            <VertexCoverSvgReact 
+                apiCall={apiCall}> 
+            </VertexCoverSvgReact>
 
     }
     
@@ -93,285 +84,131 @@ export default function VisualizationLogic(props) {
                 setSolution(data) 
             }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
         }
-        if (props.visualizationState.reductionOn) {
-            if(reductionName === "CLIQUE"){
-                if(props.url && props.problemInstance && props.reducedInstance && solution){
-                    requestMappedSolution(props.url, "SipserReduceToCliqueStandard", props.problemInstance, props.reducedInstance, solution).then(data => {
-                        setMappedSolution(data);
-                    }).catch((error) => console.log("SOLUTION MAPPING REQUEST FAILED"))
-                }
-                if (!props.visualizationState.solverOn) {
-
-                    visualization =
-                        <div>
-                            {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
-                            <SAT3_SVG_React
-                                solutionData={solution}
-                                data={props.problemVisualizationData}
-                                showSolution={props.visualizationState.solverOn}
-                                url={props.url}
-                            ></SAT3_SVG_React>
-                        </div>
-
-                    reducedVisualization =
-                        <>
-                            {/* {"SOLVER OFF SPLIT VIZ CLIQUE"} */}
-
-                            <CLIQUE_SVG_REACT
-                                solutionData={mappedSolution}
-                                data={props.reducedVisualizationData}
-                                url={props.url}
-                                reductionType={reductionType}
-                                problemInstance={props.problemInstance}
-                                solveSwitch={props.visualizationState.solverOn}>
-                            </CLIQUE_SVG_REACT>
-                        </>
-                }
-                else if (reductionName === "CLIQUE" && visualizationState.solverOn) {
-                    visualization =
-                        <div>
-                            {/* {"SOLVER ON SPLIT VIZ SAT"} */}
-                            <SAT3_SVG_React
-                                solutionData={solution}
-                                data={props.problemVisualizationData}
-                                showSolution={props.visualizationState.solverOn}
-                                url={props.url}
-                            ></SAT3_SVG_React>
-                        </div>
-                    //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
-                    reducedVisualization =
-                        <>
-                            <div>
-                                {/* {"SOLVER ON SPLIT VIZ CLIQUE"} */}
-                            </div>
-                            <CLIQUE_SVG_REACT
-                                solutionData={mappedSolution}
-                                data={props.reducedVisualizationData}
-                                url={props.url}
-                                reductionType={reductionType}
-                                problemInstance={props.problemInstance}
-                                solveSwitch={visualizationState.solverOn}
-                            ></CLIQUE_SVG_REACT>
-                        </>
-
-
-                } 
+        // SAT3 -> CLIQUE
+        if(reductionName === "CLIQUE"){
+            if(props.url && props.problemInstance && props.reducedInstance && solution){
+                requestMappedSolution(props.url, "SipserReduceToCliqueStandard", props.problemInstance, props.reducedInstance, solution).then(data => {
+                    setMappedSolution(data);
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
             }
-            //Sat and vertex cover reduction
-            else if (reductionName === "VERTEXCOVER"){
+            reducedVisualization =
+                <CLIQUE_SVG_REACT
+                    solutionData={mappedSolution}
+                    data={props.reducedVisualizationData}
+                    url={props.url}
+                    reductionType={reductionType}
+                    problemInstance={props.problemInstance}
+                    solveSwitch={props.visualizationState.solverOn}>
+                </CLIQUE_SVG_REACT>
+        }
+
+        if(reductionName === "VERTEXCOVER"){
+            if(props.url && props.problemInstance && props.reducedInstance && solution){
                 requestMappedSolutionTransitive(props.url, "SipserReduceToCliqueStandard-sipserReduceToVC", props.problemInstance, solution).then(data => {
                     setMappedSolution(data);
                 }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
-                if(!props.visualizationState.solverOn) {
-
-                    visualization =
-                        <div>
-                            {/* {"SOLVER OFF SPLIT VIZ SAT"} */}
-                            <SAT3_SVG_React
-                                solutionData={solution}
-                                data={props.problemVisualizationData}
-                                solution={solution}
-                                showSolution={props.visualizationState.solverOn}
-                                url={props.url}
-                            ></SAT3_SVG_React>
-                        </div>
-                    let apiCall2 = props.url+"VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
-                    reducedVisualization =
-                        <Container>
-                            <VertexCoverSvgReact 
-                                apiCall={apiCall2}
-                                instance={props.reducedInstance}
-                                solveSwitch={props.visualizationState.solverOn}>
-                            </VertexCoverSvgReact>
-                        </Container>
-                }
-                else if (props.visualizationState.solverOn) {
-                    visualization =
-                        <div>
-                            {/* {"SOLVER ON SPLIT VIZ SAT"} */}
-                            <SAT3_SVG_React
-                                solutionData={solution}
-                                data={props.problemVisualizationData}
-                                // solution={props.problemSolutionData}
-                                showSolution={props.visualizationState.solverOn}
-                                url={props.url}
-                            ></SAT3_SVG_React>
-                        </div>
-                    //Clique props: //props.url, props.reductionName, props.problemInstance, props.solveSwitch
-                    let apiCall2 = props.url+"VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
-                    reducedVisualization =
-                            <VertexCoverSvgReact 
-                                apiCall={apiCall2} 
-                                reduceFrom={problemName}
-                                reduceFromInstance={props.problemInstance}
-                                reduceFromData={props.problemVisualizationData}
-                                instance={props.reducedInstance}
-                                solveSwitch={props.visualizationState.solverOn}
-                                url = {props.url}
-                            >
-                            </VertexCoverSvgReact>
-
-
-                } 
             }
-
-            //Reduction is on but nothing is implemented for it
-            else {
-                visualization =
-                    <div>
-                        {/* {"SOLVER ON SPLIT VIZ SAT"} */}
-                        <SAT3_SVG_React
-                            solutionData={solution}
-                            data={props.problemVisualizationData}
-                            // solution={props.problemSolutionData}
-                            showSolution={props.visualizationState.solverOn}
-                            url={props.url}
-                        ></SAT3_SVG_React>
-                    </div>
-                
-                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
-                
-
+            // Solver on
+            if(props.visualizationState.solverOn){
+                apiCall2 = props.url +"VERTEXCOVERGeneric/solvedVisualization?problemInstance="+ props.reducedInstance+ "&solution=" + mappedSolution;
             }
-
-        }  else {
-
-            visualization =
-                <div>
-
-                    {/* {"SOLVER: " + props.visualizationState.solverOn + " SAT NO SPLIT"} */}
-                    <SAT3_SVG_React 
-                        solutionData={solution}
-                        data={props.problemVisualizationData}
-                        showSolution={props.visualizationState.solverOn}
-                        url={props.url}
-                    >
-                    </SAT3_SVG_React>
-                </div>
+            //Solver off
+            else{
+                apiCall2 = props.url +"VERTEXCOVERGeneric/visualize?problemInstance="+ props.reducedInstance;
+            }reducedVisualization = 
+                <VertexCoverSvgReact 
+                    apiCall={apiCall2} 
+                ></VertexCoverSvgReact>
         }
 
-        /*solverOn = "highlight solution"
-        reductionOn = "Show Reduction"
-        gadgetsOn = "Highlight gadgests"*/
+        if(reductionName === "ARCSET"){
+            console.log("caleb",props.reductionType)
+            if(props.url && props.problemInstance && props.reducedInstance && solution){
+                requestMappedSolutionTransitive(props.url, "SipserReduceToCliqueStandard-sipserReduceToVC-LawlerKarp", props.problemInstance, solution).then(data => {
+                    setMappedSolution(data);
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
+            }
+            console.log("caleb", mappedSolution)
+            // Solver on
+            if(props.visualizationState.solverOn){
+                apiCall2 = props.url +"ARCSETGeneric/solvedVisualization?problemInstance="+ props.reducedInstance+ "&solution=" + mappedSolution;
+            }
+            //Solver off
+            else{
+                apiCall2 = props.url +"ARCSETGeneric/visualize?problemInstance="+ props.reducedInstance;
+            }reducedVisualization = 
+                <ArcSetSvgReact 
+                    apiCall={apiCall2} 
+                    reductionType={props.reductionType}
+                ></ArcSetSvgReact>
+        }
+        
+        visualization = 
+            <SAT3_SVG_React 
+                solutionData={solution}
+                data={props.problemVisualizationData}
+                showSolution={props.visualizationState.solverOn}
+                url={props.url}
+            ></SAT3_SVG_React>        
+    }
 
-        // Clique problem
-    } else if (problemName === "CLIQUE") {
+    
+    // Clique problem
+    else if (problemName === "CLIQUE") {
         if(props.url && props.problemInstance){
             requestSolution(props.url, "CliqueBruteForce", props.problemInstance).then(data=>{
                 setSolution(data);
             }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
         }
-        // Solution is on
-        if (visualizationState.solverOn) {
-            let apiCall1 = props.url+"CLIQUEGeneric/solvedVisualization?problemInstance=" + props.problemInstance + "&solution=" + solution; // Solved base problem
-            visualization =
-            <Container>
-                <CliqueSvgReactV2 
-                    apiCall={apiCall1}
-                    instance={props.problemInstance}
-                    showSolution={props.visualizationState.solverOn}>
-                </CliqueSvgReactV2>
-            </Container>
-            
-            // Both reduction and solutions are on.
-            if(reductionName == "VERTEXCOVER"){
-                if(props.url && props.problemInstance && props.reducedInstance && solution){
-                    requestMappedSolution(props.url, "sipserReduceToVC", props.problemInstance, props.reducedInstance, solution).then(data => {
-                        setMappedSolution(data);
-                    }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
-                }
-                if (visualizationState.reductionOn ){
-                    // Solved base problem
-                    visualization =
-                    <Container>
-                    <CliqueSvgReactV2 
-                        apiCall={apiCall1}
-                        instance={props.problemInstance}
-                        showSolution={props.visualizationState.solverOn}>
-                    </CliqueSvgReactV2>
-                    </Container>
-
-                    //Unsolved reduction (Should be solved when we make a solution.)
-                    let apiCall2 = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
-                    reducedVisualization =
-                        
-                        <VertexCoverSvgReact 
-                            apiCall={apiCall2} 
-                            instance={props.reducedInstance}
-                            solveSwitch={props.visualizationState.solverOn}>
-                        </VertexCoverSvgReact>   
-                }
+        // CLIQUE -> VERTEXCOVER
+        if(reductionName === "VERTEXCOVER"){
+            if(props.url && props.problemInstance && props.reducedInstance && solution){
+                requestMappedSolution(props.url, "sipserReduceToVC", props.problemInstance, props.reducedInstance, solution).then(data => {
+                    setMappedSolution(data);
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
             }
-
-            //reduction is on, solution is on, reduction is not Vertexcover so no visualization
-            else if(visualization.reductionOn && reductionName !="VERTEXCOVER") {
-                
-
-
-                visualization =
-                <CliqueSvgReactV2 
-                    apiCall={apiCall1} 
-                    instance={props.problemInstance}
-                    showSolution={props.visualizationState.solverOn}> 
-                </CliqueSvgReactV2>
-                
-                reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
-
+            if(props.visualizationState.solverOn){
+                apiCall2 = props.url + "VERTEXCOVERGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
+            }else{
+                apiCall2 = props.url + "VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
             }
-
+            reducedVisualization = 
+                <VertexCoverSvgReact 
+                    apiCall={apiCall2}>
+                </VertexCoverSvgReact> 
         }
-
-        // Reduction is on and the solution is OFF
-        else if (visualizationState.reductionOn && !visualizationState.solverOn) {
-            let apiCall1 = props.url + "CLIQUEGeneric/visualize?problemInstance=" + props.problemInstance; // Unsolved base problem
-
-            if (reductionName === "VERTEXCOVER") {
-                visualization =
-                    <CliqueSvgReactV2
-                        apiCall={apiCall1}
-                        instance={props.problemInstance}
-                        showSolution={props.visualizationState.solverOn}>
-                    </CliqueSvgReactV2>
-
-                // Unsolved reduction
-                let apiCall2 = props.url + "VERTEXCOVERGeneric/visualize?problemInstance=" + props.reducedInstance;
-                reducedVisualization =
-                    <Container>
-                        <VertexCoverSvgReact
-                            apiCall={apiCall2}
-                            instance={props.reducedInstance}
-                            solveSwitch={props.visualizationState.solverOn}>
-                        </VertexCoverSvgReact>
-                    </Container>
+        // CLIQUE -> ARCSET
+        else if(reductionName === "ARCSET"){
+            if(props.url && props.problemInstance && props.reducedInstance && solution){
+                requestMappedSolutionTransitive(props.url, "sipserReduceToVC-LawlerKarp", props.problemInstance, solution).then(data => {
+                    setMappedSolution(data);
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
             }
-            
-            //reduction is on, solver is off, not a vcover reduction then no viz found
-            else {
-                    visualization =
-                        <CliqueSvgReactV2
-                            apiCall={apiCall1}
-                            instance={props.problemInstance}
-                            showSolution={props.visualizationState.solverOn}>
-                        </CliqueSvgReactV2>
-                
-                    reducedVisualization = <No_Reduction_Viz_Svg></No_Reduction_Viz_Svg>
-                }
-            
+            if(props.visualizationState.solverOn){
+                apiCall2 = props.url + "ARCSETGeneric/solvedVisualization?problemInstance=" + props.reducedInstance + "&solution=" + mappedSolution;
+            }else{
+                apiCall2 = props.url + "ARCSETGeneric/visualize?problemInstance=" + props.reducedInstance;
+            }
+            reducedVisualization = 
+                <ArcSetSvgReact 
+                    apiCall={apiCall2}
+                    reductionType={props.reductionType}
+                    >
+                </ArcSetSvgReact> 
         }
-        
-        else if (visualizationState.gadgetsOn) {}
-        // Nothing is selected
-        else {
-            apiCall = props.url+"CLIQUEGeneric/visualize?problemInstance=" + props.problemInstance;
-            visualization =
-                <>
-                    {/* {"CLIQUE V2 Viz"} */}
-                    <CliqueSvgReactV2 
-                        apiCall={apiCall} 
-                        instance={props.problemInstance}> 
-                    </CliqueSvgReactV2>
-                </>
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"CLIQUEGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
         }
+        //solution off
+        else{
+            apiCall = props.url +"CLIQUEGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <CliqueSvgReactV2 
+                apiCall={apiCall} 
+            ></CliqueSvgReactV2>
+
     }
 
     else if (problemName == "ARCSET"){
@@ -391,8 +228,8 @@ export default function VisualizationLogic(props) {
         }
         visualization = 
             <ArcSetSvgReact 
-            apiCall={apiCall} 
-            instance={props.problemInstance}
+                apiCall={apiCall} 
+                instance={props.problemInstance}
             ></ArcSetSvgReact>
 
         
