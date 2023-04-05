@@ -101,14 +101,14 @@ function HomePage() {
   return (
     
     <>
-    <ThemeProvider theme = {theme}>
+    {/* <ThemeProvider theme = {theme}>
         <ResponsiveAppBar></ResponsiveAppBar>
         <>
           
         <Box>
             <No_Viz_Svg></No_Viz_Svg>
             
-          </Box>
+          </Box> */}
 
 
               {/* <Split
@@ -129,9 +129,9 @@ function HomePage() {
             </Box>
             
                 </Split>  */}
-        </>
+        {/* </> */}
         
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
     </>
   )
 }
