@@ -68,8 +68,7 @@ a {
 }
 
 .gutter {
-  background-color: black;
-
+  background-color: #ebebeb;
   background-repeat: no-repeat;
   background-position: 50%; 
 }

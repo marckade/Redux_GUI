@@ -3,7 +3,8 @@ const VisColors = {
     ClauseHighlight : "#989898",
     Background : "#abc",
     Solution : "#00e676",
-    SolutionAlt : "#E600E3"
+    SolutionAlt : "#E600E3",
+    Edges : "#aaa"
 }
 
 export default VisColors;

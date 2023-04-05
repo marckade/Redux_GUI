@@ -25,6 +25,7 @@ const positionByDegree = (degree, r, w, h) => {
 
 function getClique(ref, data) {
     try{
+        d3.select(ref.current).selectChildren().remove();
         // Creating a list of the "known" literals that are true so we can also make it's _2, _3 etc. also also true.
         // Makes a set of strings of the known literals; e.g x1, x3 etc.
 
@@ -111,7 +112,6 @@ function getClique(ref, data) {
 
             nodes.forEach(node => node.show());
 
-            d3.select(ref).selectChildren()._groups[0]?.slice(1).map((child) => d3.select(child).remove())
         }
         catch (error) {console.log("SAT3ToCliqueReuction Data Sort Error, BAD DATA")}
     } catch (error) {console.log("NO VISUALIZATION DATA")}
@@ -171,16 +171,9 @@ class node {
             .attr("cx", this.x)
             .attr("cy", this.y)
             .attr("r", this.size)
-            .attr("stroke", "black")
-            .attr("stroke-width", "3px")
-        this.svg.append("circle")
-            .attr("cx", this.x)
-            .attr("cy", this.y)
-            .attr("r", this.size)
-            .attr("class", "c_" + this.cluster + " " + "gadget")
+            .attr("class", "c_" + this.cluster + " " + "gadget" + " " + "cliqueNode")
             .attr("id", this.id)
             .attr("fill", this.color)
-            .attr("stroke", "black")
             .on("mouseover", function () {
                 showCluster(c);
                 showElement(e);
@@ -191,10 +184,9 @@ class node {
         this.svg.append("text")
             .attr("x", this.x)
             .attr("y", this.y)
-            .attr("stroke", "black")
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("font-size", 1 / 1.5 * this.size + "px")
+            .attr("font-size", 1 / 1.7 * this.size + "px")
             .text(this.name)
             .on("mouseover", function () {
                 showCluster(c);
@@ -236,7 +228,7 @@ class edge {
         this.B = B;
         svg.append("path")
             .attr("d", ("M " + A.X() + " " + A.Y()) + (" L " + B.X() + " " + B.Y()))
-            .attr("stroke", "black")
+            .attr("stroke", VisColors.Edges)
     }
 }
 

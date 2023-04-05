@@ -8,14 +8,13 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { ProblemContext } from '../../contexts/ProblemProvider';
-import { ProblemParser } from '../../../Tools/ProblemParser';
 
 
 export const No_Viz_Svg = () => {
     
-    const {problemName} = useContext(ProblemContext)
-    const problemParser =  new ProblemParser()
-    const niceProblemName = problemParser.getWikiName(problemName)
+    const {problemName, problemNameMap} = useContext(ProblemContext)
+    const niceProblemName = problemNameMap.get(problemName)
+
     
     return (
         
@@ -53,7 +52,6 @@ export const No_Viz_Svg = () => {
 export const No_Reduction_Viz_Svg = () => {
     
     const {chosenReductionType,reductionNameMap} = useContext(ProblemContext)
-    // const problemParser =  new ProblemParser()
     const niceReductionName = reductionNameMap.get(chosenReductionType)
     
     return (
