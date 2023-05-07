@@ -2,6 +2,7 @@
 
 
 import Split from 'react-split'
+import { useState } from 'react';
 import { Container } from '@mui/material';
 import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG';
 import Visualizations from '../Visualization/svgs/Visualizations.js'
