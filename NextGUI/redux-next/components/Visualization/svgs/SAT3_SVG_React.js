@@ -14,8 +14,9 @@ function getProblemSolutionData(url, solver, instance) {
       }
     });
 }
-function getNormalProblemData(url, problemName, instance) {
-  var fullUrl = `${url}${problemName}Generic/instance?problemInstance=${instance}`;
+function getProblemVisualizationData(url, name, instance) {
+  let apiCompatibleInstance = instance.replaceAll('&', "%26");
+  var fullUrl = `${url}${name}Generic/instance?problemInstance=${apiCompatibleInstance}`;
   return fetch(fullUrl).then(resp => {
     if (resp.ok) {
       return resp.json()
@@ -28,9 +29,12 @@ function Sat3SvgReact(props) {
     const {problemInstance} = useContext(ProblemContext);
     const defaultSolution = ["x1"];
     const [solutionData, setSolutionData] = useState([]);
+    const [data, setData] = useState('hello');
     useEffect(() => {
       try{
-        getSat3(ref.current, props.data);
+        getProblemVisualizationData(props.url,"SAT3", problemInstance).then(d => {
+          getSat3(ref.current, d.clauses);        })
+        
         if(props.showSolution){
             // let solutionData = getProblemSolution(props.url, "Sat3BacktrackingSolver", problemInstance.replaceAll('&', "%26"));
             let apiCompatibleInstance = problemInstance.replaceAll('&', "%26");

@@ -121,7 +121,7 @@ class literal{
         this.svg.append("rect")
             .attr("x", this.x)
             .attr("y", this.y-this.size/2)
-            .attr("fill", "white")
+            .attr("fill", VisColors.Background)
             .attr("height", this.size)
             .attr("width", this.size*this.name.length-7)//subtracting 7 since the stroke length is 7.
             .attr("id", this.id)
@@ -211,7 +211,8 @@ class clause{
         this.svg.append("rect")
             .attr("x", this.x)
             .attr("y", this.y-this.size)
-            .attr("fill", "white")
+            .attr("fill", VisColors.Background)
+            .attr("stroke", VisColors.Background)
             .attr("height", this.size*2)
             .attr("width", this.width)
             .attr("class", "c_"+this.className+" gadget")
