@@ -13,6 +13,7 @@ import Refresh from '@mui/icons-material/Refresh';
 import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG';
 import ArcSetSvgReact from '../Visualization/svgs/ArcSet_SVG_React';
 import Visualizations from '../Visualization/svgs/Visualizations.js'
+import CutSvgReact from '../Visualization/svgs/Cut_SVG_REACT';
 
 export default function VisualizationLogic(props) {
 
@@ -210,6 +211,33 @@ export default function VisualizationLogic(props) {
 
     }
 
+    //Cut
+
+    else if (problemName == "CUT"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"CutBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"CUTGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"CUTGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <CutSvgReact 
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></CutSvgReact>
+
+        
+    }
+    
+    // Arc Set Problem
     else if (problemName == "ARCSET"){
         if(props.url && props.problemInstance){
             requestSolution(props.url,"ArcSetBruteForce",props.problemInstance).then(data => {
@@ -233,6 +261,7 @@ export default function VisualizationLogic(props) {
 
         
     }
+
 
     // GUI
 

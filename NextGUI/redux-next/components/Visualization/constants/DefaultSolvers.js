@@ -4,7 +4,8 @@ const defaultSolvers = new Map([
     ["SAT3", "Sat3BacktrackingSolver"],
     ["CLIQUE", "CliqueBruteForce"],
     ["VERTEXCOVER", "VertexCoverBruteForce"],
-    ["ARCSET", "ArcSetBruteForce"]
+    ["ARCSET", "ArcSetBruteForce"],
+    ["CUT","CutBruteForce"]
 ])
 
 export default defaultSolvers;
