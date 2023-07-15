@@ -2,6 +2,7 @@ import SAT3_SVG_React from "./SAT3_SVG_React";
 import CliqueSvgReactV2 from "./Clique_SVG_REACT_V2";
 import VertexCoverSvgReact from "./VertexCover_SVG_React";
 import ArcSetSvgReact from "./ArcSet_SVG_React";
+import CutSvgReact  from "./Cut_SVG_REACT";
 
 const Visualizations = new Map([
     ["SAT3" , (solve, url, problemInstance, solution) => {
@@ -13,8 +14,7 @@ const Visualizations = new Map([
                 url={url}
             ></SAT3_SVG_React>  
         )
-        }
-    ],
+    }],
     ["CLIQUE", (solve, url, problemInstance, solution)=>{
         let apiCall = createAPICall("ClIQUE", solve, url, problemInstance, solution)
         return(
@@ -37,6 +37,14 @@ const Visualizations = new Map([
             <ArcSetSvgReact 
                 apiCall={apiCall} 
             ></ArcSetSvgReact>
+        )
+    }],
+    ["CUT", (solve, url, problemInstance, solution)=>{
+        let apiCall = createAPICall("CUT", solve, url, problemInstance, solution)
+        return(
+            <CutSvgReact 
+                apiCall={apiCall} 
+            ></CutSvgReact>
         )
     }],
 ])
