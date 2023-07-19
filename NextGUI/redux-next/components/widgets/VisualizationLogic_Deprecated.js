@@ -14,6 +14,8 @@ import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG
 import ArcSetSvgReact from '../Visualization/svgs/ArcSet_SVG_React';
 import Visualizations from '../Visualization/svgs/Visualizations.js'
 import CutSvgReact from '../Visualization/svgs/Cut_SVG_REACT';
+import CliqueCoverSvgReact from '../Visualization/svgs/CliqueCover_SVG_REACT';
+import GraphColoringSvgReact from '../Visualization/svgs/GraphColoring_SVG_REACT';
 
 export default function VisualizationLogic(props) {
 
@@ -233,6 +235,58 @@ export default function VisualizationLogic(props) {
                 apiCall={apiCall} 
                 instance={props.problemInstance}
             ></CutSvgReact>
+
+        
+    }
+
+    //Clique Cover
+
+    else if (problemName == "CLIQUECOVER"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"CliqueCoverBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"CLIQUECOVERGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"CLIQUECOVERGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <CliqueCoverSvgReact 
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></CliqueCoverSvgReact>
+
+        
+    }
+
+    //Graph Coloring
+
+    else if (problemName == "GRAPHCOLORING"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"DanielBrelazSolver",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"GRAPHCOLORINGGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"GRAPHCOLORINGGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <GraphColoringSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></GraphColoringSvgReact>
 
         
     }

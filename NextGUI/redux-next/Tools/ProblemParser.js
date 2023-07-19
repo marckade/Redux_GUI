@@ -10,7 +10,9 @@ wikiName.set('sat3', '3SAT');
 wikiName.set('sat', 'SAT');
 wikiName.set('arcset', 'Feedback arc set problem');
 wikiName.set('clique', 'Clique');
+wikiName.set('cliquecover', 'Clique Cover');
 wikiName.set('cut', 'Cut');
+wikiName.set('setcover','Set Cover');
 wikiName.set('subsetsum', 'Subset sum');
 wikiName.set('dm3', '3-dimensional matching');
 wikiName.set('knapsack', 'Knapsack');
@@ -18,10 +20,9 @@ wikiName.set('partition', 'Partition');
 wikiName.set('tsp', 'Traveling Salesperson Problem');
 wikiName.set('intprogramming01', '0–1 integer programming');
 // wikiName.set('VERTEXCOVER','Vertex cover');
-wikiName.set('graphcoloring', 'Graph Coloring');
+wikiName.set('graphcoloring', 'Graph Coloring')
 wikiName.set('exactcover', 'Exact cover')
 wikiName.set('vertexcover', 'Vertex cover')
-
 
 
 

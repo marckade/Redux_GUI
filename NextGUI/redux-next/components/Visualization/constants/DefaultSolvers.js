@@ -5,7 +5,9 @@ const defaultSolvers = new Map([
     ["CLIQUE", "CliqueBruteForce"],
     ["VERTEXCOVER", "VertexCoverBruteForce"],
     ["ARCSET", "ArcSetBruteForce"],
-    ["CUT","CutBruteForce"]
+    ["CUT","CutBruteForce"],
+    ["CLIQUECOVER","CliqueCoverBruteForce"],
+    ["GRAPHCOLORING","DanielBrelazSolver"],
 ])
 
 export default defaultSolvers;
