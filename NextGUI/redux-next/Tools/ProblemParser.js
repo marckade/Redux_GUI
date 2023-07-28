@@ -13,6 +13,7 @@ wikiName.set('clique', 'Clique');
 wikiName.set('cliquecover', 'Clique Cover');
 wikiName.set('cut', 'Cut');
 wikiName.set('setcover','Set Cover');
+wikiName.set('hamiltonian','Hamiltonian');
 wikiName.set('subsetsum', 'Subset sum');
 wikiName.set('dm3', '3-dimensional matching');
 wikiName.set('knapsack', 'Knapsack');

@@ -16,6 +16,7 @@ import Visualizations from '../Visualization/svgs/Visualizations.js'
 import CutSvgReact from '../Visualization/svgs/Cut_SVG_REACT';
 import CliqueCoverSvgReact from '../Visualization/svgs/CliqueCover_SVG_REACT';
 import GraphColoringSvgReact from '../Visualization/svgs/GraphColoring_SVG_REACT';
+import HamiltonianSvgReact from '../Visualization/svgs/Hamiltonian_SVG_REACT';
 
 export default function VisualizationLogic(props) {
 
@@ -287,6 +288,32 @@ export default function VisualizationLogic(props) {
                 apiCall={apiCall} 
                 instance={props.problemInstance}
             ></GraphColoringSvgReact>
+
+        
+    }
+
+    //Hamiltonian
+
+    else if (problemName == "HAMILTONIAN"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"HamiltonianBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"HAMILTONIANGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"HAMILTONIANGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <HamiltonianSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></HamiltonianSvgReact>
 
         
     }

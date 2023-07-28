@@ -1,20 +1,23 @@
-import { Container } from "@mui/material";
+//This is a react compatible vertexcover visualization built in d3.
+
+
 import * as d3 from "d3";
-import { text } from "d3";
 import { useEffect, useMemo, useRef, useState } from "react";
 import VisColors from '../constants/VisColors';
 
 
-function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
-
-
+function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }) {
+    const [animatedNodes, setAnimatedNodes] = useState([]);
+    const [animatedLinks, setAnimatedLinks] = useState([]);
     const margin = { top: 200, right: 30, bottom: 30, left: 200 },
         width = w - margin.left - margin.right,
         height = h - margin.top - margin.bottom;
 
-    const ref = useRef(null);
-    // re-create animation every time nodes change
+    if (reductionType.includes("-")) reductionType = reductionType.split("-").at(-1)
 
+    let ref = useRef(null);
+
+    // re-create animation every time nodes change
     useEffect(() => {
         d3.select(ref.current).selectChildren().remove();
 
@@ -27,21 +30,36 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
             .attr("viewBox", "0 0 600 400")
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
         const problemUrl = apiCall;
         d3.json(problemUrl).then(function (data) {
-
             // Initialize the links
             const link = svg
                 .selectAll("line")
                 .data(data.links)
                 .join("line")
-                .join("line")
-                    .style("stroke", "#aaa")
-                    
+                .style("stroke", function (d) {
+                    if (d.attribute1 == "True") {
+                        // Add fading effect for the link transitioning from grey to green
+                        d3.select(this)
+                            .transition()
+                            .delay(d.attribute2)
+                            .duration(1000)
+                            .style("stroke", VisColors.Solution)
+                            .attr("stroke-width", 2); // Set the stroke-width to 2px
+                        return VisColors.Background; // Return the original color to prevent instant color change
+                    } else {
+                        return VisColors.Background;
+                    }
+                })
+                .attr("stroke-width", 1);
+
+
 
 
 
             // Initialize the nodes
+            // Here is where the color editing is for the Reduction side of the graph.
 
             const node = svg
                 .selectAll("circle")
@@ -49,55 +67,48 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
                 .join("circle")
                 .attr("class", function (d) {
                     let dName = d.name.replaceAll('!', 'NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
-
-                    return "node_" + dName;
-                }) //node prefix added to class name to allow for int names by user.
+                    if (reductionType == "LawlerKarp") {
+                        if (dName.slice(-1) == "0" || dName.slice(-1) == "1") { dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+                    }
+                    return "node_" + dName + " gadget";
+                })
                 .attr("id", function (d) {
                     let dName = d.name.replaceAll('!', 'NOT'); //ALEX NOTE: This is a bandaid that lets the sat3 reduction work.
-
+                    if (reductionType == "LawlerKarp") {
+                        if (dName.slice(-1) == "0" || dName.slice(-1) == "1") { dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+                    }
                     return "_" + dName;
-                })
+                }) //node prefix added to class name to allow for int names by user.
                 .attr("r", 20)
                 .attr("fill", function (d) {
-                    //return "#FFC300";
-                    //"#00e676"
-                    if (d.attribute2 == "1") {
-                        return "#00B8FF" //Highlight solutions color: green 
-                    }
-                    else if (d.attribute2 == "2") {
-                        return "#FF4A3D" // Highlight solutions color
-                    }
-                    else if (d.attribute2 == "3") {
-                        return "#FF8BB0" // Highlight solutions color 
-                    }
-                    else if (d.attribute2 == "4") {
-                        return "#4D8273" // Highlight solutions color
-                    }
-                    else if (d.attribute2 == "5") {
-                        return "#FF8247" // Highlight solutions color 
-                    }
-                    else if (d.attribute2 == "6") {
-                        return "#615C4B" // Highlight solutions color
-                    }
-                    else if (d.attribute2 == "7") {
-                        return "#174257" // Highlight solutions color
-                    }
-                    else if (d.attribute2 == "0") {
-                        return VisColors.Solution // Highlight solutions color
+                    if (d.attribute2 == "True") {
+                        // Add fading effect for the node transitioning from grey to green
+                        d3.select(this)
+                            .transition()
+                            .delay(d.attribute3)
+                            .duration(1000)
+                            .attr("fill", VisColors.Solution)
+                        return VisColors.Background; // Return the original color to prevent instant color change
                     } else {
-                        return VisColors.Background
+                        return VisColors.Background;
                     }
 
                 })
                 .on("mouseover", function (d) {
                     let dName = d.target.__data__.name.replaceAll('!', 'NOT')
-                    if (d3.select("#highlightGadgets").property("checked")) {  // Mouseover is only on if the toggle switch is on
+                    if (reductionType == "LawlerKarp") {
+                        if (dName.slice(-1) == "0" || dName.slice(-1) == "1") { dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+                    }
+                    if (d3.select("#highlightGadgets").property("checked")) { // Mouseover is only on if the toggle switch is on
                         d3.selectAll(`#${"_" + dName}`).attr('fill', VisColors.ElementHighlight) //note node prefix, color orange
                         d3.selectAll(`#${"_" + dName}`).attr('stroke', VisColors.ElementHighlight)
                     }
                 })
                 .on("mouseout", function (d) {
                     let dName = d.target.__data__.name.replaceAll('!', 'NOT')
+                    if (reductionType == "LawlerKarp") {
+                        if (dName.slice(-1) == "0" || dName.slice(-1) == "1") { dName = dName.substring(0, dName.length - 1) }//Makes gadget groupings match
+                    }
                     if (d3.select("#highlightGadgets").property("checked")) {
                         d3.selectAll(`#${"_" + dName}`).attr('fill', VisColors.Background) //FFC300 grey abc
                         d3.selectAll(`#${"_" + dName}`).attr('stroke', VisColors.Background)
@@ -111,20 +122,18 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
                 .append("text")
                 .attr("fill", "black")
                 .attr("font-size", "12px")
-                .attr('text-anchor', "middle")
                 .text(function (d) { return d["name"]; });
 
             // Let's list the force we wanna apply on the network
             const simulation = d3.forceSimulation(data.nodes)                 // Force algorithm is applied to data.nodes
-                .force("link", d3.forceLink(data.links).distance(charge * -0.75)                               // This force provides links between nodes
+                .force("link", d3.forceLink().distance(charge * -1.5)                               // This force provides links between nodes
                     .id(function (d) { return d.name; })                     // This provide  the id of a node
                     .links(data.links)                                    // and this the list of links
                 )
-                .force("charge", d3.forceManyBody().strength(charge * 4))
-                // This adds repulsion between nodes. Play with the charge for the repulsion strength
+                .force("charge", d3.forceManyBody().strength(charge * 8)) // This adds repulsion between nodes 
                 .force("x", d3.forceX()) //centers disconnected subgraphs
                 .force("y", d3.forceY())
-                .force("collide", d3.forceCollide().radius(d => d.r + 1).iterations(10))
+                .force("collide", d3.forceCollide().radius(d => d.r * 2).iterations(10)) //collision detection
                 .on("tick", ticked);
 
 
@@ -141,7 +150,7 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
                 node
                     .attr("cx", function (d) { return d.x; })
                     .attr("cy", function (d) { return d.y; })
-                    .attr("searchId", function (d) { return "node_" + d.name.replaceAll('!', 'NOT'); });
+                    .attr("searchId", function (d) { return d.name; });
 
                 text
                     .text(function (d) {
@@ -156,11 +165,12 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
                     .attr('dy', function (d) {
                         return 5
                     })
+                    .attr('text-anchor', "middle")
             }
 
-        }).catch(error => { return error });
+        }).catch(error => console.log("CUT VISUALIZATION FAILED"));
 
-    }, [apiCall])
+    }, [solve, apiCall])
     return (
         <svg
             width={width}
@@ -179,11 +189,25 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
 }
 
 
-export default function GraphColoringSvgReact(props) {
-    const [charge, setCharge] = useState(-150);
+export default function HamiltonianSvgReact(props) {
+    const [charge, setCharge] = useState(-50);
+
+    // create nodes with unique ids
+    // radius: 5px
+    const nodes = [
+        { "id": "Alice" },
+        { "id": "Bob" },
+        { "id": "Carol" }
+    ];
+
+    const links = [
+        { "source": "Alice", "target": "Bob" },
+        { "source": "Bob", "target": "Carol" }
+    ];
+
 
     return (
-        <Container>
+        <>
 
             {/* <input
         type="range"
@@ -193,8 +217,15 @@ export default function GraphColoringSvgReact(props) {
         value={charge}
         onChange={(e) => setCharge(e.target.value)}
       /> */}
-            <ForceGraph w={700} h={700} charge={charge} apiCall={props.apiCall} problemInstance={props.instance} />
-        </Container>
+            <DirectedForceGraph
+                w={700}
+                h={700}
+                charge={charge}
+                apiCall={props.apiCall}
+                solve={props.solveSwitch}
+                reductionType={props.reductionType}
+            />
+        </>
     );
 }
 

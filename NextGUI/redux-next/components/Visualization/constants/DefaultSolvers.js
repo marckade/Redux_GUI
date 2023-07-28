@@ -8,6 +8,7 @@ const defaultSolvers = new Map([
     ["CUT","CutBruteForce"],
     ["CLIQUECOVER","CliqueCoverBruteForce"],
     ["GRAPHCOLORING","DanielBrelazSolver"],
+    ["HAMILTONIAN","HamiltonianBruteForce"],
 ])
 
 export default defaultSolvers;
