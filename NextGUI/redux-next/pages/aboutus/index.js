@@ -5,7 +5,6 @@ import { Container, Box } from '@mui/material'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Card } from "react-bootstrap";
 import isulogo from "../../components/images/ISULogo.png"
-import karpTree from "../../components/images/karpReductionTree.png"
 import Image from "next/image";
 
 export default function AboutUsPage() {
@@ -47,7 +46,7 @@ export default function AboutUsPage() {
                             <b>{"Contributors"}</b>
                         </Card.Header>
                         <Card.Body style={cardBodyStyle}>
-                            <p>This project was started by Dr. Paul Bodily, who is also the ISU Faculty Sponsor of the project. The students who have contributed to the creation of the application are:</p>
+                            <p>This project was started by Dr.<a href="https://www2.cose.isu.edu/~bodipaul/index.php" target="_blank" rel="noopener noreferrer">Paul Bodily</a>, who is also the ISU Faculty Sponsor of the project. The students who have contributed to the creation of the application are:</p>
                             <ul style={{ listStyle: "none", textAlign: "left", paddingLeft: "20px" }}>
                                 <li>Kaden Marchetti</li>
                                 <li>Caleb Eardley</li>
@@ -94,15 +93,6 @@ export default function AboutUsPage() {
 
                         </Card.Body>
                     </Card>
-                    <br></br>
-                    <Card>
-                        <Card.Header>
-                            <b>{"Karp's Reducibility Tree"}</b>
-                        </Card.Header>
-                        <Card.Body style={{ textAlign: 'center' }}>
-                            <Image src={karpTree} style={{ width: '100%' }} alt="Karp's Reducibility Tree" />
-                        </Card.Body>
-                    </Card>
                 </Container>
             </ThemeProvider>
             <Box
@@ -114,7 +104,9 @@ export default function AboutUsPage() {
             // marginTop={'25%'}
             //Tried to push the logo down with the margin
             >
-                <Image src={isulogo} height={125} width={500} ></Image>
+                <a href="https://www.isu.edu/cs/" target="_blank" rel="noopener noreferrer">
+                    <Image src={isulogo} alt="ISU Logo" height={125} width={500} />
+                </a>
             </Box>
         </>
     )

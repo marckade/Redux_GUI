@@ -6,6 +6,7 @@ import CutSvgReact  from "./Cut_SVG_REACT";
 import CliqueCoverSvgReact  from "./CliqueCover_SVG_REACT";
 import GraphColoringSvgReact from "./GraphColoring_SVG_REACT";
 import HamiltonianSvgReact from "./Hamiltonian_SVG_REACT";
+import SteinerTreeSvgReact from "./SteinerTree_SVG_REACT";
 
 const Visualizations = new Map([
     ["SAT3" , (solve, url, problemInstance, solution) => {
@@ -72,6 +73,14 @@ const Visualizations = new Map([
             <HamiltonianSvgReact 
                 apiCall={apiCall} 
             ></HamiltonianSvgReact>
+        )
+    }],
+    ["STEINERTREE", (solve, url, problemInstance, solution)=>{
+        let apiCall = createAPICall("STEINERTREE", solve, url, problemInstance, solution)
+        return(
+            <SteinerTreeSvgReact
+                apiCall={apiCall} 
+            ></SteinerTreeSvgReact>
         )
     }],
 ])

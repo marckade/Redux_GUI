@@ -33,8 +33,8 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
 
     svg
       .append("rect")
-      .attr("x", -margin.left - w/2)
-      .attr("y", -margin.top - h/2)
+      .attr("x", -margin.left - w / 2)
+      .attr("y", -margin.top - h / 2)
       .attr("width", w * 2)
       .attr("height", h * 2)
       .attr("fill", "transparent")
@@ -44,11 +44,11 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
 
     // Zoom functionality
     const zoomBehavior = d3
-  .zoom()
-  .scaleExtent([0.7, 2])
-  .on("zoom", (event) => {
-    svg.transition().duration(400).attr("transform", event.transform);
-  });
+      .zoom()
+      .scaleExtent([0.7, 2])
+      .on("zoom", (event) => {
+        svg.transition().duration(400).attr("transform", event.transform);
+      });
 
     svg.call(zoomBehavior);
     svg.on("mousedown.zoom", null);
@@ -118,7 +118,17 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
           return "_" + dName;
         }) //node prefix added to class name to allow for int names by user.
         .attr("r", 20)
-        .attr("fill", VisColors.Background)
+        .attr("fill", function (d) {
+          //return "#FFC300";
+          //"#00e676"
+          if (d.attribute2 == "True") {
+            return VisColors.Solution //Highlight solutions color: green 
+          }
+          else {
+            return VisColors.Background // Non-Solution color: grey
+          }
+
+        })
         .on("mouseover", function (d) {
           let dName = d.target.__data__.name.replaceAll('!', 'NOT')
           if (reductionType == "LawlerKarp") {
