@@ -25,6 +25,7 @@ wikiName.set('graphcoloring', 'Graph Coloring')
 wikiName.set('exactcover', 'Exact cover')
 wikiName.set('vertexcover', 'Vertex cover')
 wikiName.set('steinertree','Steiner Tree')
+wikiName.set('weightedcut','Weighted Cut')
 
 
 

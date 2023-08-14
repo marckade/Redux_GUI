@@ -9,6 +9,8 @@ const defaultSolvers = new Map([
     ["CLIQUECOVER","CliqueCoverBruteForce"],
     ["GRAPHCOLORING","DanielBrelazSolver"],
     ["HAMILTONIAN","HamiltonianBruteForce"],
+    ["STEINERTREE","SteinerTreeBruteForce"],
+    ["WEIGHTEDCUT","WeightedCutBruteForce"]
 ])
 
 export default defaultSolvers;

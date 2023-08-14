@@ -162,7 +162,7 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
                     .attr('text-anchor', "middle")
             }
 
-        }).catch(error => console.log("CUT VISUALIZATION FAILED"));
+        }).catch(error => console.log("STEINER TREE VISUALIZATION FAILED"));
 
     }, [solve, apiCall])
     return (

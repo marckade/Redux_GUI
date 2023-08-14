@@ -7,6 +7,7 @@ import CliqueCoverSvgReact  from "./CliqueCover_SVG_REACT";
 import GraphColoringSvgReact from "./GraphColoring_SVG_REACT";
 import HamiltonianSvgReact from "./Hamiltonian_SVG_REACT";
 import SteinerTreeSvgReact from "./SteinerTree_SVG_REACT";
+import WeightedCutSvgReact from "./WeightedCut_SVG_REACT";
 
 const Visualizations = new Map([
     ["SAT3" , (solve, url, problemInstance, solution) => {
@@ -81,6 +82,14 @@ const Visualizations = new Map([
             <SteinerTreeSvgReact
                 apiCall={apiCall} 
             ></SteinerTreeSvgReact>
+        )
+    }],
+    ["WEIGHTEDCUT", (solve, url, problemInstance, solution)=>{
+        let apiCall = createAPICall("WEIGHTEDCUT", solve, url, problemInstance, solution)
+        return(
+            <WeightedCutSvgReact
+                apiCall={apiCall} 
+            ></WeightedCutSvgReact>
         )
     }],
 ])

@@ -18,6 +18,7 @@ import CliqueCoverSvgReact from '../Visualization/svgs/CliqueCover_SVG_REACT';
 import GraphColoringSvgReact from '../Visualization/svgs/GraphColoring_SVG_REACT';
 import HamiltonianSvgReact from '../Visualization/svgs/Hamiltonian_SVG_REACT';
 import SteinerTreeSvgReact from '../Visualization/svgs/SteinerTree_SVG_REACT';
+import WeightedCutSvgReact from '../Visualization/svgs/WeightedCut_SVG_REACT';
 
 
 export default function VisualizationLogic(props) {
@@ -238,6 +239,30 @@ export default function VisualizationLogic(props) {
                 apiCall={apiCall} 
                 instance={props.problemInstance}
             ></CutSvgReact>
+
+        
+    }
+
+    else if (problemName == "WEIGHTEDCUT"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"WeightedCutBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"WEIGHTEDCUTGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"WEIGHTEDCUTGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <WeightedCutSvgReact 
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></WeightedCutSvgReact>
 
         
     }
