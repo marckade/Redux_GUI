@@ -11,6 +11,7 @@ wikiName.set('sat', 'SAT');
 wikiName.set('arcset', 'Feedback arc set problem');
 wikiName.set('clique', 'Clique');
 wikiName.set('cut', 'Cut');
+wikiName.set('independentset', 'Independent Set')
 wikiName.set('subsetsum', 'Subset sum');
 wikiName.set('dm3', '3-dimensional matching');
 wikiName.set('knapsack', 'Knapsack');

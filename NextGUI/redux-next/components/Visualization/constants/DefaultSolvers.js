@@ -3,6 +3,7 @@
 const defaultSolvers = new Map([
     ["SAT3", "Sat3BacktrackingSolver"],
     ["CLIQUE", "CliqueBruteForce"],
+    ["INDEPENDENTSET", "IndependentSetBruteForce"],
     ["VERTEXCOVER", "VertexCoverBruteForce"],
     ["ARCSET", "ArcSetBruteForce"],
     ["CUT","CutBruteForce"]
