@@ -63,7 +63,7 @@ class ProblemInstanceParser {
         const directedGraphFormat = /\(\({(([\w!]+)+(,([\w!]+))*)},{(\(([\w!]+),([\w!]+)\)(,\(([\w!]+),([\w!]+)\))*)*}\),\d+\)$/g
         const graphReg = new RegExp(directedGraphFormat);
         const bool = graphReg.test(instance);
-        return {test:bool,input:instance,regex:directedGraphFormat,type:type,exampleStr:"{{a,b,c},{(a,b),(b,c),(c,a)},3}"}
+        return {test:bool,input:instance,regex:directedGraphFormat,type:type,exampleStr:"(({a,b,c},{(a,b),(b,c),(c,a)}),3)"}
     }
     
 }
