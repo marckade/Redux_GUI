@@ -8,6 +8,7 @@ import GraphColoringSvgReact from "./GraphColoring_SVG_REACT";
 import HamiltonianSvgReact from "./Hamiltonian_SVG_REACT";
 import SteinerTreeSvgReact from "./SteinerTree_SVG_REACT";
 import WeightedCutSvgReact from "./WeightedCut_SVG_REACT";
+import DirHamiltonianSvgReact from "./DirHamiltonian_SVG_React";
 
 const Visualizations = new Map([
     ["SAT3" , (solve, url, problemInstance, solution) => {
@@ -74,6 +75,14 @@ const Visualizations = new Map([
             <HamiltonianSvgReact 
                 apiCall={apiCall} 
             ></HamiltonianSvgReact>
+        )
+    }],
+    ["DIRHAMILTONIAN", (solve, url, problemInstance, solution)=>{
+        let apiCall = createAPICall("DIRHAMILTONIAN", solve, url, problemInstance, solution)
+        return(
+            <DirHamiltonianSvgReact 
+                apiCall={apiCall} 
+            ></DirHamiltonianSvgReact>
         )
     }],
     ["STEINERTREE", (solve, url, problemInstance, solution)=>{

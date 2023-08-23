@@ -26,6 +26,7 @@ wikiName.set('exactcover', 'Exact cover')
 wikiName.set('vertexcover', 'Vertex cover')
 wikiName.set('steinertree','Steiner Tree')
 wikiName.set('weightedcut','Weighted Cut')
+wikiName.set('dirhamiltonian','Directed Hamiltonian')
 
 
 
