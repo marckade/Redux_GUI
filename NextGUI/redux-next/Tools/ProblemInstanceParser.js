@@ -52,10 +52,10 @@ class ProblemInstanceParser {
       
     parseUndirectedGraph(instance) {
         const type = "UndirectedGraph"
-        const undirectedGraphFormat = /^{{(([\w!]+)(,([\w!]+))*)+},{(\{([\w!]+),([\w!]+)\}(,\{([\w!]+),([\w!]+)\})*)*},\d+}$/g; //checks for undirected graph format, implicitly regex
+        const undirectedGraphFormat = /\(\({([\w!]+)(,([\w!]+))*},{\{([\w!]+),([\w!]+)\}(,\{([\w!]+),([\w!]+)\})*}\),\d+\)$/g; //checks for undirected graph format, implicitly regex
         const graphReg = new RegExp(undirectedGraphFormat);
         const bool = graphReg.test(instance)
-        return {test:bool,input:instance,regex:undirectedGraphFormat,type:type,exampleStr:"{{a,b,c},{{a,b},{b,c}},2}"}
+        return {test:bool,input:instance,regex:undirectedGraphFormat,type:type,exampleStr:"(({a,b,c},{{a,b},{b,c}}),2)"}
     }
 
     parseDirectedGraph(instance) {
