@@ -268,7 +268,7 @@ function checkProblemType(stringInstance, chosenReduceTo){
   // Regex for undirected graph
   const prettyUndirectedNodes = spacedInstance.match('((?<=\\(\\({)[ -~]+)(?=}, {{)');
   const prettyUndirectedEdges = getEdges(spacedInstance);
-  if (prettyUndirectedNodes != null && (chosenReduceTo == "CLIQUE" || chosenReduceTo == "VERTEXCOVER" || chosenReduceTo == "GRAPHCOLORING")){
+  if (prettyUndirectedNodes != null){
     return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0], kValue[0]];
   }
 
