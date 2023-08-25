@@ -6,36 +6,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import VisColors from '../constants/VisColors';
 
 const initDefinitions = (svg) => {
-  svg.append('defs')
-    //default marker
-    .append('marker')
-    .attr('id', 'triangle')
-    .attr('viewBox', '-0 -5 10 10')
-    .attr('refX', 38)
-    .attr('markerUnits', 'userSpaceOnUse')
-    .attr('refY', 0)
-    .attr('orient', 'auto')
-    .attr('markerWidth', 7)
-    .attr('markerHeight', 7)
-    .append('svg:path')
-    .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-    .attr('fill', VisColors.Edges)
-    .style('stroke', 'none')
-  // solved marker
-  svg.append('defs')
-    .append('marker')
-    .attr('id', 'solvedTriangle')
-    .attr('viewBox', '-0 -5 10 10')
-    .attr('refX', 38)
-    .attr('refY', 0)
-    .attr('markerUnits', 'userSpaceOnUse')
-    .attr('orient', 'auto')
-    .attr('markerWidth', 7)
-    .attr('markerHeight', 7)
-    .append('svg:path')
-    .attr('d', 'M 0,-5 L 10 ,0 L 0,5')
-    .attr('fill', VisColors.Solution)
-    .style('stroke', 'none');
 }
 
 function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }) {
@@ -73,28 +43,21 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
         .data(data.links)
         .join("line")
         .style("stroke", function (d) {
-          if (d.attribute1 == "True") {
-            // Add fading effect for the link transitioning from grey to green
-            d3.select(this)
-              .transition()
-              .delay(d.attribute2)
-              .duration(1000)
-              .style("stroke", VisColors.Solution)
-              .attr("stroke-width", 2); // Set the stroke-width to 2px
-            return VisColors.Background; // Return the original color to prevent instant color change
-          } else {
-            return VisColors.Background;
-          }
+            if (d.attribute1 == "True") {
+              return VisColors.Solution //Highlight solutions color: green 
+            }
+            else {
+              return VisColors.Edges // Non-Solution color: grey
+            }
+          })
+        .style("stroke-width", function (d) {
+            if (d.attribute1 == "True") {
+              return "2px"; // Increase thickness for solutions
+            } else {
+              return "1px"; // Default thickness for non-solutions
+            }
         })
-        .attr("stroke-width", 1)
-        .attr('marker-end',function (d) {
-          if (d.attribute1 == "True") {
-            return "url(#solvedTriangle)" //Highlight solutions color: green 
-          }
-          else {
-            return "url(#triangle)" // Non-Solution color: grey
-          }
-        })
+        
 
 
 
@@ -124,13 +87,7 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
         .attr("r", 20)
         .attr("fill", function (d) {
           if (d.attribute2 == "True") {
-            // Add fading effect for the node transitioning from grey to green
-            d3.select(this)
-              .transition()
-              .delay(d.attribute3)
-              .duration(1000)
-              .attr("fill", VisColors.Solution)
-            return VisColors.Background; // Return the original color to prevent instant color change
+            return VisColors.Solution; // Return the original color to prevent instant color change
           } else {
             return VisColors.Background;
           }
@@ -231,7 +188,7 @@ function DirectedForceGraph({ w, h, charge, apiCall, solve, reductionType = "" }
 }
 
 
-export default function DirHamiltonianSvgReact(props) {
+export default function TSPSvgReact(props) {
   const [charge, setCharge] = useState(-50);
 
   // create nodes with unique ids

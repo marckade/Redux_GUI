@@ -11,7 +11,8 @@ const defaultSolvers = new Map([
     ["HAMILTONIAN","HamiltonianBruteForce"],
     ["STEINERTREE","SteinerTreeBruteForce"],
     ["WEIGHTEDCUT","WeightedCutBruteForce"],
-    ["DIRHAMILTONIAN","DirectedHamiltonianBruteForce"]
+    ["DIRHAMILTONIAN","DirectedHamiltonianBruteForce"],
+    ["TSP","TSPBruteForce"]
 ])
 
 export default defaultSolvers;

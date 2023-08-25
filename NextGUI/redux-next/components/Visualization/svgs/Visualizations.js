@@ -9,6 +9,7 @@ import HamiltonianSvgReact from "./Hamiltonian_SVG_REACT";
 import SteinerTreeSvgReact from "./SteinerTree_SVG_REACT";
 import WeightedCutSvgReact from "./WeightedCut_SVG_REACT";
 import DirHamiltonianSvgReact from "./DirHamiltonian_SVG_React";
+import TSPSvgReact from "./TSP_SVG_React";
 
 const Visualizations = new Map([
     ["SAT3" , (solve, url, problemInstance, solution) => {
@@ -99,6 +100,14 @@ const Visualizations = new Map([
             <WeightedCutSvgReact
                 apiCall={apiCall} 
             ></WeightedCutSvgReact>
+        )
+    }],
+    ["TSP", (solve, url, problemInstance, solution)=>{
+        let apiCall = createAPICall("TSP", solve, url, problemInstance, solution)
+        return(
+            <TSPSvgReact
+                apiCall={apiCall} 
+            ></TSPSvgReact>
         )
     }],
 ])
