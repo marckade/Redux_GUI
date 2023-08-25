@@ -266,14 +266,14 @@ function checkProblemType(stringInstance, chosenReduceTo){
   const kValue = stringInstance.match('(\\d+)(?!.*\\d)'); // Gets the K value from the string.
 
   // Regex for undirected graph
-  const prettyUndirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {{)');
+  const prettyUndirectedNodes = spacedInstance.match('((?<=\\(\\({)[ -~]+)(?=}, {{)');
   const prettyUndirectedEdges = getEdges(spacedInstance);
-  if (prettyUndirectedNodes != null && (chosenReduceTo == "CLIQUE" || chosenReduceTo == "VERTEXCOVER" || chosenReduceTo == "GRAPHCOLORING")){
+  if (prettyUndirectedNodes != null){
     return ["GRAPH", prettyUndirectedNodes[0], prettyUndirectedEdges[0], kValue[0]];
   }
 
   // Regex for directed graph. Consequently the edge regex is the same for both directed and undirected. Shouldn't be a problem, but good to note.
-  const prettyDirectedNodes = spacedInstance.match('((?<={{)[ -~]+)(?=}, {\\()');
+  const prettyDirectedNodes = spacedInstance.match('((?<=\\(\\({)[ -~]+)(?=}, {\\()');
   const prettyDirectedEdges = getEdges(spacedInstance);
   if(prettyDirectedNodes != null && (chosenReduceTo == "ARCSET" || chosenReduceTo == "TSP")){
     return ["GRAPH", prettyDirectedNodes[0], prettyDirectedEdges[0], kValue[0]];
@@ -304,7 +304,7 @@ function checkProblemType(stringInstance, chosenReduceTo){
 
 // Parses the edges from the graph
 function getEdges(stringInstance){
-  return stringInstance.match('((?<=}, {)[ -~]+)(?=}, )');
+  return stringInstance.match('((?<=}, {)[ -~]+)(?=}\\), )');
 }
 
 async function requestProblemData(url, name) {

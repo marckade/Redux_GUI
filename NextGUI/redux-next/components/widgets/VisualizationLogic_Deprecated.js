@@ -14,6 +14,14 @@ import {No_Viz_Svg, No_Reduction_Viz_Svg} from '../Visualization/svgs/No_Viz_SVG
 import ArcSetSvgReact from '../Visualization/svgs/ArcSet_SVG_React';
 import Visualizations from '../Visualization/svgs/Visualizations.js'
 import CutSvgReact from '../Visualization/svgs/Cut_SVG_REACT';
+import CliqueCoverSvgReact from '../Visualization/svgs/CliqueCover_SVG_REACT';
+import GraphColoringSvgReact from '../Visualization/svgs/GraphColoring_SVG_REACT';
+import HamiltonianSvgReact from '../Visualization/svgs/Hamiltonian_SVG_REACT';
+import SteinerTreeSvgReact from '../Visualization/svgs/SteinerTree_SVG_REACT';
+import WeightedCutSvgReact from '../Visualization/svgs/WeightedCut_SVG_REACT';
+import DirHamiltonianSvgReact from '../Visualization/svgs/DirHamiltonian_SVG_React';
+import TSPSvgReact from '../Visualization/svgs/TSP_SVG_React';
+
 
 export default function VisualizationLogic(props) {
 
@@ -271,6 +279,185 @@ export default function VisualizationLogic(props) {
                 apiCall={apiCall} 
                 instance={props.problemInstance}
             ></CutSvgReact>
+
+        
+    }
+
+    else if (problemName == "WEIGHTEDCUT"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"WeightedCutBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"WEIGHTEDCUTGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"WEIGHTEDCUTGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <WeightedCutSvgReact 
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></WeightedCutSvgReact>
+
+        
+    }
+
+    //Clique Cover
+
+    else if (problemName == "CLIQUECOVER"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"CliqueCoverBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"CLIQUECOVERGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"CLIQUECOVERGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <CliqueCoverSvgReact 
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></CliqueCoverSvgReact>
+
+        
+    }
+
+    //Graph Coloring
+
+    else if (problemName == "GRAPHCOLORING"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"DanielBrelazSolver",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"GRAPHCOLORINGGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"GRAPHCOLORINGGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <GraphColoringSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></GraphColoringSvgReact>
+
+        
+    }
+
+    //Hamiltonian
+
+    else if (problemName == "HAMILTONIAN"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"HamiltonianBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"HAMILTONIANGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"HAMILTONIANGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <HamiltonianSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></HamiltonianSvgReact>
+
+        
+    }
+
+    //Directed Hamiltonian
+
+    else if (problemName == "DIRHAMILTONIAN"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"DirectedHamiltonianBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"DIRHAMILTONIANGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"DIRHAMILTONIANGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <DirHamiltonianSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></DirHamiltonianSvgReact>
+
+        
+    }
+
+    //Steiner Tree
+
+    else if (problemName == "STEINERTREE"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"SteinerTreeBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"STEINERTREEGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"STEINERTREEGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <SteinerTreeSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></SteinerTreeSvgReact>
+
+        
+    }
+
+    //Traveling Sales Person
+    else if (problemName == "TSP"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"TSP",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"TSPGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"TSPGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <TSPSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></TSPSvgReact>
 
         
     }
