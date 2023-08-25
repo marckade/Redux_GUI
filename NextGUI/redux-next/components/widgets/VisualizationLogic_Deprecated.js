@@ -19,6 +19,8 @@ import GraphColoringSvgReact from '../Visualization/svgs/GraphColoring_SVG_REACT
 import HamiltonianSvgReact from '../Visualization/svgs/Hamiltonian_SVG_REACT';
 import SteinerTreeSvgReact from '../Visualization/svgs/SteinerTree_SVG_REACT';
 import WeightedCutSvgReact from '../Visualization/svgs/WeightedCut_SVG_REACT';
+import DirHamiltonianSvgReact from '../Visualization/svgs/DirHamiltonian_SVG_React';
+import TSPSvgReact from '../Visualization/svgs/TSP_SVG_React';
 
 
 export default function VisualizationLogic(props) {
@@ -345,6 +347,32 @@ export default function VisualizationLogic(props) {
         
     }
 
+    //Directed Hamiltonian
+
+    else if (problemName == "DIRHAMILTONIAN"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"DirectedHamiltonianBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"DIRHAMILTONIANGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"DIRHAMILTONIANGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <DirHamiltonianSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></DirHamiltonianSvgReact>
+
+        
+    }
+
     //Steiner Tree
 
     else if (problemName == "STEINERTREE"){
@@ -367,6 +395,31 @@ export default function VisualizationLogic(props) {
                 apiCall={apiCall} 
                 instance={props.problemInstance}
             ></SteinerTreeSvgReact>
+
+        
+    }
+
+    //Traveling Sales Person
+    else if (problemName == "TSP"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"TSP",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"TSPGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"TSPGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <TSPSvgReact
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></TSPSvgReact>
 
         
     }

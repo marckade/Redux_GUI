@@ -10,7 +10,9 @@ const defaultSolvers = new Map([
     ["GRAPHCOLORING","DanielBrelazSolver"],
     ["HAMILTONIAN","HamiltonianBruteForce"],
     ["STEINERTREE","SteinerTreeBruteForce"],
-    ["WEIGHTEDCUT","WeightedCutBruteForce"]
+    ["WEIGHTEDCUT","WeightedCutBruteForce"],
+    ["DIRHAMILTONIAN","DirectedHamiltonianBruteForce"],
+    ["TSP","TSPBruteForce"]
 ])
 
 export default defaultSolvers;
