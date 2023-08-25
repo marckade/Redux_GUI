@@ -30,6 +30,14 @@ const Visualizations = new Map([
         ></CliqueSvgReactV2>
         )
     }],
+    ["INDEPENDENTSET", (solve, url, problemInstance, solution)=>{
+        let apiCall = createAPICall("INDEPENDENTSET", solve, url, problemInstance, solution)
+        return(
+        <CliqueSvgReactV2 
+            apiCall={apiCall} 
+        ></CliqueSvgReactV2>
+        )
+    }],
     ["VERTEXCOVER", (solve, url, problemInstance, solution)=>{
         let apiCall = createAPICall("VERTEXCOVER", solve, url, problemInstance, solution)
         return(
