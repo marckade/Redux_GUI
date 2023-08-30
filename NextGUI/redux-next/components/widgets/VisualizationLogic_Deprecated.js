@@ -220,6 +220,44 @@ export default function VisualizationLogic(props) {
 
     }
 
+    else if (problemName === "INDEPENDENTSET") {
+        if(props.url && props.problemInstance){
+            requestSolution(props.url, "IndependentSetBruteForce", props.problemInstance).then(data=>{
+                setSolution(data);
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        // INDEPENDENT SET -> CLIQUE
+        if(reductionName === "Clique"){
+            if(props.url && props.problemInstance && props.reducedInstance && solution){
+                requestMappedSolution(props.url, "reduceCLIQUE", props.problemInstance, props.reducedInstance, solution).then(data => {
+                    setMappedSolution(data);
+                }).catch((error) => console.log("MAPPED SOLUTION REQUEST FAILED"))
+            }
+            reducedVisualization =
+                <CLIQUE_SVG_REACT
+                    solutionData={mappedSolution}
+                    data={props.reducedVisualizationData}
+                    url={props.url}
+                    reductionType={reductionType}
+                    problemInstance={props.problemInstance}
+                    solveSwitch={props.visualizationState.solverOn}>
+                </CLIQUE_SVG_REACT>
+        }
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"INDEPENDETSETGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"INDEPENDENTSETGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <CliqueSvgReactV2 
+                apiCall={apiCall} 
+            ></CliqueSvgReactV2>
+
+    }
+
     //Cut
 
     else if (problemName == "CUT"){
