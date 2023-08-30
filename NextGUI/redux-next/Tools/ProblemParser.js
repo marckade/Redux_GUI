@@ -22,11 +22,12 @@ wikiName.set('tsp', 'Traveling Salesperson Problem');
 wikiName.set('intprogramming01', '0–1 integer programming');
 // wikiName.set('VERTEXCOVER','Vertex cover');
 wikiName.set('graphcoloring', 'Graph Coloring')
-wikiName.set('exactcover', 'Exact cover')
+wikiName.set('exactcover', 'Exact Cover')
 wikiName.set('vertexcover', 'Vertex cover')
 wikiName.set('steinertree','Steiner Tree')
 wikiName.set('weightedcut','Weighted Cut')
 wikiName.set('dirhamiltonian','Directed Hamiltonian')
+wikiName.set('NODESET','Feedback Node Set')
 
 
 

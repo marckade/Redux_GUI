@@ -21,6 +21,7 @@ import SteinerTreeSvgReact from '../Visualization/svgs/SteinerTree_SVG_REACT';
 import WeightedCutSvgReact from '../Visualization/svgs/WeightedCut_SVG_REACT';
 import DirHamiltonianSvgReact from '../Visualization/svgs/DirHamiltonian_SVG_React';
 import TSPSvgReact from '../Visualization/svgs/TSP_SVG_React';
+import NodeSetSvgReact from '../Visualization/svgs/NodeSet_SVG_React';
 
 
 export default function VisualizationLogic(props) {
@@ -299,7 +300,7 @@ export default function VisualizationLogic(props) {
 
     else if (problemName == "GRAPHCOLORING"){
         if(props.url && props.problemInstance){
-            requestSolution(props.url,"DanielBrelazSolver",props.problemInstance).then(data => {
+            requestSolution(props.url,"GraphColoringBruteForce",props.problemInstance).then(data => {
                 setSolution(data) 
             }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
         }
@@ -445,6 +446,31 @@ export default function VisualizationLogic(props) {
                 apiCall={apiCall} 
                 instance={props.problemInstance}
             ></ArcSetSvgReact>
+
+        
+    }
+
+    // Node Set Problem
+    else if (problemName == "NODESET"){
+        if(props.url && props.problemInstance){
+            requestSolution(props.url,"NodeSetBruteForce",props.problemInstance).then(data => {
+                setSolution(data) 
+            }).catch((error) => console.log("SOLUTION REQUEST FAILED"))
+        }
+        
+        //solution on
+        if(props.visualizationState.solverOn){
+            apiCall = props.url +"NODESETGeneric/solvedVisualization?problemInstance="+ props.problemInstance+ "&solution=" + solution;
+        }
+        //solution off
+        else{
+            apiCall = props.url +"NODESETGeneric/visualize?problemInstance="+ props.problemInstance;
+        }
+        visualization = 
+            <NodeSetSvgReact 
+                apiCall={apiCall} 
+                instance={props.problemInstance}
+            ></NodeSetSvgReact>
 
         
     }

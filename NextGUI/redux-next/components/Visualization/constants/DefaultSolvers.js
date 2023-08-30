@@ -7,12 +7,13 @@ const defaultSolvers = new Map([
     ["ARCSET", "ArcSetBruteForce"],
     ["CUT","CutBruteForce"],
     ["CLIQUECOVER","CliqueCoverBruteForce"],
-    ["GRAPHCOLORING","DanielBrelazSolver"],
+    ["GRAPHCOLORING","GraphColoringBruteForce"],
     ["HAMILTONIAN","HamiltonianBruteForce"],
     ["STEINERTREE","SteinerTreeBruteForce"],
     ["WEIGHTEDCUT","WeightedCutBruteForce"],
     ["DIRHAMILTONIAN","DirectedHamiltonianBruteForce"],
-    ["TSP","TSPBruteForce"]
+    ["TSP","TSPBruteForce"],
+    ["NODESET", "NodeSetBruteForce"]
 ])
 
 export default defaultSolvers;

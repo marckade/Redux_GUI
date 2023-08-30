@@ -62,7 +62,7 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
                     //return "#FFC300";
                     //"#00e676"
                     if (d.attribute2 == "1") {
-                        return "#00B8FF" //Highlight solutions color: green 
+                        return "#00B8FF" //Highlight solutions color
                     }
                     else if (d.attribute2 == "2") {
                         return "#FF4A3D" // Highlight solutions color
