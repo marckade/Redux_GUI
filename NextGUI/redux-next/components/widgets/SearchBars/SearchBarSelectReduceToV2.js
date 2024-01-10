@@ -88,7 +88,7 @@ export default function SearchBarSelectReduceToV2(props) {
       clearOnBlur
       handleHomeEndKeys
       id="search-bar"
-      options={Array.from(reductionToMap, ([problem, label]) => (label))}
+      options={Array.from(reductionToMap, ([problem, label]) => (label)).sort()}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {

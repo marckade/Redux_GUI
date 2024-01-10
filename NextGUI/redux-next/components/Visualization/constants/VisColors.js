@@ -7,6 +7,7 @@ const VisColors = {
     Edges : "#aaa",
 
     // Paul Tol's color-blindess palette - muted
+    //https://personal.sron.nl/~pault/
     Rose : '#CC6677',
     Indigo: '#332288',
     Sand : '#DDCC77',

@@ -105,10 +105,10 @@ function ForceGraph({ w, h, charge, apiCall, problemInstance }) {
                         return VisColors.Wine
                     }
                     else if (d.attribute2 == "7") {
-                        return VisColors.Teal
+                        return VisColors.Indigo
                     }
                     else if (d.attribute2 == "0") {
-                        return VisColors.Olive
+                        return VisColors.Teal
                     } else {
                         return VisColors.Background
                     }

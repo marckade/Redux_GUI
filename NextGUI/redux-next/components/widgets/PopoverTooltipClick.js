@@ -46,7 +46,7 @@ function popOver(props) {
         )}
         {props.toolTip.credit && (
           <>
-            {props.toolTip.credit}
+            {"Contributed by: " + props.toolTip.credit}
             <br></br>
             <br></br>
           </>
