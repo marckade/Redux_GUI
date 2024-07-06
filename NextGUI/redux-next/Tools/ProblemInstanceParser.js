@@ -18,7 +18,7 @@ class ProblemInstanceParser {
             parsedOutput = this.parseSat3(problemInstance);
         }
             
-        else if (problemType === Constants.ProblemTypes.Arcset || problemType === Constants.ProblemTypes.Knapsack) {
+        else if (problemType === Constants.ProblemTypes.Arcset) {
             parsedOutput = this.parseDirectedGraph(problemInstance);
         }
         else {
